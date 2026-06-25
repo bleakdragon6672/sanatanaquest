@@ -23,24 +23,45 @@ interface NavState {
 
 const NavContext = createContext<NavState | undefined>(undefined)
 
-function readSavedView(): { view: ViewKey; params: Record<string, string> } | null {
-  if (typeof window === 'undefined') return null
-  try {
-    const saved = localStorage.getItem('sanatan-quest-view')
-    if (!saved) return null
-    const parsed = JSON.parse(saved) as { view: ViewKey; params: Record<string, string> }
-    if (parsed.view) return { view: parsed.view, params: parsed.params || {} }
-  } catch {
-    /* ignore */
-  }
-  return null
-}
+const STORAGE_KEY = 'sanatan-quest-view'
 
 export function NavProvider({ children }: { children: ReactNode }) {
-  // Lazy init from localStorage so we don't need an effect to read it
-  const initial = typeof window !== 'undefined' ? readSavedView() : null
-  const [view, setView] = useState<ViewKey>(initial?.view ?? 'home')
-  const [params, setParams] = useState<Record<string, string>>(initial?.params ?? {})
+  // Always start with 'home' so server and client render the same initial HTML.
+  // Reading from localStorage during render would cause a hydration mismatch
+  // (server has no localStorage → 'home'; client has localStorage → saved view).
+  const [view, setView] = useState<ViewKey>('home')
+  const [params, setParams] = useState<Record<string, string>>({})
+
+  // Persist the current view to localStorage whenever it changes.
+  // This runs after every navigation, keeping the saved view in sync.
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ view, params }))
+    } catch {
+      /* ignore */
+    }
+  }, [view, params])
+
+  // On mount (client-only), read the saved view and navigate to it if different.
+  // This runs once after hydration, so the initial paint always shows 'home'
+  // (matching SSR), then switches to the saved view if one exists.
+  // Reading from localStorage in an effect is the React-recommended pattern for
+  // external browser APIs — the set-state-in-effect rule is disabled here because
+  // this is not derived state, it's external state synchronization.
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY)
+      if (!saved) return
+      const parsed = JSON.parse(saved) as { view: ViewKey; params: Record<string, string> }
+      if (parsed.view && parsed.view !== 'home') {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setView(parsed.view)
+        setParams(parsed.params || {})
+      }
+    } catch {
+      /* ignore */
+    }
+  }, [])
 
   const navigate = useCallback((v: ViewKey, p: Record<string, string> = {}) => {
     setView(v)
@@ -53,13 +74,6 @@ export function NavProvider({ children }: { children: ReactNode }) {
       })
     }
   }, [])
-
-  // Persist on every change (this is a side-effect, not state sync — allowed)
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('sanatan-quest-view', JSON.stringify({ view, params }))
-    }
-  }, [view, params])
 
   return (
     <NavContext.Provider value={{ view, params, navigate }}>{children}</NavContext.Provider>
