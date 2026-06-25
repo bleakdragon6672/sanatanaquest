@@ -17,7 +17,7 @@ const ENTRY_TYPES: { id: JournalEntry['type']; label: string; sanskrit: string; 
   { id: 'gratitude', label: 'Gratitude', sanskrit: 'कृतज्ञता', icon: '💛', placeholder: 'What are you grateful for today? Name three things.' },
 ]
 
-async function callAI(body: Record<string, unknown>): Promise<string> {
+async function callAI(body: Record<string, unknown>): Promise<{ content: string }> {
   const res = await fetch('/api/ai', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -25,7 +25,7 @@ async function callAI(body: Record<string, unknown>): Promise<string> {
   })
   const data = await res.json()
   if (!res.ok) throw new Error(data.error || 'AI request failed')
-  return data.content
+  return { content: data.content }
 }
 
 export function JournalView() {
@@ -66,7 +66,7 @@ export function JournalView() {
         streak: store.currentStreak,
         level: getLevel(store.totalXp).name,
       })
-      setAiSummary(out)
+      setAiSummary(out.content)
     } catch (e) {
       setAiSummary('I am briefly silent. Please try again. 🙏')
     } finally {

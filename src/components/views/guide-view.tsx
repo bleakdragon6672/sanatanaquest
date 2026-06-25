@@ -11,11 +11,22 @@ import { getVerse, type Verse } from '@/lib/gita-data'
 import { OmSymbol } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
 
+interface FoundVerse {
+  id: string
+  chapter: number
+  verse: number
+  sanskrit: string
+  transliteration: string
+  english: string
+  meaning?: string
+}
+
 interface Message {
   role: 'user' | 'assistant' | 'system'
   content: string
   verse?: Verse
   mode?: string
+  foundVerses?: FoundVerse[]
 }
 
 type GuideTab = 'explain' | 'ask' | 'exam'
@@ -89,7 +100,7 @@ function TabButton({ active, onClick, icon, label, sanskrit }: { active: boolean
   )
 }
 
-async function callAI(body: Record<string, unknown>): Promise<string> {
+async function callAI(body: Record<string, unknown>): Promise<{ content: string; verses?: FoundVerse[] }> {
   const res = await fetch('/api/ai', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -97,7 +108,7 @@ async function callAI(body: Record<string, unknown>): Promise<string> {
   })
   const data = await res.json()
   if (!res.ok) throw new Error(data.error || 'AI request failed')
-  return data.content
+  return { content: data.content, verses: data.verses }
 }
 
 function ExplainVerse({
@@ -143,7 +154,7 @@ function ExplainVerse({
           verseNum: v.verse,
         },
       })
-      setExplanation(out)
+      setExplanation(out.content)
     } catch (e) {
       setExplanation('I am briefly silent. Please try again. 🙏')
     } finally {
@@ -241,9 +252,10 @@ function ExplainVerse({
             <span className="text-sm">The Guru is contemplating your question…</span>
           </div>
         ) : explanation ? (
-          <div className="prose prose-sm max-w-none whitespace-pre-wrap text-foreground/90 leading-relaxed">
-            {explanation}
-          </div>
+          <div
+            className="prose prose-sm max-w-none whitespace-pre-wrap text-foreground/90 leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: explanation.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') }}
+          />
         ) : (
           <div className="text-sm text-muted-foreground text-center py-8">
             Pick a verse to receive the Guru's explanation.
@@ -271,8 +283,8 @@ function AskAnything() {
     setMessages((m) => [...m, { role: 'user', content: question }])
     setLoading(true)
     try {
-      const answer = await callAI({ action: 'ask', question })
-      setMessages((m) => [...m, { role: 'assistant', content: answer }])
+      const result = await callAI({ action: 'ask', question })
+      setMessages((m) => [...m, { role: 'assistant', content: result.content, foundVerses: result.verses }])
     } catch (e) {
       setMessages((m) => [...m, { role: 'assistant', content: 'I am briefly silent. Please ask again. 🙏' }])
     } finally {
@@ -361,8 +373,8 @@ function ExamMode() {
     setMessages((m) => [...m, { role: 'user', content: question }])
     setLoading(true)
     try {
-      const answer = await callAI({ action: 'exam', question })
-      setMessages((m) => [...m, { role: 'assistant', content: answer }])
+      const result = await callAI({ action: 'exam', question })
+      setMessages((m) => [...m, { role: 'assistant', content: result.content, foundVerses: result.verses }])
     } catch (e) {
       setMessages((m) => [...m, { role: 'assistant', content: 'I am briefly silent. Please ask again. 🙏' }])
     } finally {
@@ -441,6 +453,7 @@ function ExamMode() {
 }
 
 function MessageBubble({ m }: { m: Message }) {
+  const { navigate } = useNav()
   if (m.role === 'user') {
     return (
       <div className="flex items-start gap-2 justify-end">
@@ -458,8 +471,31 @@ function MessageBubble({ m }: { m: Message }) {
       <div className="h-8 w-8 shrink-0 rounded-full bg-saffron-gradient flex items-center justify-center">
         <OmSymbol size={16} className="!text-white" />
       </div>
-      <div className="max-w-[85%] rounded-2xl rounded-tl-sm bg-muted px-4 py-2.5 text-sm whitespace-pre-wrap leading-relaxed">
-        {m.content}
+      <div className="max-w-[85%] space-y-2">
+        <div
+          className="rounded-2xl rounded-tl-sm bg-muted px-4 py-2.5 text-sm whitespace-pre-wrap leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: m.content.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') }}
+        />
+        {m.foundVerses && m.foundVerses.length > 0 && (
+          <div className="space-y-1.5">
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground px-1">
+              📖 Verses from the Gita
+            </p>
+            {m.foundVerses.map((v) => (
+              <button
+                key={v.id}
+                onClick={() => navigate('gita', { chapter: String(v.chapter), verse: v.id })}
+                className="block w-full text-left rounded-xl border border-primary/20 bg-saffron-gradient-soft hover:border-primary/50 transition-all p-3 group"
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge variant="outline" className="font-mono text-[10px]">{v.id}</Badge>
+                  <span className="text-[10px] text-primary group-hover:underline">Read full verse →</span>
+                </div>
+                <p className="text-xs text-foreground/80 line-clamp-2">{v.english}</p>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
