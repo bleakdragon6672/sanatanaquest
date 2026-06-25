@@ -141,25 +141,26 @@ export interface SkillNode {
   path: 'bhakti' | 'jnana' | 'karma' | 'yoga'
   requiredActivities: ActivityType[]
   icon: string
+  xpReward: number
 }
 
 export const SKILL_TREE: SkillNode[] = [
   // Bhakti
-  { id: 'krishna-bhakti', name: 'Krishna Bhakti', sanskritName: 'कृष्ण भक्ति', description: 'Cultivate devotion to Lord Krishna through chanting and worship.', path: 'bhakti', requiredActivities: ['chanting', 'puja'], icon: '🪈' },
-  { id: 'rama-bhakti', name: 'Rama Bhakti', sanskritName: 'राम भक्ति', description: 'Devotion to Lord Rama — embody dharma, truth, and duty.', path: 'bhakti', requiredActivities: ['chanting', 'gita'], icon: '🏹' },
-  { id: 'hanuman-bhakti', name: 'Hanuman Bhakti', sanskritName: 'हनुमत् भक्ति', description: 'Devotion to Hanuman — surrender, strength, and selfless service.', path: 'bhakti', requiredActivities: ['chanting', 'service'], icon: '🐒' },
+  { id: 'krishna-bhakti', name: 'Krishna Bhakti', sanskritName: 'कृष्ण भक्ति', description: 'Cultivate devotion to Lord Krishna through chanting and worship.', path: 'bhakti', requiredActivities: ['chanting', 'puja'], icon: '🪈', xpReward: 100 },
+  { id: 'rama-bhakti', name: 'Rama Bhakti', sanskritName: 'राम भक्ति', description: 'Devotion to Lord Rama — embody dharma, truth, and duty.', path: 'bhakti', requiredActivities: ['chanting', 'gita'], icon: '🏹', xpReward: 100 },
+  { id: 'hanuman-bhakti', name: 'Hanuman Bhakti', sanskritName: 'हनुमत् भक्ति', description: 'Devotion to Hanuman — surrender, strength, and selfless service.', path: 'bhakti', requiredActivities: ['chanting', 'service'], icon: '🐒', xpReward: 100 },
   // Jnana
-  { id: 'gita-jnana', name: 'Bhagavad Gita', sanskritName: 'गीता ज्ञान', description: 'Master the wisdom of the Gita through daily reading and reflection.', path: 'jnana', requiredActivities: ['gita'], icon: '📖' },
-  { id: 'vedanta', name: 'Vedanta', sanskritName: 'वेदान्त', description: 'Study the Upanishadic wisdom of the Self (Atman) and Brahman.', path: 'jnana', requiredActivities: ['gita', 'meditation'], icon: '🌅' },
-  { id: 'upanishads', name: 'Upanishads', sanskritName: 'उपनिषद्', description: 'Sit with the sages — contemplate the deepest truths of existence.', path: 'jnana', requiredActivities: ['meditation', 'gita'], icon: '🔱' },
+  { id: 'gita-jnana', name: 'Bhagavad Gita', sanskritName: 'गीता ज्ञान', description: 'Master the wisdom of the Gita through daily reading and reflection.', path: 'jnana', requiredActivities: ['gita'], icon: '📖', xpReward: 100 },
+  { id: 'vedanta', name: 'Vedanta', sanskritName: 'वेदान्त', description: 'Study the Upanishadic wisdom of the Self (Atman) and Brahman.', path: 'jnana', requiredActivities: ['gita', 'meditation'], icon: '🌅', xpReward: 120 },
+  { id: 'upanishads', name: 'Upanishads', sanskritName: 'उपनिषद्', description: 'Sit with the sages — contemplate the deepest truths of existence.', path: 'jnana', requiredActivities: ['meditation', 'gita'], icon: '🔱', xpReward: 150 },
   // Karma
-  { id: 'service', name: 'Service (Seva)', sanskritName: 'सेवा', description: 'Selfless service without expectation of reward — the heart of karma yoga.', path: 'karma', requiredActivities: ['service'], icon: '👐' },
-  { id: 'duty', name: 'Duty (Dharma)', sanskritName: 'धर्म', description: 'Perform your duty faithfully, surrendering results to the Divine.', path: 'karma', requiredActivities: ['gita', 'puja'], icon: '⚖️' },
-  { id: 'discipline', name: 'Discipline (Tapas)', sanskritName: 'तपस्', description: 'Cultivate steady discipline in body, speech, and mind.', path: 'karma', requiredActivities: ['yoga', 'meditation'], icon: '🔥' },
+  { id: 'service', name: 'Service (Seva)', sanskritName: 'सेवा', description: 'Selfless service without expectation of reward — the heart of karma yoga.', path: 'karma', requiredActivities: ['service'], icon: '👐', xpReward: 80 },
+  { id: 'duty', name: 'Duty (Dharma)', sanskritName: 'धर्म', description: 'Perform your duty faithfully, surrendering results to the Divine.', path: 'karma', requiredActivities: ['gita', 'puja'], icon: '⚖️', xpReward: 100 },
+  { id: 'discipline', name: 'Discipline (Tapas)', sanskritName: 'तपस्', description: 'Cultivate steady discipline in body, speech, and mind.', path: 'karma', requiredActivities: ['yoga', 'meditation'], icon: '🔥', xpReward: 120 },
   // Yoga
-  { id: 'meditation', name: 'Meditation (Dhyana)', sanskritName: 'ध्यान', description: 'Steady the mind in the Self through daily meditation practice.', path: 'yoga', requiredActivities: ['meditation'], icon: '🧘' },
-  { id: 'mindfulness', name: 'Mindfulness', sanskritName: 'स्मृति', description: 'Maintain continuous awareness throughout daily activities.', path: 'yoga', requiredActivities: ['meditation', 'gratitude'], icon: '👁️' },
-  { id: 'self-control', name: 'Self-Control', sanskritName: 'इन्द्रिय निग्रह', description: 'Master the senses — the gateway to wisdom, peace, and liberation.', path: 'yoga', requiredActivities: ['yoga', 'meditation'], icon: '🎯' },
+  { id: 'meditation', name: 'Meditation (Dhyana)', sanskritName: 'ध्यान', description: 'Steady the mind in the Self through daily meditation practice.', path: 'yoga', requiredActivities: ['meditation'], icon: '🧘', xpReward: 80 },
+  { id: 'mindfulness', name: 'Mindfulness', sanskritName: 'स्मृति', description: 'Maintain continuous awareness throughout daily activities.', path: 'yoga', requiredActivities: ['meditation', 'gratitude'], icon: '👁️', xpReward: 100 },
+  { id: 'self-control', name: 'Self-Control', sanskritName: 'इन्द्रिय निग्रह', description: 'Master the senses — the gateway to wisdom, peace, and liberation.', path: 'yoga', requiredActivities: ['yoga', 'meditation'], icon: '🎯', xpReward: 120 },
 ]
 
 export interface Achievement {
@@ -228,6 +229,7 @@ interface StoreState {
   setFontScale: (n: number) => void
 
   markVerseRead: (verseId: string) => void
+  unmarkVerseRead: (verseId: string) => void
   addReadingTime: (sec: number) => void
   touchStreak: () => void
 
@@ -327,6 +329,14 @@ export const useStore = create<StoreState>()(
           totalXp: state.totalXp + ACTIVITY_XP.gita,
         })
         get().touchStreak()
+      },
+
+      unmarkVerseRead: (verseId) => {
+        const state = get()
+        if (!state.readVerses[verseId]) return
+        const newReadVerses = { ...state.readVerses }
+        delete newReadVerses[verseId]
+        set({ readVerses: newReadVerses })
       },
 
       addReadingTime: (sec) => {
@@ -461,7 +471,12 @@ export const useStore = create<StoreState>()(
       unlockSkill: (id) => {
         const state = get()
         if (state.unlockedSkills.includes(id)) return
-        set({ unlockedSkills: [...state.unlockedSkills, id] })
+        const skill = SKILL_TREE.find((s) => s.id === id)
+        const xpGain = skill?.xpReward ?? 50
+        set({
+          unlockedSkills: [...state.unlockedSkills, id],
+          totalXp: state.totalXp + xpGain,
+        })
       },
 
       resetAll: () => set({ ...initialState, joinedAt: Date.now() }),

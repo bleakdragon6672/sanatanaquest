@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import {
   ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Highlighter, NotebookPen,
-  Share2, Play, Pause, Volume2, Settings2, Sparkles,
+  Share2, Play, Pause, Volume2, Settings2, Sparkles, Check,
 } from 'lucide-react'
 import { gitaChapters, getChapter, type Verse } from '@/lib/gita-data'
 import { useStore, type ReadingMode } from '@/lib/store'
@@ -285,14 +285,20 @@ function VerseCard({ verse }: { verse: Verse }) {
   const isHighlighted = store.highlights.includes(verse.id)
   const isRead = !!readTimestamp
 
-  // Mark verse as read on view (after a short delay so it's intentional)
-  useEffect(() => {
-    const t = setTimeout(() => {
+  function handleMarkRead() {
+    if (isRead) {
+      // Already read — unmark it (no XP refund)
+      store.unmarkVerseRead(verse.id)
+      toast.success('Marked as unread')
+    } else {
+      // Mark as read and award XP
       store.markVerseRead(verse.id)
-      store.addReadingTime(15) // 15 sec per verse viewed
-    }, 4000)
-    return () => clearTimeout(t)
-  }, [verse.id, store])
+      store.addReadingTime(15)
+      toast.success(`Verse marked as read · +10 Dharma XP`, {
+        description: `${verse.chapter}.${verse.verse} — keep reading!`,
+      })
+    }
+  }
 
   function handleSaveNote() {
     store.setNote(verse.id, noteDraft)
@@ -330,6 +336,12 @@ function VerseCard({ verse }: { verse: Verse }) {
             {isHighlighted && <Badge variant="secondary" className="text-[10px]">Highlighted</Badge>}
           </div>
           <div className="flex items-center gap-0.5">
+            <ActionButton
+              icon={Check}
+              active={isRead}
+              label={isRead ? 'Marked as read' : 'Mark as read (+10 XP)'}
+              onClick={handleMarkRead}
+            />
             <ActionButton
               icon={isBookmarked ? BookmarkCheck : Bookmark}
               active={isBookmarked}

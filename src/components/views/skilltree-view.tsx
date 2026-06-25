@@ -40,7 +40,7 @@ export function SkillTreeView() {
     }
     store.unlockSkill(node.id)
     toast.success(`🎉 Skill Unlocked: ${node.name}!`, {
-      description: node.description,
+      description: `+${node.xpReward} Dharma XP earned · ${node.description}`,
     })
   }
 
@@ -108,6 +108,7 @@ export function SkillTreeView() {
                             <div className="flex items-center gap-2 mb-1">
                               <h3 className="font-semibold text-sm">{node.name}</h3>
                               {unlocked && <Badge variant="secondary" className="text-[10px] h-5">Unlocked</Badge>}
+                              <Badge variant="outline" className="text-[10px] h-5 text-primary border-primary/30">+{node.xpReward} XP</Badge>
                             </div>
                             <p className="text-xs text-primary/80 mb-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>{node.sanskritName}</p>
                             <p className="text-xs text-muted-foreground leading-snug mb-2">{node.description}</p>
@@ -137,8 +138,13 @@ export function SkillTreeView() {
                             className="w-full mt-3 bg-saffron-gradient text-white"
                             onClick={() => tryUnlock(node)}
                           >
-                            <Sparkles className="mr-1 h-3.5 w-3.5" /> Unlock Skill
+                            <Sparkles className="mr-1 h-3.5 w-3.5" /> Unlock Skill · +{node.xpReward} XP
                           </Button>
+                        )}
+                        {!unlocked && !unlockable && (
+                          <p className="text-[11px] text-muted-foreground mt-3 text-center italic">
+                            Complete the required activities above to unlock this skill
+                          </p>
                         )}
                       </div>
                     </div>
