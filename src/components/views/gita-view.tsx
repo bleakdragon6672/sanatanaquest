@@ -496,7 +496,9 @@ function AudioPlayer({
       setPlaying(false)
       return
     }
-    const text = `${verse.transliteration}. ${verse.english}`
+    // Recite only the English translation — Sanskrit recitation via TTS sounds
+    // harsh and unnatural, so we keep the audio clean and accessible.
+    const text = verse.english
     const u = new SpeechSynthesisUtterance(text)
     u.rate = speed
     u.pitch = 0.95
