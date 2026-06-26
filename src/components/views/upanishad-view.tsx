@@ -24,6 +24,7 @@ import { toast } from 'sonner'
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
 import { sanitizeHtml } from '@/lib/sanitize'
+import { VerseSlider } from '@/components/verse-slider'
 
 const READING_MODE_LABELS: Record<ReadingMode, string> = {
   sanskrit: 'Sanskrit Only',
@@ -191,7 +192,19 @@ function UpanishadReader({
         </Card>
       )}
 
-      <VerseCard key={verse.id} verse={verse} upanishadId={upanishad.id} />
+      <VerseSlider
+        verseId={verse.id}
+        hasPrevious={verseIdx > 0}
+        hasNext={verseIdx < upanishad.verses.length - 1}
+        onPrevious={() => {
+          if (verseIdx > 0) setCurrentVerseId(upanishad.verses[verseIdx - 1].id)
+        }}
+        onNext={() => {
+          if (verseIdx < upanishad.verses.length - 1) setCurrentVerseId(upanishad.verses[verseIdx + 1].id)
+        }}
+      >
+        <VerseCard key={verse.id} verse={verse} upanishadId={upanishad.id} />
+      </VerseSlider>
 
       {/* Verse navigation */}
       <div className="flex items-center justify-between gap-2">

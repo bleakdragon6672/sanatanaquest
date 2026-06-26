@@ -710,6 +710,50 @@
   animation: premium-slide-up 0.3s ease-out;
 }
 
+/* ── Verse Slider Animations ─────────────────────────────────────────── */
+
+.verse-slider-container {
+  position: relative;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+.verse-slide-out-left {
+  animation: verseSlideOutLeft 250ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.verse-slide-out-right {
+  animation: verseSlideOutRight 250ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.verse-slide-in-left {
+  animation: verseSlideInLeft 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.verse-slide-in-right {
+  animation: verseSlideInRight 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes verseSlideOutLeft {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(-40px); opacity: 0; }
+}
+
+@keyframes verseSlideOutRight {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(40px); opacity: 0; }
+}
+
+@keyframes verseSlideInLeft {
+  from { transform: translateX(40px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes verseSlideInRight {
+  from { transform: translateX(-40px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
 /* ── Responsive Reading ──────────────────────────────────────────────── */
 
 @media (max-width: 768px) {

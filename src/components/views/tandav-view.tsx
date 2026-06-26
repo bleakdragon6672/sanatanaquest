@@ -19,6 +19,7 @@ import { ShareCardModal } from '@/components/share-card-modal'
 import { toast } from 'sonner'
 import { LotusIcon } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
+import { VerseSlider } from '@/components/verse-slider'
 
 export function TandavView() {
   const { params, navigate } = useNav()
@@ -129,6 +130,13 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
           </div>
         </div>
 
+        <VerseSlider
+          verseId={verse.id}
+          hasPrevious={!!prevVerse}
+          hasNext={!!nextVerse}
+          onPrevious={() => prevVerse && navigate('tandav', { verse: prevVerse.id })}
+          onNext={() => nextVerse && navigate('tandav', { verse: nextVerse.id })}
+        >
         <Card className={cn('p-0 overflow-hidden', isHighlighted && 'ring-2 ring-primary/40')}>
           <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
             <div className="flex items-center gap-2">
@@ -199,11 +207,7 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
             </div>
           )}
         </Card>
-
-        <div className="flex items-center justify-between gap-2">
-          {prevVerse ? <Button variant="outline" onClick={() => navigate('tandav', { verse: prevVerse.id })}><ChevronLeft className="mr-1 h-4 w-4" /> Stanza {prevVerse.number}</Button> : <span />}
-          {nextVerse ? <Button variant="outline" onClick={() => navigate('tandav', { verse: nextVerse.id })}>Stanza {nextVerse.number} <ChevronRight className="ml-1 h-4 w-4" /></Button> : <span />}
-        </div>
+        </VerseSlider>
       </div>
 
       <ShareCardModal open={shareOpen} onClose={() => setShareOpen(false)} title={`Shiv Tandav Stotram — Stanza ${verse.number}`} subtitle={verse.transliteration.split('\n')[0]} body={verse.english} footer="Sanatan Quest · Shiv Tandav Stotram" />

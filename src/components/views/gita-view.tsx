@@ -22,6 +22,7 @@ import { toast } from 'sonner'
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
 import { formatCommentary } from '@/lib/sanitize'
+import { VerseSlider } from '@/components/verse-slider'
 
 const READING_MODE_LABELS: Record<ReadingMode, string> = {
   sanskrit: 'Sanskrit Only',
@@ -199,8 +200,22 @@ function ChapterReader({
         </Card>
       )}
 
-      {/* Verse display — key resets internal state when verse changes */}
-      <VerseCard key={verse.id} verse={verse} />
+      {/* Verse display with slide animation */}
+      <VerseSlider
+        verseId={verse.id}
+        hasPrevious={verse.id !== chapter.verses[0].id}
+        hasNext={verse.id !== chapter.verses[chapter.verses.length - 1].id}
+        onPrevious={() => {
+          const idx = chapter.verses.findIndex((v) => v.id === verse.id)
+          if (idx > 0) selectVerse(chapter.verses[idx - 1].id)
+        }}
+        onNext={() => {
+          const idx = chapter.verses.findIndex((v) => v.id === verse.id)
+          if (idx < chapter.verses.length - 1) selectVerse(chapter.verses[idx + 1].id)
+        }}
+      >
+        <VerseCard key={verse.id} verse={verse} />
+      </VerseSlider>
 
       {/* Verse navigation */}
       <div className="flex items-center justify-between gap-2">

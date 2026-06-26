@@ -19,6 +19,7 @@ import { ShareCardModal } from '@/components/share-card-modal'
 import { toast } from 'sonner'
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
+import { VerseSlider } from '@/components/verse-slider'
 
 export function HanumanChalisaView() {
   const { params, navigate } = useNav()
@@ -162,6 +163,13 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
           </div>
         </div>
 
+        <VerseSlider
+          verseId={verse.id}
+          hasPrevious={!!prevVerse}
+          hasNext={!!nextVerse}
+          onPrevious={() => prevVerse && navigate('chalisa', { verse: prevVerse.id })}
+          onNext={() => nextVerse && navigate('chalisa', { verse: nextVerse.id })}
+        >
         <Card className={cn('p-0 overflow-hidden', isHighlighted && 'ring-2 ring-primary/40')}>
           <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
             <div className="flex items-center gap-2">
@@ -232,19 +240,7 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
             </div>
           )}
         </Card>
-
-        <div className="flex items-center justify-between gap-2">
-          {prevVerse ? (
-            <Button variant="outline" onClick={() => navigate('chalisa', { verse: prevVerse.id })}>
-              <ChevronLeft className="mr-1 h-4 w-4" /> {prevVerse.type === 'doha' ? 'Doha' : 'Chaupai'} {prevVerse.number}
-            </Button>
-          ) : <span />}
-          {nextVerse ? (
-            <Button variant="outline" onClick={() => navigate('chalisa', { verse: nextVerse.id })}>
-              {nextVerse.type === 'doha' ? 'Doha' : 'Chaupai'} {nextVerse.number} <ChevronRight className="ml-1 h-4 w-4" />
-            </Button>
-          ) : <span />}
-        </div>
+        </VerseSlider>
       </div>
 
       <ShareCardModal open={shareOpen} onClose={() => setShareOpen(false)} title={`Hanuman Chalisa — ${verse.type === 'doha' ? 'Doha' : 'Chaupai'} ${verse.number}`} subtitle={verse.transliteration.split('\n')[0]} body={verse.english} footer="Sanatan Quest · Hanuman Chalisa" />
