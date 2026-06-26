@@ -241,6 +241,27 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
           )}
         </Card>
         </VerseSlider>
+
+        {/* Verse navigation */}
+        <div className="flex items-center justify-between gap-2">
+          <Button
+            variant="outline"
+            disabled={!prevVerse}
+            onClick={() => prevVerse && navigate('chalisa', { verse: prevVerse.id })}
+          >
+            <ChevronLeft className="mr-1 h-4 w-4" /> Previous
+          </Button>
+          <span className="text-sm text-muted-foreground">
+            {idx + 1} / {hanumanChalisaVerses.length}
+          </span>
+          <Button
+            variant="outline"
+            disabled={!nextVerse}
+            onClick={() => nextVerse && navigate('chalisa', { verse: nextVerse.id })}
+          >
+            Next <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
       <ShareCardModal open={shareOpen} onClose={() => setShareOpen(false)} title={`Hanuman Chalisa — ${verse.type === 'doha' ? 'Doha' : 'Chaupai'} ${verse.number}`} subtitle={verse.transliteration.split('\n')[0]} body={verse.english} footer="Sanatan Quest · Hanuman Chalisa" />
