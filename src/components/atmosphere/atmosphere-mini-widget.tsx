@@ -23,7 +23,7 @@ export function AtmosphereMiniWidget() {
   if (!showMiniWidget) return null
 
   return (
-    <div className="fixed bottom-20 right-4 sm:bottom-4 z-40 animate-in fade-in slide-in-from-bottom-2 duration-300">
+    <div className="fixed bottom-20 right-4 lg:bottom-4 z-40 animate-in fade-in slide-in-from-bottom-2 duration-300">
       <div className="flex items-center gap-2 rounded-full bg-card/95 backdrop-blur-md border border-primary/30 shadow-lg px-3 py-2">
         <button onClick={openPanel} className="flex items-center gap-2">
           <span className="text-lg">{currentAtmosphere?.icon}</span>
