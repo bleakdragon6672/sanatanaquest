@@ -19,6 +19,7 @@ import { JournalView } from '@/components/views/journal-view'
 import { AnalyticsView } from '@/components/views/analytics-view'
 import { ProfileView } from '@/components/views/profile-view'
 import { SearchView } from '@/components/views/search-view'
+import { LeaderboardView } from '@/components/views/leaderboard-view'
 import { OmSymbol } from '@/components/spiritual-icons'
 import { useStore } from '@/lib/store'
 import { BookOpen, Search, Menu } from 'lucide-react'
@@ -61,6 +62,7 @@ function TopBar() {
     analytics: { title: 'Analytics', sanskrit: 'विश्लेषण' },
     profile: { title: 'Profile', sanskrit: 'परिचय' },
     search: { title: 'Search', sanskrit: 'अन्वेषण' },
+    leaderboard: { title: 'Leaderboard', sanskrit: 'लीडरबोर्ड' },
   }
 
   const current = viewTitles[view] ?? viewTitles.home
@@ -125,6 +127,7 @@ function ViewRouter() {
     case 'analytics': return <AnalyticsView />
     case 'profile': return <ProfileView />
     case 'search': return <SearchView />
+    case 'leaderboard': return <LeaderboardView />
     default: return <HomeView />
   }
 }

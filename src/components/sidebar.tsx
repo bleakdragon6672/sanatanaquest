@@ -1,6 +1,6 @@
 'use client'
 
-import { Home, BookOpen, Sparkles, CalendarCheck, GitBranch, Trophy, Award, NotebookPen, BarChart3, User, Search, Menu, X } from 'lucide-react'
+import { Home, BookOpen, Sparkles, CalendarCheck, GitBranch, Trophy, Award, NotebookPen, BarChart3, User, Search, Menu, X, Crown } from 'lucide-react'
 import { useNav, ViewKey } from '@/components/nav-context'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -31,6 +31,7 @@ const NAV_ITEMS: NavItem[] = [
   { view: 'journal', label: 'Reflection Journal', sanskritLabel: 'दिनदर्शिका', icon: NotebookPen, description: 'Write & reflect' },
   { view: 'analytics', label: 'Analytics', sanskritLabel: 'विश्लेषण', icon: BarChart3, description: 'Your growth charts' },
   { view: 'search', label: 'Search', sanskritLabel: 'अन्वेषण', icon: Search, description: 'Find verses & topics' },
+  { view: 'leaderboard', label: 'Leaderboard', sanskritLabel: 'लीडरबोर्ड', icon: Crown, description: 'Top seekers by XP' },
   { view: 'profile', label: 'Profile', sanskritLabel: 'परिचय', icon: User, description: 'Dharma XP & share cards' },
 ]
 
