@@ -272,6 +272,14 @@ export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as RequestBody
 
+    // Input validation: limit question length to prevent abuse
+    if (body.question && body.question.length > 2000) {
+      return NextResponse.json({ error: 'Question too long. Maximum 2000 characters.' }, { status: 400 })
+    }
+    if (body.journal && body.journal.length > 50) {
+      return NextResponse.json({ error: 'Too many journal entries. Maximum 50.' }, { status: 400 })
+    }
+
     let userPrompt = ''
     let relevantVerses: Verse[] = []
     let searchResults: SearchResult[] = []

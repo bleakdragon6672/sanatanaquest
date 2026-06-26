@@ -346,7 +346,7 @@ export function AtmosphereProvider({ children }: { children: ReactNode }) {
   const togglePanel = useCallback(() => setShowPanel((s) => !s), [])
 
   const toggleVisualEffects = useCallback(() => {
-    setVisualEffectsEnabled((v) => {
+    setVisualEffects((v) => {
       const next = !v
       persistState(currentAtmosphere, volume, next, reduceMotion)
       return next

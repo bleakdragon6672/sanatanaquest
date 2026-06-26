@@ -535,11 +535,6 @@ export const useStore = create<StoreState>()(
       resetAll: () => set({ ...initialState, joinedAt: Date.now() }),
 
       loadFromCloud: (snapshot) => {
-        console.log(
-          '[Store] loadFromCloud: setting XP to',
-          snapshot.totalXp,
-          'from cloud',
-        )
         set({
           userName: snapshot.userName ?? 'Seeker',
           totalXp: snapshot.totalXp ?? 0,
@@ -577,6 +572,22 @@ export const useStore = create<StoreState>()(
     }),
     {
       name: 'sanatan-quest-v1',
+      version: 2,
+      migrate: (persisted: unknown, version: number) => {
+        if (version < 2) {
+          // Migration from v1: add new reading preference defaults
+          const state = persisted as Record<string, unknown>
+          return {
+            ...state,
+            lineSpacing: (state as Record<string, unknown>).lineSpacing ?? 1.8,
+            readingWidth: (state as Record<string, unknown>).readingWidth ?? 'normal',
+            readingViewMode: (state as Record<string, unknown>).readingViewMode ?? 'standard',
+            animationsEnabled: (state as Record<string, unknown>).animationsEnabled ?? true,
+            accentColor: (state as Record<string, unknown>).accentColor ?? 'saffron',
+          }
+        }
+        return persisted
+      },
       // Don't persist computed getters
       partialize: (s) => ({
         userName: s.userName,

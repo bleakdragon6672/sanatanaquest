@@ -29,6 +29,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
+
     // Get the initial session (if any) and mark loading as done.
     supabase.auth.getSession().then(({ data: { session: s } }) => {
       setSession(s)
@@ -48,6 +53,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp = useCallback(
     async (email: string, password: string, name?: string) => {
+      if (!supabase) return { error: 'Supabase not configured' }
+      if (password.length < 6) return { error: 'Password must be at least 6 characters' }
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -64,11 +71,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 
   const signIn = useCallback(async (email: string, password: string) => {
+    if (!supabase) return { error: 'Supabase not configured' }
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     return error ? { error: error.message } : { error: null }
   }, [])
 
   const signOut = useCallback(async () => {
+    if (!supabase) return
     await supabase.auth.signOut()
   }, [])
 

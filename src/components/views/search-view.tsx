@@ -19,7 +19,7 @@ export function SearchView() {
   const [searched, setSearched] = useState(false)
 
   const results = useMemo(() => {
-    if (!query.trim()) return []
+    if (!query.trim()) return { verseResults: [], chapterResults: [] as { type: 'chapter'; chapter: typeof gitaChapters[0] }[], topicResults: [] as typeof topicIndex }
     const kw = query.trim()
     // Search across verses
     const verseResults = findVersesByKeyword(kw).slice(0, 30)

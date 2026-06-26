@@ -38,6 +38,9 @@ import type {
   ChallengeProgress,
   JournalEntry,
   ReadingMode,
+  ReadingWidth,
+  ReadingViewMode,
+  AccentColor,
 } from '@/lib/store'
 
 /** Shape of the cloud row (snake_case DB columns). */
@@ -60,6 +63,11 @@ export interface CloudProgressRow {
   unlocked_skills: string[] | null
   reading_mode: ReadingMode | null
   font_scale: number | null
+  line_spacing: number | null
+  reading_width: string | null
+  reading_view_mode: string | null
+  animations_enabled: boolean | null
+  accent_color: string | null
   joined_at: number | null
 }
 
@@ -82,6 +90,11 @@ export interface StoreSnapshot {
   unlockedSkills: string[]
   readingMode: ReadingMode
   fontScale: number
+  lineSpacing: number
+  readingWidth: ReadingWidth
+  readingViewMode: ReadingViewMode
+  animationsEnabled: boolean
+  accentColor: AccentColor
   joinedAt: number
 }
 
@@ -93,7 +106,7 @@ export interface StoreSnapshot {
  * null as "start fresh".
  */
 export async function loadCloudProgress(user: User): Promise<StoreSnapshot | null> {
-  console.log('[CloudSync] loadCloudProgress: querying Supabase for user', user.id)
+  if (!supabase) return null
 
   const { data, error } = await supabase
     .from('user_progress')
@@ -102,33 +115,23 @@ export async function loadCloudProgress(user: User): Promise<StoreSnapshot | nul
     .single()
 
   if (error) {
-    console.error('[CloudSync] loadCloudProgress ERROR:', error.message, error.code)
-
     // PGRST116 = no row found. Create an empty initial row.
     if (error.code === 'PGRST116') {
-      console.log('[CloudSync] No row found. Creating initial user_progress row.')
       const { error: insertError } = await supabase
         .from('user_progress')
         .insert({ user_id: user.id })
       if (insertError) {
-        console.error('[CloudSync] Failed to create initial row:', insertError.message)
+        // Failed to create initial row — non-critical
       }
     }
     return null
   }
 
   if (!data) {
-    console.log('[CloudSync] loadCloudProgress: no data returned')
     return null
   }
 
   const row = data as CloudProgressRow
-  console.log(
-    '[CloudSync] loadCloudProgress SUCCESS. XP from DB:',
-    row.total_xp,
-    'Verses:',
-    Object.keys(row.read_verses || {}).length,
-  )
 
   return {
     userName: row.user_name || 'Seeker',
@@ -148,6 +151,11 @@ export async function loadCloudProgress(user: User): Promise<StoreSnapshot | nul
     unlockedSkills: row.unlocked_skills || [],
     readingMode: row.reading_mode || 'full',
     fontScale: row.font_scale || 1,
+    lineSpacing: row.line_spacing ?? 1.8,
+    readingWidth: (row.reading_width as ReadingWidth) || 'normal',
+    readingViewMode: (row.reading_view_mode as ReadingViewMode) || 'standard',
+    animationsEnabled: row.animations_enabled ?? true,
+    accentColor: (row.accent_color as AccentColor) || 'saffron',
     joinedAt: row.joined_at || Date.now(),
   }
 }
@@ -160,6 +168,8 @@ export async function saveCloudProgress(
   user: User,
   snapshot: StoreSnapshot,
 ): Promise<{ error: string | null }> {
+  if (!supabase) return { error: 'Supabase not configured' }
+
   const row: CloudProgressRow = {
     user_id: user.id,
     user_name: snapshot.userName,
@@ -179,6 +189,11 @@ export async function saveCloudProgress(
     unlocked_skills: snapshot.unlockedSkills,
     reading_mode: snapshot.readingMode,
     font_scale: snapshot.fontScale,
+    line_spacing: snapshot.lineSpacing,
+    reading_width: snapshot.readingWidth,
+    reading_view_mode: snapshot.readingViewMode,
+    animations_enabled: snapshot.animationsEnabled,
+    accent_color: snapshot.accentColor,
     joined_at: snapshot.joinedAt,
   }
 
@@ -187,10 +202,8 @@ export async function saveCloudProgress(
     .upsert(row, { onConflict: 'user_id' })
 
   if (error) {
-    console.error('[CloudSync] saveCloudProgress ERROR:', error.message, error.code)
     return { error: error.message }
   }
 
-  console.log('[CloudSync] saveCloudProgress SUCCESS. XP saved:', snapshot.totalXp)
   return { error: null }
 }

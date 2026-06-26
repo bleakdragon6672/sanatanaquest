@@ -21,6 +21,7 @@ import { AtmosphereChapterButton } from '@/components/atmosphere/atmosphere-chap
 import { toast } from 'sonner'
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
+import { formatCommentary } from '@/lib/sanitize'
 
 const READING_MODE_LABELS: Record<ReadingMode, string> = {
   sanskrit: 'Sanskrit Only',
@@ -439,11 +440,7 @@ function VerseCard({ verse }: { verse: Verse }) {
                   className="text-[0.9rem] text-foreground/80 leading-[1.85] sm:leading-[1.9] whitespace-pre-wrap"
                   style={{ fontFamily: 'var(--font-serif), Georgia, "Times New Roman", serif' }}
                   dangerouslySetInnerHTML={{
-                    __html: verse.commentary
-                      .replace(/\*\*(.+?)\*\*/g, '<strong class="text-foreground/95 font-semibold">$1</strong>')
-                      .replace(/\n\n/g, '</p><p class="mt-3">')
-                      .replace(/^/, '<p>')
-                      .replace(/$/, '</p>'),
+                      __html: formatCommentary(verse.commentary),
                   }}
                 />
                 

@@ -140,12 +140,6 @@ function useCloudAutoSave(user: User | null) {
     if (!user) return
     const timer = setTimeout(() => {
       const s = useStore.getState()
-      console.log(
-        '[CloudSync] Auto-saving to Supabase. XP:',
-        s.totalXp,
-        'Verses:',
-        Object.keys(s.readVerses).length,
-      )
       saveCloudProgress(user, {
         userName: s.userName,
         totalXp: s.totalXp,
@@ -164,13 +158,12 @@ function useCloudAutoSave(user: User | null) {
         unlockedSkills: s.unlockedSkills,
         readingMode: s.readingMode,
         fontScale: s.fontScale,
+        lineSpacing: s.lineSpacing,
+        readingWidth: s.readingWidth,
+        readingViewMode: s.readingViewMode,
+        animationsEnabled: s.animationsEnabled,
+        accentColor: s.accentColor,
         joinedAt: s.joinedAt,
-      }).then(({ error }) => {
-        if (error) {
-          console.warn('[CloudSync] Auto-save FAILED:', error)
-        } else {
-          console.log('[CloudSync] Auto-save OK. XP saved:', s.totalXp)
-        }
       })
     }, 2000)
     return () => clearTimeout(timer)

@@ -66,39 +66,47 @@ async function callOpenRouter(
   temperature: number,
   maxTokens: number,
 ): Promise<AICompletionResponse> {
-  const response = await fetch(`${baseUrl}/chat/completions`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-      'HTTP-Referer': process.env.SITE_URL ?? 'https://sanatanaquest.app',
-      'X-Title': 'SanatanaQuest Spiritual Guide',
-    },
-    body: JSON.stringify({
-      model,
-      messages,
-      temperature,
-      max_tokens: maxTokens,
-    }),
-  })
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 30_000) // 30s timeout
 
-  if (!response.ok) {
-    const errorBody = await response.text()
-    throw new Error(`OpenRouter API error (${response.status}): ${errorBody}`)
-  }
+  try {
+    const response = await fetch(`${baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+        'HTTP-Referer': process.env.SITE_URL ?? 'https://sanatanaquest.app',
+        'X-Title': 'SanatanaQuest Spiritual Guide',
+      },
+      body: JSON.stringify({
+        model,
+        messages,
+        temperature,
+        max_tokens: maxTokens,
+      }),
+      signal: controller.signal,
+    })
 
-  const data = await response.json()
+    if (!response.ok) {
+      const errorBody = await response.text()
+      throw new Error(`OpenRouter API error (${response.status}): ${errorBody}`)
+    }
 
-  const content =
-    data?.choices?.[0]?.message?.content ??
-    data?.message?.content ??
-    (typeof data === 'string' ? data : '')
+    const data = await response.json()
 
-  return {
-    content,
-    model: data?.model ?? model,
-    provider: 'openrouter',
-    usage: data?.usage,
+    const content =
+      data?.choices?.[0]?.message?.content ??
+      data?.message?.content ??
+      (typeof data === 'string' ? data : '')
+
+    return {
+      content,
+      model: data?.model ?? model,
+      provider: 'openrouter',
+      usage: data?.usage,
+    }
+  } finally {
+    clearTimeout(timeout)
   }
 }
 

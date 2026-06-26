@@ -14,6 +14,7 @@ import { getBaanVerse } from '@/lib/bajrang-baan-data'
 import { getTandavVerse } from '@/lib/shiv-tandav-data'
 import { OmSymbol } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
+import { sanitizeHtml } from '@/lib/sanitize'
 
 interface FoundVerse {
   id: string
@@ -153,12 +154,13 @@ function ExplainVerse({
     setExplanation('')
     try {
       const isUpanishad = id.includes('.') && !id.match(/^\d+\.\d+$/)
+      const sanskritText = 'sanskrit' in v ? (v as { sanskrit: string }).sanskrit : ('awadhi' in v ? (v as { awadhi: string }).awadhi : '')
       const out = await callAI({
         action: 'explain',
         mode: m,
         verse: {
           id: v.id,
-          sanskrit: v.sanskrit,
+          sanskrit: sanskritText,
           transliteration: v.transliteration,
           english: v.english,
           chapter: gv?.chapter ?? 0,
@@ -265,7 +267,7 @@ function ExplainVerse({
         <Card className="p-5 bg-saffron-gradient-soft border-primary/20">
           <p className="text-xs text-muted-foreground mb-1">{verseLabel}</p>
           <p className="sanskrit-text text-lg mb-2" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}>
-            {verse.sanskrit}
+            {'sanskrit' in verse ? (verse as { sanskrit: string }).sanskrit : ('awadhi' in verse ? (verse as { awadhi: string }).awadhi : '')}
           </p>
           <p className="text-sm text-muted-foreground">{verse.english}</p>
         </Card>
@@ -290,7 +292,7 @@ function ExplainVerse({
         ) : explanation ? (
           <div
             className="prose prose-sm max-w-none whitespace-pre-wrap text-foreground/90 leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: explanation.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(explanation.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')) }}
           />
         ) : (
           <div className="text-sm text-muted-foreground text-center py-8">
@@ -510,7 +512,7 @@ function MessageBubble({ m }: { m: Message }) {
       <div className="max-w-[85%] space-y-2">
         <div
           className="rounded-2xl rounded-tl-sm bg-muted px-4 py-2.5 text-sm whitespace-pre-wrap leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: m.content.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(m.content.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')) }}
         />
         {m.foundVerses && m.foundVerses.length > 0 && (
           <div className="space-y-1.5">

@@ -23,6 +23,7 @@ import { ShareCardModal } from '@/components/share-card-modal'
 import { toast } from 'sonner'
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
+import { sanitizeHtml } from '@/lib/sanitize'
 
 const READING_MODE_LABELS: Record<ReadingMode, string> = {
   sanskrit: 'Sanskrit Only',
