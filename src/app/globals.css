@@ -303,7 +303,7 @@
 /* ── Additional Theme Variants ──────────────────────────────────────── */
 
 /* AMOLED Black */
-[data-theme="amoled"] {
+.amoled {
   --background: oklch(0.05 0 0);
   --foreground: oklch(0.95 0.01 80);
   --card: oklch(0.1 0.005 0);
@@ -329,7 +329,7 @@
 }
 
 /* Temple Gold */
-[data-theme="temple-gold"] {
+.temple-gold {
   --background: oklch(0.18 0.025 65);
   --foreground: oklch(0.95 0.03 85);
   --card: oklch(0.22 0.03 65);
@@ -348,7 +348,7 @@
 }
 
 /* Himalayan Blue */
-[data-theme="himalayan-blue"] {
+.himalayan-blue {
   --background: oklch(0.15 0.025 250);
   --foreground: oklch(0.95 0.015 250);
   --card: oklch(0.2 0.03 250);
@@ -366,7 +366,7 @@
 }
 
 /* Forest Green */
-[data-theme="forest-green"] {
+.forest-green {
   --background: oklch(0.16 0.02 155);
   --foreground: oklch(0.95 0.01 155);
   --card: oklch(0.2 0.025 155);
