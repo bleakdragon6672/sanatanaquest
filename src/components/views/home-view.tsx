@@ -15,6 +15,7 @@ import { Progress } from '@/components/ui/progress'
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { VerseOfDay } from '@/components/verse-of-day'
 import { ReadingStreakCalendar } from '@/components/reading-streak-calendar'
+import { ScriptureMap } from '@/components/scripture-map'
 
 export function HomeView() {
   const { navigate } = useNav()
@@ -158,6 +159,9 @@ export function HomeView() {
       <Card className="p-5">
         <ReadingStreakCalendar weeks={12} />
       </Card>
+
+      {/* Scripture Map — journey across all sacred texts */}
+      <ScriptureMap />
 
       {/* Stats grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">

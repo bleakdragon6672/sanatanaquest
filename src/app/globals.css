@@ -788,6 +788,84 @@
   to { opacity: 1; transform: scale(1); }
 }
 
+/* ── Animated Verse Card ─────────────────────────────────────────────── */
+
+.verse-card-animated {
+  animation: verseReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  position: relative;
+}
+
+.verse-card-animated::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, color-mix(in oklch, var(--gold) 12%, transparent) 0%, transparent 40%, transparent 60%, color-mix(in oklch, var(--saffron) 8%, transparent) 100%);
+  opacity: 0;
+  animation: verseGlow 2s ease-in-out 0.3s forwards;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.verse-card-animated > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes verseReveal {
+  0% { opacity: 0; transform: translateY(8px); filter: blur(2px); }
+  60% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes verseGlow {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+.verse-sanskrit-animated {
+  animation: inkReveal 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+  opacity: 0;
+}
+
+@keyframes inkReveal {
+  0% { opacity: 0; filter: blur(3px); letter-spacing: 0.05em; }
+  40% { opacity: 0.7; filter: blur(1px); }
+  100% { opacity: 1; filter: blur(0); letter-spacing: 0.01em; }
+}
+
+.verse-card-animated::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, color-mix(in oklch, var(--gold) 30%, transparent), transparent 50%, color-mix(in oklch, var(--saffron) 20%, transparent));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding: 1px;
+  opacity: 0;
+  animation: borderShimmer 1.5s ease-in-out 0.5s forwards;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes borderShimmer {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.scripture-map-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scripture-map-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px oklch(0 0 0 / 10%);
+}
+
 /* ── Mobile Bottom Nav ───────────────────────────────────────────────── */
 
 .safe-area-bottom {

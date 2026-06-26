@@ -335,7 +335,7 @@ function VerseCard({ verse }: { verse: Verse }) {
     <>
       <Card
         className={cn(
-          'p-0 overflow-hidden transition-all',
+          'p-0 overflow-hidden transition-all verse-card-animated',
           isHighlighted && 'ring-2 ring-primary/40',
           isNight && 'bg-[#1a1410] text-amber-50 border-amber-900/30',
           isFocus && 'mx-auto max-w-2xl',
@@ -402,7 +402,7 @@ function VerseCard({ verse }: { verse: Verse }) {
                 संस्कृतम् · Sanskrit
               </p>
               <p
-                className="sanskrit-text text-xl sm:text-2xl leading-[2] text-foreground/95"
+                className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2] text-foreground/95"
                 style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}
               >
                 {verse.sanskrit}

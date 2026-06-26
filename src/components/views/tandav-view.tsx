@@ -137,7 +137,7 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
           onPrevious={() => prevVerse && navigate('tandav', { verse: prevVerse.id })}
           onNext={() => nextVerse && navigate('tandav', { verse: nextVerse.id })}
         >
-        <Card className={cn('p-0 overflow-hidden', isHighlighted && 'ring-2 ring-primary/40')}>
+        <Card className={cn('p-0 overflow-hidden verse-card-animated', isHighlighted && 'ring-2 ring-primary/40')}>
           <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="font-mono text-xs">{verse.id}</Badge>
@@ -156,7 +156,7 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
           <div className="px-5 sm:px-7 py-6 space-y-4">
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>संस्कृतम् · Sanskrit</p>
-              <p className="text-xl sm:text-2xl leading-[2] text-foreground/95" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}>{verse.sanskrit}</p>
+              <p className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2] text-foreground/95" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}>{verse.sanskrit}</p>
             </div>
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Transliteration</p>
