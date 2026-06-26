@@ -248,24 +248,24 @@ function ActionButton({ icon: Icon, active, label, onClick }: { icon: typeof Boo
 function AudioPlayer({ verse, playing, setPlaying }: { verse: TandavVerse; playing: boolean; setPlaying: (p: boolean) => void }) {
   const [speed, setSpeed] = useState(1)
   const [showSpeed, setShowSpeed] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
-  function speak() {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) { toast.error('Audio not supported'); return }
-    if (playing) { window.speechSynthesis.cancel(); setPlaying(false); return }
-    const u = new SpeechSynthesisUtterance(verse.english)
-    u.rate = speed; u.pitch = 0.95
-    const voices = window.speechSynthesis.getVoices()
-    const indic = voices.find((v) => /hi|sanskrit|india/i.test(v.lang) || /india|google.*hi/i.test(v.name))
-    if (indic) u.voice = indic
-    u.onend = () => setPlaying(false); u.onerror = () => setPlaying(false)
-    window.speechSynthesis.speak(u); setPlaying(true)
+  function play() {
+    if (playing && audioRef.current) {
+      audioRef.current.pause(); audioRef.current.currentTime = 0; setPlaying(false); return
+    }
+    const audio = new Audio(`/audio/tandav/${verse.id}.mp3`)
+    audio.playbackRate = speed
+    audio.onended = () => setPlaying(false)
+    audio.onerror = () => { setPlaying(false); toast.error('Audio not available') }
+    audioRef.current = audio; audio.play(); setPlaying(true)
   }
 
-  useEffect(() => { return () => { if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel() } }, [verse.id])
+  useEffect(() => { return () => { if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0 } } }, [verse.id])
 
   return (
     <div className="flex items-center gap-1">
-      <Button size="sm" variant="ghost" className="h-8 gap-1.5" onClick={speak}>
+      <Button size="sm" variant="ghost" className="h-8 gap-1.5" onClick={play}>
         {playing ? <Pause className="h-4 w-4 text-primary" /> : <Play className="h-4 w-4 text-primary" />}
         <span className="text-xs">{playing ? 'Pause' : 'Recite'}</span>
       </Button>
