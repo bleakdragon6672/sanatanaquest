@@ -881,3 +881,427 @@
   .verse-english { font-size: 0.95rem; }
   .reading-focus main { max-width: 100%; padding: 1rem; }
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   SPIRITUAL UI OVERLAY — Sacred Design Language
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Sacred Geometry Background Pattern ──────────────────────────────── */
+
+.sacred-bg {
+  position: relative;
+}
+
+.sacred-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.025;
+  background-image:
+    radial-gradient(circle at 50% 50%, var(--saffron) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, var(--gold) 1px, transparent 1px);
+  background-size: 60px 60px, 42px 42px;
+  background-position: 0 0, 21px 21px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Mandala Corner Ornament ─────────────────────────────────────────── */
+
+.mandala-corners {
+  position: relative;
+}
+
+.mandala-corners::before,
+.mandala-corners::after {
+  content: '❋';
+  position: absolute;
+  font-size: 1.2rem;
+  color: color-mix(in oklch, var(--saffron) 18%, transparent);
+  pointer-events: none;
+  line-height: 1;
+}
+
+.mandala-corners::before {
+  top: 8px;
+  left: 10px;
+}
+
+.mandala-corners::after {
+  bottom: 8px;
+  right: 10px;
+}
+
+/* ── Sacred Border Card ──────────────────────────────────────────────── */
+
+.card-sacred {
+  position: relative;
+  background: var(--card);
+  border: 1px solid color-mix(in oklch, var(--saffron) 12%, var(--border));
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow:
+    0 1px 3px oklch(0 0 0 / 4%),
+    0 4px 16px oklch(0 0 0 / 3%),
+    inset 0 1px 0 color-mix(in oklch, var(--gold) 8%, transparent);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.card-sacred::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--saffron), var(--gold), var(--saffron), transparent);
+  opacity: 0.4;
+  transition: opacity 0.35s;
+}
+
+.card-sacred:hover::before {
+  opacity: 0.8;
+}
+
+.card-sacred:hover {
+  box-shadow:
+    0 2px 8px oklch(0 0 0 / 6%),
+    0 12px 40px color-mix(in oklch, var(--saffron) 8%, oklch(0 0 0 / 6%)),
+    inset 0 1px 0 color-mix(in oklch, var(--gold) 15%, transparent);
+  transform: translateY(-2px);
+}
+
+/* ── Ornamental Divider ──────────────────────────────────────────────── */
+
+.divine-divider {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    color-mix(in oklch, var(--saffron) 25%, transparent),
+    color-mix(in oklch, var(--gold) 40%, transparent),
+    color-mix(in oklch, var(--saffron) 25%, transparent),
+    transparent
+  );
+  margin: 1.5rem 0;
+}
+
+.divine-divider::after {
+  content: '✦';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--card);
+  padding: 0 0.75rem;
+  font-size: 0.6rem;
+  color: color-mix(in oklch, var(--saffron) 50%, transparent);
+  letter-spacing: 0.3em;
+}
+
+/* ── Sacred Stat Card ────────────────────────────────────────────────── */
+
+.stat-sacred {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 2px);
+  padding: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.stat-sacred::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.stat-sacred:hover::after {
+  opacity: 1;
+}
+
+.stat-sacred:hover {
+  border-color: color-mix(in oklch, var(--saffron) 25%, var(--border));
+  box-shadow: 0 4px 20px color-mix(in oklch, var(--saffron) 8%, oklch(0 0 0 / 5%));
+  transform: translateY(-1px);
+}
+
+/* ── Hero Section Glow ───────────────────────────────────────────────── */
+
+.hero-sacred {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-sacred::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 80%;
+  height: 200%;
+  background: radial-gradient(ellipse, color-mix(in oklch, var(--gold) 6%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-sacred::after {
+  content: '';
+  position: absolute;
+  bottom: -40%;
+  left: -20%;
+  width: 60%;
+  height: 150%;
+  background: radial-gradient(ellipse, color-mix(in oklch, var(--saffron) 5%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-sacred > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Sidebar Sacred Overlay ──────────────────────────────────────────── */
+
+.sidebar-sacred {
+  position: relative;
+}
+
+.sidebar-sacred::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to top,
+    color-mix(in oklch, var(--saffron) 3%, transparent),
+    transparent
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Nav Item Sacred Hover ───────────────────────────────────────────── */
+
+.nav-sacred {
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-sacred::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background: linear-gradient(to bottom, var(--saffron), var(--gold));
+  border-radius: 0 2px 2px 0;
+  transition: height 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-sacred:hover::before,
+.nav-sacred[data-active="true"]::before {
+  height: 60%;
+}
+
+/* ── Verse Container Sacred ──────────────────────────────────────────── */
+
+.verse-container-sacred {
+  position: relative;
+  border: 1px solid color-mix(in oklch, var(--saffron) 10%, var(--border));
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--card);
+  overflow: hidden;
+}
+
+.verse-container-sacred::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    var(--vermilion),
+    var(--saffron),
+    var(--gold),
+    var(--saffron),
+    var(--vermilion)
+  );
+  opacity: 0.6;
+}
+
+/* ── Button Sacred ───────────────────────────────────────────────────── */
+
+.btn-sacred {
+  position: relative;
+  background: linear-gradient(135deg, var(--saffron), color-mix(in oklch, var(--gold) 80%, var(--saffron)));
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  overflow: hidden;
+  transition: all 0.25s;
+  box-shadow: 0 2px 8px color-mix(in oklch, var(--saffron) 25%, transparent);
+}
+
+.btn-sacred:hover {
+  box-shadow: 0 4px 16px color-mix(in oklch, var(--saffron) 35%, transparent);
+  transform: translateY(-1px);
+}
+
+.btn-sacred::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, color-mix(in oklch, var(--gold) 20%, transparent));
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.btn-sacred:hover::after {
+  opacity: 1;
+}
+
+/* ── Glow Pulse for Active Elements ──────────────────────────────────── */
+
+@keyframes sacred-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in oklch, var(--saffron) 20%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 16px 4px color-mix(in oklch, var(--saffron) 15%, transparent);
+  }
+}
+
+.glow-sacred-pulse {
+  animation: sacred-pulse 3s ease-in-out infinite;
+}
+
+/* ── Level Badge Enhancement ─────────────────────────────────────────── */
+
+.level-badge-sacred {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  background: linear-gradient(135deg, color-mix(in oklch, var(--saffron) 12%, transparent), color-mix(in oklch, var(--gold) 8%, transparent));
+  border: 1px solid color-mix(in oklch, var(--saffron) 20%, transparent);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* ── Progress Bar Sacred ─────────────────────────────────────────────── */
+
+.progress-sacred {
+  position: relative;
+  height: 6px;
+  background: color-mix(in oklch, var(--muted) 80%, transparent);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-sacred::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--saffron), var(--gold));
+  border-radius: inherit;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Topbar Sacred ───────────────────────────────────────────────────── */
+
+.topbar-sacred {
+  position: relative;
+  background: color-mix(in oklch, var(--background) 85%, transparent);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom: 1px solid color-mix(in oklch, var(--saffron) 8%, var(--border));
+}
+
+.topbar-sacred::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    color-mix(in oklch, var(--saffron) 20%, transparent),
+    color-mix(in oklch, var(--gold) 25%, transparent),
+    color-mix(in oklch, var(--saffron) 20%, transparent),
+    transparent
+  );
+}
+
+/* ── Scripture Card Enhancement ──────────────────────────────────────── */
+
+.scripture-card-sacred {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 2px);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scripture-card-sacred::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,
+    color-mix(in oklch, var(--saffron) 4%, transparent) 0%,
+    transparent 50%,
+    color-mix(in oklch, var(--gold) 3%, transparent) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.scripture-card-sacred:hover::before {
+  opacity: 1;
+}
+
+.scripture-card-sacred:hover {
+  border-color: color-mix(in oklch, var(--saffron) 20%, var(--border));
+  box-shadow: 0 4px 24px color-mix(in oklch, var(--saffron) 10%, oklch(0 0 0 / 5%));
+  transform: translateY(-2px);
+}
+
+/* ── Sanskrit Text Glow on Hover ─────────────────────────────────────── */
+
+.sanskrit-glow {
+  transition: text-shadow 0.4s, color 0.4s;
+}
+
+.sanskrit-glow:hover {
+  text-shadow: 0 0 20px color-mix(in oklch, var(--gold) 30%, transparent);
+}
+
+/* ── Sacred Input Focus ──────────────────────────────────────────────── */
+
+input:focus-visible,
+textarea:focus-visible {
+  border-color: color-mix(in oklch, var(--saffron) 40%, var(--border));
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--saffron) 10%, transparent);
+}

@@ -68,7 +68,7 @@ function TopBar() {
   const current = viewTitles[view] ?? viewTitles.home
 
   return (
-    <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
+    <header className="topbar-sacred sticky top-0 z-30">
       <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3">
         <div className="flex items-center gap-3">
           <MobileNavTrigger />
@@ -212,7 +212,7 @@ function AppShell() {
 
   return (
     <MobileNavProvider>
-    <div className={cn('flex min-h-screen bg-background relative', isZen && 'reading-zen', isFocus && 'reading-focus')}>
+    <div className={cn('sacred-bg flex min-h-screen bg-background relative', isZen && 'reading-zen', isFocus && 'reading-focus')}>
       {/* XP gain animation overlay */}
       <XpGainOverlay />
       {/* Level up celebration overlay */}
@@ -228,7 +228,8 @@ function AppShell() {
           <ViewRouter />
         </main>
         {!isZen && (
-          <footer className="mt-auto px-4 sm:px-6 py-4 text-center text-xs text-muted-foreground border-t border-border">
+          <footer className="mt-auto px-4 sm:px-6 py-4 text-center text-xs text-muted-foreground">
+            <div className="divine-divider mb-3" />
             <p style={{ fontFamily: 'var(--font-serif-display), serif' }} className="mb-1">
               ॐ शान्तिः शान्तिः शान्तिः
             </p>

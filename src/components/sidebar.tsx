@@ -50,10 +50,11 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
               onNavigate?.()
             }}
             className={cn(
-              'group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all',
+              'nav-sacred group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all',
               'hover:bg-saffron-gradient-soft',
               isActive && 'bg-saffron-gradient-soft glow-saffron',
             )}
+            data-active={isActive}
           >
             <span
               className={cn(
@@ -101,7 +102,7 @@ function Brand() {
       onClick={() => navigate('home')}
       className="flex items-center gap-3 px-4 py-4 w-full text-left group"
     >
-      <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-saffron-gradient shadow-md overflow-hidden">
+      <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-saffron-gradient shadow-lg overflow-hidden glow-sacred-pulse">
         <OmSymbol size={26} className="!text-white" />
         <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
       </span>
@@ -119,7 +120,7 @@ function Brand() {
 
 export function Sidebar() {
   return (
-    <aside className="hidden lg:flex flex-col w-72 shrink-0 border-r border-border bg-sidebar h-screen sticky top-0">
+    <aside className="sidebar-sacred hidden lg:flex flex-col w-72 shrink-0 border-r border-border bg-sidebar h-screen sticky top-0">
       <Brand />
       <div className="lotus-divider mx-4 mb-2" />
       <div className="flex-1 overflow-y-auto">

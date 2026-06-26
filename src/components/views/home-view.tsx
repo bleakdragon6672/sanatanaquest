@@ -79,7 +79,7 @@ export function HomeView() {
   return (
     <div className="space-y-6">
       {/* Hero */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_18%,transparent)] via-card to-[color-mix(in_oklch,var(--gold)_12%,transparent)]">
+      <Card className="hero-sacred relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_18%,transparent)] via-card to-[color-mix(in_oklch,var(--gold)_12%,transparent)]">
         <div className="absolute -right-12 -top-12 opacity-[0.08] pointer-events-none">
           <LotusIcon size={240} className="text-primary" />
         </div>
@@ -99,7 +99,7 @@ export function HomeView() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2 mt-4">
-            <Button className="bg-saffron-gradient hover:opacity-90 text-white" onClick={() => navigate('gita')}>
+            <Button className="btn-sacred" onClick={() => navigate('gita')}>
               <BookOpen className="mr-2 h-4 w-4" /> Read the Gita
             </Button>
             <Button variant="outline" onClick={() => navigate('guide')}>
@@ -113,7 +113,7 @@ export function HomeView() {
       </Card>
 
       {/* Level + XP bar */}
-      <Card className="p-5 sm:p-6 relative overflow-hidden">
+      <Card className="card-sacred p-5 sm:p-6">
         <div className="absolute right-4 top-4 opacity-10 pointer-events-none">
           <span className="text-7xl" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
             {level.icon}
@@ -141,7 +141,9 @@ export function HomeView() {
           </div>
         </div>
         <div className="space-y-2">
-          <Progress value={levelPct} className="h-2.5 bg-muted" />
+          <div className="progress-sacred">
+            <div className="h-full bg-gradient-to-r from-saffron to-gold rounded-full transition-all duration-500" style={{ width: `${levelPct}%` }} />
+          </div>
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>{level.name} ({level.minXp} XP)</span>
             {nextLevel ? (
@@ -170,7 +172,7 @@ export function HomeView() {
           return (
             <Card
               key={s.label}
-              className="p-4 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
+              className="stat-sacred cursor-pointer"
               onClick={s.onClick}
             >
               <div className="flex items-start justify-between">
