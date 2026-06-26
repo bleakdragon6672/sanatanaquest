@@ -7,7 +7,7 @@ export async function GET() {
   }
 
   const { data, error } = await supabase
-    .from('user_progress')
+    .from('leaderboard_public')
     .select('user_id, user_name, total_xp, current_streak, longest_streak, read_verses, joined_at')
     .order('total_xp', { ascending: false })
     .limit(100)
