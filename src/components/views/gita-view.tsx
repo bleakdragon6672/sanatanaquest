@@ -162,6 +162,7 @@ function ChapterReader({
   function selectVerse(id: string) {
     setCurrentVerseId(id)
     onSelectVerse(id)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   if (!verse) {

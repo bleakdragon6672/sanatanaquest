@@ -98,6 +98,11 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
   const store = useStore()
   const { navigate } = useNav()
   const existingNote = store.notes[verse.id] ?? ''
+
+  // Scroll to top on verse change so user sees the animated card
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [verse.id])
   const [showNoteEditor, setShowNoteEditor] = useState(false)
   const [noteDraft, setNoteDraft] = useState(existingNote)
   const [shareOpen, setShareOpen] = useState(false)
