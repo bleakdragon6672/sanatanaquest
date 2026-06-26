@@ -25,20 +25,22 @@ export function VerseSlider({
   const [displayedContent, setDisplayedContent] = useState<{ id: string; node: ReactNode }>({ id: verseId, node: children })
   const [animationClass, setAnimationClass] = useState('')
   const [isAnimating, setIsAnimating] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const prevVerseIdRef = useRef(verseId)
   const touchStartX = useRef(0)
   const touchStartY = useRef(0)
   const isSwiping = useRef(false)
 
-  // Update displayed content when verseId changes (with animation)
+  // Animate when verseId changes
   useEffect(() => {
-    if (verseId === displayedContent.id) return
+    const prevId = prevVerseIdRef.current
+    prevVerseIdRef.current = verseId
 
-    // Determine direction from the verse IDs
-    const oldParts = displayedContent.id.split('.').map(Number)
+    // Skip animation on initial mount
+    if (prevId === verseId) return
+
+    // Determine direction from verse ID comparison
+    const oldParts = prevId.split('.').map(Number)
     const newParts = verseId.split('.').map(Number)
-
-    // Compare: if new > old, slide left (next); if new < old, slide right (prev)
     let direction: 'left' | 'right' = 'left'
     for (let i = 0; i < Math.max(oldParts.length, newParts.length); i++) {
       const o = oldParts[i] ?? 0
@@ -50,7 +52,6 @@ export function VerseSlider({
     setIsAnimating(true)
     setAnimationClass(direction === 'left' ? 'verse-slide-out-left' : 'verse-slide-out-right')
 
-    // After out-animation, swap content and slide in
     const timer = setTimeout(() => {
       setDisplayedContent({ id: verseId, node: children })
       setAnimationClass(direction === 'left' ? 'verse-slide-in-right' : 'verse-slide-in-left')
@@ -66,7 +67,7 @@ export function VerseSlider({
     return () => clearTimeout(timer)
   }, [verseId])
 
-  // Also update content if children change without verseId change
+  // Update content when children change without verseId change (non-animated)
   useEffect(() => {
     if (!isAnimating && verseId === displayedContent.id) {
       setDisplayedContent({ id: verseId, node: children })
@@ -83,7 +84,6 @@ export function VerseSlider({
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     const dx = e.touches[0].clientX - touchStartX.current
     const dy = e.touches[0].clientY - touchStartY.current
-    // Only consider horizontal swipes (dx > dy and dx > 30px)
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 30) {
       isSwiping.current = true
     }
@@ -92,7 +92,7 @@ export function VerseSlider({
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
     if (!isSwiping.current) return
     const dx = e.changedTouches[0].clientX - touchStartX.current
-    const threshold = 60 // minimum swipe distance
+    const threshold = 60
 
     if (dx < -threshold && hasNext && onNext) {
       onNext()
@@ -115,7 +115,6 @@ export function VerseSlider({
 
   return (
     <div
-      ref={containerRef}
       className={cn('verse-slider-container', animationClass, className)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}

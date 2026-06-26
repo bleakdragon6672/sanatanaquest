@@ -26,7 +26,7 @@ export function BajrangBaanView() {
   const selectedVerse = params.verse ? getBaanVerse(params.verse) : null
 
   if (selectedVerse) {
-    return <VerseReader key={selectedVerse.id} verse={selectedVerse} onBack={() => navigate('baan')} />
+    return <VerseReader verse={selectedVerse} onBack={() => navigate('baan')} />
   }
 
   return <FullBaan />

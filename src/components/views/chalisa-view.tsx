@@ -31,7 +31,6 @@ export function HanumanChalisaView() {
   if (selectedVerse) {
     return (
       <VerseReader
-        key={selectedVerse.id}
         verse={selectedVerse}
         onBack={() => navigate('chalisa')}
       />

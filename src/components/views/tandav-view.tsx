@@ -26,7 +26,7 @@ export function TandavView() {
   const selectedVerse = params.verse ? getTandavVerse(params.verse) : null
 
   if (selectedVerse) {
-    return <VerseReader key={selectedVerse.id} verse={selectedVerse} onBack={() => navigate('tandav')} />
+    return <VerseReader verse={selectedVerse} onBack={() => navigate('tandav')} />
   }
 
   return <FullTandav />
