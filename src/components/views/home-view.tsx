@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { VerseOfDay } from '@/components/verse-of-day'
+import { ReadingStreakCalendar } from '@/components/reading-streak-calendar'
 
 export function HomeView() {
   const { navigate } = useNav()
@@ -151,6 +152,11 @@ export function HomeView() {
             )}
           </div>
         </div>
+      </Card>
+
+      {/* Reading streak calendar */}
+      <Card className="p-5">
+        <ReadingStreakCalendar weeks={12} />
       </Card>
 
       {/* Stats grid */}

@@ -37,6 +37,8 @@ import { saveCloudProgress } from '@/lib/cloud-sync'
 import type { User } from '@supabase/supabase-js'
 import { AmbientBackground } from '@/components/ambient-background'
 import { cn } from '@/lib/utils'
+import { XpGainOverlay, LevelUpOverlay, useXpTracker } from '@/components/xp-animations'
+import { MobileBottomNav } from '@/components/mobile-bottom-nav'
 
 function TopBar() {
   const { view, navigate } = useNav()
@@ -195,6 +197,9 @@ function AppShell() {
   const store = useStore()
   const chapterFromParams = params.chapter ? parseInt(params.chapter, 10) : undefined
 
+  // Track XP changes for animations
+  useXpTracker()
+
   // Reading width classes
   const widthClass = store.readingWidth === 'narrow' ? 'max-w-3xl' : store.readingWidth === 'wide' ? 'max-w-7xl' : 'max-w-6xl'
 
@@ -205,6 +210,10 @@ function AppShell() {
   return (
     <MobileNavProvider>
     <div className={cn('flex min-h-screen bg-background relative', isZen && 'reading-zen', isFocus && 'reading-focus')}>
+      {/* XP gain animation overlay */}
+      <XpGainOverlay />
+      {/* Level up celebration overlay */}
+      <LevelUpOverlay />
       {/* Ambient background */}
       <AmbientBackground />
       {/* Visual effects layer sits behind everything (z-0). */}
@@ -228,6 +237,8 @@ function AppShell() {
         )}
       </div>
       <MobileNavDrawer />
+      {/* Mobile bottom navigation */}
+      <MobileBottomNav />
       {/* Atmosphere panel (right-side Sheet, opened from the gita-view or mini widget). */}
       <AtmospherePanel chapter={chapterFromParams} />
       {/* Mini widget floating bottom-right whenever an atmosphere is selected. */}
