@@ -31,24 +31,16 @@ export function AuthGate({ children }: { children: ReactNode }) {
     setCloudLoaded(false)
 
     ;(async () => {
-      console.log('[AuthGate] Loading cloud data BEFORE rendering app...')
       const cloudData = await loadCloudProgress(user)
       if (cancelled) return
 
-      if (cloudData) {
-        console.log(
-          '[AuthGate] Cloud data loaded. XP:',
-          cloudData.totalXp,
-          '— loading into store',
-        )
+      if (cloudData && (cloudData.totalXp ?? 0) > 0) {
+        // Only overwrite local data if cloud has meaningful progress
+        // This prevents losing local progress when Supabase is reset or empty
         useStore.getState().loadFromCloud(cloudData)
-        console.log('[AuthGate] Store XP after cloud load:', useStore.getState().totalXp)
-        if ((cloudData.totalXp ?? 0) > 0) {
-          toast.success('Your progress has been restored from the cloud')
-        }
-      } else {
-        console.log('[AuthGate] No cloud data — starting fresh')
+        toast.success('Your progress has been restored from the cloud')
       }
+      // If cloud has no data, keep local localStorage data intact
       setCloudLoaded(true)
     })()
 

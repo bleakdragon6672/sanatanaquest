@@ -34,6 +34,11 @@ CREATE TABLE IF NOT EXISTS public.user_progress (
   unlocked_skills    jsonb        NOT NULL DEFAULT '[]'::jsonb,
   reading_mode       text         NOT NULL DEFAULT 'full',
   font_scale         real         NOT NULL DEFAULT 1,
+  line_spacing       real         NOT NULL DEFAULT 1.8,
+  reading_width      text         NOT NULL DEFAULT 'normal',
+  reading_view_mode  text         NOT NULL DEFAULT 'standard',
+  animations_enabled boolean      NOT NULL DEFAULT true,
+  accent_color       text         NOT NULL DEFAULT 'saffron',
   joined_at          bigint       NOT NULL DEFAULT (extract(epoch from now()) * 1000)::bigint,
   created_at         timestamptz  NOT NULL DEFAULT now(),
   updated_at         timestamptz  NOT NULL DEFAULT now()

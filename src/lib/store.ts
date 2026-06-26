@@ -574,19 +574,16 @@ export const useStore = create<StoreState>()(
       name: 'sanatan-quest-v1',
       version: 2,
       migrate: (persisted: unknown, version: number) => {
-        if (version < 2) {
-          // Migration from v1: add new reading preference defaults
-          const state = persisted as Record<string, unknown>
-          return {
-            ...state,
-            lineSpacing: (state as Record<string, unknown>).lineSpacing ?? 1.8,
-            readingWidth: (state as Record<string, unknown>).readingWidth ?? 'normal',
-            readingViewMode: (state as Record<string, unknown>).readingViewMode ?? 'standard',
-            animationsEnabled: (state as Record<string, unknown>).animationsEnabled ?? true,
-            accentColor: (state as Record<string, unknown>).accentColor ?? 'saffron',
-          }
+        // Safe migration: always preserve all existing data, just add defaults for new fields
+        const state = (persisted ?? {}) as Record<string, unknown>
+        return {
+          ...state,
+          lineSpacing: state.lineSpacing ?? 1.8,
+          readingWidth: state.readingWidth ?? 'normal',
+          readingViewMode: state.readingViewMode ?? 'standard',
+          animationsEnabled: state.animationsEnabled ?? true,
+          accentColor: state.accentColor ?? 'saffron',
         }
-        return persisted
       },
       // Don't persist computed getters
       partialize: (s) => ({
