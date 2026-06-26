@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { NavProvider, useNav } from '@/components/nav-context'
 import { Sidebar, MobileNav } from '@/components/sidebar'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -18,6 +19,18 @@ import { OmSymbol } from '@/components/spiritual-icons'
 import { useStore } from '@/lib/store'
 import { BookOpen, Search, Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { AuthProvider, useAuth } from '@/lib/auth-context'
+import { AuthGate } from '@/components/auth/AuthGate'
+import { UserMenu } from '@/components/auth/UserMenu'
+import {
+  AtmosphereProvider,
+  useAtmosphere,
+} from '@/components/atmosphere/atmosphere-context'
+import { AtmospherePanel } from '@/components/atmosphere/atmosphere-panel'
+import { AtmosphereMiniWidget } from '@/components/atmosphere/atmosphere-mini-widget'
+import { AtmosphereVisualEffects } from '@/components/atmosphere/atmosphere-visual-effects'
+import { saveCloudProgress } from '@/lib/cloud-sync'
+import type { User } from '@supabase/supabase-js'
 
 function TopBar() {
   const { view, navigate } = useNav()
@@ -74,6 +87,7 @@ function TopBar() {
             <span className="text-muted-foreground">·</span>
             <span className="text-primary">🔥 {streak}d</span>
           </div>
+          <UserMenu />
           <ThemeToggle />
         </div>
       </div>
@@ -99,11 +113,86 @@ function ViewRouter() {
   }
 }
 
+/**
+ * useCloudAutoSave — debounced 2-second auto-save of the entire store state to
+ * Supabase whenever any persisted field changes. Runs only when authenticated.
+ *
+ * Mirrors the live deployment's IIFE-inside-IZ auto-save effect.
+ */
+function useCloudAutoSave(user: User | null) {
+  const store = useStore()
+
+  useEffect(() => {
+    if (!user) return
+    const timer = setTimeout(() => {
+      const s = useStore.getState()
+      console.log(
+        '[CloudSync] Auto-saving to Supabase. XP:',
+        s.totalXp,
+        'Verses:',
+        Object.keys(s.readVerses).length,
+      )
+      saveCloudProgress(user, {
+        userName: s.userName,
+        totalXp: s.totalXp,
+        readingTimeSec: s.readingTimeSec,
+        currentStreak: s.currentStreak,
+        longestStreak: s.longestStreak,
+        lastActiveDate: s.lastActiveDate,
+        readVerses: s.readVerses,
+        bookmarks: s.bookmarks,
+        highlights: s.highlights,
+        notes: s.notes,
+        dailyActivity: s.dailyActivity,
+        activities: s.activities,
+        journal: s.journal,
+        challengeProgress: s.challengeProgress,
+        unlockedSkills: s.unlockedSkills,
+        readingMode: s.readingMode,
+        fontScale: s.fontScale,
+        joinedAt: s.joinedAt,
+      }).then(({ error }) => {
+        if (error) {
+          console.warn('[CloudSync] Auto-save FAILED:', error)
+        } else {
+          console.log('[CloudSync] Auto-save OK. XP saved:', s.totalXp)
+        }
+      })
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [
+    user,
+    store.totalXp,
+    store.readVerses,
+    store.bookmarks,
+    store.highlights,
+    store.notes,
+    store.activities,
+    store.journal,
+    store.challengeProgress,
+    store.unlockedSkills,
+    store.currentStreak,
+    store.readingTimeSec,
+    store.userName,
+    store.readingMode,
+    store.fontScale,
+  ])
+}
+
 function AppShell() {
+  const { user } = useAuth()
+  useCloudAutoSave(user)
+
+  const { currentAtmosphere } = useAtmosphere()
+  const { params } = useNav()
+  const chapterFromParams = params.chapter ? parseInt(params.chapter, 10) : undefined
+
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen bg-background relative">
+      {/* Visual effects layer sits behind everything (z-0). */}
+      <AtmosphereVisualEffects atmosphere={currentAtmosphere} />
       <Sidebar />
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 relative z-10">
         <TopBar />
         <main id="main-scroll" className="flex-1 px-4 sm:px-6 lg:px-8 py-6 max-w-6xl w-full mx-auto">
           <ViewRouter />
@@ -118,14 +207,25 @@ function AppShell() {
           </p>
         </footer>
       </div>
+      <MobileNav />
+      {/* Atmosphere panel (right-side Sheet, opened from the gita-view or mini widget). */}
+      <AtmospherePanel chapter={chapterFromParams} />
+      {/* Mini widget floating bottom-right whenever an atmosphere is selected. */}
+      <AtmosphereMiniWidget />
     </div>
   )
 }
 
 export default function Home() {
   return (
-    <NavProvider>
-      <AppShell />
-    </NavProvider>
+    <AuthProvider>
+      <AtmosphereProvider>
+        <AuthGate>
+          <NavProvider>
+            <AppShell />
+          </NavProvider>
+        </AuthGate>
+      </AtmosphereProvider>
+    </AuthProvider>
   )
 }

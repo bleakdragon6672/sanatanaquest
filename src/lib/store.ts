@@ -249,6 +249,30 @@ interface StoreState {
 
   resetAll: () => void
 
+  // Cloud sync — hydrate the entire store from a Supabase row.
+  // Used by AuthGate after login. Does NOT call any actions; just sets state
+  // directly so cloud data wins over any stale localStorage data.
+  loadFromCloud: (snapshot: {
+    userName: string
+    totalXp: number
+    readingTimeSec: number
+    currentStreak: number
+    longestStreak: number
+    lastActiveDate?: string
+    readVerses: Record<string, number>
+    bookmarks: string[]
+    highlights: string[]
+    notes: Record<string, string>
+    dailyActivity: Record<string, string[]>
+    activities: ActivityLog[]
+    journal: JournalEntry[]
+    challengeProgress: Record<string, ChallengeProgress>
+    unlockedSkills: string[]
+    readingMode: ReadingMode
+    fontScale: number
+    joinedAt: number
+  }) => void
+
   // Derived (computed in selectors)
   chaptersCompleted: string[]
   level: Level
@@ -480,6 +504,34 @@ export const useStore = create<StoreState>()(
       },
 
       resetAll: () => set({ ...initialState, joinedAt: Date.now() }),
+
+      loadFromCloud: (snapshot) => {
+        console.log(
+          '[Store] loadFromCloud: setting XP to',
+          snapshot.totalXp,
+          'from cloud',
+        )
+        set({
+          userName: snapshot.userName ?? 'Seeker',
+          totalXp: snapshot.totalXp ?? 0,
+          readingTimeSec: snapshot.readingTimeSec ?? 0,
+          currentStreak: snapshot.currentStreak ?? 0,
+          longestStreak: snapshot.longestStreak ?? 0,
+          lastActiveDate: snapshot.lastActiveDate ?? undefined,
+          readVerses: snapshot.readVerses ?? {},
+          bookmarks: snapshot.bookmarks ?? [],
+          highlights: snapshot.highlights ?? [],
+          notes: snapshot.notes ?? {},
+          dailyActivity: snapshot.dailyActivity ?? {},
+          activities: snapshot.activities ?? [],
+          journal: snapshot.journal ?? [],
+          challengeProgress: snapshot.challengeProgress ?? {},
+          unlockedSkills: snapshot.unlockedSkills ?? [],
+          readingMode: snapshot.readingMode ?? 'full',
+          fontScale: snapshot.fontScale ?? 1,
+          joinedAt: snapshot.joinedAt ?? Date.now(),
+        })
+      },
 
       get chaptersCompleted() {
         return computeChaptersCompleted(get().readVerses)

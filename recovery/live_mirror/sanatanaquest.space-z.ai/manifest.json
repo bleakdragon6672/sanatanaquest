@@ -1,0 +1,17 @@
+{
+  "name": "Sanatan Quest — AI-Powered Bhagavad Gita & Spiritual Growth",
+  "short_name": "Sanatan Quest",
+  "description": "Read the complete Bhagavad Gita, build spiritual habits, earn Dharma XP, and grow with an AI spiritual guide.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1410",
+  "theme_color": "#f59e0b",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

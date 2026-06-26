@@ -17,6 +17,7 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu'
 import { ShareCardModal } from '@/components/share-card-modal'
+import { AtmosphereChapterButton } from '@/components/atmosphere/atmosphere-chapter-button'
 import { toast } from 'sonner'
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
@@ -413,20 +414,36 @@ function VerseCard({ verse }: { verse: Verse }) {
               {verse.meaning}
             </div>
           )}
+          {verse.commentary && (
+            <div className="rounded-xl bg-saffron-gradient-soft border border-primary/20 p-4">
+              <p className="text-[10px] uppercase tracking-widest text-primary/70 mb-2 font-semibold">
+                📜 Commentary — Swami Mukundananda
+              </p>
+              <p
+                className="text-sm text-foreground/85 leading-relaxed whitespace-pre-wrap"
+                dangerouslySetInnerHTML={{
+                  __html: verse.commentary.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>'),
+                }}
+              />
+            </div>
+          )}
         </div>
 
-        {/* Verse footer with audio + AI explain */}
+        {/* Verse footer with audio + atmosphere + AI explain */}
         <div className="px-5 sm:px-7 pb-4 flex flex-wrap items-center justify-between gap-2 border-t border-border/40 pt-3">
           <div className="flex items-center gap-1">
             <AudioPlayer verse={verse} playing={playing} setPlaying={setPlaying} />
           </div>
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => navigate('guide', { explain: verse.id })}
-          >
-            <Sparkles className="mr-1 h-3.5 w-3.5 text-primary" /> AI Explain this verse
-          </Button>
+          <div className="flex items-center gap-2">
+            <AtmosphereChapterButton chapter={verse.chapter} />
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => navigate('guide', { explain: verse.id })}
+            >
+              <Sparkles className="mr-1 h-3.5 w-3.5 text-primary" /> AI Explain this verse
+            </Button>
+          </div>
         </div>
 
         {/* Note editor */}
