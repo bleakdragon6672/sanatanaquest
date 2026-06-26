@@ -5,6 +5,10 @@ import { createContext, useContext, useState, useEffect, ReactNode, useCallback 
 export type ViewKey =
   | 'home'
   | 'gita'
+  | 'upanishad'
+  | 'chalisa'
+  | 'baan'
+  | 'tandav'
   | 'guide'
   | 'tracker'
   | 'skilltree'

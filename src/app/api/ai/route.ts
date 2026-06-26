@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import ZAI from 'z-ai-web-dev-sdk'
+import { createSpiritualGuideCompletion } from '@/lib/ai-service'
 import { allVerses, topicIndex, type Verse } from '@/lib/gita-data'
+import { allUpanishadVerses, type UpanishadVerse } from '@/lib/upanishad-data'
+import { hanumanChalisaVerses, type ChalisaVerse } from '@/lib/hanuman-chalisa-data'
+import { bajrangBaanVerses, type BaanVerse } from '@/lib/bajrang-baan-data'
+import { shivTandavVerses, type TandavVerse } from '@/lib/shiv-tandav-data'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -105,6 +109,133 @@ Sanskrit: ${verse.sanskrit}
 English: ${verse.english}${verse.meaning ? `\nInsight: ${verse.meaning}` : ''}`
 }
 
+// ── Multi-scripture search ─────────────────────────────────────────
+// Searches across all scriptures: Gita, Upanishads, Chalisa, Baan, Tandav
+
+interface SearchResult {
+  source: string
+  id: string
+  text: string
+  score: number
+}
+
+function searchAllScriptures(question: string, maxResults = 5): SearchResult[] {
+  const qLower = question.toLowerCase()
+  const words = qLower.split(/\s+/).filter((w) => w.length > 2 && !STOP_WORDS.has(w))
+  const results: SearchResult[] = []
+
+  // Helper: score a text block
+  function scoreText(text: string): number {
+    const tLower = text.toLowerCase()
+    let score = 0
+    for (const word of words) {
+      if (tLower.includes(word)) score += 3
+    }
+    return score
+  }
+
+  // Additional topic keywords for non-Gita scriptures
+  const extraTopics: { keywords: string[]; boost: number; sources: string[] }[] = [
+    { keywords: ['hanuman', 'monkey', 'vanara', 'bajrang', 'maruti', 'anjaneya'], boost: 8, sources: ['Hanuman Chalisa', 'Bajrang Baan'] },
+    { keywords: ['shiva', 'shankara', 'mahadev', 'neelkanth', 'bhairava', 'tandav', 'dance'], boost: 8, sources: ['Shiv Tandav Stotram'] },
+    { keywords: ['protection', 'protect', 'fear', 'afraid', 'courage', 'brave', 'valor', 'shield'], boost: 5, sources: ['Hanuman Chalisa', 'Bajrang Baan'] },
+    { keywords: ['chant', 'recite', 'name', 'mantra', 'devotion', 'devotee', 'worship', 'pray'], boost: 4, sources: ['Hanuman Chalisa', 'Bajrang Baan', 'Shiv Tandav Stotram'] },
+    { keywords: ['destroy', 'destruction', 'cosmic', 'dance', 'fire', 'burn', 'blaze'], boost: 5, sources: ['Shiv Tandav Stotram'] },
+    { keywords: ['atman', 'self', 'brahman', 'consciousness', 'waking', 'dream', 'sleep', 'turiya'], boost: 6, sources: ['Upanishads'] },
+    { keywords: ['om', 'aum', 'syllable', 'imperishable', 'eternal'], boost: 6, sources: ['Upanishads'] },
+  ]
+
+  function getExtraBoost(text: string, source: string): number {
+    let boost = 0
+    const tLower = text.toLowerCase()
+    for (const topic of extraTopics) {
+      if (topic.sources.includes(source) && topic.keywords.some((kw) => qLower.includes(kw) || tLower.includes(kw))) {
+        boost += topic.boost
+      }
+    }
+    return boost
+  }
+
+  // Search Gita verses
+  for (const verse of allVerses) {
+    const score = scoreText(`${verse.english} ${verse.meaning ?? ''} ${verse.commentary ?? ''}`)
+    // Topic boost
+    let topicBoost = 0
+    for (const topicMapping of TOPIC_KEYWORDS) {
+      if (topicMapping.keywords.some((kw) => qLower.includes(kw))) {
+        for (const topicName of topicMapping.topics) {
+          const topic = topicIndex.find((t) => t.topic === topicName)
+          if (topic && topic.verseIds.includes(verse.id)) topicBoost += 5
+        }
+      }
+    }
+    const total = score + topicBoost
+    if (total > 0) {
+      results.push({
+        source: 'Bhagavad Gita',
+        id: `${verse.chapter}.${verse.verse}`,
+        text: `Bhagavad Gita ${verse.chapter}.${verse.verse}\nSanskrit: ${verse.sanskrit}\nEnglish: ${verse.english}${verse.meaning ? `\nInsight: ${verse.meaning}` : ''}`,
+        score: total,
+      })
+    }
+  }
+
+  // Search Upanishads
+  for (const verse of allUpanishadVerses) {
+    const score = scoreText(`${verse.english} ${verse.commentary ?? ''}`) + getExtraBoost(`${verse.english} ${verse.commentary ?? ''}`, 'Upanishads')
+    if (score > 0) {
+      results.push({
+        source: 'Upanishads',
+        id: verse.id,
+        text: `Upanishad — ${verse.id}\nSanskrit: ${verse.sanskrit}\nEnglish: ${verse.english}`,
+        score,
+      })
+    }
+  }
+
+  // Search Hanuman Chalisa
+  for (const verse of hanumanChalisaVerses) {
+    const score = scoreText(`${verse.english} ${verse.commentary ?? ''}`) + getExtraBoost(`${verse.english} ${verse.commentary ?? ''}`, 'Hanuman Chalisa')
+    if (score > 0) {
+      results.push({
+        source: 'Hanuman Chalisa',
+        id: verse.id,
+        text: `Hanuman Chalisa — ${verse.type === 'doha' ? 'Doha' : 'Chaupai'} ${verse.number}\nAwadhi: ${verse.awadhi}\nEnglish: ${verse.english}`,
+        score,
+      })
+    }
+  }
+
+  // Search Bajrang Baan
+  for (const verse of bajrangBaanVerses) {
+    const score = scoreText(`${verse.english} ${verse.commentary ?? ''}`) + getExtraBoost(`${verse.english} ${verse.commentary ?? ''}`, 'Bajrang Baan')
+    if (score > 0) {
+      results.push({
+        source: 'Bajrang Baan',
+        id: verse.id,
+        text: `Bajrang Baan — ${verse.type === 'doha' ? 'Doha' : 'Chaupai'} ${verse.number}\nAwadhi: ${verse.awadhi}\nEnglish: ${verse.english}`,
+        score,
+      })
+    }
+  }
+
+  // Search Shiv Tandav Stotram
+  for (const verse of shivTandavVerses) {
+    const score = scoreText(`${verse.english} ${verse.commentary ?? ''}`) + getExtraBoost(`${verse.english} ${verse.commentary ?? ''}`, 'Shiv Tandav Stotram')
+    if (score > 0) {
+      results.push({
+        source: 'Shiv Tandav Stotram',
+        id: verse.id,
+        text: `Shiv Tandav Stotram — Stanza ${verse.number}\nSanskrit: ${verse.sanskrit}\nEnglish: ${verse.english}`,
+        score,
+      })
+    }
+  }
+
+  results.sort((a, b) => b.score - a.score)
+  return results.slice(0, maxResults)
+}
+
 // ── System prompt ────────────────────────────────────────────────────
 
 const SYSTEM_PROMPT = `You are the Sanatan Quest AI Spiritual Guide — a wise, warm, and knowledgeable teacher of Sanatan Dharma, especially the Bhagavad Gita. You speak with the depth of a Rishi and the warmth of a friend.
@@ -143,6 +274,7 @@ export async function POST(req: NextRequest) {
 
     let userPrompt = ''
     let relevantVerses: Verse[] = []
+    let searchResults: SearchResult[] = []
 
     if (body.action === 'explain' && body.verse) {
       const mode = body.mode ?? 'simple'
@@ -176,20 +308,20 @@ Please provide:
 
 Use the **Relevant Verse**, **Explanation**, and **Practical Action** format.`
     } else if (body.action === 'ask' && body.question) {
-      // Auto-search the verse database for relevant verses
-      relevantVerses = searchRelevantVerses(body.question, 3)
+      // Search across ALL scriptures
+      searchResults = searchAllScriptures(body.question, 5)
 
-      const verseContext = relevantVerses.length > 0
-        ? `\n\nHere are the most relevant verses from the Bhagavad Gita database for this question:\n\n${relevantVerses.map((v, i) => `--- Verse ${i + 1} ---\n${formatVerseReference(v)}`).join('\n\n')}\n\nUse these verses as the foundation for your answer. Structure your response with **Relevant Verse**, **Explanation**, and **Practical Action**.`
-        : '\n\n(No specific verses were found in the database search. Answer from your knowledge of the Gita, citing chapter and verse numbers.)'
+      const verseContext = searchResults.length > 0
+        ? `\n\nHere are the most relevant verses from across our scriptures for this question:\n\n${searchResults.map((r, i) => `--- Verse ${i + 1} [${r.source}] ---\n${r.text}`).join('\n\n')}\n\nUse these verses as the foundation for your answer. Cite the scripture name and verse reference. Structure your response with **Relevant Verse**, **Explanation**, and **Practical Action**.`
+        : '\n\n(No specific verses were found in the database search. Answer from your knowledge of Hindu scriptures, citing specific texts and verse numbers.)'
 
       userPrompt = `Question from a seeker: ${body.question}${verseContext}`
     } else if (body.action === 'exam' && body.question) {
-      // Auto-search for relevant verses in student/exam mode too
-      relevantVerses = searchRelevantVerses(body.question, 3)
+      // Search across ALL scriptures for student mode too
+      searchResults = searchAllScriptures(body.question, 5)
 
-      const verseContext = relevantVerses.length > 0
-        ? `\n\nHere are the most relevant verses from the Bhagavad Gita for this student's concern:\n\n${relevantVerses.map((v, i) => `--- Verse ${i + 1} ---\n${formatVerseReference(v)}`).join('\n\n')}\n\nUse these verses to ground your guidance. Structure your response with **Relevant Verse**, **Explanation**, and **Practical Action**.`
+      const verseContext = searchResults.length > 0
+        ? `\n\nHere are the most relevant verses from across our scriptures for this student's concern:\n\n${searchResults.map((r, i) => `--- Verse ${i + 1} [${r.source}] ---\n${r.text}`).join('\n\n')}\n\nUse these verses to ground your guidance. Cite the scripture name and verse reference. Structure your response with **Relevant Verse**, **Explanation**, and **Practical Action**.`
         : ''
 
       userPrompt = `A student is asking for guidance. Their concern is:
@@ -231,31 +363,20 @@ Be personal, warm, and specific — never generic. Speak directly to "you."`
       return NextResponse.json({ error: 'Invalid action or missing parameters' }, { status: 400 })
     }
 
-    const zai = await ZAI.create()
-    const completion = await zai.chat.completions.create({
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: userPrompt },
-      ],
-      thinking: { type: 'disabled' },
+    const completion = await createSpiritualGuideCompletion(SYSTEM_PROMPT, userPrompt, {
+      max_tokens: 1500,
+      temperature: 0.7,
     })
 
-    const text =
-      completion?.choices?.[0]?.message?.content ??
-      completion?.message?.content ??
-      (typeof completion === 'string' ? completion : '')
+    const text = completion.content
 
-    // Return the AI response along with the verses that were found
+    // Return the AI response along with the verses that were found (for ask/exam)
     return NextResponse.json({
       content: text || 'May your quest be blessed. 🙏',
-      verses: relevantVerses.map((v) => ({
-        id: v.id,
-        chapter: v.chapter,
-        verse: v.verse,
-        sanskrit: v.sanskrit,
-        transliteration: v.transliteration,
-        english: v.english,
-        meaning: v.meaning,
+      verses: searchResults.map((r) => ({
+        source: r.source,
+        id: r.id,
+        text: r.text,
       })),
     })
   } catch (err: unknown) {

@@ -2,10 +2,14 @@
 
 import { useEffect } from 'react'
 import { NavProvider, useNav } from '@/components/nav-context'
-import { Sidebar, MobileNav } from '@/components/sidebar'
+import { Sidebar, MobileNavProvider, MobileNavTrigger, MobileNavDrawer } from '@/components/sidebar'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { HomeView } from '@/components/views/home-view'
 import { GitaView } from '@/components/views/gita-view'
+import { UpanishadView } from '@/components/views/upanishad-view'
+import { HanumanChalisaView } from '@/components/views/chalisa-view'
+import { BajrangBaanView } from '@/components/views/baan-view'
+import { TandavView } from '@/components/views/tandav-view'
 import { GuideView } from '@/components/views/guide-view'
 import { TrackerView } from '@/components/views/tracker-view'
 import { SkillTreeView } from '@/components/views/skilltree-view'
@@ -31,6 +35,8 @@ import { AtmosphereMiniWidget } from '@/components/atmosphere/atmosphere-mini-wi
 import { AtmosphereVisualEffects } from '@/components/atmosphere/atmosphere-visual-effects'
 import { saveCloudProgress } from '@/lib/cloud-sync'
 import type { User } from '@supabase/supabase-js'
+import { AmbientBackground } from '@/components/ambient-background'
+import { cn } from '@/lib/utils'
 
 function TopBar() {
   const { view, navigate } = useNav()
@@ -40,6 +46,10 @@ function TopBar() {
   const viewTitles: Record<string, { title: string; sanskrit: string }> = {
     home: { title: 'Dashboard', sanskrit: 'गृहम्' },
     gita: { title: 'Bhagavad Gita', sanskrit: 'श्रीमद्भगवद्गीता' },
+    upanishad: { title: 'Upanishads', sanskrit: 'उपनिषद्' },
+    chalisa: { title: 'Hanuman Chalisa', sanskrit: 'हनुमान चालीसा' },
+    baan: { title: 'Bajrang Baan', sanskrit: 'बजरंग बाण' },
+    tandav: { title: 'Shiv Tandav Stotram', sanskrit: 'शिवताण्डवस्तोत्रम्' },
     guide: { title: 'AI Spiritual Guide', sanskrit: 'गुरु' },
     tracker: { title: 'Daily Tracker', sanskrit: 'साधनम्' },
     skilltree: { title: 'Skill Tree', sanskrit: 'वृक्ष' },
@@ -57,7 +67,7 @@ function TopBar() {
     <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3">
         <div className="flex items-center gap-3">
-          <MobileNav />
+          <MobileNavTrigger />
           <div>
             <h1 className="text-base sm:text-lg font-semibold leading-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
               {current.title}
@@ -100,6 +110,10 @@ function ViewRouter() {
   switch (view) {
     case 'home': return <HomeView />
     case 'gita': return <GitaView />
+    case 'upanishad': return <UpanishadView />
+    case 'chalisa': return <HanumanChalisaView />
+    case 'baan': return <BajrangBaanView />
+    case 'tandav': return <TandavView />
     case 'guide': return <GuideView />
     case 'tracker': return <TrackerView />
     case 'skilltree': return <SkillTreeView />
@@ -185,34 +199,48 @@ function AppShell() {
 
   const { currentAtmosphere } = useAtmosphere()
   const { params } = useNav()
+  const store = useStore()
   const chapterFromParams = params.chapter ? parseInt(params.chapter, 10) : undefined
 
+  // Reading width classes
+  const widthClass = store.readingWidth === 'narrow' ? 'max-w-3xl' : store.readingWidth === 'wide' ? 'max-w-7xl' : 'max-w-6xl'
+
+  // Reading view mode classes
+  const isZen = store.readingViewMode === 'zen'
+  const isFocus = store.readingViewMode === 'focus'
+
   return (
-    <div className="flex min-h-screen bg-background relative">
+    <MobileNavProvider>
+    <div className={cn('flex min-h-screen bg-background relative', isZen && 'reading-zen', isFocus && 'reading-focus')}>
+      {/* Ambient background */}
+      <AmbientBackground />
       {/* Visual effects layer sits behind everything (z-0). */}
       <AtmosphereVisualEffects atmosphere={currentAtmosphere} />
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0 relative z-10">
-        <TopBar />
-        <main id="main-scroll" className="flex-1 px-4 sm:px-6 lg:px-8 py-6 max-w-6xl w-full mx-auto">
+        {!isZen && <TopBar />}
+        <main id="main-scroll" className={cn('flex-1 px-4 sm:px-6 lg:px-8 py-6 w-full mx-auto', widthClass)}>
           <ViewRouter />
         </main>
-        <footer className="mt-auto px-4 sm:px-6 py-4 text-center text-xs text-muted-foreground border-t border-border">
-          <p style={{ fontFamily: 'var(--font-serif-display), serif' }} className="mb-1">
-            ॐ शान्तिः शान्तिः शान्तिः
-          </p>
-          <p>
-            Sanatan Quest · Made with devotion ·{' '}
-            <span className="text-primary/70">Read the Gita, live its wisdom</span>
-          </p>
-        </footer>
+        {!isZen && (
+          <footer className="mt-auto px-4 sm:px-6 py-4 text-center text-xs text-muted-foreground border-t border-border">
+            <p style={{ fontFamily: 'var(--font-serif-display), serif' }} className="mb-1">
+              ॐ शान्तिः शान्तिः शान्तिः
+            </p>
+            <p>
+              Sanatan Quest · Made with devotion ·{' '}
+              <span className="text-primary/70">Read the Gita, live its wisdom</span>
+            </p>
+          </footer>
+        )}
       </div>
-      <MobileNav />
+      <MobileNavDrawer />
       {/* Atmosphere panel (right-side Sheet, opened from the gita-view or mini widget). */}
       <AtmospherePanel chapter={chapterFromParams} />
       {/* Mini widget floating bottom-right whenever an atmosphere is selected. */}
       <AtmosphereMiniWidget />
     </div>
+    </MobileNavProvider>
   )
 }
 

@@ -415,16 +415,43 @@ function VerseCard({ verse }: { verse: Verse }) {
             </div>
           )}
           {verse.commentary && (
-            <div className="rounded-xl bg-saffron-gradient-soft border border-primary/20 p-4">
-              <p className="text-[10px] uppercase tracking-widest text-primary/70 mb-2 font-semibold">
-                📜 Commentary — Swami Mukundananda
-              </p>
-              <p
-                className="text-sm text-foreground/85 leading-relaxed whitespace-pre-wrap"
-                dangerouslySetInnerHTML={{
-                  __html: verse.commentary.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>'),
-                }}
-              />
+            <div className="relative rounded-xl overflow-hidden">
+              {/* Decorative background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_8%,transparent)] via-[color-mix(in_oklch,var(--gold)_5%,transparent)] to-transparent" />
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary/60 via-primary/30 to-transparent" />
+              
+              <div className="relative px-5 py-4 sm:px-6 sm:py-5">
+                {/* Header with decorative quote */}
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'Georgia, serif' }}>"</span>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-primary/60 font-semibold" style={{ fontFamily: 'var(--font-sans), sans-serif' }}>
+                      Swami Mukundananda
+                    </p>
+                    <p className="text-[9px] uppercase tracking-widest text-muted-foreground/50">
+                      Commentary
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Commentary body */}
+                <div
+                  className="text-[0.9rem] text-foreground/80 leading-[1.85] sm:leading-[1.9] whitespace-pre-wrap"
+                  style={{ fontFamily: 'var(--font-serif), Georgia, "Times New Roman", serif' }}
+                  dangerouslySetInnerHTML={{
+                    __html: verse.commentary
+                      .replace(/\*\*(.+?)\*\*/g, '<strong class="text-foreground/95 font-semibold">$1</strong>')
+                      .replace(/\n\n/g, '</p><p class="mt-3">')
+                      .replace(/^/, '<p>')
+                      .replace(/$/, '</p>'),
+                  }}
+                />
+                
+                {/* Closing quote */}
+                <div className="flex justify-end mt-2">
+                  <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'Georgia, serif' }}>"</span>
+                </div>
+              </div>
             </div>
           )}
         </div>

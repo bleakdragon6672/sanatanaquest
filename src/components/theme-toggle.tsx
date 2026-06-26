@@ -1,6 +1,6 @@
 'use client'
 
-import { Moon, Sun, Monitor } from 'lucide-react'
+import { Moon, Sun, Monitor, Flame, Mountain, TreePine } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { Button } from '@/components/ui/button'
 import {
@@ -8,14 +8,22 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu'
+
+const THEMES = [
+  { id: 'light', label: 'Light', icon: Sun, description: 'Warm parchment' },
+  { id: 'dark', label: 'Dark', icon: Moon, description: 'Midnight temple' },
+  { id: 'system', label: 'System', icon: Monitor, description: 'Match OS' },
+  { id: 'amoled', label: 'AMOLED', icon: Moon, description: 'Pure black' },
+  { id: 'temple-gold', label: 'Temple Gold', icon: Flame, description: 'Rich golden' },
+  { id: 'himalayan-blue', label: 'Himalayan Blue', icon: Mountain, description: 'Cool mountain' },
+  { id: 'forest-green', label: 'Forest Green', icon: TreePine, description: 'Ashram green' },
+]
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
-  // Avoid hydration mismatch: render a stable icon until mounted client-side.
-  // We don't need state — we just check window existence via useEffect-once pattern.
-  // Using a ref-less approach: render based on document.documentElement.classList
-  // (next-themes applies 'dark' class to <html>).
 
   return (
     <DropdownMenu>
@@ -26,16 +34,23 @@ export function ThemeToggle() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('light')}>
-          <Sun className="mr-2 h-4 w-4" /> Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
-          <Moon className="mr-2 h-4 w-4" /> Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
-          <Monitor className="mr-2 h-4 w-4" /> System
-        </DropdownMenuItem>
+      <DropdownMenuContent align="end" className="w-52">
+        <DropdownMenuLabel>Theme</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {THEMES.map((t) => {
+          const Icon = t.icon
+          return (
+            <DropdownMenuItem
+              key={t.id}
+              onClick={() => setTheme(t.id)}
+              className={theme === t.id ? 'bg-saffron-gradient-soft' : ''}
+            >
+              <Icon className="mr-2 h-4 w-4" />
+              <span>{t.label}</span>
+              <span className="ml-auto text-[10px] text-muted-foreground">{t.description}</span>
+            </DropdownMenuItem>
+          )
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   )

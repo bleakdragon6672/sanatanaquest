@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { OmSymbol } from '@/components/spiritual-icons'
 import { useStore } from '@/lib/store'
-import { useState } from 'react'
+import { createContext, useContext, useState, type ReactNode } from 'react'
 
 interface NavItem {
   view: ViewKey
@@ -19,6 +19,10 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { view: 'home', label: 'Home', sanskritLabel: 'गृहम्', icon: Home, description: 'Dashboard & daily verse' },
   { view: 'gita', label: 'Bhagavad Gita', sanskritLabel: 'गीता', icon: BookOpen, description: 'Read the complete scripture' },
+  { view: 'upanishad', label: 'Upanishads', sanskritLabel: 'उपनिषद्', icon: BookOpen, description: 'Isha, Katha & Mandukya' },
+  { view: 'chalisa', label: 'Hanuman Chalisa', sanskritLabel: 'हनुमान चालीसा', icon: BookOpen, description: 'Devotional hymn to Hanuman' },
+  { view: 'baan', label: 'Bajrang Baan', sanskritLabel: 'बजरंग बाण', icon: BookOpen, description: 'Protective arrow of Hanuman' },
+  { view: 'tandav', label: 'Shiv Tandav Stotram', sanskritLabel: 'ताण्डवस्तोत्रम्', icon: BookOpen, description: 'Shiva\'s cosmic dance hymn by Ravana' },
   { view: 'guide', label: 'AI Spiritual Guide', sanskritLabel: 'गुरु', icon: Sparkles, description: 'Ask, explain, student mode' },
   { view: 'tracker', label: 'Daily Tracker', sanskritLabel: 'साधनम्', icon: CalendarCheck, description: 'Log your spiritual practice' },
   { view: 'skilltree', label: 'Skill Tree', sanskritLabel: 'वृक्ष', icon: GitBranch, description: 'Unlock paths of yoga' },
@@ -129,39 +133,76 @@ export function Sidebar() {
   )
 }
 
-export function MobileNav() {
+// ── Mobile nav context ──────────────────────────────────────────────
+// Splits the trigger button (renders in TopBar) from the drawer overlay
+// (renders at root level) so the fixed overlay isn't trapped inside the
+// sticky header's stacking context.
+
+const MobileNavCtx = createContext<{ open: boolean; setOpen: (v: boolean) => void } | null>(null)
+
+export function MobileNavProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false)
   return (
-    <>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="lg:hidden rounded-full"
-        onClick={() => setOpen(true)}
-      >
-        <Menu className="h-5 w-5" />
-        <span className="sr-only">Open menu</span>
-      </Button>
-      {open && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-            onClick={() => setOpen(false)}
-          />
-          <div className="absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-sidebar shadow-2xl flex flex-col">
-            <div className="flex items-center justify-between pr-3">
-              <Brand />
-              <Button variant="ghost" size="icon" onClick={() => setOpen(false)} className="rounded-full">
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
-            <div className="lotus-divider mx-4 mb-2" />
-            <div className="flex-1 overflow-y-auto">
-              <NavItems onNavigate={() => setOpen(false)} />
-            </div>
-          </div>
+    <MobileNavCtx.Provider value={{ open, setOpen }}>
+      {children}
+    </MobileNavCtx.Provider>
+  )
+}
+
+function useMobileNav() {
+  const ctx = useContext(MobileNavCtx)
+  if (!ctx) throw new Error('useMobileNav must be used inside MobileNavProvider')
+  return ctx
+}
+
+/** Hamburger button — place inside the TopBar (visible on mobile only). */
+export function MobileNavTrigger() {
+  const { setOpen } = useMobileNav()
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      className="lg:hidden rounded-full"
+      onClick={() => setOpen(true)}
+    >
+      <Menu className="h-5 w-5" />
+      <span className="sr-only">Open menu</span>
+    </Button>
+  )
+}
+
+/** Slide-over drawer — place at the root layout level (outside sticky headers). */
+export function MobileNavDrawer() {
+  const { open, setOpen } = useMobileNav()
+  if (!open) return null
+  return (
+    <div className="fixed inset-0 z-50 lg:hidden">
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        onClick={() => setOpen(false)}
+      />
+      <div className="absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-sidebar shadow-2xl flex flex-col">
+        <div className="flex items-center justify-between pr-3">
+          <Brand />
+          <Button variant="ghost" size="icon" onClick={() => setOpen(false)} className="rounded-full">
+            <X className="h-5 w-5" />
+          </Button>
         </div>
-      )}
-    </>
+        <div className="lotus-divider mx-4 mb-2" />
+        <div className="flex-1 overflow-y-auto">
+          <NavItems onNavigate={() => setOpen(false)} />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/** Legacy combined component (kept for backward compatibility). */
+export function MobileNav() {
+  return (
+    <MobileNavProvider>
+      <MobileNavTrigger />
+      <MobileNavDrawer />
+    </MobileNavProvider>
   )
 }

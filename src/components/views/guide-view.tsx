@@ -8,6 +8,10 @@ import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { useNav } from '@/components/nav-context'
 import { getVerse, type Verse } from '@/lib/gita-data'
+import { getUpanishadVerse } from '@/lib/upanishad-data'
+import { getChalisaVerse } from '@/lib/hanuman-chalisa-data'
+import { getBaanVerse } from '@/lib/bajrang-baan-data'
+import { getTandavVerse } from '@/lib/shiv-tandav-data'
 import { OmSymbol } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
 
@@ -134,7 +138,13 @@ function ExplainVerse({
   }, [verseId, mode])
 
   async function runExplain(id: string, m: typeof mode) {
-    const v = getVerse(id)
+    // Try Gita, Upanishad, Chalisa, Baan, then Tandav
+    const gv = getVerse(id)
+    const uv = getUpanishadVerse(id)
+    const cv = getChalisaVerse(id)
+    const bv = getBaanVerse(id)
+    const tv = getTandavVerse(id)
+    const v = gv ?? uv ?? cv ?? bv ?? tv
     if (!v) {
       setExplanation('Verse not found.')
       return
@@ -142,6 +152,7 @@ function ExplainVerse({
     setLoading(true)
     setExplanation('')
     try {
+      const isUpanishad = id.includes('.') && !id.match(/^\d+\.\d+$/)
       const out = await callAI({
         action: 'explain',
         mode: m,
@@ -150,8 +161,9 @@ function ExplainVerse({
           sanskrit: v.sanskrit,
           transliteration: v.transliteration,
           english: v.english,
-          chapter: v.chapter,
-          verseNum: v.verse,
+          chapter: gv?.chapter ?? 0,
+          verseNum: gv?.verse ?? 0,
+          source: isUpanishad ? 'upanishad' : 'gita',
         },
       })
       setExplanation(out.content)
@@ -164,20 +176,44 @@ function ExplainVerse({
 
   function handleVerseInputSubmit() {
     if (!verseInput.trim()) return
-    // Accept formats: "2.47" or "chapter 2 verse 47" or "2:47"
-    const m = verseInput.match(/(\d+)\s*[\.\:\s]\s*(\d+)/)
-    if (m) {
-      const id = `${m[1]}.${m[2]}`
-      const v = getVerse(id)
-      if (v) {
-        setVerseId(id)
-        return
-      }
+    // Try Gita format: "2.47" or "chapter 2 verse 47" or "2:47"
+    const gm = verseInput.match(/(\d+)\s*[\.\:\s]\s*(\d+)/)
+    if (gm) {
+      const id = `${gm[1]}.${gm[2]}`
+      if (getVerse(id)) { setVerseId(id); return }
     }
-    setExplanation('Could not find that verse. Try formats like "2.47" or "Chapter 2, Verse 47". Available verses are the curated ones in each chapter.')
+    // Try Upanishad format: "isha.0.1" or "katha.1.1.1"
+    const um = verseInput.match(/(isha|katha|mandukya)[\.\s]/i)
+    if (um) {
+      const id = verseInput.trim().toLowerCase()
+      if (getUpanishadVerse(id)) { setVerseId(id); return }
+    }
+    // Try Chalisa format: "v0" through "v35"
+    const cm = verseInput.match(/^v(\d+)$/i)
+    if (cm) {
+      const id = `v${cm[1]}`
+      if (getChalisaVerse(id)) { setVerseId(id); return }
+    }
+    setExplanation('Could not find that verse. Try "2.47" (Gita), "isha.0.1" (Upanishad), or "v5" (Hanuman Chalisa).')
   }
 
-  const verse = verseId ? getVerse(verseId) : null
+  const gitaVerse = verseId ? getVerse(verseId) : null
+  const upanishadVerse = verseId ? getUpanishadVerse(verseId) : null
+  const chalisaVerse = verseId ? getChalisaVerse(verseId) : null
+  const baanVerse = verseId ? getBaanVerse(verseId) : null
+  const tandavVerse = verseId ? getTandavVerse(verseId) : null
+  const verse = gitaVerse ?? upanishadVerse ?? chalisaVerse ?? baanVerse ?? tandavVerse
+  const verseLabel = gitaVerse
+    ? `Bhagavad Gita ${gitaVerse.chapter}.${gitaVerse.verse}`
+    : upanishadVerse
+      ? upanishadVerse.id
+      : chalisaVerse
+        ? `Hanuman Chalisa — ${chalisaVerse.type === 'doha' ? 'Doha' : 'Chaupai'} ${chalisaVerse.number}`
+        : baanVerse
+          ? `Bajrang Baan — ${baanVerse.type === 'doha' ? 'Doha' : 'Chaupai'} ${baanVerse.number}`
+          : tandavVerse
+            ? `Shiv Tandav Stotram — Stanza ${tandavVerse.number}`
+            : ''
 
   return (
     <div className="space-y-4">
@@ -190,7 +226,7 @@ function ExplainVerse({
             type="text"
             value={verseInput}
             onChange={(e) => setVerseInput(e.target.value)}
-            placeholder="e.g. 2.47 or 18.66"
+            placeholder="e.g. 2.47 (Gita), isha.0.1 (Upanishad), v5 (Chalisa), t3 (Tandav)"
             className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
             onKeyDown={(e) => e.key === 'Enter' && handleVerseInputSubmit()}
           />
@@ -198,7 +234,7 @@ function ExplainVerse({
         </div>
         <p className="text-xs text-muted-foreground mb-3">
           Or pick a famous verse:{' '}
-          {['2.47', '2.20', '4.7', '9.22', '9.26', '18.66'].map((id) => (
+          {['2.47', '9.22', '18.66', 'isha.0.1', 'katha.1.2.23', 'mandukya.0.1', 'v1', 'v11', 'b1', 'b11', 't1', 't4'].map((id) => (
             <button
               key={id}
               onClick={() => setVerseId(id)}
@@ -227,7 +263,7 @@ function ExplainVerse({
 
       {verse && (
         <Card className="p-5 bg-saffron-gradient-soft border-primary/20">
-          <p className="text-xs text-muted-foreground mb-1">Bhagavad Gita {verse.chapter}.{verse.verse}</p>
+          <p className="text-xs text-muted-foreground mb-1">{verseLabel}</p>
           <p className="sanskrit-text text-lg mb-2" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}>
             {verse.sanskrit}
           </p>

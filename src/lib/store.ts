@@ -11,6 +11,10 @@ export type ReadingMode =
   | 'focus'
   | 'night'
 
+export type ReadingViewMode = 'standard' | 'focus' | 'zen'
+export type ReadingWidth = 'narrow' | 'normal' | 'wide'
+export type AccentColor = 'saffron' | 'gold' | 'vermilion' | 'lotus' | 'ocean' | 'forest'
+
 export type ActivityType =
   | 'gita'
   | 'ramayana'
@@ -194,6 +198,11 @@ interface StoreState {
   // Settings
   readingMode: ReadingMode
   fontScale: number
+  lineSpacing: number
+  readingWidth: ReadingWidth
+  readingViewMode: ReadingViewMode
+  animationsEnabled: boolean
+  accentColor: AccentColor
 
   // Progress
   readVerses: Record<string, number>
@@ -227,6 +236,11 @@ interface StoreState {
   setUserName: (name: string) => void
   setReadingMode: (m: ReadingMode) => void
   setFontScale: (n: number) => void
+  setLineSpacing: (n: number) => void
+  setReadingWidth: (w: ReadingWidth) => void
+  setReadingViewMode: (m: ReadingViewMode) => void
+  setAnimationsEnabled: (v: boolean) => void
+  setAccentColor: (c: AccentColor) => void
 
   markVerseRead: (verseId: string) => void
   unmarkVerseRead: (verseId: string) => void
@@ -270,6 +284,11 @@ interface StoreState {
     unlockedSkills: string[]
     readingMode: ReadingMode
     fontScale: number
+    lineSpacing: number
+    readingWidth: ReadingWidth
+    readingViewMode: ReadingViewMode
+    animationsEnabled: boolean
+    accentColor: AccentColor
     joinedAt: number
   }) => void
 
@@ -320,6 +339,11 @@ const initialState = {
   joinedAt: Date.now(),
   readingMode: 'full' as ReadingMode,
   fontScale: 1,
+  lineSpacing: 1.8,
+  readingWidth: 'normal' as ReadingWidth,
+  readingViewMode: 'standard' as ReadingViewMode,
+  animationsEnabled: true,
+  accentColor: 'saffron' as AccentColor,
   readVerses: {} as Record<string, number>,
   readingTimeSec: 0,
   currentStreak: 0,
@@ -344,6 +368,11 @@ export const useStore = create<StoreState>()(
       setUserName: (name) => set({ userName: name || 'Seeker' }),
       setReadingMode: (m) => set({ readingMode: m }),
       setFontScale: (n) => set({ fontScale: Math.min(1.6, Math.max(0.85, n)) }),
+      setLineSpacing: (n) => set({ lineSpacing: Math.min(2.5, Math.max(1.2, n)) }),
+      setReadingWidth: (w) => set({ readingWidth: w }),
+      setReadingViewMode: (m) => set({ readingViewMode: m }),
+      setAnimationsEnabled: (v) => set({ animationsEnabled: v }),
+      setAccentColor: (c) => set({ accentColor: c }),
 
       markVerseRead: (verseId) => {
         const state = get()
@@ -529,6 +558,11 @@ export const useStore = create<StoreState>()(
           unlockedSkills: snapshot.unlockedSkills ?? [],
           readingMode: snapshot.readingMode ?? 'full',
           fontScale: snapshot.fontScale ?? 1,
+          lineSpacing: snapshot.lineSpacing ?? 1.8,
+          readingWidth: snapshot.readingWidth ?? 'normal',
+          readingViewMode: snapshot.readingViewMode ?? 'standard',
+          animationsEnabled: snapshot.animationsEnabled ?? true,
+          accentColor: snapshot.accentColor ?? 'saffron',
           joinedAt: snapshot.joinedAt ?? Date.now(),
         })
       },
@@ -549,6 +583,11 @@ export const useStore = create<StoreState>()(
         joinedAt: s.joinedAt,
         readingMode: s.readingMode,
         fontScale: s.fontScale,
+        lineSpacing: s.lineSpacing,
+        readingWidth: s.readingWidth,
+        readingViewMode: s.readingViewMode,
+        animationsEnabled: s.animationsEnabled,
+        accentColor: s.accentColor,
         readVerses: s.readVerses,
         readingTimeSec: s.readingTimeSec,
         currentStreak: s.currentStreak,

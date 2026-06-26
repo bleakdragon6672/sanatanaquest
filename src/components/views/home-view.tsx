@@ -5,6 +5,10 @@ import { Flame, BookOpen, Clock, Trophy, Sparkles, ChevronRight, TrendingUp, Sta
 import { useNav } from '@/components/nav-context'
 import { useStore, useLevel, useChaptersCompleted, getNextLevel } from '@/lib/store'
 import { gitaChapters, totalVerseCount } from '@/lib/gita-data'
+import { allUpanishadVerses } from '@/lib/upanishad-data'
+import { hanumanChalisaVerses } from '@/lib/hanuman-chalisa-data'
+import { bajrangBaanVerses } from '@/lib/bajrang-baan-data'
+import { shivTandavVerses } from '@/lib/shiv-tandav-data'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
@@ -18,9 +22,13 @@ export function HomeView() {
   const chaptersCompleted = useChaptersCompleted()
   const nextLevel = getNextLevel(store.totalXp)
 
-  const versesRead = Object.keys(store.readVerses).length
+  // Count only Gita verses (IDs like "1.1", "2.47" — numeric dot numeric)
+  const gitaVerseCount = Object.keys(store.readVerses).filter((id) => /^\d+\.\d+$/.test(id)).length
+  // Count total across all scriptures
+  const allScriptureTotal = totalVerseCount + allUpanishadVerses.length + hanumanChalisaVerses.length + bajrangBaanVerses.length + shivTandavVerses.length
+  const allVersesRead = Object.keys(store.readVerses).length
   const readingHours = store.readingTimeSec / 3600
-  const completionPct = Math.min(100, Math.round((versesRead / totalVerseCount) * 100))
+  const completionPct = Math.min(100, Math.round((gitaVerseCount / totalVerseCount) * 100))
 
   const chapterProgress = useMemo(() => {
     return gitaChapters.map((c) => {
@@ -40,7 +48,7 @@ export function HomeView() {
     },
     {
       label: 'Verses Read',
-      value: `${versesRead}/${totalVerseCount}`,
+      value: `${gitaVerseCount}/${totalVerseCount}`,
       icon: Sparkles,
       color: 'gold',
       onClick: () => navigate('gita'),
