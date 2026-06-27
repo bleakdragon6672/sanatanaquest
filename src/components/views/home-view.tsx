@@ -145,7 +145,7 @@ export function HomeView() {
         </div>
         <div className="space-y-2">
           <div className="progress-sacred h-2 bg-card">
-            <div className="h-full bg-gradient-to-r from-saffron to-gold rounded-full transition-all duration-500" style={{ width: `${progressBarPct}%` }} />
+            <div className="h-full bg-gradient-to-r from-saffron to-gold rounded-full transition-all duration-500" style={{ width: `${progressPercent}%` }} />
           </div>
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>{level.name} ({level.minXp} XP)</span>
