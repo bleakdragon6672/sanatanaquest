@@ -79,7 +79,7 @@ export function HomeView() {
   return (
     <div className="space-y-6">
       {/* Hero */}
-      <Card className="hero-sacred relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_18%,transparent)] via-card to-[color-mix(in_oklch,var(--gold)_12%,transparent)]">
+      <Card className="hero-sacred relative overflow-hidden border-0 p-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_18%,transparent)] via-card to-[color-mix(in_oklch,var(--gold)_12%,transparent)]">
         <div className="absolute -right-12 -top-12 opacity-[0.08] pointer-events-none">
           <LotusIcon size={240} className="text-primary" />
         </div>
