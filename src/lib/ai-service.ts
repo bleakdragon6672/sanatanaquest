@@ -30,31 +30,19 @@ export interface AICompletionResponse {
 
 // ── Configuration ───────────────────────────────────────────────────
 
-// Free models ranked by quality for spiritual/conversational AI.
-// The service tries each in order; on 429 rate-limit it falls back to the next.
-const FALLBACK_MODELS = [
-  'glm-4-flash', // Z.AI GLM-4.7 Flash
-  'qwen/qwen3-next-80b-a3b-instruct:free',
-  'nousresearch/hermes-3-llama-3.1-405b:free',
-  'google/gemma-4-31b-it:free',
-  'openai/gpt-oss-120b:free',
-]
+// Use only Z.AI GLM-4.7 Flash (no fallback)
+const PRIMARY_MODEL = 'glm-4-flash'
 
 function getProviderConfig(): { provider: AIProvider; apiKey: string; baseUrl: string; models: string[] } {
-  const provider: AIProvider = process.env.ZAI_API_KEY ? 'zai' : 'openrouter'
-  const apiKey = process.env.ZAI_API_KEY || process.env.OPENROUTER_API_KEY
+  const provider: AIProvider = 'zai'
+  const apiKey = process.env.ZAI_API_KEY
   if (!apiKey) {
-    throw new Error('ZAI_API_KEY or OPENROUTER_API_KEY is not set in environment variables')
+    throw new Error('ZAI_API_KEY is not set in environment variables')
   }
 
-  const baseUrl = process.env.ZAI_BASE_URL ?? process.env.AI_BASE_URL ?? (provider === 'zai' ? 'https://api.z.ai/v1' : 'https://openrouter.ai/api/v1')
-  const primaryModel = process.env.AI_MODEL
-  // If user sets a custom model, use it first; otherwise use the default chain
-  const models = primaryModel
-    ? [primaryModel, ...FALLBACK_MODELS.filter((m) => m !== primaryModel)]
-    : FALLBACK_MODELS
+  const baseUrl = process.env.ZAI_BASE_URL ?? 'https://api.z.ai/v1'
 
-  return { provider, apiKey, baseUrl, models }
+  return { provider, apiKey, baseUrl, models: [PRIMARY_MODEL] }
 }
 
 // ── OpenRouter Provider ─────────────────────────────────────────────
