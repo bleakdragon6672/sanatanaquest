@@ -30,20 +30,30 @@ export interface AICompletionResponse {
 
 // ── Configuration ───────────────────────────────────────────────────
 
-// Use only Z.AI GLM-4.7 Flash (no fallback)
-const PRIMARY_MODEL = 'glm-4.7-flash'
+// AI Models ranked by quality for spiritual/conversational AI.
+// The service tries each in order; on 429 rate-limit it falls back to the next.
+const FALLBACK_MODELS = [
+  'qwen/qwen3-next-80b-a3b-instruct:free',
+  'nousresearch/hermes-3-llama-3.1-405b:free',
+  'google/gemma-4-31b-it:free',
+  'openai/gpt-oss-120b:free',
+]
 
 function getProviderConfig(): { provider: AIProvider; apiKey: string; baseUrl: string; models: string[] } {
-  const provider: AIProvider = 'zai'
-  const apiKey = process.env.ZAI_API_KEY
+  const provider: AIProvider = 'openrouter'
+  const apiKey = process.env.OPENROUTER_API_KEY
   if (!apiKey) {
-    throw new Error('ZAI_API_KEY is not set in environment variables')
+    throw new Error('OPENROUTER_API_KEY is not set in environment variables')
   }
 
-  // Z.AI API endpoint - update if needed based on their documentation
-  const baseUrl = process.env.ZAI_BASE_URL ?? 'https://open.bigmodel.cn/api/paas/v4'
+  const baseUrl = process.env.OPENROUTER_BASE_URL ?? 'https://openrouter.ai/api/v1'
+  const primaryModel = process.env.AI_MODEL
+  // If user sets a custom model, use it first; otherwise use the default chain
+  const models = primaryModel
+    ? [primaryModel, ...FALLBACK_MODELS.filter((m) => m !== primaryModel)]
+    : FALLBACK_MODELS
 
-  return { provider, apiKey, baseUrl, models: ['glm-4.7-flash'] }
+  return { provider, apiKey, baseUrl, models }
 }
 
 // ── OpenRouter Provider ─────────────────────────────────────────────
@@ -100,62 +110,6 @@ async function callOpenRouter(
   }
 }
 
-// ── Z.AI Provider ───────────────────────────────────────────────────
-
-async function callZAI(
-  apiKey: string,
-  baseUrl: string,
-  model: string,
-  messages: AIMessage[],
-  temperature: number,
-  maxTokens: number,
-): Promise<AICompletionResponse> {
-  const controller = new AbortController()
-  const timeout = setTimeout(() => controller.abort(), 30_000) // 30s timeout
-
-  try {
-    const response = await fetch(`${baseUrl}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-        // Z.AI may require additional headers - these are common for OpenAI-compatible APIs
-        'HTTP-Referer': process.env.SITE_URL ?? 'https://sanatanaquest.app',
-        'X-Title': 'SanatanaQuest Spiritual Guide',
-      },
-      body: JSON.stringify({
-        model,
-        messages,
-        temperature,
-        max_tokens: maxTokens,
-      }),
-      signal: controller.signal,
-    })
-
-    if (!response.ok) {
-      const errorBody = await response.text()
-      console.error(`Z.AI API error (${response.status}): ${errorBody}`)
-      throw new Error(`Z.AI API error (${response.status}): ${errorBody}`)
-    }
-
-    const data = await response.json()
-
-    const content =
-      data?.choices?.[0]?.message?.content ??
-      data?.message?.content ??
-      (typeof data === 'string' ? data : '')
-
-    return {
-      content,
-      model: data?.model ?? model,
-      provider: 'zai',
-      usage: data?.usage,
-    }
-  } finally {
-    clearTimeout(timeout)
-  }
-}
-
 // ── Main Service Function ───────────────────────────────────────────
 
 export async function createChatCompletion(
@@ -172,9 +126,7 @@ export async function createChatCompletion(
 
   for (const model of models) {
     try {
-      const callApi =
-        config.provider === 'zai' ? callZAI : callOpenRouter
-      return await callApi(
+      return await callOpenRouter(
         config.apiKey,
         config.baseUrl,
         model,
