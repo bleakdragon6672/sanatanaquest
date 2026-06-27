@@ -40,9 +40,10 @@ function getProviderConfig(): { provider: AIProvider; apiKey: string; baseUrl: s
     throw new Error('ZAI_API_KEY is not set in environment variables')
   }
 
-  const baseUrl = process.env.ZAI_BASE_URL ?? 'https://api.z.ai/v1'
+  // Z.AI API endpoint - update if needed based on their documentation
+  const baseUrl = process.env.ZAI_BASE_URL ?? 'https://open.bigmodel.cn/api/paas/v4/chat/completions'
 
-  return { provider, apiKey, baseUrl, models: [PRIMARY_MODEL] }
+  return { provider, apiKey, baseUrl, models: ['glm-4.7-flash'] }
 }
 
 // ── OpenRouter Provider ─────────────────────────────────────────────
