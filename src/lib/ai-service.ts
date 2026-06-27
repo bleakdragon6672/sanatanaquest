@@ -41,7 +41,7 @@ function getProviderConfig(): { provider: AIProvider; apiKey: string; baseUrl: s
   }
 
   // Z.AI API endpoint - update if needed based on their documentation
-  const baseUrl = process.env.ZAI_BASE_URL ?? 'https://open.bigmodel.cn/api/paas/v4/chat/completions'
+  const baseUrl = process.env.ZAI_BASE_URL ?? 'https://open.bigmodel.cn/api/paas/v4'
 
   return { provider, apiKey, baseUrl, models: ['glm-4.7-flash'] }
 }
