@@ -76,6 +76,9 @@ export function HomeView() {
   const xpForCurrentSpan = nextLevel ? nextLevel.minXp - level.minXp : 1
   const levelPct = nextLevel ? Math.round((xpIntoCurrent / xpForCurrentSpan) * 100) : 100
 
+  // Show progress TOWARD next level (0% at start of level, 100% at next level)
+  const progressPercent = nextLevel ? Math.round((store.totalXp / nextLevel.minXp) * 100) : 100
+
   return (
     <div className="space-y-6">
       {/* Hero */}
@@ -141,14 +144,14 @@ export function HomeView() {
           </div>
         </div>
         <div className="space-y-2">
-          <div className="progress-sacred">
-            <div className="h-full bg-gradient-to-r from-saffron to-gold rounded-full transition-all duration-500" style={{ width: `${levelPct}%` }} />
+          <div className="progress-sacred h-2 bg-card">
+            <div className="h-full bg-gradient-to-r from-saffron to-gold rounded-full transition-all duration-500" style={{ width: `${progressBarPct}%` }} />
           </div>
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>{level.name} ({level.minXp} XP)</span>
             {nextLevel ? (
               <span>
-                {nextLevel.name} in <span className="font-semibold text-primary">{xpForNext.toLocaleString()} XP</span>
+                {progressBarPct}% to {nextLevel.name} ({xpForNext.toLocaleString()} XP)
               </span>
             ) : (
               <span className="font-semibold text-primary">Supreme level reached 🙏</span>
