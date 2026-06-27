@@ -35,34 +35,73 @@ export function TandavView() {
 function FullTandav() {
   const store = useStore()
   const { navigate } = useNav()
+  const [loading, setLoading] = useState(true)
   const readCount = shivTandavVerses.filter((v) => store.readVerses[v.id]).length
   const total = shivTandavVerses.length
 
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <Card className="p-6 relative overflow-hidden border-0">
+          <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
+            <LotusIcon size={200} className="text-primary" />
+          </div>
+          <div className="animate-pulse">
+            <div className="h-6 w-48 bg-muted rounded mb-2"></div>
+            <div className="h-8 w-72 bg-muted rounded mb-4"></div>
+            <div className="h-4 w-96 bg-muted rounded mb-3"></div>
+            <div className="h-4 w-80 bg-muted rounded"></div>
+          </div>
+        </Card>
+        <div className="space-y-3">
+          {[...Array(7)].map((_, i) => (
+            <Card key={i} className="p-4 animate-pulse">
+              <div className="h-4 w-32 bg-muted rounded mb-2"></div>
+              <div className="h-3 w-full bg-muted rounded"></div>
+              <div className="h-3 w-3/4 bg-muted rounded mt-2"></div>
+            </Card>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6">
-      <Card className="p-6 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
+      <Card className="p-6 sm:p-8 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
         <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
           <LotusIcon size={200} className="text-primary" />
         </div>
         <div className="relative">
-          <Badge className="mb-2 bg-saffron-gradient text-white border-0">शिवताण्डवस्तोत्रम्</Badge>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <Badge className="mb-3 bg-saffron-gradient text-white border-0 text-sm px-3 py-1">
+            शिवताण्डवस्तोत्रम्
+          </Badge>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
             {shivTandavInfo.title}
           </h1>
-          <p className="text-sm text-primary/80 mt-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <p className="text-sm text-primary/80 mb-2" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
             {shivTandavInfo.sanskritTitle} · {shivTandavInfo.transliteration}
           </p>
-          <p className="text-muted-foreground mt-2 max-w-2xl">
+          <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
             {shivTandavInfo.summary}
           </p>
-          <div className="flex flex-wrap gap-3 mt-4 text-sm text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5"><Check className="h-4 w-4 text-primary" /> {readCount}/{total} stanzas read</span>
-            <span className="inline-flex items-center gap-1.5"><Flame className="h-4 w-4 text-primary" /> {shivTandavInfo.author} · {shivTandavInfo.language}</span>
+          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+            <span className="inline-flex items-center gap-2">
+              <Check className="h-4 w-4 text-primary" /> {readCount}/{total} stanzas read
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <Flame className="h-4 w-4 text-primary" /> {shivTandavInfo.author} · {shivTandavInfo.language}
+            </span>
           </div>
         </div>
       </Card>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {shivTandavVerses.map((verse) => {
           const isRead = !!store.readVerses[verse.id]
           return (
@@ -70,19 +109,19 @@ function FullTandav() {
               key={verse.id}
               onClick={() => navigate('tandav', { verse: verse.id })}
               className={cn(
-                'p-4 cursor-pointer hover:shadow-md transition-all group',
+                'p-4 sm:p-5 cursor-pointer hover:shadow-md transition-all group',
                 isRead && 'border-l-2 border-l-green-500',
               )}
             >
-              <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-muted text-xs font-mono">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-muted text-xs font-mono">
                   {isRead ? <Check className="h-4 w-4 text-green-500" /> : verse.number}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground/90 mb-1" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif' }}>
+                  <p className="text-sm sm:text-base font-medium text-foreground/90 mb-1 sm:mb-2" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif' }}>
                     {verse.sanskrit.split('\n')[0]}
                   </p>
-                  <p className="text-xs text-muted-foreground line-clamp-2">{verse.english}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">{verse.english}</p>
                 </div>
                 <Badge variant="outline" className="text-[10px] shrink-0">श्लोक</Badge>
               </div>
@@ -97,12 +136,8 @@ function FullTandav() {
 function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void }) {
   const store = useStore()
   const { navigate } = useNav()
+  const [loading, setLoading] = useState(false)
   const existingNote = store.notes[verse.id] ?? ''
-
-  // Scroll to top on verse change so user sees the animated card
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [verse.id])
   const [showNoteEditor, setShowNoteEditor] = useState(false)
   const [noteDraft, setNoteDraft] = useState(existingNote)
   const [shareOpen, setShareOpen] = useState(false)
@@ -124,34 +159,53 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
     store.setNote(verse.id, noteDraft); setShowNoteEditor(false); toast.success('Note saved')
   }
 
+  function handleVerseChange(newVerseId: string) {
+    setLoading(true)
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      setLoading(false)
+    }, 350)
+  }
+
   return (
     <>
-      <div className="space-y-4">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full"><ChevronLeft className="h-5 w-5" /></Button>
+      <div className="space-y-5">
+        {/* Top bar */}
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full hover:bg-saffron-gradient-soft"><ChevronLeft className="h-5 w-5" /></Button>
           <div>
-            <p className="text-xs text-muted-foreground uppercase tracking-wider">Shiv Tandav Stotram</p>
-            <h1 className="text-lg font-semibold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>Stanza {verse.number}</h1>
+            <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-0.5">Shiv Tandav Stotram</p>
+            <h1 className="text-lg sm:text-xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>Stanza {verse.number}</h1>
           </div>
         </div>
 
-        <VerseSlider
-          verseId={verse.id}
-          hasPrevious={!!prevVerse}
-          hasNext={!!nextVerse}
-          onPrevious={() => prevVerse && navigate('tandav', { verse: prevVerse.id })}
-          onNext={() => nextVerse && navigate('tandav', { verse: nextVerse.id })}
-        >
-        <Card className={cn('p-0 overflow-hidden verse-card-animated', isHighlighted && 'ring-2 ring-primary/40')}>
-          <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
-            <div className="flex items-center gap-2">
-              <Badge variant="outline" className="font-mono text-xs">{verse.id}</Badge>
-              <Badge variant="secondary" className="text-[10px]">श्लोक</Badge>
-              {isRead && <Badge className="bg-saffron-gradient text-white border-0 text-[10px]">✓ Read</Badge>}
+        {/* Verse display with loading state */}
+        {loading ? (
+          <div className="animate-pulse space-y-4">
+            <div className="h-64 bg-muted rounded-lg"></div>
+            <div className="flex justify-between items-center">
+              <div className="h-4 w-32 bg-muted rounded"></div>
+              <div className="h-4 w-24 bg-muted rounded"></div>
             </div>
-            <div className="flex items-center gap-0.5">
-              <ActionButton icon={Check} active={isRead} label="Mark read" onClick={handleMarkRead} />
-              <ActionButton icon={isBookmarked ? BookmarkCheck : Bookmark} active={isBookmarked} label="Bookmark" onClick={() => { store.toggleBookmark(verse.id); toast.success(isBookmarked ? 'Removed' : 'Bookmarked') }} />
+          </div>
+        ) : (
+          <VerseSlider
+            verseId={verse.id}
+            hasPrevious={!!prevVerse}
+            hasNext={!!nextVerse}
+            onPrevious={() => { prevVerse && navigate('tandav', { verse: prevVerse.id }); handleVerseChange(prevVerse?.id ?? '') }}
+            onNext={() => { nextVerse && navigate('tandav', { verse: nextVerse.id }); handleVerseChange(nextVerse.id) }}
+          >
+          <Card className={cn('p-0 overflow-hidden verse-card-animated', isHighlighted && 'ring-2 ring-primary/40')}>
+            <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
+              <div className="flex items-center gap-2">
+                <Badge variant="outline" className="font-mono text-xs">{verse.id}</Badge>
+                <Badge variant="secondary" className="text-[10px]">श्लोक</Badge>
+                {isRead && <Badge className="bg-saffron-gradient text-white border-0 text-[10px]">✓ Read</Badge>}
+              </div>
+              <div className="flex items-center gap-1 sm:gap-2">
+                <ActionButton icon={Check} active={isRead} label="Mark read" onClick={handleMarkRead} />
+                <ActionButton icon={isBookmarked ? BookmarkCheck : Bookmark} active={isBookmarked} label="Bookmark" onClick={() => { store.toggleBookmark(verse.id); toast.success(isBookmarked ? 'Removed' : 'Bookmarked') }} />
               <ActionButton icon={Highlighter} active={isHighlighted} label="Highlight" onClick={() => { store.toggleHighlight(verse.id); toast.success(isHighlighted ? 'Removed' : 'Highlighted') }} />
               <ActionButton icon={NotebookPen} active={!!existingNote} label="Note" onClick={() => { setNoteDraft(existingNote); setShowNoteEditor(!showNoteEditor) }} />
               <ActionButton icon={Share2} label="Share" onClick={() => setShareOpen(true)} />
@@ -215,23 +269,27 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
         </VerseSlider>
 
         {/* Verse navigation */}
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-2 sm:gap-3 p-3 sm:p-4">
           <Button
             variant="outline"
+            size="sm"
             disabled={!prevVerse}
             onClick={() => prevVerse && navigate('tandav', { verse: prevVerse.id })}
+            className="w-full sm:w-auto"
           >
-            <ChevronLeft className="mr-1 h-4 w-4" /> Previous
+            <ChevronLeft className="mr-1.5 h-4 w-4" /> Previous
           </Button>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm sm:text-base text-muted-foreground font-medium min-w-[80px] text-center">
             {idx + 1} / {shivTandavVerses.length}
           </span>
           <Button
             variant="outline"
+            size="sm"
             disabled={!nextVerse}
             onClick={() => nextVerse && navigate('tandav', { verse: nextVerse.id })}
+            className="w-full sm:w-auto"
           >
-            Next <ChevronRight className="ml-1 h-4 w-4" />
+            Next <ChevronRight className="ml-1.5 h-4 w-4" />
           </Button>
         </div>
       </div>
