@@ -56,42 +56,86 @@ export function UpanishadView() {
 
 function UpanishadList({ onOpen }: { onOpen: (id: string) => void }) {
   const store = useStore()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <Card className="p-6 relative overflow-hidden border-0">
+          <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
+            <LotusIcon size={200} className="text-primary" />
+          </div>
+          <div className="animate-pulse">
+            <div className="h-6 w-48 bg-muted rounded mb-2"></div>
+            <div className="h-8 w-72 bg-muted rounded mb-4"></div>
+            <div className="h-4 w-96 bg-muted rounded mb-3"></div>
+            <div className="h-4 w-80 bg-muted rounded"></div>
+          </div>
+        </Card>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[...Array(3)].map((_, i) => (
+            <Card key={i} className="p-5 animate-pulse">
+              <div className="h-4 w-32 bg-muted rounded mb-2"></div>
+              <div className="h-5 w-24 bg-muted rounded mb-3"></div>
+              <div className="h-2 w-full bg-muted rounded"></div>
+            </Card>
+          ))}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">
-      <Card className="p-6 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
+      <Card className="p-6 sm:p-8 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
         <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
           <LotusIcon size={200} className="text-primary" />
         </div>
         <div className="relative">
-          <Badge className="mb-2 bg-saffron-gradient text-white border-0">उपनिषद्</Badge>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <Badge className="mb-3 bg-saffron-gradient text-white border-0 text-sm px-3 py-1">
+            उपनिषद्
+          </Badge>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
             The Principal Upanishads
           </h1>
-          <p className="text-muted-foreground mt-2 max-w-2xl">
+          <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
             The foundational scriptures of Vedanta — dialogues between sages and seekers on the nature
             of the Self (Atman), the Absolute (Brahman), and the path to liberation (Moksha).
             Three essential Upanishads with complete text, commentary, and AI guidance.
           </p>
-          <div className="flex flex-wrap gap-3 mt-4 text-sm text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5"><Bookmark className="h-4 w-4 text-primary" /> {store.bookmarks.length} bookmarked</span>
-            <span className="inline-flex items-center gap-1.5"><Highlighter className="h-4 w-4 text-primary" /> {store.highlights.length} highlighted</span>
-            <span className="inline-flex items-center gap-1.5"><NotebookPen className="h-4 w-4 text-primary" /> {Object.keys(store.notes).length} notes</span>
+          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+            <span className="inline-flex items-center gap-2">
+              <Bookmark className="h-4 w-4 text-primary" /> {store.bookmarks.length} bookmarked
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <Highlighter className="h-4 w-4 text-primary" /> {store.highlights.length} highlighted
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <NotebookPen className="h-4 w-4 text-primary" /> {Object.keys(store.notes).length} notes
+            </span>
           </div>
         </div>
       </Card>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {allUpanishads.map((u) => {
           const read = u.verses.filter((v) => store.readVerses[v.id]).length
           const total = u.verseCount
           const pct = total ? Math.round((read / total) * 100) : 0
-
+          const isAllRead = read === total
           return (
             <Card
               key={u.id}
               onClick={() => onOpen(u.id)}
-              className="p-5 cursor-pointer hover:shadow-lg hover:-translate-y-0.5 transition-all group relative overflow-hidden"
+              className={cn(
+                "p-5 sm:p-6 cursor-pointer hover:shadow-lg hover:-translate-y-0.5 transition-all group relative overflow-hidden",
+                isAllRead && "border-l-4 border-l-green-500"
+              )}
             >
               <div className="absolute -right-3 -top-3 opacity-[0.06] group-hover:opacity-[0.14] transition-opacity pointer-events-none">
                 <span className="text-7xl font-bold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
@@ -144,13 +188,15 @@ function UpanishadReader({
       ? initialVerseId
       : upanishad.verses[0]?.id ?? '',
   )
+  const [loading, setLoading] = useState(false)
   const verse = upanishad.verses.find((v) => v.id === currentVerseId) ?? null
 
   // Wait for the VerseSlider animation to finish, then scroll to top
   useEffect(() => {
+    setLoading(true)
     const timer = setTimeout(() => {
-      const main = document.getElementById('main-scroll')
-      if (main) main.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      setLoading(false)
     }, 350)
     return () => clearTimeout(timer)
   }, [currentVerseId])
@@ -161,32 +207,39 @@ function UpanishadReader({
   )
 
   if (!verse) {
-    return <div className="text-center py-20 text-muted-foreground">Loading verse…</div>
+    return (
+      <div className="flex flex-col items-center justify-center py-20">
+        <div className="animate-spin h-8 w-8 border-2 border-saffron border-t-transparent rounded-full mb-4"></div>
+        <p className="text-muted-foreground">Loading verse…</p>
+      </div>
+    )
   }
 
   const verseIdx = upanishad.verses.findIndex((v) => v.id === verse.id)
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       {/* Top bar */}
-      <div className="flex items-center justify-between gap-2 flex-wrap">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full">
+      <div className="flex items-center justify-between gap-3 sm:gap-4 flex-wrap">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full hover:bg-saffron-gradient-soft">
             <ChevronLeft className="h-5 w-5" />
           </Button>
           <div>
-            <p className="text-xs text-muted-foreground uppercase tracking-wider">{upanishad.transliteration}</p>
-            <h1 className="text-lg sm:text-xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+            <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-0.5">
+              {upanishad.transliteration}
+            </p>
+            <h1 className="text-xl sm:text-2xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
               {upanishad.name}
             </h1>
             {currentSection && (
-              <p className="text-[11px] text-primary/70 mt-0.5" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+              <p className="text-[10px] sm:text-xs text-primary/70 mt-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
                 {currentSection.name} {currentSection.sanskritName && `· ${currentSection.sanskritName}`}
               </p>
             )}
           </div>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           <ReadingModeSwitcher />
         </div>
       </div>
@@ -194,11 +247,57 @@ function UpanishadReader({
       {/* Summary banner (only on first verse) */}
       {verse.id === upanishad.verses[0].id && (
         <Card className="p-4 sm:p-5 bg-saffron-gradient-soft border-primary/20">
-          <p className="text-xs uppercase tracking-widest text-primary/70 mb-1.5" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <p className="text-[10px] sm:text-xs uppercase tracking-widest text-primary/70 mb-2" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
             {upanishad.sanskritName} · {upanishad.transliteration}
           </p>
-          <p className="text-sm text-foreground/85 leading-relaxed">{upanishad.summary}</p>
+          <p className="text-sm sm:text-base text-foreground/85 leading-relaxed">{upanishad.summary}</p>
         </Card>
+      )}
+
+      {/* Verse display with loading state */}
+      {loading ? (
+        <div className="animate-pulse space-y-4">
+          <div className="h-64 bg-muted rounded-lg"></div>
+          <div className="flex justify-between items-center">
+            <div className="h-4 w-32 bg-muted rounded"></div>
+            <div className="h-4 w-24 bg-muted rounded"></div>
+          </div>
+        </div>
+      ) : (
+        <VerseSlider
+          verseId={verse.id}
+          hasPrevious={verseIdx > 0}
+          hasNext={verseIdx < upanishad.verses.length - 1}
+          onPrevious={() => {
+            if (verseIdx > 0) setCurrentVerseId(upanishad.verses[verseIdx - 1].id)
+          }}
+          onNext={() => {
+            if (verseIdx < upanishad.verseCount - 1) setCurrentVerseId(upanishad.verses[verseIdx + 1].id)
+          }}
+        >
+          <Card className={cn('p-0 overflow-hidden', 'verse-card-animated')}>
+            <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
+              <div className="flex items-center gap-2">
+                <Badge variant="outline" className="font-mono text-xs">{verse.id}</Badge>
+                <Badge variant="secondary" className="text-[10px]">Section {currentSection?.name}</Badge>
+              </div>
+            </div>
+            <div className="px-5 sm:px-7 py-6 space-y-4">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>Sanskrit</p>
+                <p className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2] text-foreground/95" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}>{verse.sanskrit}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Transliteration</p>
+                <p className="text-sm italic text-muted-foreground leading-relaxed" style={{ whiteSpace: 'pre-line' }}>{verse.transliteration}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">English</p>
+                <p className="text-sm text-foreground/90 leading-relaxed" style={{ whiteSpace: 'pre-line' }}>{verse.english}</p>
+              </div>
+            </div>
+          </Card>
+        </VerseSlider>
       )}
 
       <VerseSlider
