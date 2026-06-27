@@ -164,8 +164,7 @@ function ChapterReader({
     onSelectVerse(id)
     // Wait for the VerseSlider animation to finish, then scroll to top
     setTimeout(() => {
-      const main = document.getElementById('main-scroll')
-      if (main) main.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }, 350)
   }
 
