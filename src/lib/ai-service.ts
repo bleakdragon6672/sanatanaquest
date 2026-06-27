@@ -133,6 +133,7 @@ async function callZAI(
 
     if (!response.ok) {
       const errorBody = await response.text()
+      console.error(`Z.AI API error (${response.status}): ${errorBody}`)
       throw new Error(`Z.AI API error (${response.status}): ${errorBody}`)
     }
 
