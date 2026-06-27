@@ -162,7 +162,11 @@ function ChapterReader({
   function selectVerse(id: string) {
     setCurrentVerseId(id)
     onSelectVerse(id)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    // Wait for the VerseSlider animation to finish, then scroll to top
+    setTimeout(() => {
+      const main = document.getElementById('main-scroll')
+      if (main) main.scrollTo({ top: 0, behavior: 'smooth' })
+    }, 350)
   }
 
   if (!verse) {

@@ -1,25 +1,30 @@
 'use client'
 
 import { useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import { NavProvider, useNav } from '@/components/nav-context'
 import { Sidebar, MobileNavProvider, MobileNavTrigger, MobileNavDrawer } from '@/components/sidebar'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { HomeView } from '@/components/views/home-view'
 import { GitaView } from '@/components/views/gita-view'
-import { UpanishadView } from '@/components/views/upanishad-view'
-import { HanumanChalisaView } from '@/components/views/chalisa-view'
-import { BajrangBaanView } from '@/components/views/baan-view'
-import { TandavView } from '@/components/views/tandav-view'
 import { GuideView } from '@/components/views/guide-view'
-import { TrackerView } from '@/components/views/tracker-view'
-import { SkillTreeView } from '@/components/views/skilltree-view'
-import { ChallengesView } from '@/components/views/challenges-view'
-import { AchievementsView } from '@/components/views/achievements-view'
-import { JournalView } from '@/components/views/journal-view'
-import { AnalyticsView } from '@/components/views/analytics-view'
 import { ProfileView } from '@/components/views/profile-view'
-import { SearchView } from '@/components/views/search-view'
-import { LeaderboardView } from '@/components/views/leaderboard-view'
+
+// Lazy-loaded views — keeps initial bundle small; loads on first visit
+const skeleton = <div className="h-96 animate-pulse rounded-xl bg-muted" />
+
+const UpanishadView = dynamic(() => import('@/components/views/upanishad-view').then(m => ({ default: m.UpanishadView })), { ssr: false, loading: () => skeleton })
+const HanumanChalisaView = dynamic(() => import('@/components/views/chalisa-view').then(m => ({ default: m.HanumanChalisaView })), { ssr: false, loading: () => skeleton })
+const BajrangBaanView = dynamic(() => import('@/components/views/baan-view').then(m => ({ default: m.BajrangBaanView })), { ssr: false, loading: () => skeleton })
+const TandavView = dynamic(() => import('@/components/views/tandav-view').then(m => ({ default: m.TandavView })), { ssr: false, loading: () => skeleton })
+const TrackerView = dynamic(() => import('@/components/views/tracker-view').then(m => ({ default: m.TrackerView })), { ssr: false, loading: () => skeleton })
+const SkillTreeView = dynamic(() => import('@/components/views/skilltree-view').then(m => ({ default: m.SkillTreeView })), { ssr: false, loading: () => skeleton })
+const ChallengesView = dynamic(() => import('@/components/views/challenges-view').then(m => ({ default: m.ChallengesView })), { ssr: false, loading: () => skeleton })
+const AchievementsView = dynamic(() => import('@/components/views/achievements-view').then(m => ({ default: m.AchievementsView })), { ssr: false, loading: () => skeleton })
+const JournalView = dynamic(() => import('@/components/views/journal-view').then(m => ({ default: m.JournalView })), { ssr: false, loading: () => skeleton })
+const AnalyticsView = dynamic(() => import('@/components/views/analytics-view').then(m => ({ default: m.AnalyticsView })), { ssr: false, loading: () => skeleton })
+const SearchView = dynamic(() => import('@/components/views/search-view').then(m => ({ default: m.SearchView })), { ssr: false, loading: () => skeleton })
+const LeaderboardView = dynamic(() => import('@/components/views/leaderboard-view').then(m => ({ default: m.LeaderboardView })), { ssr: false, loading: () => skeleton })
 import { OmSymbol } from '@/components/spiritual-icons'
 import { useStore } from '@/lib/store'
 import { BookOpen, Search, Menu } from 'lucide-react'

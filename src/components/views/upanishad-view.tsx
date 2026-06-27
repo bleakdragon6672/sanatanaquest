@@ -146,9 +146,13 @@ function UpanishadReader({
   )
   const verse = upanishad.verses.find((v) => v.id === currentVerseId) ?? null
 
-  // Scroll to top on verse change so user sees the animated card
+  // Wait for the VerseSlider animation to finish, then scroll to top
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    const timer = setTimeout(() => {
+      const main = document.getElementById('main-scroll')
+      if (main) main.scrollTo({ top: 0, behavior: 'smooth' })
+    }, 350)
+    return () => clearTimeout(timer)
   }, [currentVerseId])
 
   // Find which section this verse belongs to (for Katha's Adhyaya/Valli structure)
