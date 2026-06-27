@@ -90,25 +90,25 @@ export function HomeView() {
           <OmSymbol size={120} />
         </div>
         <div className="relative p-6 sm:p-8">
-          <div className="flex flex-col gap-1 mb-3">
-            <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
+          <div className="flex flex-col gap-2 mb-4">
+            <span className="text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground font-semibold">
               ॐ नमः · Welcome back
             </span>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
               Hari Om, <span className="text-saffron-gradient">{store.userName}</span>
             </h1>
-            <p className="text-muted-foreground max-w-2xl">
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl leading-relaxed">
               Continue your sacred quest. Read a verse, log your practice, and let the Gita illumine your day.
             </p>
           </div>
-          <div className="flex flex-wrap gap-2 mt-4">
-            <Button className="btn-sacred" onClick={() => navigate('gita')}>
+          <div className="flex flex-wrap gap-2 mt-4 sm:mt-6">
+            <Button className="btn-sacred" size="default" onClick={() => navigate('gita')}>
               <BookOpen className="mr-2 h-4 w-4" /> Read the Gita
             </Button>
-            <Button variant="outline" onClick={() => navigate('guide')}>
+            <Button variant="outline" size="default" onClick={() => navigate('guide')}>
               <Sparkles className="mr-2 h-4 w-4" /> Ask the Guide
             </Button>
-            <Button variant="ghost" onClick={() => navigate('tracker')}>
+            <Button variant="ghost" size="default" onClick={() => navigate('tracker')}>
               Log today's practice
             </Button>
           </div>
@@ -122,32 +122,32 @@ export function HomeView() {
             {level.icon}
           </span>
         </div>
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
           <div>
-            <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
+            <span className="text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground font-semibold mb-1">
               Spiritual Level
             </span>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-bold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+              <span className="text-2xl sm:text-3xl font-bold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
                 {level.name}
               </span>
-              <span className="text-base text-muted-foreground" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+              <span className="text-base sm:text-lg text-muted-foreground" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
                 {level.sanskritName}
               </span>
             </div>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-saffron-gradient">
+            <div className="text-2xl sm:text-3xl font-bold text-saffron-gradient">
               {store.totalXp.toLocaleString()}
             </div>
-            <div className="text-xs text-muted-foreground">Dharma XP</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">Dharma XP</div>
           </div>
         </div>
         <div className="space-y-2">
           <div className="progress-sacred h-2 bg-card">
             <div className="h-full bg-gradient-to-r from-saffron to-gold rounded-full transition-all duration-500" style={{ width: `${progressPercent}%` }} />
           </div>
-          <div className="flex justify-between text-xs text-muted-foreground">
+          <div className="flex justify-between text-xs sm:text-sm text-muted-foreground">
             <span>{level.name} ({level.minXp} XP)</span>
             {nextLevel ? (
               <span>
@@ -161,7 +161,7 @@ export function HomeView() {
       </Card>
 
       {/* Reading streak calendar */}
-      <Card className="p-5">
+      <Card className="p-5 sm:p-6">
         <ReadingStreakCalendar weeks={12} />
       </Card>
 
@@ -169,22 +169,22 @@ export function HomeView() {
       <ScriptureMap />
 
       {/* Stats grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {stats.map((s) => {
           const Icon = s.icon
           return (
             <Card
               key={s.label}
-              className="stat-sacred cursor-pointer"
+              className="stat-sacred cursor-pointer hover:shadow-lg transition-all"
               onClick={s.onClick}
             >
-              <div className="flex items-start justify-between">
+              <div className="flex items-start justify-between gap-3">
                 <div className="flex flex-col gap-1">
-                  <span className="text-xs text-muted-foreground">{s.label}</span>
-                  <span className="text-2xl font-bold text-foreground">{s.value}</span>
+                  <span className="text-[10px] sm:text-xs text-muted-foreground">{s.label}</span>
+                  <span className="text-xl sm:text-2xl font-bold text-foreground">{s.value}</span>
                 </div>
                 <span
-                  className="flex h-9 w-9 items-center justify-center rounded-lg"
+                  className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-lg flex-shrink-0"
                   style={{
                     background: 'saffron' === s.color
                       ? 'color-mix(in oklch, var(--saffron) 18%, transparent)'
@@ -194,7 +194,7 @@ export function HomeView() {
                     color: 'saffron' === s.color ? 'var(--saffron)' : 'gold' === s.color ? 'var(--gold)' : 'var(--vermilion)',
                   }}
                 >
-                  <Icon className="h-5 w-5" />
+                  <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
                 </span>
               </div>
             </Card>
