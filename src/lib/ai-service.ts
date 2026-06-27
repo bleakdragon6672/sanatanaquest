@@ -31,7 +31,7 @@ export interface AICompletionResponse {
 // ── Configuration ───────────────────────────────────────────────────
 
 // Use only Z.AI GLM-4.7 Flash (no fallback)
-const PRIMARY_MODEL = 'glm-4-flash'
+const PRIMARY_MODEL = 'glm-4.7-flash'
 
 function getProviderConfig(): { provider: AIProvider; apiKey: string; baseUrl: string; models: string[] } {
   const provider: AIProvider = 'zai'
