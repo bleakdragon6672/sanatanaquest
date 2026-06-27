@@ -43,38 +43,73 @@ export function HanumanChalisaView() {
 function FullChalisa() {
   const store = useStore()
   const { navigate } = useNav()
+  const [loading, setLoading] = useState(true)
   const readCount = hanumanChalisaVerses.filter((v) => store.readVerses[v.id]).length
   const total = hanumanChalisaVerses.length
 
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <Card className="p-6 relative overflow-hidden border-0">
+          <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
+            <LotusIcon size={200} className="text-primary" />
+          </div>
+          <div className="animate-pulse">
+            <div className="h-6 w-48 bg-muted rounded mb-2"></div>
+            <div className="h-8 w-72 bg-muted rounded mb-4"></div>
+            <div className="h-4 w-96 bg-muted rounded mb-3"></div>
+            <div className="h-4 w-80 bg-muted rounded"></div>
+          </div>
+        </Card>
+        <div className="space-y-3">
+          {[...Array(40)].map((_, i) => (
+            <Card key={i} className="p-4 animate-pulse">
+              <div className="h-4 w-32 bg-muted rounded mb-2"></div>
+              <div className="h-3 w-full bg-muted rounded"></div>
+              <div className="h-3 w-3/4 bg-muted rounded mt-2"></div>
+            </Card>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6">
-      <Card className="p-6 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
+      <Card className="p-6 sm:p-8 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
         <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
           <LotusIcon size={200} className="text-primary" />
         </div>
         <div className="relative">
-          <Badge className="mb-2 bg-saffron-gradient text-white border-0">हनुमान चालीसा</Badge>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <Badge className="mb-3 bg-saffron-gradient text-white border-0 text-sm px-3 py-1">
+            हनुमान चालीसा
+          </Badge>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
             {hanumanChalisaInfo.title}
           </h1>
-          <p className="text-sm text-primary/80 mt-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <p className="text-sm text-primary/80 mb-2" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
             {hanumanChalisaInfo.sanskritTitle} · {hanumanChalisaInfo.transliteration}
           </p>
-          <p className="text-muted-foreground mt-2 max-w-2xl">
+          <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
             {hanumanChalisaInfo.summary}
           </p>
-          <div className="flex flex-wrap gap-3 mt-4 text-sm text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5">
+          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+            <span className="inline-flex items-center gap-2">
               <Check className="h-4 w-4 text-primary" /> {readCount}/{total} verses read
             </span>
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-2">
               <Heart className="h-4 w-4 text-primary" /> {hanumanChalisaInfo.author} · {hanumanChalisaInfo.period}
             </span>
           </div>
         </div>
       </Card>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {hanumanChalisaVerses.map((verse, idx) => {
           const isRead = !!store.readVerses[verse.id]
           const isDoha = verse.type === 'doha'
@@ -84,20 +119,20 @@ function FullChalisa() {
               key={verse.id}
               onClick={() => navigate('chalisa', { verse: verse.id })}
               className={cn(
-                'p-4 cursor-pointer hover:shadow-md transition-all group',
+                'p-4 sm:p-5 cursor-pointer hover:shadow-md transition-all group',
                 isDoha && 'bg-saffron-gradient-soft border-primary/20',
                 isRead && 'border-l-2 border-l-green-500',
               )}
             >
-              <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-muted text-xs font-mono">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-muted text-xs font-mono">
                   {isRead ? <Check className="h-4 w-4 text-green-500" /> : verse.number}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground/90 mb-1" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif' }}>
+                  <p className="text-sm sm:text-base font-medium text-foreground/90 mb-1 sm:mb-2" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif' }}>
                     {verse.awadhi.split('\n')[0]}
                   </p>
-                  <p className="text-xs text-muted-foreground line-clamp-2">
+                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
                     {verse.english}
                   </p>
                 </div>
@@ -155,13 +190,15 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
   return (
     <>
       <div className="space-y-4">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full hover:bg-saffron-gradient-soft">
             <ChevronLeft className="h-5 w-5" />
           </Button>
           <div>
-            <p className="text-xs text-muted-foreground uppercase tracking-wider">Hanuman Chalisa</p>
-            <h1 className="text-lg font-semibold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+            <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-0.5">
+              Hanuman Chalisa
+            </p>
+            <h1 className="text-lg sm:text-xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
               {verse.type === 'doha' ? 'Doha' : 'Chaupai'} {verse.number}
             </h1>
           </div>
@@ -247,23 +284,27 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
         </VerseSlider>
 
         {/* Verse navigation */}
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-2 sm:gap-3 p-3 sm:p-4">
           <Button
             variant="outline"
+            size="sm"
             disabled={!prevVerse}
             onClick={() => prevVerse && navigate('chalisa', { verse: prevVerse.id })}
+            className="w-full sm:w-auto"
           >
-            <ChevronLeft className="mr-1 h-4 w-4" /> Previous
+            <ChevronLeft className="mr-1.5 h-4 w-4" /> Previous
           </Button>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm sm:text-base text-muted-foreground font-medium min-w-[80px] text-center">
             {idx + 1} / {hanumanChalisaVerses.length}
           </span>
           <Button
             variant="outline"
+            size="sm"
             disabled={!nextVerse}
             onClick={() => nextVerse && navigate('chalisa', { verse: nextVerse.id })}
+            className="w-full sm:w-auto"
           >
-            Next <ChevronRight className="ml-1 h-4 w-4" />
+            Next <ChevronRight className="ml-1.5 h-4 w-4" />
           </Button>
         </div>
       </div>
