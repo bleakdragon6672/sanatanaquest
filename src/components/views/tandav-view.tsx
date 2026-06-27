@@ -194,7 +194,7 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
             hasPrevious={!!prevVerse}
             hasNext={!!nextVerse}
             onPrevious={() => { prevVerse && navigate('tandav', { verse: prevVerse.id }); handleVerseChange(prevVerse?.id ?? '') }}
-            onNext={() => { nextVerse && navigate('tandav', { verse: nextVerse.id }); handleVerseChange(nextVerse.id) }}
+            onNext={() => { nextVerse && navigate('tandav', { verse: nextVerse.id }); handleVerseChange(nextVerse?.id ?? '') }}
           >
           <Card className={cn('p-0 overflow-hidden verse-card-animated', isHighlighted && 'ring-2 ring-primary/40')}>
             <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
@@ -267,6 +267,7 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
           )}
         </Card>
         </VerseSlider>
+        )}
 
         {/* Verse navigation */}
         <div className="flex items-center justify-between gap-2 sm:gap-3 p-3 sm:p-4">

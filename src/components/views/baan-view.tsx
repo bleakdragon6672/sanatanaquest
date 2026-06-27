@@ -201,79 +201,80 @@ function VerseReader({ verse, onBack }: { verse: BaanVerse; onBack: () => void }
             hasPrevious={!!prevVerse}
             hasNext={!!nextVerse}
             onPrevious={() => { prevVerse && navigate('baan', { verse: prevVerse.id }); handleVerseChange(prevVerse?.id ?? '') }}
-            onNext={() => { nextVerse && navigate('baan', { verse: nextVerse.id }); handleVerseChange(nextVerse.id) }}
+            onNext={() => { nextVerse && navigate('baan', { verse: nextVerse.id }); handleVerseChange(nextVerse?.id ?? '') }}
           >
-          <Card className={cn('p-0 overflow-hidden verse-card-animated', isHighlighted && 'ring-2 ring-primary/40')}>
-            <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
-              <div className="flex items-center gap-2">
-                <Badge variant="outline" className="font-mono text-xs">{verse.id}</Badge>
-                <Badge variant="secondary" className="text-[10px]">{verse.type === 'doha' ? 'दोहा' : 'चौपाई'}</Badge>
-                {isRead && <Badge className="bg-saffron-gradient text-white border-0 text-[10px]">✓ Read</Badge>}
-              </div>
-              <div className="flex items-center gap-1 sm:gap-2">
-                <ActionButton icon={Check} active={isRead} label="Mark read" onClick={handleMarkRead} />
-                <ActionButton icon={isBookmarked ? BookmarkCheck : Bookmark} active={isBookmarked} label="Bookmark" onClick={() => { store.toggleBookmark(verse.id); toast.success(isBookmarked ? 'Removed' : 'Bookmarked') }} />
-              <ActionButton icon={Highlighter} active={isHighlighted} label="Highlight" onClick={() => { store.toggleHighlight(verse.id); toast.success(isHighlighted ? 'Removed' : 'Highlighted') }} />
-              <ActionButton icon={NotebookPen} active={!!existingNote} label="Note" onClick={() => { setNoteDraft(existingNote); setShowNoteEditor(!showNoteEditor) }} />
-              <ActionButton icon={Share2} label="Share" onClick={() => setShareOpen(true)} />
-            </div>
-          </div>
-
-          <div className="px-5 sm:px-7 py-6 space-y-4">
-            <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>अवधी · Awadhi</p>
-              <p className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2] text-foreground/95" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}>{verse.awadhi}</p>
-            </div>
-            <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Transliteration</p>
-              <p className="text-sm italic text-muted-foreground leading-relaxed" style={{ whiteSpace: 'pre-line' }}>{verse.transliteration}</p>
-            </div>
-            <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">English Translation</p>
-              <p className="text-base sm:text-lg leading-relaxed text-foreground/90" style={{ whiteSpace: 'pre-line' }}>{verse.english}</p>
-            </div>
-            {verse.commentary && (
-              <div className="relative rounded-xl overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_8%,transparent)] via-[color-mix(in_oklch,var(--gold)_5%,transparent)] to-transparent" />
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary/60 via-primary/30 to-transparent" />
-                <div className="relative px-5 py-4 sm:px-6 sm:py-5">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'Georgia, serif' }}>"</span>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-primary/60 font-semibold">Significance</p>
-                  </div>
-                  <p
-                    className="text-[0.9rem] text-foreground/80 leading-[1.85]"
-                    style={{ fontFamily: 'var(--font-serif), Georgia, serif' }}
-                  >{verse.commentary}</p>
-                  <div className="flex justify-end mt-2">
-                    <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'Georgia, serif' }}>"</span>
-                  </div>
+            <Card className={cn('p-0 overflow-hidden verse-card-animated', isHighlighted && 'ring-2 ring-primary/40')}>
+              <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline" className="font-mono text-xs">{verse.id}</Badge>
+                  <Badge variant="secondary" className="text-[10px]">{verse.type === 'doha' ? 'दोहा' : 'चौपाई'}</Badge>
+                  {isRead && <Badge className="bg-saffron-gradient text-white border-0 text-[10px]">✓ Read</Badge>}
+                </div>
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <ActionButton icon={Check} active={isRead} label="Mark read" onClick={handleMarkRead} />
+                  <ActionButton icon={isBookmarked ? BookmarkCheck : Bookmark} active={isBookmarked} label="Bookmark" onClick={() => { store.toggleBookmark(verse.id); toast.success(isBookmarked ? 'Removed' : 'Bookmarked') }} />
+                  <ActionButton icon={Highlighter} active={isHighlighted} label="Highlight" onClick={() => { store.toggleHighlight(verse.id); toast.success(isHighlighted ? 'Removed' : 'Highlighted') }} />
+                  <ActionButton icon={NotebookPen} active={!!existingNote} label="Note" onClick={() => { setNoteDraft(existingNote); setShowNoteEditor(!showNoteEditor) }} />
+                  <ActionButton icon={Share2} label="Share" onClick={() => setShareOpen(true)} />
                 </div>
               </div>
-            )}
-          </div>
 
-          <div className="px-5 sm:px-7 pb-4 flex flex-wrap items-center justify-between gap-2 border-t border-border/40 pt-3">
-            <div className="flex items-center gap-1">
-              <AudioPlayer verse={verse} playing={playing} setPlaying={setPlaying} />
-            </div>
-            <Button size="sm" variant="ghost" onClick={() => navigate('guide', { explain: verse.id, source: 'baan' })}>
-              <Sparkles className="mr-1 h-3.5 w-3.5 text-primary" /> AI Explain
-            </Button>
-          </div>
-
-          {showNoteEditor && (
-            <div className="px-5 sm:px-7 pb-5 pt-3 border-t border-border/40 bg-muted/30">
-              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Personal Note</p>
-              <Textarea value={noteDraft} onChange={(e) => setNoteDraft(e.target.value)} placeholder="Write your reflection…" className="min-h-[100px] bg-background" />
-              <div className="flex justify-end gap-2 mt-2">
-                <Button size="sm" variant="ghost" onClick={() => setShowNoteEditor(false)}>Cancel</Button>
-                <Button size="sm" className="bg-saffron-gradient text-white" onClick={handleSaveNote}>Save Note</Button>
+              <div className="px-5 sm:px-7 py-6 space-y-4">
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>अवधी · Awadhi</p>
+                  <p className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2] text-foreground/95" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}>{verse.awadhi}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Transliteration</p>
+                  <p className="text-sm italic text-muted-foreground leading-relaxed" style={{ whiteSpace: 'pre-line' }}>{verse.transliteration}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">English Translation</p>
+                  <p className="text-base sm:text-lg leading-relaxed text-foreground/90" style={{ whiteSpace: 'pre-line' }}>{verse.english}</p>
+                </div>
+                {verse.commentary && (
+                  <div className="relative rounded-xl overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_8%,transparent)] via-[color-mix(in_oklch,var(--gold)_5%,transparent)] to-transparent" />
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary/60 via-primary/30 to-transparent" />
+                    <div className="relative px-5 py-4 sm:px-6 sm:py-5">
+                      <div className="flex items-center gap-3 mb-3">
+                        <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'Georgia, serif' }}>"</span>
+                        <p className="text-[10px] uppercase tracking-[0.15em] text-primary/60 font-semibold">Significance</p>
+                      </div>
+                      <p
+                        className="text-[0.9rem] text-foreground/80 leading-[1.85]"
+                        style={{ fontFamily: 'var(--font-serif), Georgia, serif' }}
+                      >{verse.commentary}</p>
+                      <div className="flex justify-end mt-2">
+                        <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'Georgia, serif' }}>"</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
-          )}
-        </Card>
-        </VerseSlider>
+
+              <div className="px-5 sm:px-7 pb-4 flex flex-wrap items-center justify-between gap-2 border-t border-border/40 pt-3">
+                <div className="flex items-center gap-1">
+                  <AudioPlayer verse={verse} playing={playing} setPlaying={setPlaying} />
+                </div>
+                <Button size="sm" variant="ghost" onClick={() => navigate('guide', { explain: verse.id, source: 'baan' })}>
+                  <Sparkles className="mr-1 h-3.5 w-3.5 text-primary" /> AI Explain
+                </Button>
+              </div>
+
+              {showNoteEditor && (
+                <div className="px-5 sm:px-7 pb-5 pt-3 border-t border-border/40 bg-muted/30">
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">Personal Note</p>
+                  <Textarea value={noteDraft} onChange={(e) => setNoteDraft(e.target.value)} placeholder="Write your reflection…" className="min-h-[100px] bg-background" />
+                  <div className="flex justify-end gap-2 mt-2">
+                    <Button size="sm" variant="ghost" onClick={() => setShowNoteEditor(false)}>Cancel</Button>
+                    <Button size="sm" className="bg-saffron-gradient text-white" onClick={handleSaveNote}>Save Note</Button>
+                  </div>
+                </div>
+              )}
+            </Card>
+          </VerseSlider>
+        )}
 
         {/* Verse navigation */}
         <div className="flex items-center justify-between gap-2">

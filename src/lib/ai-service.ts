@@ -1,9 +1,9 @@
 // ── Unified AI Service Layer ────────────────────────────────────────
 // Provider-agnostic interface for AI completions.
-// Currently supports OpenRouter; designed to add NVIDIA NIM, OpenAI, etc.
+// Currently supports OpenRouter and Z.AI (GLM-4.7 Flash).
 // The frontend never depends on a specific provider.
 
-export type AIProvider = 'openrouter'
+export type AIProvider = 'openrouter' | 'zai'
 
 export interface AIMessage {
   role: 'system' | 'user' | 'assistant'
@@ -33,6 +33,7 @@ export interface AICompletionResponse {
 // Free models ranked by quality for spiritual/conversational AI.
 // The service tries each in order; on 429 rate-limit it falls back to the next.
 const FALLBACK_MODELS = [
+  'glm-4-flash', // Z.AI GLM-4.7 Flash
   'qwen/qwen3-next-80b-a3b-instruct:free',
   'nousresearch/hermes-3-llama-3.1-405b:free',
   'google/gemma-4-31b-it:free',
@@ -40,13 +41,13 @@ const FALLBACK_MODELS = [
 ]
 
 function getProviderConfig(): { provider: AIProvider; apiKey: string; baseUrl: string; models: string[] } {
-  const provider: AIProvider = 'openrouter'
-  const apiKey = process.env.OPENROUTER_API_KEY
+  const provider: AIProvider = process.env.ZAI_API_KEY ? 'zai' : 'openrouter'
+  const apiKey = process.env.ZAI_API_KEY || process.env.OPENROUTER_API_KEY
   if (!apiKey) {
-    throw new Error('OPENROUTER_API_KEY is not set in environment variables')
+    throw new Error('ZAI_API_KEY or OPENROUTER_API_KEY is not set in environment variables')
   }
 
-  const baseUrl = process.env.AI_BASE_URL ?? 'https://openrouter.ai/api/v1'
+  const baseUrl = process.env.ZAI_BASE_URL ?? process.env.AI_BASE_URL ?? (provider === 'zai' ? 'https://api.z.ai/v1' : 'https://openrouter.ai/api/v1')
   const primaryModel = process.env.AI_MODEL
   // If user sets a custom model, use it first; otherwise use the default chain
   const models = primaryModel
@@ -110,6 +111,61 @@ async function callOpenRouter(
   }
 }
 
+// ── Z.AI Provider ───────────────────────────────────────────────────
+
+async function callZAI(
+  apiKey: string,
+  baseUrl: string,
+  model: string,
+  messages: AIMessage[],
+  temperature: number,
+  maxTokens: number,
+): Promise<AICompletionResponse> {
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 30_000) // 30s timeout
+
+  try {
+    const response = await fetch(`${baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+        // Z.AI may require additional headers - these are common for OpenAI-compatible APIs
+        'HTTP-Referer': process.env.SITE_URL ?? 'https://sanatanaquest.app',
+        'X-Title': 'SanatanaQuest Spiritual Guide',
+      },
+      body: JSON.stringify({
+        model,
+        messages,
+        temperature,
+        max_tokens: maxTokens,
+      }),
+      signal: controller.signal,
+    })
+
+    if (!response.ok) {
+      const errorBody = await response.text()
+      throw new Error(`Z.AI API error (${response.status}): ${errorBody}`)
+    }
+
+    const data = await response.json()
+
+    const content =
+      data?.choices?.[0]?.message?.content ??
+      data?.message?.content ??
+      (typeof data === 'string' ? data : '')
+
+    return {
+      content,
+      model: data?.model ?? model,
+      provider: 'zai',
+      usage: data?.usage,
+    }
+  } finally {
+    clearTimeout(timeout)
+  }
+}
+
 // ── Main Service Function ───────────────────────────────────────────
 
 export async function createChatCompletion(
@@ -126,7 +182,9 @@ export async function createChatCompletion(
 
   for (const model of models) {
     try {
-      return await callOpenRouter(
+      const callApi =
+        config.provider === 'zai' ? callZAI : callOpenRouter
+      return await callApi(
         config.apiKey,
         config.baseUrl,
         model,

@@ -148,7 +148,6 @@ function ChapterList({ onOpen }: { onOpen: (num: number) => void }) {
                 isAllRead && "border-l-4 border-l-green-500"
               )}
             >
-            >
               <div className="absolute -right-3 -top-3 opacity-[0.08] group-hover:opacity-[0.18] transition-opacity pointer-events-none">
                 <span className="text-8xl font-bold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
                   {c.number}
