@@ -151,7 +151,7 @@ export function HomeView() {
             <span>{level.name} ({level.minXp} XP)</span>
             {nextLevel ? (
               <span>
-                {progressBarPct}% to {nextLevel.name} ({xpForNext.toLocaleString()} XP)
+                {progressPercent}% to {nextLevel.name} ({xpForNext.toLocaleString()} XP)
               </span>
             ) : (
               <span className="font-semibold text-primary">Supreme level reached 🙏</span>
