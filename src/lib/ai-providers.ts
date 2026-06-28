@@ -31,6 +31,8 @@ export interface AIProviderConfig {
   parseResponse: (rawBody: unknown) => ProviderResponse
   /** Check if this provider is properly configured (has API key). */
   isConfigured: boolean
+  /** Request timeout in milliseconds. Default 30_000. */
+  timeoutMs?: number
 }
 
 // ── Error Classification ────────────────────────────────────────────
@@ -126,12 +128,39 @@ export function createProviderConfigs(): AIProviderConfig[] {
 
   return [
     // 1. NVIDIA NIM (OpenAI-compatible)
-    openAICompatible(
-      'nvidia',
-      nvidiaKey,
-      nvidiaBase,
-      'meta/llama-3.1-70b-instruct',
-    ),
+    // Using 8B model for faster responses; 70B was timing out at 30s
+    {
+      name: 'nvidia',
+      apiKey: nvidiaKey,
+      baseURL: nvidiaBase,
+      model: 'meta/llama-3.1-8b-instruct',
+      isConfigured: !!nvidiaKey,
+      timeoutMs: 60_000,
+      prepareRequest(req: CommonRequest) {
+        return {
+          url: `${nvidiaBase}/chat/completions`,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${nvidiaKey ?? ''}`,
+          },
+          body: {
+            model: 'meta/llama-3.1-8b-instruct',
+            messages: req.messages,
+            temperature: req.temperature,
+            max_tokens: req.max_tokens,
+          },
+        }
+      },
+      parseResponse(rawBody: unknown): ProviderResponse {
+        const body = rawBody as Record<string, unknown>
+        const choices = body?.choices as Array<Record<string, unknown>> | undefined
+        const message = choices?.[0]?.message as Record<string, unknown> | undefined
+        return {
+          content: (message?.content as string) ?? '',
+          model: (body?.model as string) ?? 'meta/llama-3.1-8b-instruct',
+        }
+      },
+    },
 
     // 2. Groq (OpenAI-compatible)
     openAICompatible(
@@ -265,10 +294,17 @@ export async function callProvider(
   signal?: AbortSignal,
 ): Promise<ProviderResponse> {
   const { url, headers, body } = provider.prepareRequest(req)
-  const timeoutMs = 30_000
+  const timeoutMs = provider.timeoutMs ?? 30_000
+
+  // ── Log the full request details ─────────────────────────────────
+  console.log(`[AI] ${provider.name} → POST ${url}`)
+  console.log(`[AI] ${provider.name} request body: ${JSON.stringify(body)}`)
 
   const controller = new AbortController()
-  const timeout = setTimeout(() => controller.abort(), timeoutMs)
+  const timeout = setTimeout(() => {
+    console.error(`[AI] ${provider.name} request timed out after ${timeoutMs / 1000}s`)
+    controller.abort()
+  }, timeoutMs)
 
   // Link parent signal so the whole chain can be cancelled
   if (signal) {
@@ -284,18 +320,32 @@ export async function callProvider(
       signal: controller.signal,
     })
   } catch (err: unknown) {
-    // Network error or timeout — retryable
+    // Log the full error object for debugging
+    const errObj = err as Record<string, unknown>
+    console.error(`[AI] ${provider.name} fetch failed:`,
+      JSON.stringify({
+        name: errObj.name,
+        message: errObj.message,
+        cause: errObj.cause,
+        code: errObj.code,
+        type: errObj.type,
+      }, null, 2))
+    console.error(`[AI] ${provider.name} failed — falling through to next provider.`)
     throw err
   } finally {
     clearTimeout(timeout)
   }
 
-  // Classify HTTP errors
+  // ── Show the full HTTP response before deciding whether to fall back ─
+  console.log(`[AI] ${provider.name} ← ${response.status} ${response.statusText}`)
+
   if (!response.ok) {
     const errorText = await response.text().catch(() => 'Unknown error')
     const status = response.status
+    console.error(`[AI] ${provider.name} error response body: ${errorText.substring(0, 1000)}`)
 
     if (status === 400 || status === 401 || status === 403 || status === 404) {
+      console.error(`[AI] ${provider.name} non-retryable error — skipping this provider.`)
       throw new NonRetryableError(
         provider.name,
         status,
@@ -304,6 +354,7 @@ export async function callProvider(
     }
 
     // 429 or 5xx — retryable
+    console.error(`[AI] ${provider.name} retryable error — falling through to next provider.`)
     throw new Error(
       `${provider.name} API error (${status}): ${errorText}`,
     )
