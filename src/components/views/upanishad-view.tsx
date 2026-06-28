@@ -272,47 +272,12 @@ function UpanishadReader({
             if (verseIdx > 0) setCurrentVerseId(upanishad.verses[verseIdx - 1].id)
           }}
           onNext={() => {
-            if (verseIdx < upanishad.verseCount - 1) setCurrentVerseId(upanishad.verses[verseIdx + 1].id)
+            if (verseIdx < upanishad.verses.length - 1) setCurrentVerseId(upanishad.verses[verseIdx + 1].id)
           }}
         >
-          <Card className={cn('p-0 overflow-hidden', 'verse-card-animated')}>
-            <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
-              <div className="flex items-center gap-2">
-                <Badge variant="outline" className="font-mono text-xs">{verse.id}</Badge>
-                <Badge variant="secondary" className="text-[10px]">Section {currentSection?.name}</Badge>
-              </div>
-            </div>
-            <div className="px-5 sm:px-7 py-6 space-y-4">
-              <div>
-                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>Sanskrit</p>
-                <p className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2] text-foreground/95" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}>{verse.sanskrit}</p>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Transliteration</p>
-                <p className="text-sm italic text-muted-foreground leading-relaxed" style={{ whiteSpace: 'pre-line' }}>{verse.transliteration}</p>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">English</p>
-                <p className="text-sm text-foreground/90 leading-relaxed" style={{ whiteSpace: 'pre-line' }}>{verse.english}</p>
-              </div>
-            </div>
-          </Card>
+          <VerseCard key={verse.id} verse={verse} upanishadId={upanishad.id} />
         </VerseSlider>
       )}
-
-      <VerseSlider
-        verseId={verse.id}
-        hasPrevious={verseIdx > 0}
-        hasNext={verseIdx < upanishad.verses.length - 1}
-        onPrevious={() => {
-          if (verseIdx > 0) setCurrentVerseId(upanishad.verses[verseIdx - 1].id)
-        }}
-        onNext={() => {
-          if (verseIdx < upanishad.verses.length - 1) setCurrentVerseId(upanishad.verses[verseIdx + 1].id)
-        }}
-      >
-        <VerseCard key={verse.id} verse={verse} upanishadId={upanishad.id} />
-      </VerseSlider>
 
       {/* Verse navigation */}
       <div className="flex items-center justify-between gap-2">
