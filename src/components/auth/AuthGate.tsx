@@ -47,7 +47,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true
     }
-  }, [user])
+  }, [user?.id])
 
   // Show loading splash while auth is initializing OR cloud data is being restored.
   if (loading || (user && !cloudLoaded)) {
