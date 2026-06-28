@@ -44,7 +44,7 @@ const SCRIPTURES: Scripture[] = [
     viewKey: 'upanishad',
     icon: Mountain,
     verseIds: /^(isha|katha|mandukya|kena|aitareya|prashna|mundaka|taittiriya)\./,
-    totalVerses: 355,
+    totalVerses: 380,
     color: 'var(--gold)',
     description: 'Isha, Katha, Mandukya, Kena, Aitareya, Prashna, Mundaka, Taittiriya — 8 principal Upanishads',
   },
