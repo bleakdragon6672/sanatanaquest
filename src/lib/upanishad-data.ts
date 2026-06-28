@@ -1,10 +1,12 @@
-// Auto-generated from three_upanishads_complete.txt
-// Source: Isha, Katha, and Mandukya Upanishads — 149 verses total
-//
+// Auto-generated complete Upanishads data file
+// Sources: sanskritdocuments.org, wisdomlib.org
+// Isha (18) + Katha (119) + Mandukya (12) + Kena (35) + Aitareya (33) + Prashna (67) + Mundaka (64) + Taittiriya (40) = 388 verses
+
+
 // Isha Upanishad (Īśāvāsya Upaniṣad) — 18 verses
 // Katha Upanishad (Kaṭha Upaniṣad) — 119 verses
 // Mandukya Upanishad (Māṇḍūkya Upaniṣad) — 12 verses
-//
+
 // Sanskrit: standard Devanagari text.
 // Transliteration: IAST (International Alphabet of Sanskrit Transliteration).
 // English: clear modern rendering based on standard translations.
@@ -231,11 +233,8 @@ yuyodhy asmaj juhurāṇaṁ eno bhūyiṣṭhāṁ te nama uktiṁ vidhema ||18
 
 This verse beautifully concludes the Upanishad: after 17 verses of profound metaphysical teaching, it ends with a simple, heartfelt prayer. Knowledge and devotion are not opposites — they are the two wings of the spiritual life.
 
-
-
 KATHA UPANISHAD (Kaṭha Upaniṣad)
 ============================================================
-
 
 ADHYAYA 1, VALLI 1: The Story of Nachiketa` },
   ],
@@ -517,7 +516,6 @@ The balanced approach combines effort and surrender. The seeker practices medita
 
 This completes the first Valli with a synthesis: effort is necessary, but grace is the ultimate cause of realization. The seeker does everything possible while knowing that the final revelation comes from beyond the individual will.
 
-
 ADHYAYA 1, VALLI 2: Yama Teaches the Nature of the Self` },
       ],
     },
@@ -774,7 +772,6 @@ This is the teaching of non-dual realization. It is not that the individual self
 
 O Gautama — Yama addresses Nachiketa by his family name, acknowledging that this boy has earned the highest teaching. The verse brings Chapter 1, Valli 2 to a triumphant close: the Self of the realized sage becomes one with the Absolute, like pure water merging with pure water.
 
-
 ADHYAYA 1, VALLI 3: The City of Eleven Gates` },
       ],
     },
@@ -855,7 +852,6 @@ vimuktas tu tadā mokṣād brahma prāpnoti niṣkalam ||8||`, english: `The on
 "Brahma prāpnoti niṣkalam" — "attains the supreme Brahman, which is without parts." Brahman is indivisible, whole, complete. It has no parts, no limitations, no boundaries. To attain it is to become it — or rather, to realize that you were always it.
 
 This verse completes the teaching of Chapter 1. The Upanishad has laid out the entire path: from the story of Nachiketa's courage, through the chariot analogy, to the direct description of liberation. Chapter 2 will go even deeper into the nature of the Self and the means of its realization.
-
 
 ADHYAYA 2, VALLI 1: The Imperishable Self` },
         { id: `katha.1.3.9`, sanskrit: `यः सेतुर् इज्जानानाम् अक्षरं ब्रह्म यत् परम् |
@@ -1022,7 +1018,6 @@ Each adjective reveals a different facet of the Self. It is the brightest light,
 
 The verse concludes the first Valli of Chapter 2 by establishing the Self as the hidden treasure within all things — a treasure that can be found through the friction of meditation and the fire of knowledge.
 
-
 ADHYAYA 2, VALLI 2: The Self in the Body` },
         { id: `katha.2.1.13`, sanskrit: `यद् एतद् विदुर् अमृतास् ते भवन्ति |
 अथ विकल्पम् अविदुः ॥१३॥`, transliteration: `yad etad vidur amṛtās te bhavanti |
@@ -1134,7 +1129,6 @@ kutas tasyād vidvāṁs tasya kaḥ śokaḥ ||7||`, english: `Having known the
 "From where would delusion come?" — delusion requires a false sense of identity. When the true Self is known, all false identifications dissolve. Delusion loses its ground.
 
 This verse is the Upanishad's promise: Self-knowledge brings permanent bliss and freedom from sorrow and delusion. It is not a temporary state but a permanent transformation of consciousness. The sage who knows the Self lives in continuous, unshakeable bliss — not because everything goes right, but because they have found the source of happiness that is independent of everything.
-
 
 ADHYAYA 2, VALLI 3: The Tree of the World` },
         { id: `katha.2.2.8`, sanskrit: `सर्वे वेदा यत् पदम् आमनन्ति |
@@ -1255,8 +1249,6 @@ viṣvaṅ anyā utkramaṇe bhavanti ||7||`, english: `There are one hundred an
 This verse completes the Katha Upanishad's teaching with a practical yogic instruction: cultivate the consciousness that can exit through the crown at the time of death. This is the ultimate goal of meditation — to prepare for a conscious departure that leads to immortality.
 
 The Katha Upanishad, from the story of a boy confronting Death to the subtle yogic science of liberation, is complete.
-
-
 
 MANDUKYA UPANISHAD (Māṇḍūkya Upaniṣad)
 ============================================================` },
@@ -1551,7 +1543,6 @@ The balanced approach combines effort and surrender. The seeker practices medita
 
 This completes the first Valli with a synthesis: effort is necessary, but grace is the ultimate cause of realization. The seeker does everything possible while knowing that the final revelation comes from beyond the individual will.
 
-
 ADHYAYA 1, VALLI 2: Yama Teaches the Nature of the Self` },
     { id: `katha.1.2.1`, sanskrit: `पराञ्चि खानि व्यतृणत् स्वयम्भूः |
 तस्मात् पराङ् पश्यति नान्तरात्मन् ॥१॥`, transliteration: `parāñci khāni vyatṛṇat svayambhūḥ |
@@ -1801,7 +1792,6 @@ This is the teaching of non-dual realization. It is not that the individual self
 
 O Gautama — Yama addresses Nachiketa by his family name, acknowledging that this boy has earned the highest teaching. The verse brings Chapter 1, Valli 2 to a triumphant close: the Self of the realized sage becomes one with the Absolute, like pure water merging with pure water.
 
-
 ADHYAYA 1, VALLI 3: The City of Eleven Gates` },
     { id: `katha.1.3.1`, sanskrit: `पुरम् एकादशद्वारम् अजस्यावक्रचेतसः |
 अनुष्ठाय न शोचति विमुक्तश्च विमुच्यते ॥१॥`, transliteration: `puram ekādaśa-dvāram ajasyāvakra-cetasaḥ |
@@ -1875,7 +1865,6 @@ vimuktas tu tadā mokṣād brahma prāpnoti niṣkalam ||8||`, english: `The on
 "Brahma prāpnoti niṣkalam" — "attains the supreme Brahman, which is without parts." Brahman is indivisible, whole, complete. It has no parts, no limitations, no boundaries. To attain it is to become it — or rather, to realize that you were always it.
 
 This verse completes the teaching of Chapter 1. The Upanishad has laid out the entire path: from the story of Nachiketa's courage, through the chariot analogy, to the direct description of liberation. Chapter 2 will go even deeper into the nature of the Self and the means of its realization.
-
 
 ADHYAYA 2, VALLI 1: The Imperishable Self` },
     { id: `katha.1.3.9`, sanskrit: `यः सेतुर् इज्जानानाम् अक्षरं ब्रह्म यत् परम् |
@@ -2035,7 +2024,6 @@ Each adjective reveals a different facet of the Self. It is the brightest light,
 
 The verse concludes the first Valli of Chapter 2 by establishing the Self as the hidden treasure within all things — a treasure that can be found through the friction of meditation and the fire of knowledge.
 
-
 ADHYAYA 2, VALLI 2: The Self in the Body` },
     { id: `katha.2.1.13`, sanskrit: `यद् एतद् विदुर् अमृतास् ते भवन्ति |
 अथ विकल्पम् अविदुः ॥१३॥`, transliteration: `yad etad vidur amṛtās te bhavanti |
@@ -2140,7 +2128,6 @@ kutas tasyād vidvāṁs tasya kaḥ śokaḥ ||7||`, english: `Having known the
 "From where would delusion come?" — delusion requires a false sense of identity. When the true Self is known, all false identifications dissolve. Delusion loses its ground.
 
 This verse is the Upanishad's promise: Self-knowledge brings permanent bliss and freedom from sorrow and delusion. It is not a temporary state but a permanent transformation of consciousness. The sage who knows the Self lives in continuous, unshakeable bliss — not because everything goes right, but because they have found the source of happiness that is independent of everything.
-
 
 ADHYAYA 2, VALLI 3: The Tree of the World` },
     { id: `katha.2.2.8`, sanskrit: `सर्वे वेदा यत् पदम् आमनन्ति |
@@ -2254,8 +2241,6 @@ viṣvaṅ anyā utkramaṇe bhavanti ||7||`, english: `There are one hundred an
 This verse completes the Katha Upanishad's teaching with a practical yogic instruction: cultivate the consciousness that can exit through the crown at the time of death. This is the ultimate goal of meditation — to prepare for a conscious departure that leads to immortality.
 
 The Katha Upanishad, from the story of a boy confronting Death to the subtle yogic science of liberation, is complete.
-
-
 
 MANDUKYA UPANISHAD (Māṇḍūkya Upaniṣad)
 ============================================================` },
@@ -2459,10 +2444,2693 @@ AUM.` },
   ],
 }
 
+// ===== Kena Upanishad =====
+export const kenaUpanishad: Upanishad = {
+
+  "id": "kena",
+  "name": "Kena Upanishad",
+  sanskritName: `केनोपनिषद्`,
+  "transliteration": "Kenopaniṣad",
+  "summary": "The Kena Upanishad derives its name from its opening word \"Kena\" (by whom). It explores the nature of Brahman as the unseen power behind all sense faculties. Through a celebrated allegory of the gods, it teaches that Brahman is beyond the known and the unknown, and can only be approached through negation and intuitive realization.",
+  "theme": "The nature of Brahman as the unknown knower, the eye of the eye, the mind of the mind.",
+  "verseCount": 35,
+  "sections": [
+    {
+      "id": "1",
+      "name": "First Khanda",
+      sanskritName: `प्रथमः खण्डः`,
+      "verses": [
+        {
+          "id": "kena.1.1",
+          "sanskrit": "ॐ केनेषितं पतति प्रेषितं मनः केन प्राणः प्रथमः प्रैति युक्तः । केनेषितां वाचमिमां वदन्ति चक्षुः श्रोत्रं क उ देवो युनक्ति ॥",
+          "transliteration": "oṃ keneṣitaṃ patati preṣitaṃ manaḥ kena prāṇaḥ prathamaḥ praiti yuktaḥ | keneṣitāṃ vācamimāṃ vadanti cakṣuḥ śrotraṃ ka u devo yunakti ||",
+          "english": "By whom impelled does the mind fall upon its objects? By whom directed does the life-force proceed? By whom impelled do people utter this speech? What god directs the eyes and ears?"
+        },
+        {
+          "id": "kena.1.2",
+          "sanskrit": "श्रोत्रस्य श्रोत्रं मनसो मनो यद् वाचो ह वाचं स उ प्राणस्य प्राणः । चक्षुषश्चक्षुरतिमुच्य धीराः प्रेत्यास्माल्लोकादमृता भवन्ति ॥",
+          "transliteration": "śrotrasya śrotraṃ manaso mano yad vāco ha vācaṃ sa u prāṇasya prāṇaḥ | cakṣuṣaścakṣuratimucya dhīrāḥ pretyāsmāllokādamṛtā bhavanti ||",
+          "english": "The ear of the ear, the mind of the mind, the speech of speech, the life of life, the eye of the eye — freeing themselves, the wise become immortal."
+        },
+        {
+          "id": "kena.1.3",
+          "sanskrit": "न तत्र चक्षुर्गच्छति न वाग्गच्छति नो मनः । न विद्मो न विजानीमो यथैतदनुशिष्यात् ॥",
+          "transliteration": "na tatra cakṣurgacchati na vāggacchati no manaḥ | na vidmo na vijānīmo yathaitadanuśiṣyāt ||",
+          "english": "The eye does not go there, nor speech, nor the mind. We do not know, nor can we comprehend, how It can be taught."
+        },
+        {
+          "id": "kena.1.4",
+          "sanskrit": "अन्यदेव तद्विदितादथो अविदितादधि । इति शुश्रुम पूर्वेषां ये नस्तद्व्याचचक्षिरे ॥",
+          "transliteration": "anyadeva tadviditādatho aviditādadhi | iti śuśruma pūrveṣāṃ ye nastadvyācacakṣire ||",
+          "english": "It is different from the known; It is above the unknown. Thus we have heard from the ancient teachers."
+        },
+        {
+          "id": "kena.1.5",
+          "sanskrit": "यद्वाचाऽनभ्युदितं येन वागभ्युद्यते । तदेव ब्रह्म त्वं विद्धि नेदं यदिदमुपासते ॥",
+          "transliteration": "yadvācā'nabhyuditaṃ yena vāgabhyudyate | tadeva brahma tvaṃ viddhi nedaṃ yadidamupāsate ||",
+          "english": "That which is not uttered by speech, that by which speech is uttered — know That alone as Brahman, not this which people worship here."
+        },
+        {
+          "id": "kena.1.6",
+          "sanskrit": "यन्मनसा न मनुते येनाहुर्मनो मतम् । तदेव ब्रह्म त्वं विद्धि नेदं यदिदमुपासते ॥",
+          "transliteration": "yanmanasā na manute yenāhurmano matam | tadeva brahma tvaṃ viddhi nedaṃ yadidamupāsate ||",
+          "english": "That which is not comprehended by the mind, that by which the mind is comprehended — know That alone as Brahman."
+        },
+        {
+          "id": "kena.1.7",
+          "sanskrit": "यच्चक्षुषा न पश्यति येन चक्षूँषि पश्यति । तदेव ब्रह्म त्वं विद्धि नेदं यदिदमुपासते ॥",
+          "transliteration": "yaccakṣuṣā na paśyati yena cakṣū~ṣi paśyati | tadeva brahma tvaṃ viddhi nedaṃ yadidamupāsate ||",
+          "english": "That which is not seen by the eye, that by which the eyes see — know That alone as Brahman."
+        },
+        {
+          "id": "kena.1.8",
+          "sanskrit": "यच्छ्रोत्रेण न शृणोति येन श्रोत्रमिदं श्रुतम् । तदेव ब्रह्म त्वं विद्धि नेदं यदिदमुपासते ॥",
+          "transliteration": "yacchrotreṇa na śṛṇoti yena śrotramidaṃ śrutam | tadeva brahma tvaṃ viddhi nedaṃ yadidamupāsate ||",
+          "english": "That which is not heard by the ear, that by which the ear hears — know That alone as Brahman."
+        },
+        {
+          "id": "kena.1.9",
+          "sanskrit": "यत्प्राणेन न प्राणिति येन प्राणः प्रणीयते । तदेव ब्रह्म त्वं विद्धि नेदं यदिदमुपासते ॥",
+          "transliteration": "yatprāṇena na prāṇiti yena prāṇaḥ praṇīyate | tadeva brahma tvaṃ viddhi nedaṃ yadidamupāsate ||",
+          "english": "That which does not breathe through the breath, that by which the breath is sustained — know That alone as Brahman."
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Second Khanda",
+      sanskritName: `द्वितीयः खण्डः`,
+      "verses": [
+        {
+          "id": "kena.2.1",
+          "sanskrit": "यदि मन्यसे सुवेदेति दहरमेवापि दभ्रमेवापि नूनं त्वं वेत्थ ब्रह्मणो रूपम् । यदस्य त्वं यदस्य देवेष्वथ नु मीमाँस्यमेव ते मन्ये विदितम् ॥",
+          "transliteration": "yadi manyase suvedeti daharamevāpi dabhramevāpi nūnaṃ tvaṃ vettha brahmaṇo rūpam | yadasya tvaṃ yadasya deveṣvatha nu mīmā~syameva te manye viditam ||",
+          "english": "If you think \"I know It well,\" then you know but the barest form of Brahman. It is still a matter for inquiry."
+        },
+        {
+          "id": "kena.2.2",
+          "sanskrit": "नाहं मन्ये सुवेदेति नो न वेदेति वेद च । यो नस्तद्वेद तद्वेद नो न वेदेति वेद च ॥",
+          "transliteration": "nāhaṃ manye suvedeti no na vedeti veda ca | yo nastadveda tadveda no na vedeti veda ca ||",
+          "english": "I do not think I know It well, nor do I think I do not know It. He who knows It truly understands both."
+        },
+        {
+          "id": "kena.2.3",
+          "sanskrit": "यस्यामतं तस्य मतं मतं यस्य न वेद सः । अविज्ञातं विजानतां विज्ञातमविजानताम् ॥",
+          "transliteration": "yasyāmataṃ tasya mataṃ mataṃ yasya na veda saḥ | avijñātaṃ vijānatāṃ vijñātamavijānatām ||",
+          "english": "He by whom It is not thought, by him It is thought; he by whom It is thought, knows It not."
+        },
+        {
+          "id": "kena.2.4",
+          "sanskrit": "प्रतिबोधविदितं मतममृतत्वं हि विन्दते । आत्मना विन्दते वीर्यं विद्यया विन्दतेऽमृतम् ॥",
+          "transliteration": "pratibodhaviditaṃ matamamṛtatvaṃ hi vindate | ātmanā vindate vīryaṃ vidyayā vindate'mṛtam ||",
+          "english": "When It is known through every state of consciousness, one attains immortality. Through the Self one gains strength; through knowledge, immortality."
+        },
+        {
+          "id": "kena.2.5",
+          "sanskrit": "इह चेदवेदीदथ सत्यमस्ति न चेदिहावेदीन्महती विनष्टिः । भूतेषु भूतेषु विचित्य धीराः प्रेत्यास्माल्लोकादमृता भवन्ति ॥",
+          "transliteration": "iha cedavedīdatha satyamasti na cedihāvedīnmahatī vinaṣṭiḥ | bhūteṣu bhūteṣu vicitya dhīrāḥ pretyāsmāllokādamṛtā bhavanti ||",
+          "english": "If one knows It here, then there is truth; if not, great is the loss. The wise, seeing the Self in all beings, become immortal."
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Third Khanda",
+      sanskritName: `तृतीयः खण्डः`,
+      "verses": [
+        {
+          "id": "kena.3.1",
+          "sanskrit": "ब्रह्म ह देवेभ्यो विजिग्ये तस्य ह ब्रह्मणो विजये देवा अमहीयन्त ॥",
+          "transliteration": "brahma ha devebhyo vijigye tasya ha brahmaṇo vijaye devā amahīyanta ||",
+          "english": "Brahman once gained a victory for the gods. Through that victory, the gods became elated."
+        },
+        {
+          "id": "kena.3.2",
+          "sanskrit": "त ऐक्षन्तास्माकमेवायं विजयोऽस्माकमेवायं महिमेति । तद्धैषां विजज्ञौ तेभ्यो ह प्रादुर्बभूव तन्न व्यजानत किमिदं यक्षमिति ॥",
+          "transliteration": "ta aikṣantāsmākamevāyaṃ vijayo'smākamevāyaṃ mahimeti | taddhaiṣāṃ vijajñau tebhyo ha prādurbabhūva tanna vyajānata kimidaṃ yakṣamiti ||",
+          "english": "They thought, \"This victory is ours.\" Brahman appeared before them, but they did not recognize the mysterious being."
+        },
+        {
+          "id": "kena.3.3",
+          "sanskrit": "तेऽग्निमब्रुवञ्जातवेद एतद्विजानीहि किमिदं यक्षमिति तथेति ॥",
+          "transliteration": "te'gnimabruvañjātaveda etadvijānīhi kimidaṃ yakṣamiti tatheti ||",
+          "english": "They said to Agni: \"O Jataveda, find out what this mystery is.\""
+        },
+        {
+          "id": "kena.3.4",
+          "sanskrit": "तदभ्यद्रवत्तमभ्यवदत्कोऽसीत्यग्निर्वा अहमस्मीत्यब्रवीज्जातवेदा वा अहमस्मीति ॥",
+          "transliteration": "tadabhyadravattamabhyavadatko'sītyagnirvā ahamasmītyabravījjātavedā vā ahamasmīti ||",
+          "english": "Agni ran toward It. \"Who are you?\" \"I am Agni, Jataveda.\""
+        },
+        {
+          "id": "kena.3.5",
+          "sanskrit": "तस्मिंस्त्वयि किं वीर्यमित्यपीदं सर्वं दहेयं यदिदं पृथिव्यामिति ॥",
+          "transliteration": "tasmiṃstvayi kiṃ vīryamityapīdaṃ sarvaṃ daheyaṃ yadidaṃ pṛthivyāmiti ||",
+          "english": "\"What power is in you?\" \"I can burn all that exists on earth.\""
+        },
+        {
+          "id": "kena.3.6",
+          "sanskrit": "तस्मै तृणं निदधावेतद्द्दहेति । तदुपप्रेयाय सर्वजवेन तन्न शशाक दग्धुं स तत एव निववृते नैतदशकं विज्ञातुं यदेतद्यक्षमिति ॥",
+          "transliteration": "tasmai tṛṇaṃ nidadhāvetadddaheti | tadupapreyāya sarvajavena tanna śaśāka dagdhuṃ sa tata eva nivavṛte naitadaśakaṃ vijñātuṃ yadetadyakṣamiti ||",
+          "english": "It placed a blade of grass: \"Burn this.\" Agni rushed at it but could not burn it. He returned, unable to comprehend."
+        },
+        {
+          "id": "kena.3.7",
+          "sanskrit": "अथ वायुमब्रुवन्वायवेतद्विजानीहि किमेतद्यक्षमिति तथेति ॥",
+          "transliteration": "atha vāyumabruvanvāyavetadvijānīhi kimetadyakṣamiti tatheti ||",
+          "english": "Then they said to Vayu: \"O Vayu, find out what this mystery is.\""
+        },
+        {
+          "id": "kena.3.8",
+          "sanskrit": "तदभ्यद्रवत्तमभ्यवदत्कोऽसीति वायुर्वा अहमस्मीत्यब्रवीन्मातरिश्वा वा अहमस्मीति ॥",
+          "transliteration": "tadabhyadravattamabhyavadatko'sīti vāyurvā ahamasmītyabravīnmātariśvā vā ahamasmīti ||",
+          "english": "Vayu ran toward It. \"Who are you?\" \"I am Vayu, Matarishva.\""
+        },
+        {
+          "id": "kena.3.9",
+          "sanskrit": "तस्मिंस्त्वयि किं वीर्यमित्यपीदं सर्वमाददीय यदिदं पृथिव्यामिति ॥",
+          "transliteration": "tasmiṃstvayi kiṃ vīryamityapīdaṃ sarvamādadīya yadidaṃ pṛthivyāmiti ||",
+          "english": "\"What power is in you?\" \"I can carry away all that exists on earth.\""
+        },
+        {
+          "id": "kena.3.10",
+          "sanskrit": "तस्मै तृणं निदधावेतदादत्स्वेति तदुपप्रेयाय सर्वजवेन तन्न शशाकादातुं स तत एव निववृते नैतदशकं विज्ञातुं यदेतद्यक्षमिति ॥",
+          "transliteration": "tasmai tṛṇaṃ nidadhāvetadādatsveti tadupapreyāya sarvajavena tanna śaśākādātuṃ sa tata eva nivavṛte naitadaśakaṃ vijñātuṃ yadetadyakṣamiti ||",
+          "english": "It placed a blade of grass: \"Take this.\" Vayu rushed but could not lift it. He returned, unable to comprehend."
+        },
+        {
+          "id": "kena.3.11",
+          "sanskrit": "अथेन्द्रमब्रुवन्मघवन्नेतद्विजानीहि किमेतद्यक्षमिति तथेति तदभ्यद्रवत्तस्मात्तिरोदधे ॥",
+          "transliteration": "athendramabruvanmaghavannetadvijānīhi kimetadyakṣamiti tatheti tadabhyadravattasmāttirodadhe ||",
+          "english": "They said to Indra: \"O Maghavan, find out what this mystery is.\" As he ran toward It, It vanished."
+        },
+        {
+          "id": "kena.3.12",
+          "sanskrit": "स तस्मिन्नेवाकाशे स्त्रियमाजगाम बहुशोभमानामुमाँ हैमवतीं ताँहोवाच किमेतद्यक्षमिति ॥",
+          "transliteration": "sa tasminnevākāśe striyamājagāma bahuśobhamānāmumā~ haimavatīṃ tā~hovāca kimetadyakṣamiti ||",
+          "english": "In that space, he saw Uma, daughter of Himavan, beautifully adorned. He asked her: \"What is this mystery?\""
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Fourth Khanda",
+      sanskritName: `चतुर्थः खण्डः`,
+      "verses": [
+        {
+          "id": "kena.4.1",
+          "sanskrit": "सा ब्रह्मेति होवाच ब्रह्मणो वा एतद्विजये महीयध्वमिति ततो हैव विदाञ्चकार ब्रह्मेति ॥",
+          "transliteration": "sā brahmeti hovāca brahmaṇo vā etadvijaye mahīyadhvamiti tato haiva vidāñcakāra brahmeti ||",
+          "english": "She replied: \"It is Brahman. Through Brahman's victory you have become great.\" Then Indra understood it was Brahman."
+        },
+        {
+          "id": "kena.4.2",
+          "sanskrit": "तस्माद्वा एते देवा अतितरामिवान्यान्देवान्यदग्निर्वायुरिन्द्रस्ते ह्येनन्नेदिष्ठं पस्पर्शुस्ते ह्येनत्प्रथमो विदाञ्चकार ब्रह्मेति ॥",
+          "transliteration": "tasmādvā ete devā atitarāmivānyāndevānyadagnirvāyurindraste hyenannediṣṭhaṃ pasparśuste hyenatprathamo vidāñcakāra brahmeti ||",
+          "english": "Therefore Agni, Vayu, and Indra excel the other gods, for they came closest to Brahman."
+        },
+        {
+          "id": "kena.4.3",
+          "sanskrit": "तस्माद्वा इन्द्रोऽतितरामिवान्यान्देवान्स ह्येनन्नेदिष्ठं पस्पर्श स ह्येनत्प्रथमो विदाञ्चकार ब्रह्मेति ॥",
+          "transliteration": "tasmādvā indro'titarāmivānyāndevānsa hyenannediṣṭhaṃ pasparśa sa hyenatprathamo vidāñcakāra brahmeti ||",
+          "english": "Thus Indra excels the other gods, for he came closest and first recognized Brahman."
+        },
+        {
+          "id": "kena.4.4",
+          "sanskrit": "तस्यैष आदेशो यदेतद्विद्युतो व्यद्युतदा३ इतीन् न्यमीमिषदा३ इत्यधिदैवतम् ॥",
+          "transliteration": "tasyaiṣa ādeśo yadetadvidyuto vyadyutadā3 itīn nyamīmiṣadā3 ityadhidaivatam ||",
+          "english": "This is the teaching regarding the gods: It flashed like lightning and vanished."
+        },
+        {
+          "id": "kena.4.5",
+          "sanskrit": "अथाध्यात्मं यद्देतद्गच्छतीव च मनोऽनेन चैतदुपस्मरत्यभीक्ष्णँ सङ्कल्पः ॥",
+          "transliteration": "athādhyātmaṃ yaddetadgacchatīva ca mano'nena caitadupasmaratyabhīkṣṇa~ saṅkalpaḥ ||",
+          "english": "Regarding the self: the mind goes toward It, and by It the mind constantly remembers and conceives."
+        },
+        {
+          "id": "kena.4.6",
+          "sanskrit": "तद्ध तद्वनं नाम तद्वनमित्युपासितव्यं स य एतदेवं वेदाभि हैनं सर्वाणि भूतानि संवाञ्छन्ति ॥",
+          "transliteration": "taddha tadvanaṃ nāma tadvanamityupāsitavyaṃ sa ya etadevaṃ vedābhi hainaṃ sarvāṇi bhūtāni saṃvāñchanti ||",
+          "english": "It is called Tadvanam — \"the adorable of all.\" All beings desire the one who knows It thus."
+        },
+        {
+          "id": "kena.4.7",
+          "sanskrit": "उपनिषदं भो ब्रूहीत्युक्ता त उपनिषद्ब्राह्मीं वाव त उपनिषदमब्रूमेति ॥",
+          "transliteration": "upaniṣadaṃ bho brūhītyuktā ta upaniṣadbrāhmīṃ vāva ta upaniṣadamabrūmeti ||",
+          "english": "\"Teach me the Upanishad.\" \"I have taught you the Upanishad about Brahman.\""
+        },
+        {
+          "id": "kena.4.8",
+          "sanskrit": "तस्यै तपो दमः कर्मेति प्रतिष्ठा वेदाः सर्वाङ्गानि सत्यमायतनम् ॥",
+          "transliteration": "tasyai tapo damaḥ karmeti pratiṣṭhā vedāḥ sarvāṅgāni satyamāyatanam ||",
+          "english": "Austerity, self-control, and right action are its foundation; the Vedas are its limbs; truth is its abode."
+        },
+        {
+          "id": "kena.4.9",
+          "sanskrit": "यो वा एतामेवं वेदापहत्य पाप्मानमनन्ते स्वर्गे लोके ज्येये प्रतितिष्ठति प्रतितिष्ठति ॥",
+          "transliteration": "yo vā etāmevaṃ vedāpahatya pāpmānamanante svarge loke jyeye pratitiṣṭhati pratitiṣṭhati ||",
+          "english": "The one who knows this, having destroyed all impurities, stands firmly established in the supreme heavenly world."
+        }
+      ]
+    }
+  ],
+  "verses": [
+    {
+      "id": "kena.1.1",
+      "sanskrit": "ॐ केनेषितं पतति प्रेषितं मनः केन प्राणः प्रथमः प्रैति युक्तः । केनेषितां वाचमिमां वदन्ति चक्षुः श्रोत्रं क उ देवो युनक्ति ॥",
+      "transliteration": "oṃ keneṣitaṃ patati preṣitaṃ manaḥ kena prāṇaḥ prathamaḥ praiti yuktaḥ | keneṣitāṃ vācamimāṃ vadanti cakṣuḥ śrotraṃ ka u devo yunakti ||",
+      "english": "By whom impelled does the mind fall upon its objects? By whom directed does the life-force proceed? By whom impelled do people utter this speech? What god directs the eyes and ears?"
+    },
+    {
+      "id": "kena.1.2",
+      "sanskrit": "श्रोत्रस्य श्रोत्रं मनसो मनो यद् वाचो ह वाचं स उ प्राणस्य प्राणः । चक्षुषश्चक्षुरतिमुच्य धीराः प्रेत्यास्माल्लोकादमृता भवन्ति ॥",
+      "transliteration": "śrotrasya śrotraṃ manaso mano yad vāco ha vācaṃ sa u prāṇasya prāṇaḥ | cakṣuṣaścakṣuratimucya dhīrāḥ pretyāsmāllokādamṛtā bhavanti ||",
+      "english": "The ear of the ear, the mind of the mind, the speech of speech, the life of life, the eye of the eye — freeing themselves, the wise become immortal."
+    },
+    {
+      "id": "kena.1.3",
+      "sanskrit": "न तत्र चक्षुर्गच्छति न वाग्गच्छति नो मनः । न विद्मो न विजानीमो यथैतदनुशिष्यात् ॥",
+      "transliteration": "na tatra cakṣurgacchati na vāggacchati no manaḥ | na vidmo na vijānīmo yathaitadanuśiṣyāt ||",
+      "english": "The eye does not go there, nor speech, nor the mind. We do not know, nor can we comprehend, how It can be taught."
+    },
+    {
+      "id": "kena.1.4",
+      "sanskrit": "अन्यदेव तद्विदितादथो अविदितादधि । इति शुश्रुम पूर्वेषां ये नस्तद्व्याचचक्षिरे ॥",
+      "transliteration": "anyadeva tadviditādatho aviditādadhi | iti śuśruma pūrveṣāṃ ye nastadvyācacakṣire ||",
+      "english": "It is different from the known; It is above the unknown. Thus we have heard from the ancient teachers."
+    },
+    {
+      "id": "kena.1.5",
+      "sanskrit": "यद्वाचाऽनभ्युदितं येन वागभ्युद्यते । तदेव ब्रह्म त्वं विद्धि नेदं यदिदमुपासते ॥",
+      "transliteration": "yadvācā'nabhyuditaṃ yena vāgabhyudyate | tadeva brahma tvaṃ viddhi nedaṃ yadidamupāsate ||",
+      "english": "That which is not uttered by speech, that by which speech is uttered — know That alone as Brahman, not this which people worship here."
+    },
+    {
+      "id": "kena.1.6",
+      "sanskrit": "यन्मनसा न मनुते येनाहुर्मनो मतम् । तदेव ब्रह्म त्वं विद्धि नेदं यदिदमुपासते ॥",
+      "transliteration": "yanmanasā na manute yenāhurmano matam | tadeva brahma tvaṃ viddhi nedaṃ yadidamupāsate ||",
+      "english": "That which is not comprehended by the mind, that by which the mind is comprehended — know That alone as Brahman."
+    },
+    {
+      "id": "kena.1.7",
+      "sanskrit": "यच्चक्षुषा न पश्यति येन चक्षूँषि पश्यति । तदेव ब्रह्म त्वं विद्धि नेदं यदिदमुपासते ॥",
+      "transliteration": "yaccakṣuṣā na paśyati yena cakṣū~ṣi paśyati | tadeva brahma tvaṃ viddhi nedaṃ yadidamupāsate ||",
+      "english": "That which is not seen by the eye, that by which the eyes see — know That alone as Brahman."
+    },
+    {
+      "id": "kena.1.8",
+      "sanskrit": "यच्छ्रोत्रेण न शृणोति येन श्रोत्रमिदं श्रुतम् । तदेव ब्रह्म त्वं विद्धि नेदं यदिदमुपासते ॥",
+      "transliteration": "yacchrotreṇa na śṛṇoti yena śrotramidaṃ śrutam | tadeva brahma tvaṃ viddhi nedaṃ yadidamupāsate ||",
+      "english": "That which is not heard by the ear, that by which the ear hears — know That alone as Brahman."
+    },
+    {
+      "id": "kena.1.9",
+      "sanskrit": "यत्प्राणेन न प्राणिति येन प्राणः प्रणीयते । तदेव ब्रह्म त्वं विद्धि नेदं यदिदमुपासते ॥",
+      "transliteration": "yatprāṇena na prāṇiti yena prāṇaḥ praṇīyate | tadeva brahma tvaṃ viddhi nedaṃ yadidamupāsate ||",
+      "english": "That which does not breathe through the breath, that by which the breath is sustained — know That alone as Brahman."
+    },
+    {
+      "id": "kena.2.1",
+      "sanskrit": "यदि मन्यसे सुवेदेति दहरमेवापि दभ्रमेवापि नूनं त्वं वेत्थ ब्रह्मणो रूपम् । यदस्य त्वं यदस्य देवेष्वथ नु मीमाँस्यमेव ते मन्ये विदितम् ॥",
+      "transliteration": "yadi manyase suvedeti daharamevāpi dabhramevāpi nūnaṃ tvaṃ vettha brahmaṇo rūpam | yadasya tvaṃ yadasya deveṣvatha nu mīmā~syameva te manye viditam ||",
+      "english": "If you think \"I know It well,\" then you know but the barest form of Brahman. It is still a matter for inquiry."
+    },
+    {
+      "id": "kena.2.2",
+      "sanskrit": "नाहं मन्ये सुवेदेति नो न वेदेति वेद च । यो नस्तद्वेद तद्वेद नो न वेदेति वेद च ॥",
+      "transliteration": "nāhaṃ manye suvedeti no na vedeti veda ca | yo nastadveda tadveda no na vedeti veda ca ||",
+      "english": "I do not think I know It well, nor do I think I do not know It. He who knows It truly understands both."
+    },
+    {
+      "id": "kena.2.3",
+      "sanskrit": "यस्यामतं तस्य मतं मतं यस्य न वेद सः । अविज्ञातं विजानतां विज्ञातमविजानताम् ॥",
+      "transliteration": "yasyāmataṃ tasya mataṃ mataṃ yasya na veda saḥ | avijñātaṃ vijānatāṃ vijñātamavijānatām ||",
+      "english": "He by whom It is not thought, by him It is thought; he by whom It is thought, knows It not."
+    },
+    {
+      "id": "kena.2.4",
+      "sanskrit": "प्रतिबोधविदितं मतममृतत्वं हि विन्दते । आत्मना विन्दते वीर्यं विद्यया विन्दतेऽमृतम् ॥",
+      "transliteration": "pratibodhaviditaṃ matamamṛtatvaṃ hi vindate | ātmanā vindate vīryaṃ vidyayā vindate'mṛtam ||",
+      "english": "When It is known through every state of consciousness, one attains immortality. Through the Self one gains strength; through knowledge, immortality."
+    },
+    {
+      "id": "kena.2.5",
+      "sanskrit": "इह चेदवेदीदथ सत्यमस्ति न चेदिहावेदीन्महती विनष्टिः । भूतेषु भूतेषु विचित्य धीराः प्रेत्यास्माल्लोकादमृता भवन्ति ॥",
+      "transliteration": "iha cedavedīdatha satyamasti na cedihāvedīnmahatī vinaṣṭiḥ | bhūteṣu bhūteṣu vicitya dhīrāḥ pretyāsmāllokādamṛtā bhavanti ||",
+      "english": "If one knows It here, then there is truth; if not, great is the loss. The wise, seeing the Self in all beings, become immortal."
+    },
+    {
+      "id": "kena.3.1",
+      "sanskrit": "ब्रह्म ह देवेभ्यो विजिग्ये तस्य ह ब्रह्मणो विजये देवा अमहीयन्त ॥",
+      "transliteration": "brahma ha devebhyo vijigye tasya ha brahmaṇo vijaye devā amahīyanta ||",
+      "english": "Brahman once gained a victory for the gods. Through that victory, the gods became elated."
+    },
+    {
+      "id": "kena.3.2",
+      "sanskrit": "त ऐक्षन्तास्माकमेवायं विजयोऽस्माकमेवायं महिमेति । तद्धैषां विजज्ञौ तेभ्यो ह प्रादुर्बभूव तन्न व्यजानत किमिदं यक्षमिति ॥",
+      "transliteration": "ta aikṣantāsmākamevāyaṃ vijayo'smākamevāyaṃ mahimeti | taddhaiṣāṃ vijajñau tebhyo ha prādurbabhūva tanna vyajānata kimidaṃ yakṣamiti ||",
+      "english": "They thought, \"This victory is ours.\" Brahman appeared before them, but they did not recognize the mysterious being."
+    },
+    {
+      "id": "kena.3.3",
+      "sanskrit": "तेऽग्निमब्रुवञ्जातवेद एतद्विजानीहि किमिदं यक्षमिति तथेति ॥",
+      "transliteration": "te'gnimabruvañjātaveda etadvijānīhi kimidaṃ yakṣamiti tatheti ||",
+      "english": "They said to Agni: \"O Jataveda, find out what this mystery is.\""
+    },
+    {
+      "id": "kena.3.4",
+      "sanskrit": "तदभ्यद्रवत्तमभ्यवदत्कोऽसीत्यग्निर्वा अहमस्मीत्यब्रवीज्जातवेदा वा अहमस्मीति ॥",
+      "transliteration": "tadabhyadravattamabhyavadatko'sītyagnirvā ahamasmītyabravījjātavedā vā ahamasmīti ||",
+      "english": "Agni ran toward It. \"Who are you?\" \"I am Agni, Jataveda.\""
+    },
+    {
+      "id": "kena.3.5",
+      "sanskrit": "तस्मिंस्त्वयि किं वीर्यमित्यपीदं सर्वं दहेयं यदिदं पृथिव्यामिति ॥",
+      "transliteration": "tasmiṃstvayi kiṃ vīryamityapīdaṃ sarvaṃ daheyaṃ yadidaṃ pṛthivyāmiti ||",
+      "english": "\"What power is in you?\" \"I can burn all that exists on earth.\""
+    },
+    {
+      "id": "kena.3.6",
+      "sanskrit": "तस्मै तृणं निदधावेतद्द्दहेति । तदुपप्रेयाय सर्वजवेन तन्न शशाक दग्धुं स तत एव निववृते नैतदशकं विज्ञातुं यदेतद्यक्षमिति ॥",
+      "transliteration": "tasmai tṛṇaṃ nidadhāvetadddaheti | tadupapreyāya sarvajavena tanna śaśāka dagdhuṃ sa tata eva nivavṛte naitadaśakaṃ vijñātuṃ yadetadyakṣamiti ||",
+      "english": "It placed a blade of grass: \"Burn this.\" Agni rushed at it but could not burn it. He returned, unable to comprehend."
+    },
+    {
+      "id": "kena.3.7",
+      "sanskrit": "अथ वायुमब्रुवन्वायवेतद्विजानीहि किमेतद्यक्षमिति तथेति ॥",
+      "transliteration": "atha vāyumabruvanvāyavetadvijānīhi kimetadyakṣamiti tatheti ||",
+      "english": "Then they said to Vayu: \"O Vayu, find out what this mystery is.\""
+    },
+    {
+      "id": "kena.3.8",
+      "sanskrit": "तदभ्यद्रवत्तमभ्यवदत्कोऽसीति वायुर्वा अहमस्मीत्यब्रवीन्मातरिश्वा वा अहमस्मीति ॥",
+      "transliteration": "tadabhyadravattamabhyavadatko'sīti vāyurvā ahamasmītyabravīnmātariśvā vā ahamasmīti ||",
+      "english": "Vayu ran toward It. \"Who are you?\" \"I am Vayu, Matarishva.\""
+    },
+    {
+      "id": "kena.3.9",
+      "sanskrit": "तस्मिंस्त्वयि किं वीर्यमित्यपीदं सर्वमाददीय यदिदं पृथिव्यामिति ॥",
+      "transliteration": "tasmiṃstvayi kiṃ vīryamityapīdaṃ sarvamādadīya yadidaṃ pṛthivyāmiti ||",
+      "english": "\"What power is in you?\" \"I can carry away all that exists on earth.\""
+    },
+    {
+      "id": "kena.3.10",
+      "sanskrit": "तस्मै तृणं निदधावेतदादत्स्वेति तदुपप्रेयाय सर्वजवेन तन्न शशाकादातुं स तत एव निववृते नैतदशकं विज्ञातुं यदेतद्यक्षमिति ॥",
+      "transliteration": "tasmai tṛṇaṃ nidadhāvetadādatsveti tadupapreyāya sarvajavena tanna śaśākādātuṃ sa tata eva nivavṛte naitadaśakaṃ vijñātuṃ yadetadyakṣamiti ||",
+      "english": "It placed a blade of grass: \"Take this.\" Vayu rushed but could not lift it. He returned, unable to comprehend."
+    },
+    {
+      "id": "kena.3.11",
+      "sanskrit": "अथेन्द्रमब्रुवन्मघवन्नेतद्विजानीहि किमेतद्यक्षमिति तथेति तदभ्यद्रवत्तस्मात्तिरोदधे ॥",
+      "transliteration": "athendramabruvanmaghavannetadvijānīhi kimetadyakṣamiti tatheti tadabhyadravattasmāttirodadhe ||",
+      "english": "They said to Indra: \"O Maghavan, find out what this mystery is.\" As he ran toward It, It vanished."
+    },
+    {
+      "id": "kena.3.12",
+      "sanskrit": "स तस्मिन्नेवाकाशे स्त्रियमाजगाम बहुशोभमानामुमाँ हैमवतीं ताँहोवाच किमेतद्यक्षमिति ॥",
+      "transliteration": "sa tasminnevākāśe striyamājagāma bahuśobhamānāmumā~ haimavatīṃ tā~hovāca kimetadyakṣamiti ||",
+      "english": "In that space, he saw Uma, daughter of Himavan, beautifully adorned. He asked her: \"What is this mystery?\""
+    },
+    {
+      "id": "kena.4.1",
+      "sanskrit": "सा ब्रह्मेति होवाच ब्रह्मणो वा एतद्विजये महीयध्वमिति ततो हैव विदाञ्चकार ब्रह्मेति ॥",
+      "transliteration": "sā brahmeti hovāca brahmaṇo vā etadvijaye mahīyadhvamiti tato haiva vidāñcakāra brahmeti ||",
+      "english": "She replied: \"It is Brahman. Through Brahman's victory you have become great.\" Then Indra understood it was Brahman."
+    },
+    {
+      "id": "kena.4.2",
+      "sanskrit": "तस्माद्वा एते देवा अतितरामिवान्यान्देवान्यदग्निर्वायुरिन्द्रस्ते ह्येनन्नेदिष्ठं पस्पर्शुस्ते ह्येनत्प्रथमो विदाञ्चकार ब्रह्मेति ॥",
+      "transliteration": "tasmādvā ete devā atitarāmivānyāndevānyadagnirvāyurindraste hyenannediṣṭhaṃ pasparśuste hyenatprathamo vidāñcakāra brahmeti ||",
+      "english": "Therefore Agni, Vayu, and Indra excel the other gods, for they came closest to Brahman."
+    },
+    {
+      "id": "kena.4.3",
+      "sanskrit": "तस्माद्वा इन्द्रोऽतितरामिवान्यान्देवान्स ह्येनन्नेदिष्ठं पस्पर्श स ह्येनत्प्रथमो विदाञ्चकार ब्रह्मेति ॥",
+      "transliteration": "tasmādvā indro'titarāmivānyāndevānsa hyenannediṣṭhaṃ pasparśa sa hyenatprathamo vidāñcakāra brahmeti ||",
+      "english": "Thus Indra excels the other gods, for he came closest and first recognized Brahman."
+    },
+    {
+      "id": "kena.4.4",
+      "sanskrit": "तस्यैष आदेशो यदेतद्विद्युतो व्यद्युतदा३ इतीन् न्यमीमिषदा३ इत्यधिदैवतम् ॥",
+      "transliteration": "tasyaiṣa ādeśo yadetadvidyuto vyadyutadā3 itīn nyamīmiṣadā3 ityadhidaivatam ||",
+      "english": "This is the teaching regarding the gods: It flashed like lightning and vanished."
+    },
+    {
+      "id": "kena.4.5",
+      "sanskrit": "अथाध्यात्मं यद्देतद्गच्छतीव च मनोऽनेन चैतदुपस्मरत्यभीक्ष्णँ सङ्कल्पः ॥",
+      "transliteration": "athādhyātmaṃ yaddetadgacchatīva ca mano'nena caitadupasmaratyabhīkṣṇa~ saṅkalpaḥ ||",
+      "english": "Regarding the self: the mind goes toward It, and by It the mind constantly remembers and conceives."
+    },
+    {
+      "id": "kena.4.6",
+      "sanskrit": "तद्ध तद्वनं नाम तद्वनमित्युपासितव्यं स य एतदेवं वेदाभि हैनं सर्वाणि भूतानि संवाञ्छन्ति ॥",
+      "transliteration": "taddha tadvanaṃ nāma tadvanamityupāsitavyaṃ sa ya etadevaṃ vedābhi hainaṃ sarvāṇi bhūtāni saṃvāñchanti ||",
+      "english": "It is called Tadvanam — \"the adorable of all.\" All beings desire the one who knows It thus."
+    },
+    {
+      "id": "kena.4.7",
+      "sanskrit": "उपनिषदं भो ब्रूहीत्युक्ता त उपनिषद्ब्राह्मीं वाव त उपनिषदमब्रूमेति ॥",
+      "transliteration": "upaniṣadaṃ bho brūhītyuktā ta upaniṣadbrāhmīṃ vāva ta upaniṣadamabrūmeti ||",
+      "english": "\"Teach me the Upanishad.\" \"I have taught you the Upanishad about Brahman.\""
+    },
+    {
+      "id": "kena.4.8",
+      "sanskrit": "तस्यै तपो दमः कर्मेति प्रतिष्ठा वेदाः सर्वाङ्गानि सत्यमायतनम् ॥",
+      "transliteration": "tasyai tapo damaḥ karmeti pratiṣṭhā vedāḥ sarvāṅgāni satyamāyatanam ||",
+      "english": "Austerity, self-control, and right action are its foundation; the Vedas are its limbs; truth is its abode."
+    },
+    {
+      "id": "kena.4.9",
+      "sanskrit": "यो वा एतामेवं वेदापहत्य पाप्मानमनन्ते स्वर्गे लोके ज्येये प्रतितिष्ठति प्रतितिष्ठति ॥",
+      "transliteration": "yo vā etāmevaṃ vedāpahatya pāpmānamanante svarge loke jyeye pratitiṣṭhati pratitiṣṭhati ||",
+      "english": "The one who knows this, having destroyed all impurities, stands firmly established in the supreme heavenly world."
+    }
+  ]
+
+}
+
+// ===== Aitareya Upanishad =====
+export const aitareyaUpanishad: Upanishad = {
+
+  "id": "aitareya",
+  "name": "Aitareya Upanishad",
+  sanskritName: `ऐतरेयोपनिषद्`,
+  "transliteration": "Aitareyopaniṣad",
+  "summary": "The Aitareya Upanishad, belonging to the Rig Veda, presents the creation of the universe from the Self. It describes how Consciousness creates the worlds, the guardians, and food, and enters the human form. Its profound teaching culminates in the declaration that Consciousness (Prajnana) is Brahman.",
+  "theme": "The Self as creator, the entry of deities into the body, and the identity of Consciousness and Brahman.",
+  "verseCount": 33,
+  "sections": [
+    {
+      "id": "1.1",
+      "name": "First Adhyaya, First Khanda",
+      sanskritName: `प्रथमाध्याये प्रथमः खण्डः`,
+      "verses": [
+        {
+          "id": "aitareya.1.1.1",
+          "sanskrit": "आत्मा वा इदमेक एवाग्र आसीन्नान्यत्किञ्चन मिषत् । स ईक्षत लोकान्नु सृजा इति ॥",
+          "transliteration": "ātmā vā idameka evāgra āsīnnānyatkiñcana miṣat | sa īkṣata lokānnu sṛjā iti ||",
+          "english": "The Self alone was all this — one only, without anything else. He thought: \"Let me create the worlds.\""
+        },
+        {
+          "id": "aitareya.1.1.2",
+          "sanskrit": "स इमाँ ल्लोकानसृजत । अम्भो मरीचीर्मरमापोऽदोऽम्भः परेण दिवं द्यौः प्रतिष्ठाऽन्तरिक्षं मरीचयः । पृथिवी मरो या अधस्तात्त आपः ॥",
+          "transliteration": "sa imā~ llokānasṛjata | ambho marīcīrmaramāpo'do'mbhaḥ pareṇa divaṃ dyauḥ pratiṣṭhā'ntarikṣaṃ marīcayaḥ | pṛthivī maro yā adhastātta āpaḥ ||",
+          "english": "He created these worlds: the cosmic waters, rays of light, the mortal world, and waters below."
+        },
+        {
+          "id": "aitareya.1.1.3",
+          "sanskrit": "स ईक्षतेमे नु लोका लोकपालान्नु सृजा इति ॥ सोऽद्भ्य एव पुरुषं समुद्धृत्यामूर्छयत् ॥",
+          "transliteration": "sa īkṣateme nu lokā lokapālānnu sṛjā iti || so'dbhya eva puruṣaṃ samuddhṛtyāmūrchayat ||",
+          "english": "He thought: \"Let me create the guardians of the worlds.\" From the waters he drew forth a person and gave him form."
+        },
+        {
+          "id": "aitareya.1.1.4",
+          "sanskrit": "तमभ्यतपत्तस्याभितप्तस्य मुखं निरभिद्यत यथाऽण्डं मुखाद्वाग्वाचोऽग्निर्नासिके निरभिद्येतं नासिकाभ्यां प्राणः । प्राणाद्वायुरक्षिणी निरभिद्येतमक्षीभ्यां चक्षुश्चक्षुष आदित्यः कर्णौ निरभिद्येतां कर्णाभ्यां श्रोत्रं श्रोत्रद्दिशस्त्वङ्निरभिद्यत त्वचो लोमानि लोमभ्य ओषधिवनस्पतयो हृदयं निरभिद्यत हृदायान्मनो मनसश्चन्द्रमा नाभिर्निरभिद्यत नाभ्या अपानोऽपानान्मृत्युः शिश्नं निरभिद्यत शिश्नाद्रेतो रेतस आपः ॥",
+          "transliteration": "tamabhyatapattasyābhitaptasya mukhaṃ nirabhidyata yathā'ṇḍaṃ mukhādvāgvāco'gnirnāsike nirabhidyetaṃ nāsikābhyāṃ prāṇaḥ | prāṇādvāyurakṣiṇī nirabhidyetamakṣībhyāṃ cakṣuścakṣuṣa ādityaḥ karṇau nirabhidyetāṃ karṇābhyāṃ śrotraṃ śrotraddiśastvaṅnirabhidyata tvaco lomāni lomabhya oṣadhivanaspatayo hṛdayaṃ nirabhidyata hṛdāyānmano manasaścandramā nābhirnirabhidyata nābhyā apāno'pānānmṛtyuḥ śiśnaṃ nirabhidyata śiśnādreto retasa āpaḥ ||",
+          "english": "He brooded. A mouth burst open like an egg. From the mouth, speech; from speech, fire. Nostrils burst open; from them, breath; from breath, air. Eyes burst open; from them, sight; from sight, the sun. Ears burst open; from them, hearing; from hearing, the directions. Skin burst open; from it, hair; from hair, plants. The heart burst open; from it, mind; from mind, the moon. The navel burst open; from it, apana; from apana, death. The organ burst open; from it, seed; from seed, waters."
+        }
+      ]
+    },
+    {
+      "id": "1.2",
+      "name": "First Adhyaya, Second Khanda",
+      sanskritName: `प्रथमाध्याये द्वितीयः खण्डः`,
+      "verses": [
+        {
+          "id": "aitareya.1.2.1",
+          "sanskrit": "ता एता देवताः सृष्टा अस्मिन्महत्यर्णवे प्रापतन् । तमशनापिपासाभ्यामन्ववार्जत् । ता एनमब्रुवन्नायतनं नः प्रजानीहि यस्मिन्प्रतिष्ठिता अन्नमदामेति ॥",
+          "transliteration": "tā etā devatāḥ sṛṣṭā asminmahatyarṇave prāpatan | tamaśanāpipāsābhyāmanvavārjat | tā enamabruvannāyatanaṃ naḥ prajānīhi yasminpratiṣṭhitā annamadāmeti ||",
+          "english": "These deities, being created, fell into the great ocean. He afflicted them with hunger and thirst. They said: \"Find us an abode where we may eat food.\""
+        },
+        {
+          "id": "aitareya.1.2.2",
+          "sanskrit": "ताभ्यो गामानयत्ता अब्रुवन्न वै नोऽयमलमिति । ताभ्योऽश्वमानयत्ता अब्रुवन्न वै नोऽयमलमिति ॥",
+          "transliteration": "tābhyo gāmānayattā abruvanna vai no'yamalamiti | tābhyo'śvamānayattā abruvanna vai no'yamalamiti ||",
+          "english": "He brought a cow. \"Not enough.\" He brought a horse. \"Not enough.\""
+        },
+        {
+          "id": "aitareya.1.2.3",
+          "sanskrit": "ताभ्यः पुरुषमानयत्ता अब्रुवन् सुकृतं बतेति पुरुषो वाव सुकृतम् । ता अब्रवीद्यथायतनं प्रविशतेति ॥",
+          "transliteration": "tābhyaḥ puruṣamānayattā abruvan sukṛtaṃ bateti puruṣo vāva sukṛtam | tā abravīdyathāyatanaṃ praviśateti ||",
+          "english": "He brought a human form. \"Well done!\" — the human form is truly well-made. \"Enter, each according to your abode.\""
+        },
+        {
+          "id": "aitareya.1.2.4",
+          "sanskrit": "अग्निर्वाग्भूत्वा मुखं प्राविशद्वायुः प्राणो भूत्वा नासिके प्राविशदादित्यश्चक्षुर्भूत्वाऽक्षिणी प्राविशाद्दिशः श्रोत्रं भूत्वा कर्णौ प्राविशन्नोषधिवनस्पतयो लोमानि भूत्वा त्वचंप्राविशंश्चन्द्रमा मनो भूत्वा हृदयं प्राविशन्मृत्युरपानो भूत्वा नाभिं प्राविशदापो रेतो भूत्वा शिश्नं प्राविशन् ॥",
+          "transliteration": "agnirvāgbhūtvā mukhaṃ prāviśadvāyuḥ prāṇo bhūtvā nāsike prāviśadādityaścakṣurbhūtvā'kṣiṇī prāviśāddiśaḥ śrotraṃ bhūtvā karṇau prāviśannoṣadhivanaspatayo lomāni bhūtvā tvacaṃprāviśaṃścandramā mano bhūtvā hṛdayaṃ prāviśanmṛtyurapāno bhūtvā nābhiṃ prāviśadāpo reto bhūtvā śiśnaṃ prāviśan ||",
+          "english": "Fire became speech and entered the mouth. Air became breath and entered the nostrils. The sun became sight and entered the eyes. The directions became hearing and entered the ears. Plants became hair and entered the skin. The moon became mind and entered the heart. Death became apana and entered the navel. Waters became seed and entered the organ."
+        },
+        {
+          "id": "aitareya.1.2.5",
+          "sanskrit": "तमशनायापिपासे अब्रूतामावाभ्यामभिप्रजानीहीति ते अब्रवीदेतास्वेव वां देवतास्वाभजाम्येतासु भागिन्न्यौ करोमीति । तस्माद्यस्यै कस्यै च देवतायै हविर्गृह्यते भागिन्यावेवास्यामशनायापिपासे भवतः ॥",
+          "transliteration": "tamaśanāyāpipāse abrūtāmāvābhyāmabhiprajānīhīti te abravīdetāsveva vāṃ devatāsvābhajāmyetāsu bhāginnyau karomīti | tasmādyasyai kasyai ca devatāyai havirgṛhyate bhāginyāvevāsyāmaśanāyāpipāse bhavataḥ ||",
+          "english": "Hunger and thirst said: \"Provide for us.\" He said: \"I assign you to these deities as sharers.\" Therefore, whenever an offering is made, hunger and thirst become partakers."
+        }
+      ]
+    },
+    {
+      "id": "1.3",
+      "name": "First Adhyaya, Third Khanda",
+      sanskritName: `प्रथमाध्याये तृतीयः खण्डः`,
+      "verses": [
+        {
+          "id": "aitareya.1.3.1",
+          "sanskrit": "स ईक्षतेमे नु लोकाश्च लोकपालाश्चान्नमेभ्यः सृजा इति ॥",
+          "transliteration": "sa īkṣateme nu lokāśca lokapālāścānnamebhyaḥ sṛjā iti ||",
+          "english": "He thought: \"Let me now create food for them.\""
+        },
+        {
+          "id": "aitareya.1.3.2",
+          "sanskrit": "सोऽपोऽभ्यतपत्ताभ्योऽभितप्ताभ्यो मूर्तिरजायत । या वै सा मूर्तिरजायतान्नं वै तत् ॥",
+          "transliteration": "so'po'bhyatapattābhyo'bhitaptābhyo mūrtirajāyata | yā vai sā mūrtirajāyatānnaṃ vai tat ||",
+          "english": "He brooded over the waters. From them a form was born — that form is food."
+        },
+        {
+          "id": "aitareya.1.3.3",
+          "sanskrit": "तदेनत्सृष्टं पराङ्त्यजिघांसत्तद्वाचाऽजिघृक्षत् तन्नाशक्नोद्वाचा ग्रहीतुम् । स यद्धैनद्वाचाऽग्रहैष्यदभिव्याहृत्य हैवान्नमत्रप्स्यत् ॥",
+          "transliteration": "tadenatsṛṣṭaṃ parāṅtyajighāṃsattadvācā'jighṛkṣat tannāśaknodvācā grahītum | sa yaddhainadvācā'grahaiṣyadabhivyāhṛtya haivānnamatrapsyat ||",
+          "english": "The created food fled. He tried to grasp it with speech but could not."
+        },
+        {
+          "id": "aitareya.1.3.4",
+          "sanskrit": "तत्प्राणेनाजिघृक्षत् तन्नाशक्नोत्प्राणेन ग्रहीतुं स यद्धैनत्प्राणेनाग्रहैष्यदभिप्राण्य हैवान्नमत्रप्स्यत् ॥",
+          "transliteration": "tatprāṇenājighṛkṣat tannāśaknotprāṇena grahītuṃ sa yaddhainatprāṇenāgrahaiṣyadabhiprāṇya haivānnamatrapsyat ||",
+          "english": "He tried with breath but could not. Had he grasped it with breath, he would have satisfied hunger by breathing on it."
+        },
+        {
+          "id": "aitareya.1.3.5",
+          "sanskrit": "तच्चक्षुषाऽजिघृक्षत् तन्नाशक्नोच्चक्षुषा ग्रहीतुं स यद्धैनच्चक्षुषाऽग्रहैष्यद्दृष्ट्वा हैवान्नमत्रप्स्यत् ॥",
+          "transliteration": "taccakṣuṣā'jighṛkṣat tannāśaknoccakṣuṣā grahītuṃ sa yaddhainaccakṣuṣā'grahaiṣyaddṛṣṭvā haivānnamatrapsyat ||",
+          "english": "He tried with the eye but could not."
+        },
+        {
+          "id": "aitareya.1.3.6",
+          "sanskrit": "तच्छ्रोत्रेणाजिघृक्षत् तन्नाशक्नोच्छ्रोत्रेण ग्रहीतुं स यद्धैनच्छ्रोतेणाग्रहैष्यच्छ्रुत्वा हैवान्नमत्रप्स्यत् ॥",
+          "transliteration": "tacchrotreṇājighṛkṣat tannāśaknocchrotreṇa grahītuṃ sa yaddhainacchroteṇāgrahaiṣyacchrutvā haivānnamatrapsyat ||",
+          "english": "He tried with the ear but could not."
+        },
+        {
+          "id": "aitareya.1.3.7",
+          "sanskrit": "तत्त्वचाऽजिघृक्षत् तन्नाशक्नोत्त्वचा ग्रहीतुं स यद्धैनत्त्वचाऽग्रहैष्यत् स्पृष्ट्वा हैवान्नमत्रप्स्यत् ॥",
+          "transliteration": "tattvacā'jighṛkṣat tannāśaknottvacā grahītuṃ sa yaddhainattvacā'grahaiṣyat spṛṣṭvā haivānnamatrapsyat ||",
+          "english": "He tried with the skin but could not."
+        },
+        {
+          "id": "aitareya.1.3.8",
+          "sanskrit": "तन्मनसाऽजिघृक्षत् तन्नाशक्नोन्मनसा ग्रहीतुं स यद्धैनन्मनसाऽग्रहैष्यद्ध्यात्वा हैवान्नमत्रप्स्यत् ॥",
+          "transliteration": "tanmanasā'jighṛkṣat tannāśaknonmanasā grahītuṃ sa yaddhainanmanasā'grahaiṣyaddhyātvā haivānnamatrapsyat ||",
+          "english": "He tried with the mind but could not."
+        },
+        {
+          "id": "aitareya.1.3.9",
+          "sanskrit": "तच्छिश्नेनाजिघृक्षत् तन्नाशक्नोच्छिश्नेन ग्रहीतुं स यद्धैनच्छिश्नेनाग्रहैष्यद्वित्सृज्य हैवान्नमत्रप्स्यत् ॥",
+          "transliteration": "tacchiśnenājighṛkṣat tannāśaknocchiśnena grahītuṃ sa yaddhainacchiśnenāgrahaiṣyadvitsṛjya haivānnamatrapsyat ||",
+          "english": "He tried with the organ but could not."
+        },
+        {
+          "id": "aitareya.1.3.10",
+          "sanskrit": "तदपानेनाजिघृक्षत् तदावयत् सैषोऽन्नस्य ग्रहो यद्वायुरनायुर्वा एष यद्वायुः ॥",
+          "transliteration": "tadapānenājighṛkṣat tadāvayat saiṣo'nnasya graho yadvāyuranāyurvā eṣa yadvāyuḥ ||",
+          "english": "He tried with apana (downward breath). He seized it. This is the grasper of food — air, the sustainer of life."
+        },
+        {
+          "id": "aitareya.1.3.11",
+          "sanskrit": "स ईक्षत कथं न्विदं मदृते स्यादिति स ईक्षत कतरेण प्रपद्या इति । स ईक्षत यदि वाचाऽभिव्याहृतं यदि प्राणेनाभिप्राणितं यदि चक्षुषा दृष्टं यदि श्रोत्रेण श्रुतं यदि त्वचा स्पृष्टं यदि मनसा ध्यातं यद्यपानेनाभ्यपानितं यदि शिश्नेन विसृष्टमथ कोऽहमिति ॥",
+          "transliteration": "sa īkṣata kathaṃ nvidaṃ madṛte syāditi sa īkṣata katareṇa prapadyā iti | sa īkṣata yadi vācā'bhivyāhṛtaṃ yadi prāṇenābhiprāṇitaṃ yadi cakṣuṣā dṛṣṭaṃ yadi śrotreṇa śrutaṃ yadi tvacā spṛṣṭaṃ yadi manasā dhyātaṃ yadyapānenābhyapānitaṃ yadi śiśnena visṛṣṭamatha ko'hamiti ||",
+          "english": "He thought: \"How could this exist without me? Through which should I enter? If speech names, if breath breathes, if the eye sees, if the ear hears, if the skin touches, if the mind thinks, if apana does its work, if the organ emits — then who am I?\""
+        },
+        {
+          "id": "aitareya.1.3.12",
+          "sanskrit": "स एतमेव सीमानं विदर्यैतया द्वारा प्रापद्यत । सैषा विदृतिर्नाम द्वास्तदेतन्नाऽन्दनम् । तस्य त्रय आवसथास्त्रयः स्वप्ना अयमावसथोऽयमावसथोऽयमावसथ इति ॥",
+          "transliteration": "sa etameva sīmānaṃ vidaryaitayā dvārā prāpadyata | saiṣā vidṛtirnāma dvāstadetannā'ndanam | tasya traya āvasathāstrayaḥ svapnā ayamāvasatho'yamāvasatho'yamāvasatha iti ||",
+          "english": "He split the suture of the skull and entered through that door — Vidrti, the place of bliss. He has three abodes and three dream states."
+        },
+        {
+          "id": "aitareya.1.3.13",
+          "sanskrit": "स जातो भूतान्यभिव्यैख्यत् किमिहान्यं वावदिषदिति । स एतमेव पुरुषं ब्रह्म ततममपश्यत् । इदमदर्शनमिति ॥",
+          "transliteration": "sa jāto bhūtānyabhivyaikhyat kimihānyaṃ vāvadiṣaditi | sa etameva puruṣaṃ brahma tatamamapaśyat | idamadarśanamiti ||",
+          "english": "Being born, he saw all beings: \"What else is there but me?\" He saw that this Person is Brahman, the highest."
+        },
+        {
+          "id": "aitareya.1.3.14",
+          "sanskrit": "तस्मादिदन्द्रो नामेदन्द्रो ह वै नाम । तमिदन्द्रं सन्तमिन्द्र इत्याचक्षते परोक्षेण । परोक्षप्रिया इव हि देवाः परोक्षप्रिया इव हि देवाः ॥",
+          "transliteration": "tasmādidandro nāmedandro ha vai nāma | tamidandraṃ santamindra ityācakṣate parokṣeṇa | parokṣapriyā iva hi devāḥ parokṣapriyā iva hi devāḥ ||",
+          "english": "Therefore he is called Idandra. Though he is Idandra, they call him Indra indirectly — for the gods love the indirect."
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Second Adhyaya",
+      sanskritName: `द्वितीयोध्यायः`,
+      "verses": [
+        {
+          "id": "aitareya.2.1",
+          "sanskrit": "पुरुषे ह वा अयमादितो गर्भो भवति यदेतद्रेतः । तदेतत्सर्वेभ्योऽङ्गेभ्यस्तेजः संभूतमात्मन्येवऽऽत्मानं बिभर्ति तद्यदा स्त्रियां सिञ्चत्यथैनज्जनयति तदस्य प्रथमं जन्म ॥",
+          "transliteration": "puruṣe ha vā ayamādito garbho bhavati yadetadretaḥ | tadetatsarvebhyo'ṅgebhyastejaḥ saṃbhūtamātmanyeva''tmānaṃ bibharti tadyadā striyāṃ siñcatyathainajjanayati tadasya prathamaṃ janma ||",
+          "english": "In the person, seed first becomes an embryo. He bears his own self in himself. When he pours it into a woman, he gives birth — this is his first birth."
+        },
+        {
+          "id": "aitareya.2.2",
+          "sanskrit": "तत्स्त्रिया आत्मभूयं गच्छति यथा स्वमङ्गं तथा । तस्मादेनां न हिनस्ति । साऽस्यैतमात्मानमत्र गतं भावयति ॥",
+          "transliteration": "tatstriyā ātmabhūyaṃ gacchati yathā svamaṅgaṃ tathā | tasmādenāṃ na hinasti | sā'syaitamātmānamatra gataṃ bhāvayati ||",
+          "english": "It becomes one with the woman's body like her own limb. Therefore it does not harm her. She nourishes this self of his."
+        },
+        {
+          "id": "aitareya.2.3",
+          "sanskrit": "सा भावयित्री भावयितव्या भवति । तं स्त्री गर्भ बिभर्ति । सोऽग्र एव कुमारं जन्मनोऽग्रेऽधिभावयति । स यत्कुमारं जन्मनोऽग्रेऽधिभावयत्यात्मानमेव तद्भावयत्येषं लोकानां सन्तत्या । एवं सन्तता हीमे लोकास्तदस्य द्वितीयं जन्म ॥",
+          "transliteration": "sā bhāvayitrī bhāvayitavyā bhavati | taṃ strī garbha bibharti | so'gra eva kumāraṃ janmano'gre'dhibhāvayati | sa yatkumāraṃ janmano'gre'dhibhāvayatyātmānameva tadbhāvayatyeṣaṃ lokānāṃ santatyā | evaṃ santatā hīme lokāstadasya dvitīyaṃ janma ||",
+          "english": "She nourishes and is to be nourished. The father nourishes the boy before birth. By nourishing the boy, he nourishes his own self for the continuity of the worlds. This is his second birth."
+        },
+        {
+          "id": "aitareya.2.4",
+          "sanskrit": "सोऽस्यायमात्मा पुण्येभ्यः कर्मभ्यः प्रतिधीयते । अथास्यायामितर आत्मा कृतकृत्यो वयोगतः प्रैति । स इतः प्रयन्नेव पुनर्जायते तदस्य तृतीयं जन्म ॥",
+          "transliteration": "so'syāyamātmā puṇyebhyaḥ karmabhyaḥ pratidhīyate | athāsyāyāmitara ātmā kṛtakṛtyo vayogataḥ praiti | sa itaḥ prayanneva punarjāyate tadasya tṛtīyaṃ janma ||",
+          "english": "This self is established for virtuous deeds. His other self, having done what was to be done, departs and is born again — this is his third birth."
+        },
+        {
+          "id": "aitareya.2.5",
+          "sanskrit": "तदुक्तमृषिणा गर्भे नु सन्नन्वेषामवेदमहं देवानां जनिमानि विश्वा शतं मा पुर आयसीररक्षन्नधः श्येनो जवसा निरदीयमिति । गर्भ एवैतच्छयानो वामदेव एवमुवाच ॥",
+          "transliteration": "taduktamṛṣiṇā garbhe nu sannanveṣāmavedamahaṃ devānāṃ janimāni viśvā śataṃ mā pura āyasīrarakṣannadhaḥ śyeno javasā niradīyamiti | garbha evaitacchayāno vāmadeva evamuvāca ||",
+          "english": "Thus said the seer Vamadeva, while still in the womb: \"I know all the births of the gods. A hundred iron fortresses guarded me, but I burst through swiftly like a hawk.\""
+        },
+        {
+          "id": "aitareya.2.6",
+          "sanskrit": "स एवं विद्वानस्माच्छरीरभेदादूर्ध्व उत्क्रम्यामुष्मिन् स्वर्गे लोके सर्वान् कामानाप्त्वाऽमृतः समभवत् समभवत् ॥",
+          "transliteration": "sa evaṃ vidvānasmāccharīrabhedādūrdhva utkramyāmuṣmin svarge loke sarvān kāmānāptvā'mṛtaḥ samabhavat samabhavat ||",
+          "english": "He, knowing thus, having risen from this body, attained all desires in that heavenly world and became immortal — indeed, became immortal."
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Third Adhyaya",
+      sanskritName: `तृतीयोध्यायः`,
+      "verses": [
+        {
+          "id": "aitareya.3.1",
+          "sanskrit": "कोऽयमात्मेति वयमुपास्महे कतरः स आत्मा । येन वा पश्यति येन वा शृणोति येन वा गन्धानाजिघ्रति येन वा वाचं व्याकरोति येन वा स्वादु चास्वादु च विजानाति ॥",
+          "transliteration": "ko'yamātmeti vayamupāsmahe kataraḥ sa ātmā | yena vā paśyati yena vā śṛṇoti yena vā gandhānājighrati yena vā vācaṃ vyākaroti yena vā svādu cāsvādu ca vijānāti ||",
+          "english": "Who is this Self? Which is the Self? That by which one sees, hears, smells odors, speaks, and distinguishes sweet and bitter?"
+        },
+        {
+          "id": "aitareya.3.2",
+          "sanskrit": "यदेतद्धृदयं मनश्चैतत् । सञ्ज्ञानमाज्ञानं विज्ञानं प्रज्ञानं मेधा दृष्टिर्धृतिमतिर्मनीषा जूतिः स्मृतिः सङ्कल्पः क्रतुरसुः कामो वश इति । सर्वाण्येवैतानि प्रज्ञानस्य नामधेयानि भवन्ति ॥",
+          "transliteration": "yadetaddhṛdayaṃ manaścaitat | sañjñānamājñānaṃ vijñānaṃ prajñānaṃ medhā dṛṣṭirdhṛtimatirmanīṣā jūtiḥ smṛtiḥ saṅkalpaḥ kraturasuḥ kāmo vaśa iti | sarvāṇyevaitāni prajñānasya nāmadheyāni bhavanti ||",
+          "english": "This is the heart and mind. Consciousness, perception, cognition, intelligence, wisdom, insight, memory, conception, purpose, life, desire, will — all these are names of Consciousness."
+        },
+        {
+          "id": "aitareya.3.3",
+          "sanskrit": "एष ब्रह्मैष इन्द्र एष प्रजापतिरेते सर्वे देवा इमानि च पञ्चमहाभूतानि पृथिवी वायुराकाश आपो ज्योतींषीत्येतानीमानि च क्षुद्रमिश्राणीव । बीजानीतराणि चेतराणि चाण्डजानि च जारुजानि च स्वेदजानि चोद्भिज्जानि चाश्वा गावः पुरुषा हस्तिनो यत्किञ्चेदं प्राणि जङ्गमं च पतत्रि च यच्च स्थावरं सर्वं तत्प्रज्ञानेत्रं प्रज्ञाने प्रतिष्ठितं प्रज्ञानेत्रो लोकः प्रज्ञा प्रतिष्ठा प्रज्ञानं ब्रह्म ॥",
+          "transliteration": "eṣa brahmaiṣa indra eṣa prajāpatirete sarve devā imāni ca pañcamahābhūtāni pṛthivī vāyurākāśa āpo jyotīṃṣītyetānīmāni ca kṣudramiśrāṇīva | bījānītarāṇi cetarāṇi cāṇḍajāni ca jārujāni ca svedajāni codbhijjāni cāśvā gāvaḥ puruṣā hastino yatkiñcedaṃ prāṇi jaṅgamaṃ ca patatri ca yacca sthāvaraṃ sarvaṃ tatprajñānetraṃ prajñāne pratiṣṭhitaṃ prajñānetro lokaḥ prajñā pratiṣṭhā prajñānaṃ brahma ||",
+          "english": "This is Brahma, Indra, Prajapati, all the gods, and the five great elements. All beings — born of eggs, wombs, sweat, and sprouts — horses, cows, humans, elephants, whatever breathes, moves, flies, and is stationary — all is guided by Consciousness, established in Consciousness. Consciousness is Brahman."
+        },
+        {
+          "id": "aitareya.3.4",
+          "sanskrit": "स एतेन प्राज्ञेनऽऽत्मनाऽस्माल्लोकादुत्क्रम्यामुष्मिन्स्वर्गे लोके सर्वान् कामानाप्त्वाऽमृतः समभवत् समभवत् ॥",
+          "transliteration": "sa etena prājñena''tmanā'smāllokādutkramyāmuṣminsvarge loke sarvān kāmānāptvā'mṛtaḥ samabhavat samabhavat ||",
+          "english": "With this conscious Self, having risen from this world and attained all desires, he became immortal — indeed, became immortal."
+        }
+      ]
+    }
+  ],
+  "verses": [
+    {
+      "id": "aitareya.1.1.1",
+      "sanskrit": "आत्मा वा इदमेक एवाग्र आसीन्नान्यत्किञ्चन मिषत् । स ईक्षत लोकान्नु सृजा इति ॥",
+      "transliteration": "ātmā vā idameka evāgra āsīnnānyatkiñcana miṣat | sa īkṣata lokānnu sṛjā iti ||",
+      "english": "The Self alone was all this — one only, without anything else. He thought: \"Let me create the worlds.\""
+    },
+    {
+      "id": "aitareya.1.1.2",
+      "sanskrit": "स इमाँ ल्लोकानसृजत । अम्भो मरीचीर्मरमापोऽदोऽम्भः परेण दिवं द्यौः प्रतिष्ठाऽन्तरिक्षं मरीचयः । पृथिवी मरो या अधस्तात्त आपः ॥",
+      "transliteration": "sa imā~ llokānasṛjata | ambho marīcīrmaramāpo'do'mbhaḥ pareṇa divaṃ dyauḥ pratiṣṭhā'ntarikṣaṃ marīcayaḥ | pṛthivī maro yā adhastātta āpaḥ ||",
+      "english": "He created these worlds: the cosmic waters, rays of light, the mortal world, and waters below."
+    },
+    {
+      "id": "aitareya.1.1.3",
+      "sanskrit": "स ईक्षतेमे नु लोका लोकपालान्नु सृजा इति ॥ सोऽद्भ्य एव पुरुषं समुद्धृत्यामूर्छयत् ॥",
+      "transliteration": "sa īkṣateme nu lokā lokapālānnu sṛjā iti || so'dbhya eva puruṣaṃ samuddhṛtyāmūrchayat ||",
+      "english": "He thought: \"Let me create the guardians of the worlds.\" From the waters he drew forth a person and gave him form."
+    },
+    {
+      "id": "aitareya.1.1.4",
+      "sanskrit": "तमभ्यतपत्तस्याभितप्तस्य मुखं निरभिद्यत यथाऽण्डं मुखाद्वाग्वाचोऽग्निर्नासिके निरभिद्येतं नासिकाभ्यां प्राणः । प्राणाद्वायुरक्षिणी निरभिद्येतमक्षीभ्यां चक्षुश्चक्षुष आदित्यः कर्णौ निरभिद्येतां कर्णाभ्यां श्रोत्रं श्रोत्रद्दिशस्त्वङ्निरभिद्यत त्वचो लोमानि लोमभ्य ओषधिवनस्पतयो हृदयं निरभिद्यत हृदायान्मनो मनसश्चन्द्रमा नाभिर्निरभिद्यत नाभ्या अपानोऽपानान्मृत्युः शिश्नं निरभिद्यत शिश्नाद्रेतो रेतस आपः ॥",
+      "transliteration": "tamabhyatapattasyābhitaptasya mukhaṃ nirabhidyata yathā'ṇḍaṃ mukhādvāgvāco'gnirnāsike nirabhidyetaṃ nāsikābhyāṃ prāṇaḥ | prāṇādvāyurakṣiṇī nirabhidyetamakṣībhyāṃ cakṣuścakṣuṣa ādityaḥ karṇau nirabhidyetāṃ karṇābhyāṃ śrotraṃ śrotraddiśastvaṅnirabhidyata tvaco lomāni lomabhya oṣadhivanaspatayo hṛdayaṃ nirabhidyata hṛdāyānmano manasaścandramā nābhirnirabhidyata nābhyā apāno'pānānmṛtyuḥ śiśnaṃ nirabhidyata śiśnādreto retasa āpaḥ ||",
+      "english": "He brooded. A mouth burst open like an egg. From the mouth, speech; from speech, fire. Nostrils burst open; from them, breath; from breath, air. Eyes burst open; from them, sight; from sight, the sun. Ears burst open; from them, hearing; from hearing, the directions. Skin burst open; from it, hair; from hair, plants. The heart burst open; from it, mind; from mind, the moon. The navel burst open; from it, apana; from apana, death. The organ burst open; from it, seed; from seed, waters."
+    },
+    {
+      "id": "aitareya.1.2.1",
+      "sanskrit": "ता एता देवताः सृष्टा अस्मिन्महत्यर्णवे प्रापतन् । तमशनापिपासाभ्यामन्ववार्जत् । ता एनमब्रुवन्नायतनं नः प्रजानीहि यस्मिन्प्रतिष्ठिता अन्नमदामेति ॥",
+      "transliteration": "tā etā devatāḥ sṛṣṭā asminmahatyarṇave prāpatan | tamaśanāpipāsābhyāmanvavārjat | tā enamabruvannāyatanaṃ naḥ prajānīhi yasminpratiṣṭhitā annamadāmeti ||",
+      "english": "These deities, being created, fell into the great ocean. He afflicted them with hunger and thirst. They said: \"Find us an abode where we may eat food.\""
+    },
+    {
+      "id": "aitareya.1.2.2",
+      "sanskrit": "ताभ्यो गामानयत्ता अब्रुवन्न वै नोऽयमलमिति । ताभ्योऽश्वमानयत्ता अब्रुवन्न वै नोऽयमलमिति ॥",
+      "transliteration": "tābhyo gāmānayattā abruvanna vai no'yamalamiti | tābhyo'śvamānayattā abruvanna vai no'yamalamiti ||",
+      "english": "He brought a cow. \"Not enough.\" He brought a horse. \"Not enough.\""
+    },
+    {
+      "id": "aitareya.1.2.3",
+      "sanskrit": "ताभ्यः पुरुषमानयत्ता अब्रुवन् सुकृतं बतेति पुरुषो वाव सुकृतम् । ता अब्रवीद्यथायतनं प्रविशतेति ॥",
+      "transliteration": "tābhyaḥ puruṣamānayattā abruvan sukṛtaṃ bateti puruṣo vāva sukṛtam | tā abravīdyathāyatanaṃ praviśateti ||",
+      "english": "He brought a human form. \"Well done!\" — the human form is truly well-made. \"Enter, each according to your abode.\""
+    },
+    {
+      "id": "aitareya.1.2.4",
+      "sanskrit": "अग्निर्वाग्भूत्वा मुखं प्राविशद्वायुः प्राणो भूत्वा नासिके प्राविशदादित्यश्चक्षुर्भूत्वाऽक्षिणी प्राविशाद्दिशः श्रोत्रं भूत्वा कर्णौ प्राविशन्नोषधिवनस्पतयो लोमानि भूत्वा त्वचंप्राविशंश्चन्द्रमा मनो भूत्वा हृदयं प्राविशन्मृत्युरपानो भूत्वा नाभिं प्राविशदापो रेतो भूत्वा शिश्नं प्राविशन् ॥",
+      "transliteration": "agnirvāgbhūtvā mukhaṃ prāviśadvāyuḥ prāṇo bhūtvā nāsike prāviśadādityaścakṣurbhūtvā'kṣiṇī prāviśāddiśaḥ śrotraṃ bhūtvā karṇau prāviśannoṣadhivanaspatayo lomāni bhūtvā tvacaṃprāviśaṃścandramā mano bhūtvā hṛdayaṃ prāviśanmṛtyurapāno bhūtvā nābhiṃ prāviśadāpo reto bhūtvā śiśnaṃ prāviśan ||",
+      "english": "Fire became speech and entered the mouth. Air became breath and entered the nostrils. The sun became sight and entered the eyes. The directions became hearing and entered the ears. Plants became hair and entered the skin. The moon became mind and entered the heart. Death became apana and entered the navel. Waters became seed and entered the organ."
+    },
+    {
+      "id": "aitareya.1.2.5",
+      "sanskrit": "तमशनायापिपासे अब्रूतामावाभ्यामभिप्रजानीहीति ते अब्रवीदेतास्वेव वां देवतास्वाभजाम्येतासु भागिन्न्यौ करोमीति । तस्माद्यस्यै कस्यै च देवतायै हविर्गृह्यते भागिन्यावेवास्यामशनायापिपासे भवतः ॥",
+      "transliteration": "tamaśanāyāpipāse abrūtāmāvābhyāmabhiprajānīhīti te abravīdetāsveva vāṃ devatāsvābhajāmyetāsu bhāginnyau karomīti | tasmādyasyai kasyai ca devatāyai havirgṛhyate bhāginyāvevāsyāmaśanāyāpipāse bhavataḥ ||",
+      "english": "Hunger and thirst said: \"Provide for us.\" He said: \"I assign you to these deities as sharers.\" Therefore, whenever an offering is made, hunger and thirst become partakers."
+    },
+    {
+      "id": "aitareya.1.3.1",
+      "sanskrit": "स ईक्षतेमे नु लोकाश्च लोकपालाश्चान्नमेभ्यः सृजा इति ॥",
+      "transliteration": "sa īkṣateme nu lokāśca lokapālāścānnamebhyaḥ sṛjā iti ||",
+      "english": "He thought: \"Let me now create food for them.\""
+    },
+    {
+      "id": "aitareya.1.3.2",
+      "sanskrit": "सोऽपोऽभ्यतपत्ताभ्योऽभितप्ताभ्यो मूर्तिरजायत । या वै सा मूर्तिरजायतान्नं वै तत् ॥",
+      "transliteration": "so'po'bhyatapattābhyo'bhitaptābhyo mūrtirajāyata | yā vai sā mūrtirajāyatānnaṃ vai tat ||",
+      "english": "He brooded over the waters. From them a form was born — that form is food."
+    },
+    {
+      "id": "aitareya.1.3.3",
+      "sanskrit": "तदेनत्सृष्टं पराङ्त्यजिघांसत्तद्वाचाऽजिघृक्षत् तन्नाशक्नोद्वाचा ग्रहीतुम् । स यद्धैनद्वाचाऽग्रहैष्यदभिव्याहृत्य हैवान्नमत्रप्स्यत् ॥",
+      "transliteration": "tadenatsṛṣṭaṃ parāṅtyajighāṃsattadvācā'jighṛkṣat tannāśaknodvācā grahītum | sa yaddhainadvācā'grahaiṣyadabhivyāhṛtya haivānnamatrapsyat ||",
+      "english": "The created food fled. He tried to grasp it with speech but could not."
+    },
+    {
+      "id": "aitareya.1.3.4",
+      "sanskrit": "तत्प्राणेनाजिघृक्षत् तन्नाशक्नोत्प्राणेन ग्रहीतुं स यद्धैनत्प्राणेनाग्रहैष्यदभिप्राण्य हैवान्नमत्रप्स्यत् ॥",
+      "transliteration": "tatprāṇenājighṛkṣat tannāśaknotprāṇena grahītuṃ sa yaddhainatprāṇenāgrahaiṣyadabhiprāṇya haivānnamatrapsyat ||",
+      "english": "He tried with breath but could not. Had he grasped it with breath, he would have satisfied hunger by breathing on it."
+    },
+    {
+      "id": "aitareya.1.3.5",
+      "sanskrit": "तच्चक्षुषाऽजिघृक्षत् तन्नाशक्नोच्चक्षुषा ग्रहीतुं स यद्धैनच्चक्षुषाऽग्रहैष्यद्दृष्ट्वा हैवान्नमत्रप्स्यत् ॥",
+      "transliteration": "taccakṣuṣā'jighṛkṣat tannāśaknoccakṣuṣā grahītuṃ sa yaddhainaccakṣuṣā'grahaiṣyaddṛṣṭvā haivānnamatrapsyat ||",
+      "english": "He tried with the eye but could not."
+    },
+    {
+      "id": "aitareya.1.3.6",
+      "sanskrit": "तच्छ्रोत्रेणाजिघृक्षत् तन्नाशक्नोच्छ्रोत्रेण ग्रहीतुं स यद्धैनच्छ्रोतेणाग्रहैष्यच्छ्रुत्वा हैवान्नमत्रप्स्यत् ॥",
+      "transliteration": "tacchrotreṇājighṛkṣat tannāśaknocchrotreṇa grahītuṃ sa yaddhainacchroteṇāgrahaiṣyacchrutvā haivānnamatrapsyat ||",
+      "english": "He tried with the ear but could not."
+    },
+    {
+      "id": "aitareya.1.3.7",
+      "sanskrit": "तत्त्वचाऽजिघृक्षत् तन्नाशक्नोत्त्वचा ग्रहीतुं स यद्धैनत्त्वचाऽग्रहैष्यत् स्पृष्ट्वा हैवान्नमत्रप्स्यत् ॥",
+      "transliteration": "tattvacā'jighṛkṣat tannāśaknottvacā grahītuṃ sa yaddhainattvacā'grahaiṣyat spṛṣṭvā haivānnamatrapsyat ||",
+      "english": "He tried with the skin but could not."
+    },
+    {
+      "id": "aitareya.1.3.8",
+      "sanskrit": "तन्मनसाऽजिघृक्षत् तन्नाशक्नोन्मनसा ग्रहीतुं स यद्धैनन्मनसाऽग्रहैष्यद्ध्यात्वा हैवान्नमत्रप्स्यत् ॥",
+      "transliteration": "tanmanasā'jighṛkṣat tannāśaknonmanasā grahītuṃ sa yaddhainanmanasā'grahaiṣyaddhyātvā haivānnamatrapsyat ||",
+      "english": "He tried with the mind but could not."
+    },
+    {
+      "id": "aitareya.1.3.9",
+      "sanskrit": "तच्छिश्नेनाजिघृक्षत् तन्नाशक्नोच्छिश्नेन ग्रहीतुं स यद्धैनच्छिश्नेनाग्रहैष्यद्वित्सृज्य हैवान्नमत्रप्स्यत् ॥",
+      "transliteration": "tacchiśnenājighṛkṣat tannāśaknocchiśnena grahītuṃ sa yaddhainacchiśnenāgrahaiṣyadvitsṛjya haivānnamatrapsyat ||",
+      "english": "He tried with the organ but could not."
+    },
+    {
+      "id": "aitareya.1.3.10",
+      "sanskrit": "तदपानेनाजिघृक्षत् तदावयत् सैषोऽन्नस्य ग्रहो यद्वायुरनायुर्वा एष यद्वायुः ॥",
+      "transliteration": "tadapānenājighṛkṣat tadāvayat saiṣo'nnasya graho yadvāyuranāyurvā eṣa yadvāyuḥ ||",
+      "english": "He tried with apana (downward breath). He seized it. This is the grasper of food — air, the sustainer of life."
+    },
+    {
+      "id": "aitareya.1.3.11",
+      "sanskrit": "स ईक्षत कथं न्विदं मदृते स्यादिति स ईक्षत कतरेण प्रपद्या इति । स ईक्षत यदि वाचाऽभिव्याहृतं यदि प्राणेनाभिप्राणितं यदि चक्षुषा दृष्टं यदि श्रोत्रेण श्रुतं यदि त्वचा स्पृष्टं यदि मनसा ध्यातं यद्यपानेनाभ्यपानितं यदि शिश्नेन विसृष्टमथ कोऽहमिति ॥",
+      "transliteration": "sa īkṣata kathaṃ nvidaṃ madṛte syāditi sa īkṣata katareṇa prapadyā iti | sa īkṣata yadi vācā'bhivyāhṛtaṃ yadi prāṇenābhiprāṇitaṃ yadi cakṣuṣā dṛṣṭaṃ yadi śrotreṇa śrutaṃ yadi tvacā spṛṣṭaṃ yadi manasā dhyātaṃ yadyapānenābhyapānitaṃ yadi śiśnena visṛṣṭamatha ko'hamiti ||",
+      "english": "He thought: \"How could this exist without me? Through which should I enter? If speech names, if breath breathes, if the eye sees, if the ear hears, if the skin touches, if the mind thinks, if apana does its work, if the organ emits — then who am I?\""
+    },
+    {
+      "id": "aitareya.1.3.12",
+      "sanskrit": "स एतमेव सीमानं विदर्यैतया द्वारा प्रापद्यत । सैषा विदृतिर्नाम द्वास्तदेतन्नाऽन्दनम् । तस्य त्रय आवसथास्त्रयः स्वप्ना अयमावसथोऽयमावसथोऽयमावसथ इति ॥",
+      "transliteration": "sa etameva sīmānaṃ vidaryaitayā dvārā prāpadyata | saiṣā vidṛtirnāma dvāstadetannā'ndanam | tasya traya āvasathāstrayaḥ svapnā ayamāvasatho'yamāvasatho'yamāvasatha iti ||",
+      "english": "He split the suture of the skull and entered through that door — Vidrti, the place of bliss. He has three abodes and three dream states."
+    },
+    {
+      "id": "aitareya.1.3.13",
+      "sanskrit": "स जातो भूतान्यभिव्यैख्यत् किमिहान्यं वावदिषदिति । स एतमेव पुरुषं ब्रह्म ततममपश्यत् । इदमदर्शनमिति ॥",
+      "transliteration": "sa jāto bhūtānyabhivyaikhyat kimihānyaṃ vāvadiṣaditi | sa etameva puruṣaṃ brahma tatamamapaśyat | idamadarśanamiti ||",
+      "english": "Being born, he saw all beings: \"What else is there but me?\" He saw that this Person is Brahman, the highest."
+    },
+    {
+      "id": "aitareya.1.3.14",
+      "sanskrit": "तस्मादिदन्द्रो नामेदन्द्रो ह वै नाम । तमिदन्द्रं सन्तमिन्द्र इत्याचक्षते परोक्षेण । परोक्षप्रिया इव हि देवाः परोक्षप्रिया इव हि देवाः ॥",
+      "transliteration": "tasmādidandro nāmedandro ha vai nāma | tamidandraṃ santamindra ityācakṣate parokṣeṇa | parokṣapriyā iva hi devāḥ parokṣapriyā iva hi devāḥ ||",
+      "english": "Therefore he is called Idandra. Though he is Idandra, they call him Indra indirectly — for the gods love the indirect."
+    },
+    {
+      "id": "aitareya.2.1",
+      "sanskrit": "पुरुषे ह वा अयमादितो गर्भो भवति यदेतद्रेतः । तदेतत्सर्वेभ्योऽङ्गेभ्यस्तेजः संभूतमात्मन्येवऽऽत्मानं बिभर्ति तद्यदा स्त्रियां सिञ्चत्यथैनज्जनयति तदस्य प्रथमं जन्म ॥",
+      "transliteration": "puruṣe ha vā ayamādito garbho bhavati yadetadretaḥ | tadetatsarvebhyo'ṅgebhyastejaḥ saṃbhūtamātmanyeva''tmānaṃ bibharti tadyadā striyāṃ siñcatyathainajjanayati tadasya prathamaṃ janma ||",
+      "english": "In the person, seed first becomes an embryo. He bears his own self in himself. When he pours it into a woman, he gives birth — this is his first birth."
+    },
+    {
+      "id": "aitareya.2.2",
+      "sanskrit": "तत्स्त्रिया आत्मभूयं गच्छति यथा स्वमङ्गं तथा । तस्मादेनां न हिनस्ति । साऽस्यैतमात्मानमत्र गतं भावयति ॥",
+      "transliteration": "tatstriyā ātmabhūyaṃ gacchati yathā svamaṅgaṃ tathā | tasmādenāṃ na hinasti | sā'syaitamātmānamatra gataṃ bhāvayati ||",
+      "english": "It becomes one with the woman's body like her own limb. Therefore it does not harm her. She nourishes this self of his."
+    },
+    {
+      "id": "aitareya.2.3",
+      "sanskrit": "सा भावयित्री भावयितव्या भवति । तं स्त्री गर्भ बिभर्ति । सोऽग्र एव कुमारं जन्मनोऽग्रेऽधिभावयति । स यत्कुमारं जन्मनोऽग्रेऽधिभावयत्यात्मानमेव तद्भावयत्येषं लोकानां सन्तत्या । एवं सन्तता हीमे लोकास्तदस्य द्वितीयं जन्म ॥",
+      "transliteration": "sā bhāvayitrī bhāvayitavyā bhavati | taṃ strī garbha bibharti | so'gra eva kumāraṃ janmano'gre'dhibhāvayati | sa yatkumāraṃ janmano'gre'dhibhāvayatyātmānameva tadbhāvayatyeṣaṃ lokānāṃ santatyā | evaṃ santatā hīme lokāstadasya dvitīyaṃ janma ||",
+      "english": "She nourishes and is to be nourished. The father nourishes the boy before birth. By nourishing the boy, he nourishes his own self for the continuity of the worlds. This is his second birth."
+    },
+    {
+      "id": "aitareya.2.4",
+      "sanskrit": "सोऽस्यायमात्मा पुण्येभ्यः कर्मभ्यः प्रतिधीयते । अथास्यायामितर आत्मा कृतकृत्यो वयोगतः प्रैति । स इतः प्रयन्नेव पुनर्जायते तदस्य तृतीयं जन्म ॥",
+      "transliteration": "so'syāyamātmā puṇyebhyaḥ karmabhyaḥ pratidhīyate | athāsyāyāmitara ātmā kṛtakṛtyo vayogataḥ praiti | sa itaḥ prayanneva punarjāyate tadasya tṛtīyaṃ janma ||",
+      "english": "This self is established for virtuous deeds. His other self, having done what was to be done, departs and is born again — this is his third birth."
+    },
+    {
+      "id": "aitareya.2.5",
+      "sanskrit": "तदुक्तमृषिणा गर्भे नु सन्नन्वेषामवेदमहं देवानां जनिमानि विश्वा शतं मा पुर आयसीररक्षन्नधः श्येनो जवसा निरदीयमिति । गर्भ एवैतच्छयानो वामदेव एवमुवाच ॥",
+      "transliteration": "taduktamṛṣiṇā garbhe nu sannanveṣāmavedamahaṃ devānāṃ janimāni viśvā śataṃ mā pura āyasīrarakṣannadhaḥ śyeno javasā niradīyamiti | garbha evaitacchayāno vāmadeva evamuvāca ||",
+      "english": "Thus said the seer Vamadeva, while still in the womb: \"I know all the births of the gods. A hundred iron fortresses guarded me, but I burst through swiftly like a hawk.\""
+    },
+    {
+      "id": "aitareya.2.6",
+      "sanskrit": "स एवं विद्वानस्माच्छरीरभेदादूर्ध्व उत्क्रम्यामुष्मिन् स्वर्गे लोके सर्वान् कामानाप्त्वाऽमृतः समभवत् समभवत् ॥",
+      "transliteration": "sa evaṃ vidvānasmāccharīrabhedādūrdhva utkramyāmuṣmin svarge loke sarvān kāmānāptvā'mṛtaḥ samabhavat samabhavat ||",
+      "english": "He, knowing thus, having risen from this body, attained all desires in that heavenly world and became immortal — indeed, became immortal."
+    },
+    {
+      "id": "aitareya.3.1",
+      "sanskrit": "कोऽयमात्मेति वयमुपास्महे कतरः स आत्मा । येन वा पश्यति येन वा शृणोति येन वा गन्धानाजिघ्रति येन वा वाचं व्याकरोति येन वा स्वादु चास्वादु च विजानाति ॥",
+      "transliteration": "ko'yamātmeti vayamupāsmahe kataraḥ sa ātmā | yena vā paśyati yena vā śṛṇoti yena vā gandhānājighrati yena vā vācaṃ vyākaroti yena vā svādu cāsvādu ca vijānāti ||",
+      "english": "Who is this Self? Which is the Self? That by which one sees, hears, smells odors, speaks, and distinguishes sweet and bitter?"
+    },
+    {
+      "id": "aitareya.3.2",
+      "sanskrit": "यदेतद्धृदयं मनश्चैतत् । सञ्ज्ञानमाज्ञानं विज्ञानं प्रज्ञानं मेधा दृष्टिर्धृतिमतिर्मनीषा जूतिः स्मृतिः सङ्कल्पः क्रतुरसुः कामो वश इति । सर्वाण्येवैतानि प्रज्ञानस्य नामधेयानि भवन्ति ॥",
+      "transliteration": "yadetaddhṛdayaṃ manaścaitat | sañjñānamājñānaṃ vijñānaṃ prajñānaṃ medhā dṛṣṭirdhṛtimatirmanīṣā jūtiḥ smṛtiḥ saṅkalpaḥ kraturasuḥ kāmo vaśa iti | sarvāṇyevaitāni prajñānasya nāmadheyāni bhavanti ||",
+      "english": "This is the heart and mind. Consciousness, perception, cognition, intelligence, wisdom, insight, memory, conception, purpose, life, desire, will — all these are names of Consciousness."
+    },
+    {
+      "id": "aitareya.3.3",
+      "sanskrit": "एष ब्रह्मैष इन्द्र एष प्रजापतिरेते सर्वे देवा इमानि च पञ्चमहाभूतानि पृथिवी वायुराकाश आपो ज्योतींषीत्येतानीमानि च क्षुद्रमिश्राणीव । बीजानीतराणि चेतराणि चाण्डजानि च जारुजानि च स्वेदजानि चोद्भिज्जानि चाश्वा गावः पुरुषा हस्तिनो यत्किञ्चेदं प्राणि जङ्गमं च पतत्रि च यच्च स्थावरं सर्वं तत्प्रज्ञानेत्रं प्रज्ञाने प्रतिष्ठितं प्रज्ञानेत्रो लोकः प्रज्ञा प्रतिष्ठा प्रज्ञानं ब्रह्म ॥",
+      "transliteration": "eṣa brahmaiṣa indra eṣa prajāpatirete sarve devā imāni ca pañcamahābhūtāni pṛthivī vāyurākāśa āpo jyotīṃṣītyetānīmāni ca kṣudramiśrāṇīva | bījānītarāṇi cetarāṇi cāṇḍajāni ca jārujāni ca svedajāni codbhijjāni cāśvā gāvaḥ puruṣā hastino yatkiñcedaṃ prāṇi jaṅgamaṃ ca patatri ca yacca sthāvaraṃ sarvaṃ tatprajñānetraṃ prajñāne pratiṣṭhitaṃ prajñānetro lokaḥ prajñā pratiṣṭhā prajñānaṃ brahma ||",
+      "english": "This is Brahma, Indra, Prajapati, all the gods, and the five great elements. All beings — born of eggs, wombs, sweat, and sprouts — horses, cows, humans, elephants, whatever breathes, moves, flies, and is stationary — all is guided by Consciousness, established in Consciousness. Consciousness is Brahman."
+    },
+    {
+      "id": "aitareya.3.4",
+      "sanskrit": "स एतेन प्राज्ञेनऽऽत्मनाऽस्माल्लोकादुत्क्रम्यामुष्मिन्स्वर्गे लोके सर्वान् कामानाप्त्वाऽमृतः समभवत् समभवत् ॥",
+      "transliteration": "sa etena prājñena''tmanā'smāllokādutkramyāmuṣminsvarge loke sarvān kāmānāptvā'mṛtaḥ samabhavat samabhavat ||",
+      "english": "With this conscious Self, having risen from this world and attained all desires, he became immortal — indeed, became immortal."
+    }
+  ]
+
+}
+
+// ===== Prashna Upanishad =====
+export const prashnaUpanishad: Upanishad = {
+
+  "id": "prashna",
+  "name": "Prashna Upanishad",
+  sanskritName: `प्रश्नोपनिषद्`,
+  "transliteration": "Praśnopaniṣad",
+  "summary": "The Prashna Upanishad (\"Upanishad of Questions\") contains six profound questions posed by six seekers to the sage Pippalada. Each question explores a different aspect of ultimate reality: creation, the supremacy of Prana, the nature of breath, the states of consciousness, the significance of OM, and the 16-part Person.",
+  "theme": "The nature of Prana, the creation of beings, the states of consciousness (waking, dream, deep sleep), the meaning of OM, and the supreme Person.",
+  "verseCount": 67,
+  "sections": [
+    {
+      "id": "1",
+      "name": "First Question",
+      sanskritName: `प्रथमः प्रश्नः`,
+      "verses": [
+        {
+          "id": "prashna.1.1",
+          "sanskrit": "सुकेशा च भारद्वाजः शैब्यश्च सत्यकामः सौर्यायणी च गार्ग्यः कौसल्यश्चाश्वलायनो भार्गवो वैदर्भिः कबन्धी कात्यायनस्ते हैते ब्रह्मपरा ब्रह्मनिष्ठाः परं ब्रह्मान्वेषमाणा एष ह वै तत्सर्वं वक्ष्यतीति ते ह समित्पाणयो भगवन्तं पिप्पलादमुपसन्नाः ॥",
+          "transliteration": "sukeśā ca bhāradvājaḥ śaibyaśca satyakāmaḥ sauryāyaṇī ca gārgyaḥ kausalyaścāśvalāyano bhārgavo vaidarbhiḥ kabandhī kātyāyanaste haite brahmaparā brahmaniṣṭhāḥ paraṃ brahmānveṣamāṇā eṣa ha vai tatsarvaṃ vakṣyatīti te ha samitpāṇayo bhagavantaṃ pippalādamupasannāḥ ||",
+          "english": "Sukesa, Saibya, Sauryayani, Kausalya, Bhargava, and Kabandhi — seekers of Brahman — approached the venerable Pippalada with firewood in hand."
+        },
+        {
+          "id": "prashna.1.2",
+          "sanskrit": "तान्ह स ऋषिरुवाच भूय एव तपसा ब्रह्मचर्येण श्रद्धया संवत्सरं संवत्स्यथ यथाकामं प्रश्नान् पृच्छत यदि विज्ञास्यामः सर्वं ह वो वक्ष्याम इति ॥",
+          "transliteration": "tānha sa ṛṣiruvāca bhūya eva tapasā brahmacaryeṇa śraddhayā saṃvatsaraṃ saṃvatsyatha yathākāmaṃ praśnān pṛcchata yadi vijñāsyāmaḥ sarvaṃ ha vo vakṣyāma iti ||",
+          "english": "The sage said: \"Live here for a year with austerity, celibacy, and faith. Then ask questions as you wish.\""
+        },
+        {
+          "id": "prashna.1.3",
+          "sanskrit": "अथ कबन्धी कात्यायन उपेत्य पप्रच्छ । भगवन् कुते ह वा इमाः प्रजाः प्रजायन्त इति ॥",
+          "transliteration": "atha kabandhī kātyāyana upetya papraccha | bhagavan kute ha vā imāḥ prajāḥ prajāyanta iti ||",
+          "english": "Kabandhi asked: \"Lord, from where are these beings born?\""
+        },
+        {
+          "id": "prashna.1.4",
+          "sanskrit": "तस्मै स होवाच प्रजाकामो वै प्रजापतिः स तपोऽतप्यत स तपस्तप्त्वा स मिथुनमुत्पादयते । रयिं च प्राणं चेत्येतौ मे बहुधा प्रजाः करिष्यत इति ॥",
+          "transliteration": "tasmai sa hovāca prajākāmo vai prajāpatiḥ sa tapo'tapyata sa tapastaptvā sa mithunamutpādayate | rayiṃ ca prāṇaṃ cetyetau me bahudhā prajāḥ kariṣyata iti ||",
+          "english": "He replied: \"Prajapati, desiring offspring, performed austerity and created a pair: Rayi (matter) and Prana (life).\""
+        },
+        {
+          "id": "prashna.1.5",
+          "sanskrit": "आदित्यो ह वै प्राणो रयिरेव चन्द्रमा रयिर्वा एतत् सर्वं यन्मूर्तं चामूर्तं च तस्मान्मूर्तिरेव रयिः ॥",
+          "transliteration": "ādityo ha vai prāṇo rayireva candramā rayirvā etat sarvaṃ yanmūrtaṃ cāmūrtaṃ ca tasmānmūrtireva rayiḥ ||",
+          "english": "The sun is Prana; the moon is matter. All that is formed and formless is matter."
+        },
+        {
+          "id": "prashna.1.6",
+          "sanskrit": "अथादित्य उदयन्यत्प्राचीं दिशं प्रविशति तेन प्राच्यान् प्राणान् रश्मिषु सन्निधत्ते । यद्दक्षिणं यत् प्रतीचीं यदुदीचीं यदधो यदूर्ध्वं यदन्तरा दिशो यत् सर्वं प्रकाशयति तेन सर्वान् प्राणान् रश्मिषु सन्निधत्ते ॥",
+          "transliteration": "athāditya udayanyatprācīṃ diśaṃ praviśati tena prācyān prāṇān raśmiṣu sannidhatte | yaddakṣiṇaṃ yat pratīcīṃ yadudīcīṃ yadadho yadūrdhvaṃ yadantarā diśo yat sarvaṃ prakāśayati tena sarvān prāṇān raśmiṣu sannidhatte ||",
+          "english": "The rising sun enters all directions and gathers the life-forces in his rays."
+        },
+        {
+          "id": "prashna.1.7",
+          "sanskrit": "स एष वैश्वानरो विश्वरूपः प्राणोऽग्निरुदयते । तदेतदृचाऽभ्युक्तम् ॥",
+          "transliteration": "sa eṣa vaiśvānaro viśvarūpaḥ prāṇo'gnirudayate | tadetadṛcā'bhyuktam ||",
+          "english": "This Vaishvanara, assuming all forms, rises as life-fire."
+        },
+        {
+          "id": "prashna.1.8",
+          "sanskrit": "विश्वरूपं हरिणं जातवेदसं परायणं ज्योतिरेकं तपन्तम् । सहस्ररश्मिः शतधा वर्तमानः प्राणः प्रजानामुदयत्येष सूर्यः ॥",
+          "transliteration": "viśvarūpaṃ hariṇaṃ jātavedasaṃ parāyaṇaṃ jyotirekaṃ tapantam | sahasraraśmiḥ śatadhā vartamānaḥ prāṇaḥ prajānāmudayatyeṣa sūryaḥ ||",
+          "english": "The thousand-rayed, hundred-circuited sun rises as the life of all beings."
+        },
+        {
+          "id": "prashna.1.9",
+          "sanskrit": "संवत्सरो वै प्रजापतिस्तस्यायने दक्षिणं चोत्तरं च । तद्ये ह वै तदिष्टापूर्ते कृतमित्युपासते ते चान्द्रमसमेव लोकमभिजयन्ते । त एव पुनरावर्तन्ते तस्मादेत ऋषयः प्रजाकामा दक्षिणं प्रतिपद्यन्ते । एष ह वै रयिर्यः पितृयाणः ॥",
+          "transliteration": "saṃvatsaro vai prajāpatistasyāyane dakṣiṇaṃ cottaraṃ ca | tadye ha vai tadiṣṭāpūrte kṛtamityupāsate te cāndramasameva lokamabhijayante | ta eva punarāvartante tasmādeta ṛṣayaḥ prajākāmā dakṣiṇaṃ pratipadyante | eṣa ha vai rayiryaḥ pitṛyāṇaḥ ||",
+          "english": "The year is Prajapati with two paths. Those who worship actions gain the lunar world and return. The southern path is the path of the fathers."
+        },
+        {
+          "id": "prashna.1.10",
+          "sanskrit": "अथोत्तरेण तपसा ब्रह्मचर्येण श्रद्धया विद्ययाऽऽत्मानमन्विष्यादित्यमभिजयन्ते । एतद्वै प्राणानामायतनमेतदमृतमभयमेतत् परायणमेतस्मान्न पुनरावर्तन्त इत्य् एष निरोधस्तदेष श्लोकः ॥",
+          "transliteration": "athottareṇa tapasā brahmacaryeṇa śraddhayā vidyayā''tmānamanviṣyādityamabhijayante | etadvai prāṇānāmāyatanametadamṛtamabhayametat parāyaṇametasmānna punarāvartanta ity eṣa nirodhastadeṣa ślokaḥ ||",
+          "english": "By the northern path, through austerity and knowledge, they seek the Self and attain the sun — the immortal, fearless, supreme goal. From there they do not return."
+        },
+        {
+          "id": "prashna.1.11",
+          "sanskrit": "पञ्चपादं पितरं द्वादशाकृतिं दिव आहुः परे अर्धे पुरीषिणम् । अथेमे अन्य उ परे विचक्षणं सप्तचक्रे षडर आहुरर्पितमिति ॥",
+          "transliteration": "pañcapādaṃ pitaraṃ dvādaśākṛtiṃ diva āhuḥ pare ardhe purīṣiṇam | atheme anya u pare vicakṣaṇaṃ saptacakre ṣaḍara āhurarpitamiti ||",
+          "english": "They speak of the five-footed father in the eastern sky, and the wise one of seven wheels and six spokes in the other half."
+        },
+        {
+          "id": "prashna.1.12",
+          "sanskrit": "मासो वै प्रजापतिस्तस्य कृष्णपक्ष एव रयिः शुक्लः प्रणस्तस्मादेत ऋषयः शुक्ल इष्टं कुर्वन्तीतर इतरस्मिन् ॥",
+          "transliteration": "māso vai prajāpatistasya kṛṣṇapakṣa eva rayiḥ śuklaḥ praṇastasmādeta ṛṣayaḥ śukla iṣṭaṃ kurvantītara itarasmin ||",
+          "english": "The month is Prajapati. Its dark half is matter, its bright half is life."
+        },
+        {
+          "id": "prashna.1.13",
+          "sanskrit": "अहोरात्रो वै प्रजापतिस्तस्याहरेव प्राणो रात्रिरेव रयिः प्राणं वा एते प्रस्कन्दन्ति ये दिवा रत्या संयुज्यन्ते ब्रह्मचर्यमेव तद्यद्रात्रौ रत्या संयुज्यन्ते ॥",
+          "transliteration": "ahorātro vai prajāpatistasyāhareva prāṇo rātrireva rayiḥ prāṇaṃ vā ete praskandanti ye divā ratyā saṃyujyante brahmacaryameva tadyadrātrau ratyā saṃyujyante ||",
+          "english": "Day and night are Prajapati. Day is life, night is matter."
+        },
+        {
+          "id": "prashna.1.14",
+          "sanskrit": "अन्नं वै प्रजापतिस्ततो ह वै तद्रेतस्तस्मादिमाः प्रजाः प्रजायन्त इति ॥",
+          "transliteration": "annaṃ vai prajāpatistato ha vai tadretastasmādimāḥ prajāḥ prajāyanta iti ||",
+          "english": "Food is Prajapati. From that comes seed, and from seed these beings are born."
+        },
+        {
+          "id": "prashna.1.15",
+          "sanskrit": "तद्ये ह वै तत् प्रजापतिव्रतं चरन्ति ते मिथुनमुत्पादयन्ते । तेषामेवैष ब्रह्मलोको येषां तपो ब्रह्मचर्यं येषु सत्यं प्रतिष्ठितम् ॥",
+          "transliteration": "tadye ha vai tat prajāpativrataṃ caranti te mithunamutpādayante | teṣāmevaiṣa brahmaloko yeṣāṃ tapo brahmacaryaṃ yeṣu satyaṃ pratiṣṭhitam ||",
+          "english": "Those who follow this rule produce offspring. The Brahmaloka belongs to those in whom truth is established."
+        },
+        {
+          "id": "prashna.1.16",
+          "sanskrit": "तेषामसौ विरजो ब्रह्मलोको न येषु जिह्ममनृतं न माया चेति ॥",
+          "transliteration": "teṣāmasau virajo brahmaloko na yeṣu jihmamanṛtaṃ na māyā ceti ||",
+          "english": "For them there is the spotless Brahmaloka, in whom there is no crookedness, falsehood, or deception."
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Second Question",
+      sanskritName: `द्वितीयः प्रश्नः`,
+      "verses": [
+        {
+          "id": "prashna.2.1",
+          "sanskrit": "अथ हैनं भार्गवो वैदर्भिः पप्रच्छ । भगवन् कत्येव देवाः प्रजां विधारयन्ते कतर एतत् प्रकाशयन्ते कः पुनरेषां वरिष्ठ इति ॥",
+          "transliteration": "atha hainaṃ bhārgavo vaidarbhiḥ papraccha | bhagavan katyeva devāḥ prajāṃ vidhārayante katara etat prakāśayante kaḥ punareṣāṃ variṣṭha iti ||",
+          "english": "Bhargava asked: \"How many gods sustain the body? Which ones illumine it? Who among them is the greatest?\""
+        },
+        {
+          "id": "prashna.2.2",
+          "sanskrit": "तस्मै स होवाचाकाशो ह वा एष देवो वायुरग्निरापः पृथिवी वाङ्मनश्चक्षुः श्रोत्रं च । ते प्रकाश्याभिवदन्ति वयमेतद्बाणमवष्टभ्य विधारयामः ॥",
+          "transliteration": "tasmai sa hovācākāśo ha vā eṣa devo vāyuragnirāpaḥ pṛthivī vāṅmanaścakṣuḥ śrotraṃ ca | te prakāśyābhivadanti vayametadbāṇamavaṣṭabhya vidhārayāmaḥ ||",
+          "english": "He replied: \"Space, air, fire, water, earth, speech, mind, eye, ear — these gods sustain this body.\""
+        },
+        {
+          "id": "prashna.2.3",
+          "sanskrit": "तान् वरिष्ठः प्राण उवाच । मा मोहमापद्यथ अहमेवैतत् पञ्चधाऽऽत्मानं प्रविभज्यैतद्बाणमवष्टभ्य विधारयामीति तेऽश्रद्दधाना बभूवुः ॥",
+          "transliteration": "tān variṣṭhaḥ prāṇa uvāca | mā mohamāpadyatha ahamevaitat pañcadhā''tmānaṃ pravibhajyaitadbāṇamavaṣṭabhya vidhārayāmīti te'śraddadhānā babhūvuḥ ||",
+          "english": "Prana said: \"Do not be deluded. I alone, dividing myself fivefold, sustain this body.\" But they did not believe."
+        },
+        {
+          "id": "prashna.2.4",
+          "sanskrit": "सोऽभिमानादूर्ध्वमुत्क्रामत इव तस्मिन्नुत्क्रामत्यथेतरे सर्व एवोत्क्रामन्ते तस्मिंश्च प्रतिष्ठमाने सर्व एव प्रतिष्ठन्ते । तद्यथा मक्षिका मधुकरराजानमुत्क्रामन्तं सर्व एवोत्क्रमन्ते तस्मिंष्च प्रतिष्ठमाने सर्व एव प्रातिष्टन्त एवं वाङ्मनष्चक्षुः श्रोत्रं च ते प्रीताः प्राणं स्तुन्वन्ति ॥",
+          "transliteration": "so'bhimānādūrdhvamutkrāmata iva tasminnutkrāmatyathetare sarva evotkrāmante tasmiṃśca pratiṣṭhamāne sarva eva pratiṣṭhante | tadyathā makṣikā madhukararājānamutkrāmantaṃ sarva evotkramante tasmiṃṣca pratiṣṭhamāne sarva eva prātiṣṭanta evaṃ vāṅmanaṣcakṣuḥ śrotraṃ ca te prītāḥ prāṇaṃ stunvanti ||",
+          "english": "Prana started to depart, and all the others rose with him. Just as bees rise when their queen rises, so speech, mind, eye, and ear — delighted — praised Prana."
+        },
+        {
+          "id": "prashna.2.5",
+          "sanskrit": "एषोऽग्निस्तपत्येष सूर्य एष पर्जन्यो मघवानेष वायुः । एष पृथिवी रयिर्देवः सदसच्चामृतं च यत् ॥",
+          "transliteration": "eṣo'gnistapatyeṣa sūrya eṣa parjanyo maghavāneṣa vāyuḥ | eṣa pṛthivī rayirdevaḥ sadasaccāmṛtaṃ ca yat ||",
+          "english": "He blazes as fire, shines as the sun, is the rain, Indra, air, earth, matter, the gods, being and non-being, and immortality."
+        },
+        {
+          "id": "prashna.2.6",
+          "sanskrit": "अरा इव रथनाभौ प्राणे सर्वं प्रतिष्ठितम् । ऋचो यजूँषि सामानि यज्ञः क्षत्रं ब्रह्म च ॥",
+          "transliteration": "arā iva rathanābhau prāṇe sarvaṃ pratiṣṭhitam | ṛco yajū~ṣi sāmāni yajñaḥ kṣatraṃ brahma ca ||",
+          "english": "As spokes in the hub of a wheel, all are established in Prana: the Vedas, sacrifice, and all orders of society."
+        },
+        {
+          "id": "prashna.2.7",
+          "sanskrit": "प्रजापतिश्चरसि गर्भे त्वमेव प्रतिजायसे । तुभ्यं प्राण प्रजास्त्विमा बलिं हरन्ति यः प्राणैः प्रतितिष्ठसि ॥",
+          "transliteration": "prajāpatiścarasi garbhe tvameva pratijāyase | tubhyaṃ prāṇa prajāstvimā baliṃ haranti yaḥ prāṇaiḥ pratitiṣṭhasi ||",
+          "english": "O Prana, as Prajapati you move in the womb and are born again. To you beings bring offerings."
+        },
+        {
+          "id": "prashna.2.8",
+          "sanskrit": "देवानामसि वह्नितमः पितॄणां प्रथमा स्वधा । ऋषीणां चरितं सत्यमथर्वाङ्गिरसामसि ॥",
+          "transliteration": "devānāmasi vahnitamaḥ pitṝṇāṃ prathamā svadhā | ṛṣīṇāṃ caritaṃ satyamatharvāṅgirasāmasi ||",
+          "english": "You are the supreme carrier for the gods, the first offering for the ancestors, the truth of the seers."
+        },
+        {
+          "id": "prashna.2.9",
+          "sanskrit": "इन्द्रस्त्वं प्राण तेजसा रुद्रोऽसि परिरक्षिता । त्वमन्तरिक्षे चरसि सूर्यस्त्वं ज्योतिषां पतिः ॥",
+          "transliteration": "indrastvaṃ prāṇa tejasā rudro'si parirakṣitā | tvamantarikṣe carasi sūryastvaṃ jyotiṣāṃ patiḥ ||",
+          "english": "You are Indra, Rudra by your radiance, the protector. You move in the sky; you are the sun, lord of lights."
+        },
+        {
+          "id": "prashna.2.10",
+          "sanskrit": "यदा त्वमभिवर्षस्यथेमाः प्राण ते प्रजाः । आनन्दरूपास्तिष्ठन्ति कामायान्नं भविष्यतीति ॥",
+          "transliteration": "yadā tvamabhivarṣasyathemāḥ prāṇa te prajāḥ | ānandarūpāstiṣṭhanti kāmāyānnaṃ bhaviṣyatīti ||",
+          "english": "When you pour down as rain, O Prana, these beings rejoice, thinking there will be food."
+        },
+        {
+          "id": "prashna.2.11",
+          "sanskrit": "व्रात्यस्त्वं प्राणैकर्षरत्ता विश्वस्य सत्पतिः । वयमाद्यस्य दातारः पिता त्वं मातरिश्व नः ॥",
+          "transliteration": "vrātyastvaṃ prāṇaikarṣarattā viśvasya satpatiḥ | vayamādyasya dātāraḥ pitā tvaṃ mātariśva naḥ ||",
+          "english": "O Prana, you are the sole seer, the true lord of all. You are our father, O Matarisva."
+        },
+        {
+          "id": "prashna.2.12",
+          "sanskrit": "या ते तनूर्वाचि प्रतिष्ठिता या श्रोत्रे या च चक्षुषि । या च मनसि सन्तता शिवां तां कुरु मोत्क्रमीः ॥",
+          "transliteration": "yā te tanūrvāci pratiṣṭhitā yā śrotre yā ca cakṣuṣi | yā ca manasi santatā śivāṃ tāṃ kuru motkramīḥ ||",
+          "english": "May that form of yours established in speech, ear, eye, and mind — make that auspicious, do not depart."
+        },
+        {
+          "id": "prashna.2.13",
+          "sanskrit": "प्राणस्येदं वशे सर्वं त्रिदिवे यत् प्रतिष्ठितम् । मातेव पुत्रान् रक्षस्व श्रीश्च प्रज्ञां च विधेहि न इति ॥",
+          "transliteration": "prāṇasyedaṃ vaśe sarvaṃ tridive yat pratiṣṭhitam | māteva putrān rakṣasva śrīśca prajñāṃ ca vidhehi na iti ||",
+          "english": "All this is under Prana's control. Protect us as a mother protects her sons. Grant us prosperity and wisdom."
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Third Question",
+      sanskritName: `तृतीयः प्रश्नः`,
+      "verses": [
+        {
+          "id": "prashna.3.1",
+          "sanskrit": "अथ हैनं कौशल्यश्चाश्वलायनः पप्रच्छ । भगवन् कुत एष प्राणो जायते कथमायात्यस्मिञ्शरीर आत्मानं वा प्रविभज्य कथं प्रतिष्ठते केनोत्क्रमते कथं बाह्यमभिधत्ते कथमध्यात्ममिति ॥",
+          "transliteration": "atha hainaṃ kauśalyaścāśvalāyanaḥ papraccha | bhagavan kuta eṣa prāṇo jāyate kathamāyātyasmiñśarīra ātmānaṃ vā pravibhajya kathaṃ pratiṣṭhate kenotkramate kathaṃ bāhyamabhidhatte kathamadhyātmamiti ||",
+          "english": "Kausalya asked: \"Lord, from where is this Prana born? How does it enter the body? How does it function? How does it depart?\""
+        },
+        {
+          "id": "prashna.3.2",
+          "sanskrit": "तस्मै स होवाचातिप्रश्नान् पृच्छसि ब्रह्मिष्ठोऽसीति तस्मात्तेऽहं ब्रवीमि ॥",
+          "transliteration": "tasmai sa hovācātipraśnān pṛcchasi brahmiṣṭho'sīti tasmātte'haṃ bravīmi ||",
+          "english": "He replied: \"You ask profound questions. Since you are the foremost in Brahman, I will tell you.\""
+        },
+        {
+          "id": "prashna.3.3",
+          "sanskrit": "आत्मन एष प्राणो जायते । यथैषा पुरुषे छायैतस्मिन्नेतदाततं मनोकृतेनायात्यस्मिञ्शरीरे ॥",
+          "transliteration": "ātmana eṣa prāṇo jāyate | yathaiṣā puruṣe chāyaitasminnetadātataṃ manokṛtenāyātyasmiñśarīre ||",
+          "english": "From the Self, Prana is born. Like a shadow cast by a person, it pervades the body, entering through mental action."
+        },
+        {
+          "id": "prashna.3.4",
+          "sanskrit": "यथा सम्रादेवाधिकृतान् विनियुङ्क्ते । एतन् ग्रामानोतान् ग्रामानधितिष्ठस्वेत्येवमेवैष प्राण इतरान् प्राणान् पृथक् पृथगेव सन्निधत्ते ॥",
+          "transliteration": "yathā samrādevādhikṛtān viniyuṅkte | etan grāmānotān grāmānadhitiṣṭhasvetyevamevaiṣa prāṇa itarān prāṇān pṛthak pṛthageva sannidhatte ||",
+          "english": "As a king appoints officials, so Prana appoints the other pranas in their respective places."
+        },
+        {
+          "id": "prashna.3.5",
+          "sanskrit": "पायूपस्थेऽपानं चक्षुःश्रोत्रे मुखनासिकाभ्यां प्राणः स्वयं प्रातिष्ठते मध्ये तु समानः । एष ह्येतद्धुतमन्नं समं नयति तस्मादेताः सप्तार्चिषो भवन्ति ॥",
+          "transliteration": "pāyūpasthe'pānaṃ cakṣuḥśrotre mukhanāsikābhyāṃ prāṇaḥ svayaṃ prātiṣṭhate madhye tu samānaḥ | eṣa hyetaddhutamannaṃ samaṃ nayati tasmādetāḥ saptārciṣo bhavanti ||",
+          "english": "Apana in the organ of excretion; Prana itself in the eye, ear, mouth, and nose; Samana in the middle, equally distributing food."
+        },
+        {
+          "id": "prashna.3.6",
+          "sanskrit": "हृदि ह्येष आत्मा । अत्रैतदेकशतं नाडीनां तासां शतं शतमेकैकस्या द्वासप्ततिर्द्वासप्ततिः प्रतिशाखानाडीसहस्राणि भवन्त्यासु व्यानश्चरति ॥",
+          "transliteration": "hṛdi hyeṣa ātmā | atraitadekaśataṃ nāḍīnāṃ tāsāṃ śataṃ śatamekaikasyā dvāsaptatirdvāsaptatiḥ pratiśākhānāḍīsahasrāṇi bhavantyāsu vyānaścarati ||",
+          "english": "This Self is in the heart. There are 101 arteries. Each divides into 100, each into 72,000 branches. Through these, Vyana circulates."
+        },
+        {
+          "id": "prashna.3.7",
+          "sanskrit": "अथैकयोर्ध्व उदानः पुण्येन पुण्यं लोकं नयति पापेन पापमुभाभ्यामेव मनुष्यलोकम् ॥",
+          "transliteration": "athaikayordhva udānaḥ puṇyena puṇyaṃ lokaṃ nayati pāpena pāpamubhābhyāmeva manuṣyalokam ||",
+          "english": "Udana leads upward — by good deeds to a good world, by evil to an evil world, by both to the human world."
+        },
+        {
+          "id": "prashna.3.8",
+          "sanskrit": "आदित्यो ह वै बाह्यः प्राण उदयत्येष ह्येनं चाक्षुषं प्राणमनुगृह्णानः । पृथिव्यां या देवता सैषा पुरुषस्य अपानमवष्टभ्यान्तरा यदाकाशः स समानो वायुर्व्यानः ॥",
+          "transliteration": "ādityo ha vai bāhyaḥ prāṇa udayatyeṣa hyenaṃ cākṣuṣaṃ prāṇamanugṛhṇānaḥ | pṛthivyāṃ yā devatā saiṣā puruṣasya apānamavaṣṭabhyāntarā yadākāśaḥ sa samāno vāyurvyānaḥ ||",
+          "english": "The sun is the external Prana. The earth deity supports the apana. The space between is samana; air is vyana."
+        },
+        {
+          "id": "prashna.3.9",
+          "sanskrit": "तेजो ह वा उदानस्तस्मादुपशान्ततेजाः । पुनर्भवमिन्द्रियैर्मनसि सम्पद्यमानैः ॥",
+          "transliteration": "tejo ha vā udānastasmādupaśāntatejāḥ | punarbhavamindriyairmanasi sampadyamānaiḥ ||",
+          "english": "Udana is fire. One whose fire is extinguished returns to birth with the senses absorbed in the mind."
+        },
+        {
+          "id": "prashna.3.10",
+          "sanskrit": "यच्चित्तस्तेनैष प्राणमायाति । प्राणस्तेजसा युक्तः सहात्मना तथासङ्कल्पितं लोकं नयति ॥",
+          "transliteration": "yaccittastenaiṣa prāṇamāyāti | prāṇastejasā yuktaḥ sahātmanā tathāsaṅkalpitaṃ lokaṃ nayati ||",
+          "english": "By whatever thought one dies, Prana, united with fire and the Self, leads to that world."
+        },
+        {
+          "id": "prashna.3.11",
+          "sanskrit": "य एवं विद्वान् प्राणं वेद न हास्य प्रजा हीयतेऽमृतो भवति तदेषः श्लोकः ॥",
+          "transliteration": "ya evaṃ vidvān prāṇaṃ veda na hāsya prajā hīyate'mṛto bhavati tadeṣaḥ ślokaḥ ||",
+          "english": "One who knows Prana thus — his offspring do not perish, and he becomes immortal."
+        },
+        {
+          "id": "prashna.3.12",
+          "sanskrit": "उत्पत्तिमायतिं स्थानं विभुत्वं चैव पञ्चधा । अध्यात्मं चैव प्राणस्य विज्ञायामृतमश्नुते विज्ञायामृतमश्नुत इति ॥",
+          "transliteration": "utpattimāyatiṃ sthānaṃ vibhutvaṃ caiva pañcadhā | adhyātmaṃ caiva prāṇasya vijñāyāmṛtamaśnute vijñāyāmṛtamaśnuta iti ||",
+          "english": "Knowing the origin, entry, function, fivefold nature, and inner nature of Prana, one attains immortality."
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Fourth Question",
+      sanskritName: `चतुर्थः प्रश्नः`,
+      "verses": [
+        {
+          "id": "prashna.4.1",
+          "sanskrit": "अथ हैनं सौर्यायणि गार्ग्यः पप्रच्छ । भगवन्नेतस्मिन् पुरुषे कानि स्वपन्ति कान्यस्मिञ्जाग्रति कतर एष देवः स्वप्नान् पश्यति कस्यैतत् सुखं भवति कस्मिन्नु सर्वे सम्प्रतिष्ठिता भवन्तीति ॥",
+          "transliteration": "atha hainaṃ sauryāyaṇi gārgyaḥ papraccha | bhagavannetasmin puruṣe kāni svapanti kānyasmiñjāgrati katara eṣa devaḥ svapnān paśyati kasyaitat sukhaṃ bhavati kasminnu sarve sampratiṣṭhitā bhavantīti ||",
+          "english": "Sauryayani asked: \"Lord, what sleeps in this person? What remains awake? Who sees dreams? In whom are all established?\""
+        },
+        {
+          "id": "prashna.4.2",
+          "sanskrit": "तस्मै स होवाच यथा गार्ग्य मरीचयोऽर्कस्यास्तं गच्छतः सर्वा एतस्मिंस्तेजोमण्डल एकीभवन्ति ताः पुनः पुनरुदयतः प्रचरन्त्येवं ह वै तत् सर्वं परे देवे मनस्येकीभवति तेन तर्ह्येष पुरुषो न शृणोति न पश्यति न जिघ्रति न रसयते न स्पृशते नाभिवदते नादत्ते नानन्दयते न विसृजते नेयायते स्वपितीत्याचक्षते ॥",
+          "transliteration": "tasmai sa hovāca yathā gārgya marīcayo'rkasyāstaṃ gacchataḥ sarvā etasmiṃstejomaṇḍala ekībhavanti tāḥ punaḥ punarudayataḥ pracarantyevaṃ ha vai tat sarvaṃ pare deve manasyekībhavati tena tarhyeṣa puruṣo na śṛṇoti na paśyati na jighrati na rasayate na spṛśate nābhivadate nādatte nānandayate na visṛjate neyāyate svapitītyācakṣate ||",
+          "english": "As all rays merge into the sun at sunset and emerge at sunrise, so all this merges in the supreme being — the mind. Then one does not hear, see, smell, taste, touch, speak, or enjoy. They say: \"He sleeps.\""
+        },
+        {
+          "id": "prashna.4.3",
+          "sanskrit": "प्राणाग्नय एवैतस्मिन् पुरे जाग्रति । गार्हपत्यो ह वा एषोऽपानो व्यानोऽन्वाहार्यपचनो यद्गार्हपत्यात् प्रणीयते प्रणयनादाहवनीयः प्राणः ॥",
+          "transliteration": "prāṇāgnaya evaitasmin pure jāgrati | gārhapatyo ha vā eṣo'pāno vyāno'nvāhāryapacano yadgārhapatyāt praṇīyate praṇayanādāhavanīyaḥ prāṇaḥ ||",
+          "english": "The prana-fires remain awake in this city. Apana is the Garhapatya fire; Vyana is the Anvaharya fire; Prana is the Ahavaniya fire."
+        },
+        {
+          "id": "prashna.4.4",
+          "sanskrit": "यदुच्छ्वासनिःश्वासावेतावाहुती समं नयतीति स समानः । मनो ह वाव यजमानः । इष्टफलमेवोदानः । स एनं यजमानमहरहर्ब्रह्म गमयति ॥",
+          "transliteration": "yaducchvāsaniḥśvāsāvetāvāhutī samaṃ nayatīti sa samānaḥ | mano ha vāva yajamānaḥ | iṣṭaphalamevodānaḥ | sa enaṃ yajamānamaharaharbrahma gamayati ||",
+          "english": "Inhalation and exhalation are oblations. Samana balances them. Mind is the sacrificer. Udana leads the sacrificer to Brahman daily."
+        },
+        {
+          "id": "prashna.4.5",
+          "sanskrit": "अत्रैष देवः स्वप्ने महिमानमनुभवति । यद्दृष्टं दृष्टमनुपश्यति श्रुतं श्रुतमेवार्थमनुशृणोति देशदिगन्तरैश्च प्रत्यनुभूतं पुनः पुनः प्रत्यनुभवति दृष्टं चादृष्टं च श्रुतं चाश्रुतं चानुभूतं चाननुभूतं च सच्चासच्च सर्वं पश्यति सर्वः पश्यति ॥",
+          "transliteration": "atraiṣa devaḥ svapne mahimānamanubhavati | yaddṛṣṭaṃ dṛṣṭamanupaśyati śrutaṃ śrutamevārthamanuśṛṇoti deśadigantaraiśca pratyanubhūtaṃ punaḥ punaḥ pratyanubhavati dṛṣṭaṃ cādṛṣṭaṃ ca śrutaṃ cāśrutaṃ cānubhūtaṃ cānanubhūtaṃ ca saccāsacca sarvaṃ paśyati sarvaḥ paśyati ||",
+          "english": "In the dream state, this being experiences glory. What has been seen and heard, what has been experienced in different lands and directions — all this he sees again. All is seen by him."
+        },
+        {
+          "id": "prashna.4.6",
+          "sanskrit": "स यदा तेजसाऽभिभूतो भवति । अत्रैष देवः स्वप्नान्न पश्यत्यथ यदैतस्मिञ्शरीर एतत्सुखं भवति ॥",
+          "transliteration": "sa yadā tejasā'bhibhūto bhavati | atraiṣa devaḥ svapnānna paśyatyatha yadaitasmiñśarīra etatsukhaṃ bhavati ||",
+          "english": "When overwhelmed by light, he sees no dreams. Then there is happiness in the body."
+        },
+        {
+          "id": "prashna.4.7",
+          "sanskrit": "स यथा सोभ्य वयांसि वसोवृक्षं सम्प्रतिष्ठन्ते । एवं ह वै तत् सर्वं पर आत्मनि सम्प्रतिष्ठते ॥",
+          "transliteration": "sa yathā sobhya vayāṃsi vasovṛkṣaṃ sampratiṣṭhante | evaṃ ha vai tat sarvaṃ para ātmani sampratiṣṭhate ||",
+          "english": "As birds settle on a tree, so all this settles in the supreme Self."
+        },
+        {
+          "id": "prashna.4.8",
+          "sanskrit": "पृथिवी च पृथिवीमात्रा चापश्चापोमात्रा च तेजश्च तेजोमात्रा च वायुश्च वायुमात्रा चाकाशश्चाकाशमात्रा च चक्षुश्च द्रष्टव्यं च श्रोत्रं च श्रोतव्यं च घ्राणं च घ्रातव्यं च रसश्च रसयितव्यं च त्वक्च स्पर्शयितव्यं च वाक्च वक्तव्यं च हस्तौ चादातव्यं चोपस्थश्चानन्दयितव्यं च पायुश्च विसर्जयितव्यं च यादौ च गन्तव्यं च मनश्च मन्तव्यं च बुद्धिश्च बोद्धव्यं चाहङ्कारश्चाहङ्कर्तव्यं च चित्तं च चेतयितव्यं च तेजश्च विद्योतयितव्यं च प्राणश्च विधारयितव्यं च ॥",
+          "transliteration": "pṛthivī ca pṛthivīmātrā cāpaścāpomātrā ca tejaśca tejomātrā ca vāyuśca vāyumātrā cākāśaścākāśamātrā ca cakṣuśca draṣṭavyaṃ ca śrotraṃ ca śrotavyaṃ ca ghrāṇaṃ ca ghrātavyaṃ ca rasaśca rasayitavyaṃ ca tvakca sparśayitavyaṃ ca vākca vaktavyaṃ ca hastau cādātavyaṃ copasthaścānandayitavyaṃ ca pāyuśca visarjayitavyaṃ ca yādau ca gantavyaṃ ca manaśca mantavyaṃ ca buddhiśca boddhavyaṃ cāhaṅkāraścāhaṅkartavyaṃ ca cittaṃ ca cetayitavyaṃ ca tejaśca vidyotayitavyaṃ ca prāṇaśca vidhārayitavyaṃ ca ||",
+          "english": "Earth and its essence, water and its essence, fire, air, space, eye and its objects, ear and its objects, nose and its objects, taste and its objects, skin and its objects, speech and its objects, hands, organ, anus, feet, mind, intellect, ego, consciousness, and Prana — all these are established."
+        },
+        {
+          "id": "prashna.4.9",
+          "sanskrit": "एष हि द्रष्टा स्प्रष्टा श्रोता घ्राता रसयिता मन्ता बोद्धा कर्ता विज्ञानात्मा पुरुषः । स परेऽक्षर आत्मनि सम्प्रतिष्ठते ॥",
+          "transliteration": "eṣa hi draṣṭā spraṣṭā śrotā ghrātā rasayitā mantā boddhā kartā vijñānātmā puruṣaḥ | sa pare'kṣara ātmani sampratiṣṭhate ||",
+          "english": "This is the seer, toucher, hearer, smeller, taster, thinker, knower, doer — the conscious Self, the Person. He is established in the supreme, imperishable Self."
+        },
+        {
+          "id": "prashna.4.10",
+          "sanskrit": "परमेवाक्षरं प्रतिपद्यते स यो ह वै तदच्छायमशरीरमलोहितं शुभ्रमक्षरं वेदयते यस्तु सोम्य । स सर्वज्ञः सर्वो भवति । तदेष श्लोकः ॥",
+          "transliteration": "paramevākṣaraṃ pratipadyate sa yo ha vai tadacchāyamaśarīramalohitaṃ śubhramakṣaraṃ vedayate yastu somya | sa sarvajñaḥ sarvo bhavati | tadeṣa ślokaḥ ||",
+          "english": "He attains the supreme imperishable who knows the shadowless, bodiless, colorless, pure, imperishable. He becomes all-knowing, all."
+        },
+        {
+          "id": "prashna.4.11",
+          "sanskrit": "विज्ञानात्मा सह देवैश्च सर्वैः प्राणा भूतानि सम्प्रतिष्ठन्ति यत्र तदक्षरं वेदयते यस्तु सोम्य स सर्वज्ञः सर्वमेवाविवेशेति ॥",
+          "transliteration": "vijñānātmā saha devaiśca sarvaiḥ prāṇā bhūtāni sampratiṣṭhanti yatra tadakṣaraṃ vedayate yastu somya sa sarvajñaḥ sarvamevāviveśeti ||",
+          "english": "The conscious Self, together with all gods, pranas, and beings, is established there. Knowing the imperishable, he becomes all-knowing and enters all."
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Fifth Question",
+      sanskritName: `पञ्चमः प्रश्नः`,
+      "verses": [
+        {
+          "id": "prashna.5.1",
+          "sanskrit": "अथ हैनं शैब्यः सत्यकामः पप्रच्छ । स यो ह वै तद्भगवन्मनुष्येषु प्रायणान्तमोङ्कारमभिध्यायीत । कतमं वाव स तेन लोकं जयतीति । तस्मै स होवाच ॥",
+          "transliteration": "atha hainaṃ śaibyaḥ satyakāmaḥ papraccha | sa yo ha vai tadbhagavanmanuṣyeṣu prāyaṇāntamoṅkāramabhidhyāyīta | katamaṃ vāva sa tena lokaṃ jayatīti | tasmai sa hovāca ||",
+          "english": "Saibya asked: \"Lord, if someone meditates on OM at death, what world does he attain?\""
+        },
+        {
+          "id": "prashna.5.2",
+          "sanskrit": "एतद्वै सत्यकाम परं चापरं च ब्रह्म यदोङ्कारः । तस्माद्विद्वानेतेनैवायतनेनैकतरमन्वेति ॥",
+          "transliteration": "etadvai satyakāma paraṃ cāparaṃ ca brahma yadoṅkāraḥ | tasmādvidvānetenaivāyatanenaikataramanveti ||",
+          "english": "This OM is both the supreme and the inferior Brahman. The wise one, by this support, attains one of them."
+        },
+        {
+          "id": "prashna.5.3",
+          "sanskrit": "स यद्येकमात्रमभिध्यायीत स तेनैव संवेदितस्तूर्णमेव जगत्यामभिसम्पद्यते । तमृचो मनुष्यलोकमुपनयन्ते स तत्र तपसा ब्रह्मचर्येण श्रद्धया सम्पन्नो महिमानमनुभवति ॥",
+          "transliteration": "sa yadyekamātramabhidhyāyīta sa tenaiva saṃveditastūrṇameva jagatyāmabhisampadyate | tamṛco manuṣyalokamupanayante sa tatra tapasā brahmacaryeṇa śraddhayā sampanno mahimānamanubhavati ||",
+          "english": "If he meditates on one matra, he is quickly reborn in the human world. The Rg verses lead him, and he experiences greatness."
+        },
+        {
+          "id": "prashna.5.4",
+          "sanskrit": "अथ यदि द्विमात्रेण मनसि सम्पद्यते सोऽन्तरिक्षं यजुर्भिरुन्नीयते सोमलोकम् । स सोमलोके विभुतिमनुभूय पुनरावर्तते ॥",
+          "transliteration": "atha yadi dvimātreṇa manasi sampadyate so'ntarikṣaṃ yajurbhirunnīyate somalokam | sa somaloke vibhutimanubhūya punarāvartate ||",
+          "english": "If he meditates on two matras, he reaches the sky and the lunar world. After experiencing glory there, he returns."
+        },
+        {
+          "id": "prashna.5.5",
+          "sanskrit": "यः पुनरेतं त्रिमात्रेणोमित्येतेनैवाक्षरेण परं पुरुषमभिध्यायीत स तेजसि सूर्ये सम्पन्नः । यथा पादोदरस्त्वचा विनिर्मुच्यत एवं ह वै स पाप्मना विनिर्मुक्तः स सामभिरुन्नीयते ब्रह्मलोकं स एतस्माज्जीवघनात् परात्परं पुरिशयं पुरुषमीक्षते ॥",
+          "transliteration": "yaḥ punaretaṃ trimātreṇomityetenaivākṣareṇa paraṃ puruṣamabhidhyāyīta sa tejasi sūrye sampannaḥ | yathā pādodarastvacā vinirmucyata evaṃ ha vai sa pāpmanā vinirmuktaḥ sa sāmabhirunnīyate brahmalokaṃ sa etasmājjīvaghanāt parātparaṃ puriśayaṃ puruṣamīkṣate ||",
+          "english": "He who meditates on three matras of OM attains the sun. Freed from sin as a snake sheds its skin, he is led by the Saman verses to the Brahmaloka, where he sees the Person beyond all."
+        },
+        {
+          "id": "prashna.5.6",
+          "sanskrit": "तिस्रो मात्रा मृत्युमत्यः प्रयुक्ता अन्योन्यसक्ताः अनविप्रयुक्ताः । क्रियासु बाह्याभ्यन्तरमध्यमासु सम्यक् प्रयुक्तासु न कम्पते ज्ञः ॥",
+          "transliteration": "tisro mātrā mṛtyumatyaḥ prayuktā anyonyasaktāḥ anaviprayuktāḥ | kriyāsu bāhyābhyantaramadhyamāsu samyak prayuktāsu na kampate jñaḥ ||",
+          "english": "The three matras, when rightly applied, are deathless. United, not separated, applied in external, internal, and middle actions, the knower does not tremble."
+        },
+        {
+          "id": "prashna.5.7",
+          "sanskrit": "ऋग्भिरेतं यजुर्भिरन्तरिक्षं सामभिर्यत् तत् कवयो वेदयन्ते । तमोङ्कारेणैवायतनेनान्वेति विद्वान् यत्तच्छान्तमजरममृतमभयं परं चेति ॥",
+          "transliteration": "ṛgbhiretaṃ yajurbhirantarikṣaṃ sāmabhiryat tat kavayo vedayante | tamoṅkāreṇaivāyatanenānveti vidvān yattacchāntamajaramamṛtamabhayaṃ paraṃ ceti ||",
+          "english": "Through Rg verses he attains this world, through Yajur verses the sky, through Saman verses what the poets know. By OM as support, the wise one attains the peaceful, ageless, immortal, fearless, supreme."
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "name": "Sixth Question",
+      sanskritName: `षष्ठः प्रश्नः`,
+      "verses": [
+        {
+          "id": "prashna.6.1",
+          "sanskrit": "अथ हैनं सुकेशा भारद्वाजः पप्रच्छ । भगवन् हिरण्यनाभः कौसल्यो राजपुत्रो मामुपेत्यैतं प्रश्नमपृच्छत । षोडशकलं भारद्वाज पुरुषं वेत्थ । तमहं कुमारमब्रुवं नाहमिमं वेद । यद्यहमिममवेदिषं कथं ते नावक्ष्यमिति । समूलो वा एष परिशुष्यति योऽनृतमभिवदति तस्मान्नार्हम्यनृतं वक्तुम् । स तूष्णीं रथमारुह्य प्रवव्राज । तं त्वा पृच्छामि क्वासौ पुरुष इति ॥",
+          "transliteration": "atha hainaṃ sukeśā bhāradvājaḥ papraccha | bhagavan hiraṇyanābhaḥ kausalyo rājaputro māmupetyaitaṃ praśnamapṛcchata | ṣoḍaśakalaṃ bhāradvāja puruṣaṃ vettha | tamahaṃ kumāramabruvaṃ nāhamimaṃ veda | yadyahamimamavediṣaṃ kathaṃ te nāvakṣyamiti | samūlo vā eṣa pariśuṣyati yo'nṛtamabhivadati tasmānnārhamyanṛtaṃ vaktum | sa tūṣṇīṃ rathamāruhya pravavrāja | taṃ tvā pṛcchāmi kvāsau puruṣa iti ||",
+          "english": "Sukesa asked: \"Lord, Hiranyanabha asked me about the 16-part Person. I told him I did not know. One who speaks falsehood withers like a root. So I ask you: where is that Person?\""
+        },
+        {
+          "id": "prashna.6.2",
+          "sanskrit": "तस्मै स होवाचेहैवान्तःशरीरे सोम्य स पुरुषो यस्मिन्नताः षोडशकलाः प्रभवन्तीति ॥",
+          "transliteration": "tasmai sa hovācehaivāntaḥśarīre somya sa puruṣo yasminnatāḥ ṣoḍaśakalāḥ prabhavantīti ||",
+          "english": "He replied: \"Within this body, dear, is the Person from whom these 16 parts arise.\""
+        },
+        {
+          "id": "prashna.6.3",
+          "sanskrit": "स ईक्षाचक्रे । कस्मिन्नहमुत्क्रान्त उत्क्रान्तो भविष्यामि कस्मिन्वा प्रतिष्ठिते प्रतिष्ठास्यामीति ॥",
+          "transliteration": "sa īkṣācakre | kasminnahamutkrānta utkrānto bhaviṣyāmi kasminvā pratiṣṭhite pratiṣṭhāsyāmīti ||",
+          "english": "He thought: \"On whose departure shall I depart? On whose establishment shall I be established?\""
+        },
+        {
+          "id": "prashna.6.4",
+          "sanskrit": "स प्राणमसृजत प्राणाच्छ्रद्धां खं वायुर्ज्योतिरापः पृथिवीन्द्रियं मनः । अन्नमन्नाद्वीर्यं तपो मन्त्राः कर्म लोका लोकेषु च नाम च ॥",
+          "transliteration": "sa prāṇamasṛjata prāṇācchraddhāṃ khaṃ vāyurjyotirāpaḥ pṛthivīndriyaṃ manaḥ | annamannādvīryaṃ tapo mantrāḥ karma lokā lokeṣu ca nāma ca ||",
+          "english": "He created Prana; from Prana, faith; then space, air, fire, water, earth, senses, mind, food, strength, austerity, mantras, action, worlds, and names."
+        },
+        {
+          "id": "prashna.6.5",
+          "sanskrit": "स यथेमा नद्यः स्यन्दमानाः समुद्रायणाः समुद्रं प्राप्यास्तं गच्छन्ति भिद्येते तासां नामरूपे समुद्र इत्येवं प्रोच्यते । एवमेवास्य परिद्रष्टुरिमाः षोडशकलाः पुरुषायणाः पुरुषं प्राप्यास्तं गच्छन्ति भिद्येते चासां नामरूपे पुरुष इत्येवं प्रोच्यते स एषोऽकलोऽमृतो भवति तदेष श्लोकः ॥",
+          "transliteration": "sa yathemā nadyaḥ syandamānāḥ samudrāyaṇāḥ samudraṃ prāpyāstaṃ gacchanti bhidyete tāsāṃ nāmarūpe samudra ityevaṃ procyate | evamevāsya paridraṣṭurimāḥ ṣoḍaśakalāḥ puruṣāyaṇāḥ puruṣaṃ prāpyāstaṃ gacchanti bhidyete cāsāṃ nāmarūpe puruṣa ityevaṃ procyate sa eṣo'kalo'mṛto bhavati tadeṣa ślokaḥ ||",
+          "english": "As flowing rivers merge into the ocean, losing their names and forms, so the 16 parts merge into the Person. He becomes partless and immortal."
+        },
+        {
+          "id": "prashna.6.6",
+          "sanskrit": "अरा इव रथनाभौ कला यस्मिन्प्रतिष्ठिताः । तं वेद्यं पुरुषं वेद यथ मा वो मृत्युः परिव्यथा इति ॥",
+          "transliteration": "arā iva rathanābhau kalā yasminpratiṣṭhitāḥ | taṃ vedyaṃ puruṣaṃ veda yatha mā vo mṛtyuḥ parivyathā iti ||",
+          "english": "As spokes in the hub, the parts are established in Him. Know that Person — so that death may not cause you pain."
+        },
+        {
+          "id": "prashna.6.7",
+          "sanskrit": "तान् होवाचैतावदेवाहमेतत् परं ब्रह्म वेद । नातः परमस्तीति ॥",
+          "transliteration": "tān hovācaitāvadevāhametat paraṃ brahma veda | nātaḥ paramastīti ||",
+          "english": "He said: \"I know this supreme Brahman only thus far. There is nothing beyond It.\""
+        },
+        {
+          "id": "prashna.6.8",
+          "sanskrit": "ते तमर्चयन्तस्त्वं हि नः पिता योऽस्माकमविद्यायाः परं पारं तारयसीति । नमः परमऋषिभ्यो नमः परमऋषिभ्यः ॥",
+          "transliteration": "te tamarcayantastvaṃ hi naḥ pitā yo'smākamavidyāyāḥ paraṃ pāraṃ tārayasīti | namaḥ paramaṛṣibhyo namaḥ paramaṛṣibhyaḥ ||",
+          "english": "They worshipped him: \"You are our father who carries us to the other shore of ignorance. Salutations to the supreme seers!\""
+        }
+      ]
+    }
+  ],
+  "verses": [
+    {
+      "id": "prashna.1.1",
+      "sanskrit": "सुकेशा च भारद्वाजः शैब्यश्च सत्यकामः सौर्यायणी च गार्ग्यः कौसल्यश्चाश्वलायनो भार्गवो वैदर्भिः कबन्धी कात्यायनस्ते हैते ब्रह्मपरा ब्रह्मनिष्ठाः परं ब्रह्मान्वेषमाणा एष ह वै तत्सर्वं वक्ष्यतीति ते ह समित्पाणयो भगवन्तं पिप्पलादमुपसन्नाः ॥",
+      "transliteration": "sukeśā ca bhāradvājaḥ śaibyaśca satyakāmaḥ sauryāyaṇī ca gārgyaḥ kausalyaścāśvalāyano bhārgavo vaidarbhiḥ kabandhī kātyāyanaste haite brahmaparā brahmaniṣṭhāḥ paraṃ brahmānveṣamāṇā eṣa ha vai tatsarvaṃ vakṣyatīti te ha samitpāṇayo bhagavantaṃ pippalādamupasannāḥ ||",
+      "english": "Sukesa, Saibya, Sauryayani, Kausalya, Bhargava, and Kabandhi — seekers of Brahman — approached the venerable Pippalada with firewood in hand."
+    },
+    {
+      "id": "prashna.1.2",
+      "sanskrit": "तान्ह स ऋषिरुवाच भूय एव तपसा ब्रह्मचर्येण श्रद्धया संवत्सरं संवत्स्यथ यथाकामं प्रश्नान् पृच्छत यदि विज्ञास्यामः सर्वं ह वो वक्ष्याम इति ॥",
+      "transliteration": "tānha sa ṛṣiruvāca bhūya eva tapasā brahmacaryeṇa śraddhayā saṃvatsaraṃ saṃvatsyatha yathākāmaṃ praśnān pṛcchata yadi vijñāsyāmaḥ sarvaṃ ha vo vakṣyāma iti ||",
+      "english": "The sage said: \"Live here for a year with austerity, celibacy, and faith. Then ask questions as you wish.\""
+    },
+    {
+      "id": "prashna.1.3",
+      "sanskrit": "अथ कबन्धी कात्यायन उपेत्य पप्रच्छ । भगवन् कुते ह वा इमाः प्रजाः प्रजायन्त इति ॥",
+      "transliteration": "atha kabandhī kātyāyana upetya papraccha | bhagavan kute ha vā imāḥ prajāḥ prajāyanta iti ||",
+      "english": "Kabandhi asked: \"Lord, from where are these beings born?\""
+    },
+    {
+      "id": "prashna.1.4",
+      "sanskrit": "तस्मै स होवाच प्रजाकामो वै प्रजापतिः स तपोऽतप्यत स तपस्तप्त्वा स मिथुनमुत्पादयते । रयिं च प्राणं चेत्येतौ मे बहुधा प्रजाः करिष्यत इति ॥",
+      "transliteration": "tasmai sa hovāca prajākāmo vai prajāpatiḥ sa tapo'tapyata sa tapastaptvā sa mithunamutpādayate | rayiṃ ca prāṇaṃ cetyetau me bahudhā prajāḥ kariṣyata iti ||",
+      "english": "He replied: \"Prajapati, desiring offspring, performed austerity and created a pair: Rayi (matter) and Prana (life).\""
+    },
+    {
+      "id": "prashna.1.5",
+      "sanskrit": "आदित्यो ह वै प्राणो रयिरेव चन्द्रमा रयिर्वा एतत् सर्वं यन्मूर्तं चामूर्तं च तस्मान्मूर्तिरेव रयिः ॥",
+      "transliteration": "ādityo ha vai prāṇo rayireva candramā rayirvā etat sarvaṃ yanmūrtaṃ cāmūrtaṃ ca tasmānmūrtireva rayiḥ ||",
+      "english": "The sun is Prana; the moon is matter. All that is formed and formless is matter."
+    },
+    {
+      "id": "prashna.1.6",
+      "sanskrit": "अथादित्य उदयन्यत्प्राचीं दिशं प्रविशति तेन प्राच्यान् प्राणान् रश्मिषु सन्निधत्ते । यद्दक्षिणं यत् प्रतीचीं यदुदीचीं यदधो यदूर्ध्वं यदन्तरा दिशो यत् सर्वं प्रकाशयति तेन सर्वान् प्राणान् रश्मिषु सन्निधत्ते ॥",
+      "transliteration": "athāditya udayanyatprācīṃ diśaṃ praviśati tena prācyān prāṇān raśmiṣu sannidhatte | yaddakṣiṇaṃ yat pratīcīṃ yadudīcīṃ yadadho yadūrdhvaṃ yadantarā diśo yat sarvaṃ prakāśayati tena sarvān prāṇān raśmiṣu sannidhatte ||",
+      "english": "The rising sun enters all directions and gathers the life-forces in his rays."
+    },
+    {
+      "id": "prashna.1.7",
+      "sanskrit": "स एष वैश्वानरो विश्वरूपः प्राणोऽग्निरुदयते । तदेतदृचाऽभ्युक्तम् ॥",
+      "transliteration": "sa eṣa vaiśvānaro viśvarūpaḥ prāṇo'gnirudayate | tadetadṛcā'bhyuktam ||",
+      "english": "This Vaishvanara, assuming all forms, rises as life-fire."
+    },
+    {
+      "id": "prashna.1.8",
+      "sanskrit": "विश्वरूपं हरिणं जातवेदसं परायणं ज्योतिरेकं तपन्तम् । सहस्ररश्मिः शतधा वर्तमानः प्राणः प्रजानामुदयत्येष सूर्यः ॥",
+      "transliteration": "viśvarūpaṃ hariṇaṃ jātavedasaṃ parāyaṇaṃ jyotirekaṃ tapantam | sahasraraśmiḥ śatadhā vartamānaḥ prāṇaḥ prajānāmudayatyeṣa sūryaḥ ||",
+      "english": "The thousand-rayed, hundred-circuited sun rises as the life of all beings."
+    },
+    {
+      "id": "prashna.1.9",
+      "sanskrit": "संवत्सरो वै प्रजापतिस्तस्यायने दक्षिणं चोत्तरं च । तद्ये ह वै तदिष्टापूर्ते कृतमित्युपासते ते चान्द्रमसमेव लोकमभिजयन्ते । त एव पुनरावर्तन्ते तस्मादेत ऋषयः प्रजाकामा दक्षिणं प्रतिपद्यन्ते । एष ह वै रयिर्यः पितृयाणः ॥",
+      "transliteration": "saṃvatsaro vai prajāpatistasyāyane dakṣiṇaṃ cottaraṃ ca | tadye ha vai tadiṣṭāpūrte kṛtamityupāsate te cāndramasameva lokamabhijayante | ta eva punarāvartante tasmādeta ṛṣayaḥ prajākāmā dakṣiṇaṃ pratipadyante | eṣa ha vai rayiryaḥ pitṛyāṇaḥ ||",
+      "english": "The year is Prajapati with two paths. Those who worship actions gain the lunar world and return. The southern path is the path of the fathers."
+    },
+    {
+      "id": "prashna.1.10",
+      "sanskrit": "अथोत्तरेण तपसा ब्रह्मचर्येण श्रद्धया विद्ययाऽऽत्मानमन्विष्यादित्यमभिजयन्ते । एतद्वै प्राणानामायतनमेतदमृतमभयमेतत् परायणमेतस्मान्न पुनरावर्तन्त इत्य् एष निरोधस्तदेष श्लोकः ॥",
+      "transliteration": "athottareṇa tapasā brahmacaryeṇa śraddhayā vidyayā''tmānamanviṣyādityamabhijayante | etadvai prāṇānāmāyatanametadamṛtamabhayametat parāyaṇametasmānna punarāvartanta ity eṣa nirodhastadeṣa ślokaḥ ||",
+      "english": "By the northern path, through austerity and knowledge, they seek the Self and attain the sun — the immortal, fearless, supreme goal. From there they do not return."
+    },
+    {
+      "id": "prashna.1.11",
+      "sanskrit": "पञ्चपादं पितरं द्वादशाकृतिं दिव आहुः परे अर्धे पुरीषिणम् । अथेमे अन्य उ परे विचक्षणं सप्तचक्रे षडर आहुरर्पितमिति ॥",
+      "transliteration": "pañcapādaṃ pitaraṃ dvādaśākṛtiṃ diva āhuḥ pare ardhe purīṣiṇam | atheme anya u pare vicakṣaṇaṃ saptacakre ṣaḍara āhurarpitamiti ||",
+      "english": "They speak of the five-footed father in the eastern sky, and the wise one of seven wheels and six spokes in the other half."
+    },
+    {
+      "id": "prashna.1.12",
+      "sanskrit": "मासो वै प्रजापतिस्तस्य कृष्णपक्ष एव रयिः शुक्लः प्रणस्तस्मादेत ऋषयः शुक्ल इष्टं कुर्वन्तीतर इतरस्मिन् ॥",
+      "transliteration": "māso vai prajāpatistasya kṛṣṇapakṣa eva rayiḥ śuklaḥ praṇastasmādeta ṛṣayaḥ śukla iṣṭaṃ kurvantītara itarasmin ||",
+      "english": "The month is Prajapati. Its dark half is matter, its bright half is life."
+    },
+    {
+      "id": "prashna.1.13",
+      "sanskrit": "अहोरात्रो वै प्रजापतिस्तस्याहरेव प्राणो रात्रिरेव रयिः प्राणं वा एते प्रस्कन्दन्ति ये दिवा रत्या संयुज्यन्ते ब्रह्मचर्यमेव तद्यद्रात्रौ रत्या संयुज्यन्ते ॥",
+      "transliteration": "ahorātro vai prajāpatistasyāhareva prāṇo rātrireva rayiḥ prāṇaṃ vā ete praskandanti ye divā ratyā saṃyujyante brahmacaryameva tadyadrātrau ratyā saṃyujyante ||",
+      "english": "Day and night are Prajapati. Day is life, night is matter."
+    },
+    {
+      "id": "prashna.1.14",
+      "sanskrit": "अन्नं वै प्रजापतिस्ततो ह वै तद्रेतस्तस्मादिमाः प्रजाः प्रजायन्त इति ॥",
+      "transliteration": "annaṃ vai prajāpatistato ha vai tadretastasmādimāḥ prajāḥ prajāyanta iti ||",
+      "english": "Food is Prajapati. From that comes seed, and from seed these beings are born."
+    },
+    {
+      "id": "prashna.1.15",
+      "sanskrit": "तद्ये ह वै तत् प्रजापतिव्रतं चरन्ति ते मिथुनमुत्पादयन्ते । तेषामेवैष ब्रह्मलोको येषां तपो ब्रह्मचर्यं येषु सत्यं प्रतिष्ठितम् ॥",
+      "transliteration": "tadye ha vai tat prajāpativrataṃ caranti te mithunamutpādayante | teṣāmevaiṣa brahmaloko yeṣāṃ tapo brahmacaryaṃ yeṣu satyaṃ pratiṣṭhitam ||",
+      "english": "Those who follow this rule produce offspring. The Brahmaloka belongs to those in whom truth is established."
+    },
+    {
+      "id": "prashna.1.16",
+      "sanskrit": "तेषामसौ विरजो ब्रह्मलोको न येषु जिह्ममनृतं न माया चेति ॥",
+      "transliteration": "teṣāmasau virajo brahmaloko na yeṣu jihmamanṛtaṃ na māyā ceti ||",
+      "english": "For them there is the spotless Brahmaloka, in whom there is no crookedness, falsehood, or deception."
+    },
+    {
+      "id": "prashna.2.1",
+      "sanskrit": "अथ हैनं भार्गवो वैदर्भिः पप्रच्छ । भगवन् कत्येव देवाः प्रजां विधारयन्ते कतर एतत् प्रकाशयन्ते कः पुनरेषां वरिष्ठ इति ॥",
+      "transliteration": "atha hainaṃ bhārgavo vaidarbhiḥ papraccha | bhagavan katyeva devāḥ prajāṃ vidhārayante katara etat prakāśayante kaḥ punareṣāṃ variṣṭha iti ||",
+      "english": "Bhargava asked: \"How many gods sustain the body? Which ones illumine it? Who among them is the greatest?\""
+    },
+    {
+      "id": "prashna.2.2",
+      "sanskrit": "तस्मै स होवाचाकाशो ह वा एष देवो वायुरग्निरापः पृथिवी वाङ्मनश्चक्षुः श्रोत्रं च । ते प्रकाश्याभिवदन्ति वयमेतद्बाणमवष्टभ्य विधारयामः ॥",
+      "transliteration": "tasmai sa hovācākāśo ha vā eṣa devo vāyuragnirāpaḥ pṛthivī vāṅmanaścakṣuḥ śrotraṃ ca | te prakāśyābhivadanti vayametadbāṇamavaṣṭabhya vidhārayāmaḥ ||",
+      "english": "He replied: \"Space, air, fire, water, earth, speech, mind, eye, ear — these gods sustain this body.\""
+    },
+    {
+      "id": "prashna.2.3",
+      "sanskrit": "तान् वरिष्ठः प्राण उवाच । मा मोहमापद्यथ अहमेवैतत् पञ्चधाऽऽत्मानं प्रविभज्यैतद्बाणमवष्टभ्य विधारयामीति तेऽश्रद्दधाना बभूवुः ॥",
+      "transliteration": "tān variṣṭhaḥ prāṇa uvāca | mā mohamāpadyatha ahamevaitat pañcadhā''tmānaṃ pravibhajyaitadbāṇamavaṣṭabhya vidhārayāmīti te'śraddadhānā babhūvuḥ ||",
+      "english": "Prana said: \"Do not be deluded. I alone, dividing myself fivefold, sustain this body.\" But they did not believe."
+    },
+    {
+      "id": "prashna.2.4",
+      "sanskrit": "सोऽभिमानादूर्ध्वमुत्क्रामत इव तस्मिन्नुत्क्रामत्यथेतरे सर्व एवोत्क्रामन्ते तस्मिंश्च प्रतिष्ठमाने सर्व एव प्रतिष्ठन्ते । तद्यथा मक्षिका मधुकरराजानमुत्क्रामन्तं सर्व एवोत्क्रमन्ते तस्मिंष्च प्रतिष्ठमाने सर्व एव प्रातिष्टन्त एवं वाङ्मनष्चक्षुः श्रोत्रं च ते प्रीताः प्राणं स्तुन्वन्ति ॥",
+      "transliteration": "so'bhimānādūrdhvamutkrāmata iva tasminnutkrāmatyathetare sarva evotkrāmante tasmiṃśca pratiṣṭhamāne sarva eva pratiṣṭhante | tadyathā makṣikā madhukararājānamutkrāmantaṃ sarva evotkramante tasmiṃṣca pratiṣṭhamāne sarva eva prātiṣṭanta evaṃ vāṅmanaṣcakṣuḥ śrotraṃ ca te prītāḥ prāṇaṃ stunvanti ||",
+      "english": "Prana started to depart, and all the others rose with him. Just as bees rise when their queen rises, so speech, mind, eye, and ear — delighted — praised Prana."
+    },
+    {
+      "id": "prashna.2.5",
+      "sanskrit": "एषोऽग्निस्तपत्येष सूर्य एष पर्जन्यो मघवानेष वायुः । एष पृथिवी रयिर्देवः सदसच्चामृतं च यत् ॥",
+      "transliteration": "eṣo'gnistapatyeṣa sūrya eṣa parjanyo maghavāneṣa vāyuḥ | eṣa pṛthivī rayirdevaḥ sadasaccāmṛtaṃ ca yat ||",
+      "english": "He blazes as fire, shines as the sun, is the rain, Indra, air, earth, matter, the gods, being and non-being, and immortality."
+    },
+    {
+      "id": "prashna.2.6",
+      "sanskrit": "अरा इव रथनाभौ प्राणे सर्वं प्रतिष्ठितम् । ऋचो यजूँषि सामानि यज्ञः क्षत्रं ब्रह्म च ॥",
+      "transliteration": "arā iva rathanābhau prāṇe sarvaṃ pratiṣṭhitam | ṛco yajū~ṣi sāmāni yajñaḥ kṣatraṃ brahma ca ||",
+      "english": "As spokes in the hub of a wheel, all are established in Prana: the Vedas, sacrifice, and all orders of society."
+    },
+    {
+      "id": "prashna.2.7",
+      "sanskrit": "प्रजापतिश्चरसि गर्भे त्वमेव प्रतिजायसे । तुभ्यं प्राण प्रजास्त्विमा बलिं हरन्ति यः प्राणैः प्रतितिष्ठसि ॥",
+      "transliteration": "prajāpatiścarasi garbhe tvameva pratijāyase | tubhyaṃ prāṇa prajāstvimā baliṃ haranti yaḥ prāṇaiḥ pratitiṣṭhasi ||",
+      "english": "O Prana, as Prajapati you move in the womb and are born again. To you beings bring offerings."
+    },
+    {
+      "id": "prashna.2.8",
+      "sanskrit": "देवानामसि वह्नितमः पितॄणां प्रथमा स्वधा । ऋषीणां चरितं सत्यमथर्वाङ्गिरसामसि ॥",
+      "transliteration": "devānāmasi vahnitamaḥ pitṝṇāṃ prathamā svadhā | ṛṣīṇāṃ caritaṃ satyamatharvāṅgirasāmasi ||",
+      "english": "You are the supreme carrier for the gods, the first offering for the ancestors, the truth of the seers."
+    },
+    {
+      "id": "prashna.2.9",
+      "sanskrit": "इन्द्रस्त्वं प्राण तेजसा रुद्रोऽसि परिरक्षिता । त्वमन्तरिक्षे चरसि सूर्यस्त्वं ज्योतिषां पतिः ॥",
+      "transliteration": "indrastvaṃ prāṇa tejasā rudro'si parirakṣitā | tvamantarikṣe carasi sūryastvaṃ jyotiṣāṃ patiḥ ||",
+      "english": "You are Indra, Rudra by your radiance, the protector. You move in the sky; you are the sun, lord of lights."
+    },
+    {
+      "id": "prashna.2.10",
+      "sanskrit": "यदा त्वमभिवर्षस्यथेमाः प्राण ते प्रजाः । आनन्दरूपास्तिष्ठन्ति कामायान्नं भविष्यतीति ॥",
+      "transliteration": "yadā tvamabhivarṣasyathemāḥ prāṇa te prajāḥ | ānandarūpāstiṣṭhanti kāmāyānnaṃ bhaviṣyatīti ||",
+      "english": "When you pour down as rain, O Prana, these beings rejoice, thinking there will be food."
+    },
+    {
+      "id": "prashna.2.11",
+      "sanskrit": "व्रात्यस्त्वं प्राणैकर्षरत्ता विश्वस्य सत्पतिः । वयमाद्यस्य दातारः पिता त्वं मातरिश्व नः ॥",
+      "transliteration": "vrātyastvaṃ prāṇaikarṣarattā viśvasya satpatiḥ | vayamādyasya dātāraḥ pitā tvaṃ mātariśva naḥ ||",
+      "english": "O Prana, you are the sole seer, the true lord of all. You are our father, O Matarisva."
+    },
+    {
+      "id": "prashna.2.12",
+      "sanskrit": "या ते तनूर्वाचि प्रतिष्ठिता या श्रोत्रे या च चक्षुषि । या च मनसि सन्तता शिवां तां कुरु मोत्क्रमीः ॥",
+      "transliteration": "yā te tanūrvāci pratiṣṭhitā yā śrotre yā ca cakṣuṣi | yā ca manasi santatā śivāṃ tāṃ kuru motkramīḥ ||",
+      "english": "May that form of yours established in speech, ear, eye, and mind — make that auspicious, do not depart."
+    },
+    {
+      "id": "prashna.2.13",
+      "sanskrit": "प्राणस्येदं वशे सर्वं त्रिदिवे यत् प्रतिष्ठितम् । मातेव पुत्रान् रक्षस्व श्रीश्च प्रज्ञां च विधेहि न इति ॥",
+      "transliteration": "prāṇasyedaṃ vaśe sarvaṃ tridive yat pratiṣṭhitam | māteva putrān rakṣasva śrīśca prajñāṃ ca vidhehi na iti ||",
+      "english": "All this is under Prana's control. Protect us as a mother protects her sons. Grant us prosperity and wisdom."
+    },
+    {
+      "id": "prashna.3.1",
+      "sanskrit": "अथ हैनं कौशल्यश्चाश्वलायनः पप्रच्छ । भगवन् कुत एष प्राणो जायते कथमायात्यस्मिञ्शरीर आत्मानं वा प्रविभज्य कथं प्रतिष्ठते केनोत्क्रमते कथं बाह्यमभिधत्ते कथमध्यात्ममिति ॥",
+      "transliteration": "atha hainaṃ kauśalyaścāśvalāyanaḥ papraccha | bhagavan kuta eṣa prāṇo jāyate kathamāyātyasmiñśarīra ātmānaṃ vā pravibhajya kathaṃ pratiṣṭhate kenotkramate kathaṃ bāhyamabhidhatte kathamadhyātmamiti ||",
+      "english": "Kausalya asked: \"Lord, from where is this Prana born? How does it enter the body? How does it function? How does it depart?\""
+    },
+    {
+      "id": "prashna.3.2",
+      "sanskrit": "तस्मै स होवाचातिप्रश्नान् पृच्छसि ब्रह्मिष्ठोऽसीति तस्मात्तेऽहं ब्रवीमि ॥",
+      "transliteration": "tasmai sa hovācātipraśnān pṛcchasi brahmiṣṭho'sīti tasmātte'haṃ bravīmi ||",
+      "english": "He replied: \"You ask profound questions. Since you are the foremost in Brahman, I will tell you.\""
+    },
+    {
+      "id": "prashna.3.3",
+      "sanskrit": "आत्मन एष प्राणो जायते । यथैषा पुरुषे छायैतस्मिन्नेतदाततं मनोकृतेनायात्यस्मिञ्शरीरे ॥",
+      "transliteration": "ātmana eṣa prāṇo jāyate | yathaiṣā puruṣe chāyaitasminnetadātataṃ manokṛtenāyātyasmiñśarīre ||",
+      "english": "From the Self, Prana is born. Like a shadow cast by a person, it pervades the body, entering through mental action."
+    },
+    {
+      "id": "prashna.3.4",
+      "sanskrit": "यथा सम्रादेवाधिकृतान् विनियुङ्क्ते । एतन् ग्रामानोतान् ग्रामानधितिष्ठस्वेत्येवमेवैष प्राण इतरान् प्राणान् पृथक् पृथगेव सन्निधत्ते ॥",
+      "transliteration": "yathā samrādevādhikṛtān viniyuṅkte | etan grāmānotān grāmānadhitiṣṭhasvetyevamevaiṣa prāṇa itarān prāṇān pṛthak pṛthageva sannidhatte ||",
+      "english": "As a king appoints officials, so Prana appoints the other pranas in their respective places."
+    },
+    {
+      "id": "prashna.3.5",
+      "sanskrit": "पायूपस्थेऽपानं चक्षुःश्रोत्रे मुखनासिकाभ्यां प्राणः स्वयं प्रातिष्ठते मध्ये तु समानः । एष ह्येतद्धुतमन्नं समं नयति तस्मादेताः सप्तार्चिषो भवन्ति ॥",
+      "transliteration": "pāyūpasthe'pānaṃ cakṣuḥśrotre mukhanāsikābhyāṃ prāṇaḥ svayaṃ prātiṣṭhate madhye tu samānaḥ | eṣa hyetaddhutamannaṃ samaṃ nayati tasmādetāḥ saptārciṣo bhavanti ||",
+      "english": "Apana in the organ of excretion; Prana itself in the eye, ear, mouth, and nose; Samana in the middle, equally distributing food."
+    },
+    {
+      "id": "prashna.3.6",
+      "sanskrit": "हृदि ह्येष आत्मा । अत्रैतदेकशतं नाडीनां तासां शतं शतमेकैकस्या द्वासप्ततिर्द्वासप्ततिः प्रतिशाखानाडीसहस्राणि भवन्त्यासु व्यानश्चरति ॥",
+      "transliteration": "hṛdi hyeṣa ātmā | atraitadekaśataṃ nāḍīnāṃ tāsāṃ śataṃ śatamekaikasyā dvāsaptatirdvāsaptatiḥ pratiśākhānāḍīsahasrāṇi bhavantyāsu vyānaścarati ||",
+      "english": "This Self is in the heart. There are 101 arteries. Each divides into 100, each into 72,000 branches. Through these, Vyana circulates."
+    },
+    {
+      "id": "prashna.3.7",
+      "sanskrit": "अथैकयोर्ध्व उदानः पुण्येन पुण्यं लोकं नयति पापेन पापमुभाभ्यामेव मनुष्यलोकम् ॥",
+      "transliteration": "athaikayordhva udānaḥ puṇyena puṇyaṃ lokaṃ nayati pāpena pāpamubhābhyāmeva manuṣyalokam ||",
+      "english": "Udana leads upward — by good deeds to a good world, by evil to an evil world, by both to the human world."
+    },
+    {
+      "id": "prashna.3.8",
+      "sanskrit": "आदित्यो ह वै बाह्यः प्राण उदयत्येष ह्येनं चाक्षुषं प्राणमनुगृह्णानः । पृथिव्यां या देवता सैषा पुरुषस्य अपानमवष्टभ्यान्तरा यदाकाशः स समानो वायुर्व्यानः ॥",
+      "transliteration": "ādityo ha vai bāhyaḥ prāṇa udayatyeṣa hyenaṃ cākṣuṣaṃ prāṇamanugṛhṇānaḥ | pṛthivyāṃ yā devatā saiṣā puruṣasya apānamavaṣṭabhyāntarā yadākāśaḥ sa samāno vāyurvyānaḥ ||",
+      "english": "The sun is the external Prana. The earth deity supports the apana. The space between is samana; air is vyana."
+    },
+    {
+      "id": "prashna.3.9",
+      "sanskrit": "तेजो ह वा उदानस्तस्मादुपशान्ततेजाः । पुनर्भवमिन्द्रियैर्मनसि सम्पद्यमानैः ॥",
+      "transliteration": "tejo ha vā udānastasmādupaśāntatejāḥ | punarbhavamindriyairmanasi sampadyamānaiḥ ||",
+      "english": "Udana is fire. One whose fire is extinguished returns to birth with the senses absorbed in the mind."
+    },
+    {
+      "id": "prashna.3.10",
+      "sanskrit": "यच्चित्तस्तेनैष प्राणमायाति । प्राणस्तेजसा युक्तः सहात्मना तथासङ्कल्पितं लोकं नयति ॥",
+      "transliteration": "yaccittastenaiṣa prāṇamāyāti | prāṇastejasā yuktaḥ sahātmanā tathāsaṅkalpitaṃ lokaṃ nayati ||",
+      "english": "By whatever thought one dies, Prana, united with fire and the Self, leads to that world."
+    },
+    {
+      "id": "prashna.3.11",
+      "sanskrit": "य एवं विद्वान् प्राणं वेद न हास्य प्रजा हीयतेऽमृतो भवति तदेषः श्लोकः ॥",
+      "transliteration": "ya evaṃ vidvān prāṇaṃ veda na hāsya prajā hīyate'mṛto bhavati tadeṣaḥ ślokaḥ ||",
+      "english": "One who knows Prana thus — his offspring do not perish, and he becomes immortal."
+    },
+    {
+      "id": "prashna.3.12",
+      "sanskrit": "उत्पत्तिमायतिं स्थानं विभुत्वं चैव पञ्चधा । अध्यात्मं चैव प्राणस्य विज्ञायामृतमश्नुते विज्ञायामृतमश्नुत इति ॥",
+      "transliteration": "utpattimāyatiṃ sthānaṃ vibhutvaṃ caiva pañcadhā | adhyātmaṃ caiva prāṇasya vijñāyāmṛtamaśnute vijñāyāmṛtamaśnuta iti ||",
+      "english": "Knowing the origin, entry, function, fivefold nature, and inner nature of Prana, one attains immortality."
+    },
+    {
+      "id": "prashna.4.1",
+      "sanskrit": "अथ हैनं सौर्यायणि गार्ग्यः पप्रच्छ । भगवन्नेतस्मिन् पुरुषे कानि स्वपन्ति कान्यस्मिञ्जाग्रति कतर एष देवः स्वप्नान् पश्यति कस्यैतत् सुखं भवति कस्मिन्नु सर्वे सम्प्रतिष्ठिता भवन्तीति ॥",
+      "transliteration": "atha hainaṃ sauryāyaṇi gārgyaḥ papraccha | bhagavannetasmin puruṣe kāni svapanti kānyasmiñjāgrati katara eṣa devaḥ svapnān paśyati kasyaitat sukhaṃ bhavati kasminnu sarve sampratiṣṭhitā bhavantīti ||",
+      "english": "Sauryayani asked: \"Lord, what sleeps in this person? What remains awake? Who sees dreams? In whom are all established?\""
+    },
+    {
+      "id": "prashna.4.2",
+      "sanskrit": "तस्मै स होवाच यथा गार्ग्य मरीचयोऽर्कस्यास्तं गच्छतः सर्वा एतस्मिंस्तेजोमण्डल एकीभवन्ति ताः पुनः पुनरुदयतः प्रचरन्त्येवं ह वै तत् सर्वं परे देवे मनस्येकीभवति तेन तर्ह्येष पुरुषो न शृणोति न पश्यति न जिघ्रति न रसयते न स्पृशते नाभिवदते नादत्ते नानन्दयते न विसृजते नेयायते स्वपितीत्याचक्षते ॥",
+      "transliteration": "tasmai sa hovāca yathā gārgya marīcayo'rkasyāstaṃ gacchataḥ sarvā etasmiṃstejomaṇḍala ekībhavanti tāḥ punaḥ punarudayataḥ pracarantyevaṃ ha vai tat sarvaṃ pare deve manasyekībhavati tena tarhyeṣa puruṣo na śṛṇoti na paśyati na jighrati na rasayate na spṛśate nābhivadate nādatte nānandayate na visṛjate neyāyate svapitītyācakṣate ||",
+      "english": "As all rays merge into the sun at sunset and emerge at sunrise, so all this merges in the supreme being — the mind. Then one does not hear, see, smell, taste, touch, speak, or enjoy. They say: \"He sleeps.\""
+    },
+    {
+      "id": "prashna.4.3",
+      "sanskrit": "प्राणाग्नय एवैतस्मिन् पुरे जाग्रति । गार्हपत्यो ह वा एषोऽपानो व्यानोऽन्वाहार्यपचनो यद्गार्हपत्यात् प्रणीयते प्रणयनादाहवनीयः प्राणः ॥",
+      "transliteration": "prāṇāgnaya evaitasmin pure jāgrati | gārhapatyo ha vā eṣo'pāno vyāno'nvāhāryapacano yadgārhapatyāt praṇīyate praṇayanādāhavanīyaḥ prāṇaḥ ||",
+      "english": "The prana-fires remain awake in this city. Apana is the Garhapatya fire; Vyana is the Anvaharya fire; Prana is the Ahavaniya fire."
+    },
+    {
+      "id": "prashna.4.4",
+      "sanskrit": "यदुच्छ्वासनिःश्वासावेतावाहुती समं नयतीति स समानः । मनो ह वाव यजमानः । इष्टफलमेवोदानः । स एनं यजमानमहरहर्ब्रह्म गमयति ॥",
+      "transliteration": "yaducchvāsaniḥśvāsāvetāvāhutī samaṃ nayatīti sa samānaḥ | mano ha vāva yajamānaḥ | iṣṭaphalamevodānaḥ | sa enaṃ yajamānamaharaharbrahma gamayati ||",
+      "english": "Inhalation and exhalation are oblations. Samana balances them. Mind is the sacrificer. Udana leads the sacrificer to Brahman daily."
+    },
+    {
+      "id": "prashna.4.5",
+      "sanskrit": "अत्रैष देवः स्वप्ने महिमानमनुभवति । यद्दृष्टं दृष्टमनुपश्यति श्रुतं श्रुतमेवार्थमनुशृणोति देशदिगन्तरैश्च प्रत्यनुभूतं पुनः पुनः प्रत्यनुभवति दृष्टं चादृष्टं च श्रुतं चाश्रुतं चानुभूतं चाननुभूतं च सच्चासच्च सर्वं पश्यति सर्वः पश्यति ॥",
+      "transliteration": "atraiṣa devaḥ svapne mahimānamanubhavati | yaddṛṣṭaṃ dṛṣṭamanupaśyati śrutaṃ śrutamevārthamanuśṛṇoti deśadigantaraiśca pratyanubhūtaṃ punaḥ punaḥ pratyanubhavati dṛṣṭaṃ cādṛṣṭaṃ ca śrutaṃ cāśrutaṃ cānubhūtaṃ cānanubhūtaṃ ca saccāsacca sarvaṃ paśyati sarvaḥ paśyati ||",
+      "english": "In the dream state, this being experiences glory. What has been seen and heard, what has been experienced in different lands and directions — all this he sees again. All is seen by him."
+    },
+    {
+      "id": "prashna.4.6",
+      "sanskrit": "स यदा तेजसाऽभिभूतो भवति । अत्रैष देवः स्वप्नान्न पश्यत्यथ यदैतस्मिञ्शरीर एतत्सुखं भवति ॥",
+      "transliteration": "sa yadā tejasā'bhibhūto bhavati | atraiṣa devaḥ svapnānna paśyatyatha yadaitasmiñśarīra etatsukhaṃ bhavati ||",
+      "english": "When overwhelmed by light, he sees no dreams. Then there is happiness in the body."
+    },
+    {
+      "id": "prashna.4.7",
+      "sanskrit": "स यथा सोभ्य वयांसि वसोवृक्षं सम्प्रतिष्ठन्ते । एवं ह वै तत् सर्वं पर आत्मनि सम्प्रतिष्ठते ॥",
+      "transliteration": "sa yathā sobhya vayāṃsi vasovṛkṣaṃ sampratiṣṭhante | evaṃ ha vai tat sarvaṃ para ātmani sampratiṣṭhate ||",
+      "english": "As birds settle on a tree, so all this settles in the supreme Self."
+    },
+    {
+      "id": "prashna.4.8",
+      "sanskrit": "पृथिवी च पृथिवीमात्रा चापश्चापोमात्रा च तेजश्च तेजोमात्रा च वायुश्च वायुमात्रा चाकाशश्चाकाशमात्रा च चक्षुश्च द्रष्टव्यं च श्रोत्रं च श्रोतव्यं च घ्राणं च घ्रातव्यं च रसश्च रसयितव्यं च त्वक्च स्पर्शयितव्यं च वाक्च वक्तव्यं च हस्तौ चादातव्यं चोपस्थश्चानन्दयितव्यं च पायुश्च विसर्जयितव्यं च यादौ च गन्तव्यं च मनश्च मन्तव्यं च बुद्धिश्च बोद्धव्यं चाहङ्कारश्चाहङ्कर्तव्यं च चित्तं च चेतयितव्यं च तेजश्च विद्योतयितव्यं च प्राणश्च विधारयितव्यं च ॥",
+      "transliteration": "pṛthivī ca pṛthivīmātrā cāpaścāpomātrā ca tejaśca tejomātrā ca vāyuśca vāyumātrā cākāśaścākāśamātrā ca cakṣuśca draṣṭavyaṃ ca śrotraṃ ca śrotavyaṃ ca ghrāṇaṃ ca ghrātavyaṃ ca rasaśca rasayitavyaṃ ca tvakca sparśayitavyaṃ ca vākca vaktavyaṃ ca hastau cādātavyaṃ copasthaścānandayitavyaṃ ca pāyuśca visarjayitavyaṃ ca yādau ca gantavyaṃ ca manaśca mantavyaṃ ca buddhiśca boddhavyaṃ cāhaṅkāraścāhaṅkartavyaṃ ca cittaṃ ca cetayitavyaṃ ca tejaśca vidyotayitavyaṃ ca prāṇaśca vidhārayitavyaṃ ca ||",
+      "english": "Earth and its essence, water and its essence, fire, air, space, eye and its objects, ear and its objects, nose and its objects, taste and its objects, skin and its objects, speech and its objects, hands, organ, anus, feet, mind, intellect, ego, consciousness, and Prana — all these are established."
+    },
+    {
+      "id": "prashna.4.9",
+      "sanskrit": "एष हि द्रष्टा स्प्रष्टा श्रोता घ्राता रसयिता मन्ता बोद्धा कर्ता विज्ञानात्मा पुरुषः । स परेऽक्षर आत्मनि सम्प्रतिष्ठते ॥",
+      "transliteration": "eṣa hi draṣṭā spraṣṭā śrotā ghrātā rasayitā mantā boddhā kartā vijñānātmā puruṣaḥ | sa pare'kṣara ātmani sampratiṣṭhate ||",
+      "english": "This is the seer, toucher, hearer, smeller, taster, thinker, knower, doer — the conscious Self, the Person. He is established in the supreme, imperishable Self."
+    },
+    {
+      "id": "prashna.4.10",
+      "sanskrit": "परमेवाक्षरं प्रतिपद्यते स यो ह वै तदच्छायमशरीरमलोहितं शुभ्रमक्षरं वेदयते यस्तु सोम्य । स सर्वज्ञः सर्वो भवति । तदेष श्लोकः ॥",
+      "transliteration": "paramevākṣaraṃ pratipadyate sa yo ha vai tadacchāyamaśarīramalohitaṃ śubhramakṣaraṃ vedayate yastu somya | sa sarvajñaḥ sarvo bhavati | tadeṣa ślokaḥ ||",
+      "english": "He attains the supreme imperishable who knows the shadowless, bodiless, colorless, pure, imperishable. He becomes all-knowing, all."
+    },
+    {
+      "id": "prashna.4.11",
+      "sanskrit": "विज्ञानात्मा सह देवैश्च सर्वैः प्राणा भूतानि सम्प्रतिष्ठन्ति यत्र तदक्षरं वेदयते यस्तु सोम्य स सर्वज्ञः सर्वमेवाविवेशेति ॥",
+      "transliteration": "vijñānātmā saha devaiśca sarvaiḥ prāṇā bhūtāni sampratiṣṭhanti yatra tadakṣaraṃ vedayate yastu somya sa sarvajñaḥ sarvamevāviveśeti ||",
+      "english": "The conscious Self, together with all gods, pranas, and beings, is established there. Knowing the imperishable, he becomes all-knowing and enters all."
+    },
+    {
+      "id": "prashna.5.1",
+      "sanskrit": "अथ हैनं शैब्यः सत्यकामः पप्रच्छ । स यो ह वै तद्भगवन्मनुष्येषु प्रायणान्तमोङ्कारमभिध्यायीत । कतमं वाव स तेन लोकं जयतीति । तस्मै स होवाच ॥",
+      "transliteration": "atha hainaṃ śaibyaḥ satyakāmaḥ papraccha | sa yo ha vai tadbhagavanmanuṣyeṣu prāyaṇāntamoṅkāramabhidhyāyīta | katamaṃ vāva sa tena lokaṃ jayatīti | tasmai sa hovāca ||",
+      "english": "Saibya asked: \"Lord, if someone meditates on OM at death, what world does he attain?\""
+    },
+    {
+      "id": "prashna.5.2",
+      "sanskrit": "एतद्वै सत्यकाम परं चापरं च ब्रह्म यदोङ्कारः । तस्माद्विद्वानेतेनैवायतनेनैकतरमन्वेति ॥",
+      "transliteration": "etadvai satyakāma paraṃ cāparaṃ ca brahma yadoṅkāraḥ | tasmādvidvānetenaivāyatanenaikataramanveti ||",
+      "english": "This OM is both the supreme and the inferior Brahman. The wise one, by this support, attains one of them."
+    },
+    {
+      "id": "prashna.5.3",
+      "sanskrit": "स यद्येकमात्रमभिध्यायीत स तेनैव संवेदितस्तूर्णमेव जगत्यामभिसम्पद्यते । तमृचो मनुष्यलोकमुपनयन्ते स तत्र तपसा ब्रह्मचर्येण श्रद्धया सम्पन्नो महिमानमनुभवति ॥",
+      "transliteration": "sa yadyekamātramabhidhyāyīta sa tenaiva saṃveditastūrṇameva jagatyāmabhisampadyate | tamṛco manuṣyalokamupanayante sa tatra tapasā brahmacaryeṇa śraddhayā sampanno mahimānamanubhavati ||",
+      "english": "If he meditates on one matra, he is quickly reborn in the human world. The Rg verses lead him, and he experiences greatness."
+    },
+    {
+      "id": "prashna.5.4",
+      "sanskrit": "अथ यदि द्विमात्रेण मनसि सम्पद्यते सोऽन्तरिक्षं यजुर्भिरुन्नीयते सोमलोकम् । स सोमलोके विभुतिमनुभूय पुनरावर्तते ॥",
+      "transliteration": "atha yadi dvimātreṇa manasi sampadyate so'ntarikṣaṃ yajurbhirunnīyate somalokam | sa somaloke vibhutimanubhūya punarāvartate ||",
+      "english": "If he meditates on two matras, he reaches the sky and the lunar world. After experiencing glory there, he returns."
+    },
+    {
+      "id": "prashna.5.5",
+      "sanskrit": "यः पुनरेतं त्रिमात्रेणोमित्येतेनैवाक्षरेण परं पुरुषमभिध्यायीत स तेजसि सूर्ये सम्पन्नः । यथा पादोदरस्त्वचा विनिर्मुच्यत एवं ह वै स पाप्मना विनिर्मुक्तः स सामभिरुन्नीयते ब्रह्मलोकं स एतस्माज्जीवघनात् परात्परं पुरिशयं पुरुषमीक्षते ॥",
+      "transliteration": "yaḥ punaretaṃ trimātreṇomityetenaivākṣareṇa paraṃ puruṣamabhidhyāyīta sa tejasi sūrye sampannaḥ | yathā pādodarastvacā vinirmucyata evaṃ ha vai sa pāpmanā vinirmuktaḥ sa sāmabhirunnīyate brahmalokaṃ sa etasmājjīvaghanāt parātparaṃ puriśayaṃ puruṣamīkṣate ||",
+      "english": "He who meditates on three matras of OM attains the sun. Freed from sin as a snake sheds its skin, he is led by the Saman verses to the Brahmaloka, where he sees the Person beyond all."
+    },
+    {
+      "id": "prashna.5.6",
+      "sanskrit": "तिस्रो मात्रा मृत्युमत्यः प्रयुक्ता अन्योन्यसक्ताः अनविप्रयुक्ताः । क्रियासु बाह्याभ्यन्तरमध्यमासु सम्यक् प्रयुक्तासु न कम्पते ज्ञः ॥",
+      "transliteration": "tisro mātrā mṛtyumatyaḥ prayuktā anyonyasaktāḥ anaviprayuktāḥ | kriyāsu bāhyābhyantaramadhyamāsu samyak prayuktāsu na kampate jñaḥ ||",
+      "english": "The three matras, when rightly applied, are deathless. United, not separated, applied in external, internal, and middle actions, the knower does not tremble."
+    },
+    {
+      "id": "prashna.5.7",
+      "sanskrit": "ऋग्भिरेतं यजुर्भिरन्तरिक्षं सामभिर्यत् तत् कवयो वेदयन्ते । तमोङ्कारेणैवायतनेनान्वेति विद्वान् यत्तच्छान्तमजरममृतमभयं परं चेति ॥",
+      "transliteration": "ṛgbhiretaṃ yajurbhirantarikṣaṃ sāmabhiryat tat kavayo vedayante | tamoṅkāreṇaivāyatanenānveti vidvān yattacchāntamajaramamṛtamabhayaṃ paraṃ ceti ||",
+      "english": "Through Rg verses he attains this world, through Yajur verses the sky, through Saman verses what the poets know. By OM as support, the wise one attains the peaceful, ageless, immortal, fearless, supreme."
+    },
+    {
+      "id": "prashna.6.1",
+      "sanskrit": "अथ हैनं सुकेशा भारद्वाजः पप्रच्छ । भगवन् हिरण्यनाभः कौसल्यो राजपुत्रो मामुपेत्यैतं प्रश्नमपृच्छत । षोडशकलं भारद्वाज पुरुषं वेत्थ । तमहं कुमारमब्रुवं नाहमिमं वेद । यद्यहमिममवेदिषं कथं ते नावक्ष्यमिति । समूलो वा एष परिशुष्यति योऽनृतमभिवदति तस्मान्नार्हम्यनृतं वक्तुम् । स तूष्णीं रथमारुह्य प्रवव्राज । तं त्वा पृच्छामि क्वासौ पुरुष इति ॥",
+      "transliteration": "atha hainaṃ sukeśā bhāradvājaḥ papraccha | bhagavan hiraṇyanābhaḥ kausalyo rājaputro māmupetyaitaṃ praśnamapṛcchata | ṣoḍaśakalaṃ bhāradvāja puruṣaṃ vettha | tamahaṃ kumāramabruvaṃ nāhamimaṃ veda | yadyahamimamavediṣaṃ kathaṃ te nāvakṣyamiti | samūlo vā eṣa pariśuṣyati yo'nṛtamabhivadati tasmānnārhamyanṛtaṃ vaktum | sa tūṣṇīṃ rathamāruhya pravavrāja | taṃ tvā pṛcchāmi kvāsau puruṣa iti ||",
+      "english": "Sukesa asked: \"Lord, Hiranyanabha asked me about the 16-part Person. I told him I did not know. One who speaks falsehood withers like a root. So I ask you: where is that Person?\""
+    },
+    {
+      "id": "prashna.6.2",
+      "sanskrit": "तस्मै स होवाचेहैवान्तःशरीरे सोम्य स पुरुषो यस्मिन्नताः षोडशकलाः प्रभवन्तीति ॥",
+      "transliteration": "tasmai sa hovācehaivāntaḥśarīre somya sa puruṣo yasminnatāḥ ṣoḍaśakalāḥ prabhavantīti ||",
+      "english": "He replied: \"Within this body, dear, is the Person from whom these 16 parts arise.\""
+    },
+    {
+      "id": "prashna.6.3",
+      "sanskrit": "स ईक्षाचक्रे । कस्मिन्नहमुत्क्रान्त उत्क्रान्तो भविष्यामि कस्मिन्वा प्रतिष्ठिते प्रतिष्ठास्यामीति ॥",
+      "transliteration": "sa īkṣācakre | kasminnahamutkrānta utkrānto bhaviṣyāmi kasminvā pratiṣṭhite pratiṣṭhāsyāmīti ||",
+      "english": "He thought: \"On whose departure shall I depart? On whose establishment shall I be established?\""
+    },
+    {
+      "id": "prashna.6.4",
+      "sanskrit": "स प्राणमसृजत प्राणाच्छ्रद्धां खं वायुर्ज्योतिरापः पृथिवीन्द्रियं मनः । अन्नमन्नाद्वीर्यं तपो मन्त्राः कर्म लोका लोकेषु च नाम च ॥",
+      "transliteration": "sa prāṇamasṛjata prāṇācchraddhāṃ khaṃ vāyurjyotirāpaḥ pṛthivīndriyaṃ manaḥ | annamannādvīryaṃ tapo mantrāḥ karma lokā lokeṣu ca nāma ca ||",
+      "english": "He created Prana; from Prana, faith; then space, air, fire, water, earth, senses, mind, food, strength, austerity, mantras, action, worlds, and names."
+    },
+    {
+      "id": "prashna.6.5",
+      "sanskrit": "स यथेमा नद्यः स्यन्दमानाः समुद्रायणाः समुद्रं प्राप्यास्तं गच्छन्ति भिद्येते तासां नामरूपे समुद्र इत्येवं प्रोच्यते । एवमेवास्य परिद्रष्टुरिमाः षोडशकलाः पुरुषायणाः पुरुषं प्राप्यास्तं गच्छन्ति भिद्येते चासां नामरूपे पुरुष इत्येवं प्रोच्यते स एषोऽकलोऽमृतो भवति तदेष श्लोकः ॥",
+      "transliteration": "sa yathemā nadyaḥ syandamānāḥ samudrāyaṇāḥ samudraṃ prāpyāstaṃ gacchanti bhidyete tāsāṃ nāmarūpe samudra ityevaṃ procyate | evamevāsya paridraṣṭurimāḥ ṣoḍaśakalāḥ puruṣāyaṇāḥ puruṣaṃ prāpyāstaṃ gacchanti bhidyete cāsāṃ nāmarūpe puruṣa ityevaṃ procyate sa eṣo'kalo'mṛto bhavati tadeṣa ślokaḥ ||",
+      "english": "As flowing rivers merge into the ocean, losing their names and forms, so the 16 parts merge into the Person. He becomes partless and immortal."
+    },
+    {
+      "id": "prashna.6.6",
+      "sanskrit": "अरा इव रथनाभौ कला यस्मिन्प्रतिष्ठिताः । तं वेद्यं पुरुषं वेद यथ मा वो मृत्युः परिव्यथा इति ॥",
+      "transliteration": "arā iva rathanābhau kalā yasminpratiṣṭhitāḥ | taṃ vedyaṃ puruṣaṃ veda yatha mā vo mṛtyuḥ parivyathā iti ||",
+      "english": "As spokes in the hub, the parts are established in Him. Know that Person — so that death may not cause you pain."
+    },
+    {
+      "id": "prashna.6.7",
+      "sanskrit": "तान् होवाचैतावदेवाहमेतत् परं ब्रह्म वेद । नातः परमस्तीति ॥",
+      "transliteration": "tān hovācaitāvadevāhametat paraṃ brahma veda | nātaḥ paramastīti ||",
+      "english": "He said: \"I know this supreme Brahman only thus far. There is nothing beyond It.\""
+    },
+    {
+      "id": "prashna.6.8",
+      "sanskrit": "ते तमर्चयन्तस्त्वं हि नः पिता योऽस्माकमविद्यायाः परं पारं तारयसीति । नमः परमऋषिभ्यो नमः परमऋषिभ्यः ॥",
+      "transliteration": "te tamarcayantastvaṃ hi naḥ pitā yo'smākamavidyāyāḥ paraṃ pāraṃ tārayasīti | namaḥ paramaṛṣibhyo namaḥ paramaṛṣibhyaḥ ||",
+      "english": "They worshipped him: \"You are our father who carries us to the other shore of ignorance. Salutations to the supreme seers!\""
+    }
+  ]
+
+}
+
+// ===== Mundaka Upanishad =====
+export const mundakaUpanishad: Upanishad = {
+
+  "id": "mundaka",
+  "name": "Mundaka Upanishad",
+  sanskritName: `मुण्डकोपनिषद्`,
+  "transliteration": "Muṇḍakopaniṣad",
+  "summary": "The Mundaka Upanishad (\"the Upanishad of the Shaven Head\") teaches the distinction between higher and lower knowledge. It presents the famous parable of the two birds on the tree, and the arrow-making meditation technique. The higher knowledge is the realization of the imperishable Brahman, the source of all creation.",
+  "theme": "Higher and lower knowledge, the two birds parable, meditation on OM as the bow, and the identity of the individual Self with Brahman.",
+  "verseCount": 64,
+  "sections": [
+    {
+      "id": "1.1",
+      "name": "First Mundaka, First Khanda",
+      sanskritName: `प्रथममुण्डके प्रथमः खण्डः`,
+      "verses": [
+        {
+          "id": "mundaka.1.1.1",
+          "sanskrit": "ब्रह्मा देवानां प्रथमः संबभूव विश्वस्य कर्ता भुवनस्य गोप्ता । स ब्रह्मविद्यां सर्वविद्याप्रतिष्ठामथर्वाय ज्येष्ठपुत्राय प्राह ॥",
+          "transliteration": "brahmā devānāṃ prathamaḥ saṃbabhūva viśvasya kartā bhuvanasya goptā | sa brahmavidyāṃ sarvavidyāpratiṣṭhāmatharvāya jyeṣṭhaputrāya prāha ||",
+          "english": "Brahma, the creator and protector of the universe, taught the supreme knowledge of Brahman to his eldest son, Atharva."
+        },
+        {
+          "id": "mundaka.1.1.2",
+          "sanskrit": "अथर्वणे यां प्रवदेत ब्रह्माऽथर्वा तं पुरोवाचाङ्गिरे ब्रह्मविद्याम् । स भारद्वाजाय सत्यवाहाय प्राह भारद्वाजोऽङ्गिरसे परावराम् ॥",
+          "transliteration": "atharvaṇe yāṃ pravadeta brahmā'tharvā taṃ purovācāṅgire brahmavidyām | sa bhāradvājāya satyavāhāya prāha bhāradvājo'ṅgirase parāvarām ||",
+          "english": "Atharva taught Angir. Angir taught Satyavaha Bharadvaja. Thus the supreme knowledge was passed down."
+        },
+        {
+          "id": "mundaka.1.1.3",
+          "sanskrit": "शौनको ह वै महाशालोऽङ्गिरसं विधिवदुपसन्नः पप्रच्छ । कस्मिन्नु भगवो विज्ञाते सर्वमिदं विज्ञातं भवतीति ॥",
+          "transliteration": "śaunako ha vai mahāśālo'ṅgirasaṃ vidhivadupasannaḥ papraccha | kasminnu bhagavo vijñāte sarvamidaṃ vijñātaṃ bhavatīti ||",
+          "english": "Saunaka approached Angiras and asked: \"Lord, by knowing what is all this known?\""
+        },
+        {
+          "id": "mundaka.1.1.4",
+          "sanskrit": "तस्मै स होवाच । द्वे विद्ये वेदितव्ये इति ह स्म यद्ब्रह्मविदो वदन्ति परा चैवापरा च ॥",
+          "transliteration": "tasmai sa hovāca | dve vidye veditavye iti ha sma yadbrahmavido vadanti parā caivāparā ca ||",
+          "english": "He replied: \"Two kinds of knowledge are to be known — the higher (para) and the lower (apara).\""
+        },
+        {
+          "id": "mundaka.1.1.5",
+          "sanskrit": "तत्रापरा ऋग्वेदो यजुर्वेदः सामवेदोऽथर्ववेदः शिक्षा कल्पो व्याकरणं निरुक्तं छन्दो ज्योतिषमिति । अथ परा यया तदक्षरमधिगम्यते ॥",
+          "transliteration": "tatrāparā ṛgvedo yajurvedaḥ sāmavedo'tharvavedaḥ śikṣā kalpo vyākaraṇaṃ niruktaṃ chando jyotiṣamiti | atha parā yayā tadakṣaramadhigamyate ||",
+          "english": "The lower knowledge includes the four Vedas, phonetics, ritual, grammar, etymology, meter, and astronomy. The higher knowledge is that by which the Imperishable is known."
+        },
+        {
+          "id": "mundaka.1.1.6",
+          "sanskrit": "यत्तदद्रेश्यमग्राह्यमगोत्रमवर्ण- मचक्षुःश्रोत्रं तदपाणिपादम् । नित्यं विभुं सर्वगतं सुसूक्ष्मं तदव्ययं यद्भूतयोनिं परिपश्यन्ति धीराः ॥",
+          "transliteration": "yattadadreśyamagrāhyamagotramavarṇa- macakṣuḥśrotraṃ tadapāṇipādam | nityaṃ vibhuṃ sarvagataṃ susūkṣmaṃ tadavyayaṃ yadbhūtayoniṃ paripaśyanti dhīrāḥ ||",
+          "english": "That which is invisible, ungraspable, without lineage, without eyes, ears, hands, or feet — eternal, all-pervading, subtle, imperishable — that the wise perceive as the source of all beings."
+        },
+        {
+          "id": "mundaka.1.1.7",
+          "sanskrit": "यथोर्णनाभिः सृजते गृह्णते च यथा पृथिव्यामोषधयः संभवन्ति । यथा सतः पुरुषात्केशलोमानि तथाऽक्षरात्संभवतीह विश्वम् ॥",
+          "transliteration": "yathorṇanābhiḥ sṛjate gṛhṇate ca yathā pṛthivyāmoṣadhayaḥ saṃbhavanti | yathā sataḥ puruṣātkeśalomāni tathā'kṣarātsaṃbhavatīha viśvam ||",
+          "english": "As a spider spins out and withdraws its web, as herbs grow from the earth, as hair grows from a living person, so the universe arises from the Imperishable."
+        },
+        {
+          "id": "mundaka.1.1.8",
+          "sanskrit": "तपसा चीयते ब्रह्म ततोऽन्नमभिजायते । अन्नात्प्राणो मनः सत्यं लोकाः कर्मसु चामृतम् ॥",
+          "transliteration": "tapasā cīyate brahma tato'nnamabhijāyate | annātprāṇo manaḥ satyaṃ lokāḥ karmasu cāmṛtam ||",
+          "english": "Brahman expands through austerity. From It, food is born. From food, life, mind, truth, worlds, and immortality in action."
+        },
+        {
+          "id": "mundaka.1.1.9",
+          "sanskrit": "यः सर्वज्ञः सर्वविद्यस्य ज्ञानमयं तपः । तस्मादेतद्ब्रह्म नाम रूपमन्नं च जायते ॥",
+          "transliteration": "yaḥ sarvajñaḥ sarvavidyasya jñānamayaṃ tapaḥ | tasmādetadbrahma nāma rūpamannaṃ ca jāyate ||",
+          "english": "The all-knowing, all-wise One — whose austerity is knowledge — from Him are born Brahman, name, form, and food."
+        }
+      ]
+    },
+    {
+      "id": "1.2",
+      "name": "First Mundaka, Second Khanda",
+      sanskritName: `प्रथममुण्डके द्वितीयः खण्डः`,
+      "verses": [
+        {
+          "id": "mundaka.1.2.1",
+          "sanskrit": "तदेतत्सत्यं मन्त्रेषु कर्माणि कवयो यान्यपश्यंस्तानि त्रेतायां बहुधा संततानि । तान्याचरथ नियतं सत्यकामा एष वः पन्थाः सुकृतस्य लोके ॥",
+          "transliteration": "tadetatsatyaṃ mantreṣu karmāṇi kavayo yānyapaśyaṃstāni tretāyāṃ bahudhā saṃtatāni | tānyācaratha niyataṃ satyakāmā eṣa vaḥ panthāḥ sukṛtasya loke ||",
+          "english": "The actions revealed to the sages in the mantras have been spread widely in the three Vedas. Perform them constantly, O seekers of truth. This is your path to the world of good deeds."
+        },
+        {
+          "id": "mundaka.1.2.2",
+          "sanskrit": "यदा लेलायते ह्यर्चिः समिद्धे हव्यवाहने । तदाऽऽज्यभागावन्तरेणाऽऽहुतीः प्रतिपादयेत् ॥",
+          "transliteration": "yadā lelāyate hyarciḥ samiddhe havyavāhane | tadā''jyabhāgāvantareṇā''hutīḥ pratipādayet ||",
+          "english": "When the flame flickers after the fire is kindled, then one should offer oblations between the two portions of clarified butter."
+        },
+        {
+          "id": "mundaka.1.2.3",
+          "sanskrit": "यस्याग्निहोत्रमदर्शमपौर्णमास- मचातुर्मास्यमनाग्रयणमतिथिवर्जितं च । अहुतमवैश्वदेवमविधिना हुत- मासप्तमांस्तस्य लोकान् हिनस्ति ॥",
+          "transliteration": "yasyāgnihotramadarśamapaurṇamāsa- macāturmāsyamanāgrayaṇamatithivarjitaṃ ca | ahutamavaiśvadevamavidhinā huta- māsaptamāṃstasya lokān hinasti ||",
+          "english": "The fire rituals of one who neglects the new and full moon ceremonies, the four-month rites, the harvest offerings, guests, offerings to all beings, and performs incorrectly — destroy his seven worlds."
+        },
+        {
+          "id": "mundaka.1.2.4",
+          "sanskrit": "काली कराली च मनोजवा च सुलोहिता या च सुधूम्रवर्णा । स्फुलिङ्गिनी विश्वरुची च देवी लेलायमाना इति सप्त जिह्वाः ॥",
+          "transliteration": "kālī karālī ca manojavā ca sulohitā yā ca sudhūmravarṇā | sphuliṅginī viśvarucī ca devī lelāyamānā iti sapta jihvāḥ ||",
+          "english": "Kali, Karali, Manojava, Sulohita, Sudhumravarna, Sphulingini, and Visvaruchi — these are the seven tongues of flame."
+        },
+        {
+          "id": "mundaka.1.2.5",
+          "sanskrit": "एतेषु यश्चरते भ्राजमानेषु यथाकालं चाहुतयो ह्याददायन् । तं नयन्त्येताः सूर्यस्य रश्मयो यत्र देवानां पतिरेकोऽधिवासः ॥",
+          "transliteration": "eteṣu yaścarate bhrājamāneṣu yathākālaṃ cāhutayo hyādadāyan | taṃ nayantyetāḥ sūryasya raśmayo yatra devānāṃ patireko'dhivāsaḥ ||",
+          "english": "Those who offer oblations in due time are led by the rays of the sun to where the one Lord of the gods resides."
+        },
+        {
+          "id": "mundaka.1.2.6",
+          "sanskrit": "एह्येहीति तमाहुतयः सुवर्चसः सूर्यस्य रश्मिभिर्यजमानं वहन्ति । प्रियां वाचमभिवदन्त्योऽर्चयन्त्य एष वः पुण्यः सुकृतो ब्रह्मलोकः ॥",
+          "transliteration": "ehyehīti tamāhutayaḥ suvarcasaḥ sūryasya raśmibhiryajamānaṃ vahanti | priyāṃ vācamabhivadantyo'rcayantya eṣa vaḥ puṇyaḥ sukṛto brahmalokaḥ ||",
+          "english": "\"Come, come!\" say the radiant offerings, carrying the sacrificer through the sun's rays. \"This is your holy, well-earned Brahmaloka.\""
+        },
+        {
+          "id": "mundaka.1.2.7",
+          "sanskrit": "प्लवा ह्येते अदृढा यज्ञरूपा अष्टादशोक्तमवरं येषु कर्म । एतच्छ्रेयो येऽभिनन्दन्ति मूढा जरामृत्युं ते पुनरेवापि यन्ति ॥",
+          "transliteration": "plavā hyete adṛḍhā yajñarūpā aṣṭādaśoktamavaraṃ yeṣu karma | etacchreyo ye'bhinandanti mūḍhā jarāmṛtyuṃ te punarevāpi yanti ||",
+          "english": "These sacrifices are like unsteady boats. The 18 forms of inferior action delight fools, who again undergo old age and death."
+        },
+        {
+          "id": "mundaka.1.2.8",
+          "sanskrit": "अविद्यायामन्तरे वर्तमानाः स्वयं धीराः पण्डितंमन्यमानाः । जङ्घन्यमानाः परियन्ति मूढा अन्धेनैव नीयमाना यथान्धाः ॥",
+          "transliteration": "avidyāyāmantare vartamānāḥ svayaṃ dhīrāḥ paṇḍitaṃmanyamānāḥ | jaṅghanyamānāḥ pariyanti mūḍhā andhenaiva nīyamānā yathāndhāḥ ||",
+          "english": "Living in ignorance, calling themselves wise, the deluded wander about like the blind leading the blind."
+        },
+        {
+          "id": "mundaka.1.2.9",
+          "sanskrit": "अविद्यायां बहुधा वर्तमाना वयं कृतार्था इत्यभिमन्यन्ति बालाः । यत्कर्मिणो न प्रवेदयन्ति रागा- त्तेनातुराः क्षीणलोकाश्च्यवन्ते ॥",
+          "transliteration": "avidyāyāṃ bahudhā vartamānā vayaṃ kṛtārthā ityabhimanyanti bālāḥ | yatkarmiṇo na pravedayanti rāgā- ttenāturāḥ kṣīṇalokāścyavante ||",
+          "english": "Living in ignorance in many ways, children think \"We have achieved our purpose.\" Afflicted by passion, they fall from heaven."
+        },
+        {
+          "id": "mundaka.1.2.10",
+          "sanskrit": "इष्टापूर्तम् मन्यमाना वरिष्ठं नान्यच्छ्रेयो वेदयन्ते प्रमूढाः । नाकस्य पृष्ठे ते सुकृतेऽनुभूत्वेमं लोकं हीनतरं वा विशन्ति ॥",
+          "transliteration": "iṣṭāpūrtam manyamānā variṣṭhaṃ nānyacchreyo vedayante pramūḍhāḥ | nākasya pṛṣṭhe te sukṛte'nubhūtvemaṃ lokaṃ hīnataraṃ vā viśanti ||",
+          "english": "Fools think the performance of sacrifices is the highest good. Having enjoyed the heaven of good deeds, they enter this world or a lower one."
+        },
+        {
+          "id": "mundaka.1.2.11",
+          "sanskrit": "तपःश्रद्धे ये ह्युपवसन्त्यरण्ये शान्ता विद्वांसो भैक्ष्यचर्यां चरन्तः । सूर्यद्वारेण ते विरजाः प्रयान्ति यत्रामृतः स पुरुषो ह्यव्ययात्मा ॥",
+          "transliteration": "tapaḥśraddhe ye hyupavasantyaraṇye śāntā vidvāṃso bhaikṣyacaryāṃ carantaḥ | sūryadvāreṇa te virajāḥ prayānti yatrāmṛtaḥ sa puruṣo hyavyayātmā ||",
+          "english": "But those who practice austerity and faith in the forest, peaceful and wise, living on alms — they pass through the sun's door to where the immortal Person dwells."
+        },
+        {
+          "id": "mundaka.1.2.12",
+          "sanskrit": "परीक्ष्य लोकान् कर्मचितान् ब्राह्मणो निर्वेदमायान्नास्त्यकृतः कृतेन । तद्विज्ञानार्थं स गुरुमेवाभिगच्छेत् समित्पाणिः श्रोत्रियं ब्रह्मनिष्ठम् ॥",
+          "transliteration": "parīkṣya lokān karmacitān brāhmaṇo nirvedamāyānnāstyakṛtaḥ kṛtena | tadvijñānārthaṃ sa gurumevābhigacchet samitpāṇiḥ śrotriyaṃ brahmaniṣṭham ||",
+          "english": "Having examined the worlds gained through action, a brahmin should develop detachment. To know the truth, approach a guru who is devoted to Brahman, with firewood in hand."
+        },
+        {
+          "id": "mundaka.1.2.13",
+          "sanskrit": "तस्मै स विद्वानुपसन्नाय सम्यक् प्रशान्तचित्ताय शमान्विताय । येनाक्षरं पुरुषं वेद सत्यं प्रोवाच तां तत्त्वतो ब्रह्मविद्याम् ॥",
+          "transliteration": "tasmai sa vidvānupasannāya samyak praśāntacittāya śamānvitāya | yenākṣaraṃ puruṣaṃ veda satyaṃ provāca tāṃ tattvato brahmavidyām ||",
+          "english": "To that student who has approached properly, with a tranquil mind and peaceful heart, the wise teacher should teach the knowledge of Brahman — by which one knows the Imperishable Person."
+        }
+      ]
+    },
+    {
+      "id": "2.1",
+      "name": "Second Mundaka, First Khanda",
+      sanskritName: `द्वितीयमुण्डके प्रथमः खण्डः`,
+      "verses": [
+        {
+          "id": "mundaka.2.1.1",
+          "sanskrit": "तदेतत्सत्यं यथा सुदीप्तात्पावकाद्विस्फुलिङ्गाः सहस्रशः प्रभवन्ते सरूपाः । तथाऽक्षराद्विविधाः सोम्य भावाः प्रजायन्ते तत्र चैवापियन्ति ॥",
+          "transliteration": "tadetatsatyaṃ yathā sudīptātpāvakādvisphuliṅgāḥ sahasraśaḥ prabhavante sarūpāḥ | tathā'kṣarādvividhāḥ somya bhāvāḥ prajāyante tatra caivāpiyanti ||",
+          "english": "As sparks from a blazing fire, so from the Imperishable arise various beings and return to It."
+        },
+        {
+          "id": "mundaka.2.1.2",
+          "sanskrit": "दिव्यो ह्यमूर्तः पुरुषः सबाह्याभ्यन्तरो ह्यजः । अप्राणो ह्यमनाः शुभ्रो ह्यक्षरात्परतः परः ॥",
+          "transliteration": "divyo hyamūrtaḥ puruṣaḥ sabāhyābhyantaro hyajaḥ | aprāṇo hyamanāḥ śubhro hyakṣarātparataḥ paraḥ ||",
+          "english": "The Person is divine, formless, both within and without, unborn, without breath or mind, pure, and beyond the Imperishable."
+        },
+        {
+          "id": "mundaka.2.1.3",
+          "sanskrit": "एतस्माज्जायते प्राणो मनः सर्वेन्द्रियाणि च । खं वायुर्ज्योतिरापः पृथिवी विश्वस्य धारिणी ॥",
+          "transliteration": "etasmājjāyate prāṇo manaḥ sarvendriyāṇi ca | khaṃ vāyurjyotirāpaḥ pṛthivī viśvasya dhāriṇī ||",
+          "english": "From Him are born life, mind, all senses, space, air, fire, water, and earth — the support of all."
+        },
+        {
+          "id": "mundaka.2.1.4",
+          "sanskrit": "अग्निर्मूर्धा चक्षुषी चन्द्रसूर्यौ दिशः श्रोत्रे वाग्विवृताश्च वेदाः । वायुः प्राणो हृदयं विश्वमस्य पद्भ्यां पृथिवी ह्येष सर्वभूतान्तरात्मा ॥",
+          "transliteration": "agnirmūrdhā cakṣuṣī candrasūryau diśaḥ śrotre vāgvivṛtāśca vedāḥ | vāyuḥ prāṇo hṛdayaṃ viśvamasya padbhyāṃ pṛthivī hyeṣa sarvabhūtāntarātmā ||",
+          "english": "Fire is His head, the sun and moon His eyes, the directions His ears, the revealed Vedas His speech, air His breath, the universe His heart, earth His feet — He is the inner Self of all beings."
+        },
+        {
+          "id": "mundaka.2.1.5",
+          "sanskrit": "तस्मादग्निः समिधो यस्य सूर्यः सोमात्पर्जन्य ओषधयः पृथिव्याम् । पुमान् रेतः सिञ्चति योषितायां बह्वीः प्रजाः पुरुषात्संप्रसूताः ॥",
+          "transliteration": "tasmādagniḥ samidho yasya sūryaḥ somātparjanya oṣadhayaḥ pṛthivyām | pumān retaḥ siñcati yoṣitāyāṃ bahvīḥ prajāḥ puruṣātsaṃprasūtāḥ ||",
+          "english": "From Him comes the fire whose fuel is the sun. From rain come herbs on the earth. Man pours seed into woman — thus many beings are born from the Person."
+        },
+        {
+          "id": "mundaka.2.1.6",
+          "sanskrit": "तस्मादृचः साम यजूँषि दीक्षा यज्ञाश्च सर्वे क्रतवो दक्षिणाश्च । संवत्सरश्च यजमानश्च लोकाः सोमो यत्र पवते यत्र सूर्यः ॥",
+          "transliteration": "tasmādṛcaḥ sāma yajū~ṣi dīkṣā yajñāśca sarve kratavo dakṣiṇāśca | saṃvatsaraśca yajamānaśca lokāḥ somo yatra pavate yatra sūryaḥ ||",
+          "english": "From Him come the Rg, Yajur, and Saman Vedas, initiations, all sacrifices, the year, the sacrificer, and the worlds where the moon and sun shine."
+        },
+        {
+          "id": "mundaka.2.1.7",
+          "sanskrit": "तस्माच्च देवा बहुधा संप्रसूताः साध्या मनुष्याः पशवो वयाँसि । प्राणापानौ व्रीहियवौ तपश्च श्रद्धा सत्यं ब्रह्मचर्यं विधिश्च ॥",
+          "transliteration": "tasmācca devā bahudhā saṃprasūtāḥ sādhyā manuṣyāḥ paśavo vayā~si | prāṇāpānau vrīhiyavau tapaśca śraddhā satyaṃ brahmacaryaṃ vidhiśca ||",
+          "english": "From Him arise gods, celestials, humans, animals, and birds. From Him come Prana and Apana, rice and barley, austerity, faith, truth, celibacy, and law."
+        },
+        {
+          "id": "mundaka.2.1.8",
+          "sanskrit": "सप्त प्राणाः प्रभवन्ति तस्मा- त्सप्तार्चिषः समिधः सप्त होमाः । सप्त इमे लोका येषु चरन्ति प्राणा गुहाशया निहिताः सप्त सप्त ॥",
+          "transliteration": "sapta prāṇāḥ prabhavanti tasmā- tsaptārciṣaḥ samidhaḥ sapta homāḥ | sapta ime lokā yeṣu caranti prāṇā guhāśayā nihitāḥ sapta sapta ||",
+          "english": "Seven pranas arise from Him, with their seven flames, seven fuels, seven oblations, and seven worlds where the life-forces move."
+        },
+        {
+          "id": "mundaka.2.1.9",
+          "sanskrit": "अतः समुद्रा गिरयश्च सर्वेऽस्मा- त्स्यन्दन्ते सिन्धवः सर्वरूपाः । अतश्च सर्वा ओषधयो रसश्च येनैष भूतैस्तिष्ठते ह्यन्तरात्मा ॥",
+          "transliteration": "ataḥ samudrā girayaśca sarve'smā- tsyandante sindhavaḥ sarvarūpāḥ | ataśca sarvā oṣadhayo rasaśca yenaiṣa bhūtaistiṣṭhate hyantarātmā ||",
+          "english": "From Him flow all seas, mountains, and rivers of every form. From Him come all herbs and flavors, by which the inner Self sustains the elements."
+        },
+        {
+          "id": "mundaka.2.1.10",
+          "sanskrit": "पुरुष एवेदं विश्वं कर्म तपो ब्रह्म परामृतम् । एतद्यो वेद निहितं गुहायां सोऽविद्याग्रन्थिं विकिरतीह सोम्य ॥",
+          "transliteration": "puruṣa evedaṃ viśvaṃ karma tapo brahma parāmṛtam | etadyo veda nihitaṃ guhāyāṃ so'vidyāgranthiṃ vikiratīha somya ||",
+          "english": "The Person is all this — action, austerity, Brahman, and the supreme immortal. One who knows this hidden in the cave cuts the knot of ignorance."
+        }
+      ]
+    },
+    {
+      "id": "2.2",
+      "name": "Second Mundaka, Second Khanda",
+      sanskritName: `द्वितीयमुण्डके द्वितीयः खण्डः`,
+      "verses": [
+        {
+          "id": "mundaka.2.2.1",
+          "sanskrit": "आविः संनिहितं गुहाचरं नाम महत्पदमत्रैतत्समर्पितम् । एजत्प्राणन्निमिषच्च यदेतज्जानथ सदसद्वरेण्यं परं विज्ञानाद्यद्वरिष्ठं प्रजानाम् ॥",
+          "transliteration": "āviḥ saṃnihitaṃ guhācaraṃ nāma mahatpadamatraitatsamarpitam | ejatprāṇannimiṣacca yadetajjānatha sadasadvareṇyaṃ paraṃ vijñānādyadvariṣṭhaṃ prajānām ||",
+          "english": "The great goal, hidden in the cave, is revealed. Know it as both moving and unmoving, being and non-being, the supreme, the best."
+        },
+        {
+          "id": "mundaka.2.2.2",
+          "sanskrit": "यदर्चिमद्यदणुभ्योऽणु च यस्मिँल्लोका निहिता लोकिनश्च । तदेतदक्षरं ब्रह्म स प्राणस्तदु वाङ्मनः तदेतत्सत्यं तदमृतं तद्वेद्धव्यं सोम्य विद्धि ॥",
+          "transliteration": "yadarcimadyadaṇubhyo'ṇu ca yasmi~llokā nihitā lokinaśca | tadetadakṣaraṃ brahma sa prāṇastadu vāṅmanaḥ tadetatsatyaṃ tadamṛtaṃ tadveddhavyaṃ somya viddhi ||",
+          "english": "That which is brilliant and subtler than the subtle — in which are set the worlds and their inhabitants — that is the Imperishable Brahman. Know it to be known."
+        },
+        {
+          "id": "mundaka.2.2.3",
+          "sanskrit": "धनुर्गृहीत्वौपनिषदं महास्त्रं शरं ह्युपासानिशितं संधयीत । आयम्य तद्भावगतेन चेतसा लक्ष्यं तदेवाक्षरं सोम्य विद्धि ॥",
+          "transliteration": "dhanurgṛhītvaupaniṣadaṃ mahāstraṃ śaraṃ hyupāsāniśitaṃ saṃdhayīta | āyamya tadbhāvagatena cetasā lakṣyaṃ tadevākṣaraṃ somya viddhi ||",
+          "english": "Take the Upanishadic bow, the great weapon. Fix the arrow sharpened by meditation. Draw the bow with mind absorbed in It. Know the Imperishable as the target."
+        },
+        {
+          "id": "mundaka.2.2.4",
+          "sanskrit": "प्रणवो धनुः शरो ह्यात्मा ब्रह्म तल्लक्ष्यमुच्यते । अप्रमत्तेन वेद्धव्यं शरवत्तन्मयो भवेत् ॥",
+          "transliteration": "praṇavo dhanuḥ śaro hyātmā brahma tallakṣyamucyate | apramattena veddhavyaṃ śaravattanmayo bhavet ||",
+          "english": "OM is the bow; the Self is the arrow; Brahman is the target. One should hit It with unwavering attention — become one with It like the arrow in the target."
+        },
+        {
+          "id": "mundaka.2.2.5",
+          "sanskrit": "यस्मिन् द्यौः पृथिवी चान्तरिक्षमोतं मनः सह प्राणैश्च सर्वैः । तमेवैकं जानथ आत्मानमन्या वाचो विमुञ्चथामृतस्यैष सेतुः ॥",
+          "transliteration": "yasmin dyauḥ pṛthivī cāntarikṣamotaṃ manaḥ saha prāṇaiśca sarvaiḥ | tamevaikaṃ jānatha ātmānamanyā vāco vimuñcathāmṛtasyaiṣa setuḥ ||",
+          "english": "In whom the sky, earth, and space are woven, with the mind and all pranas — know that one Self. Give up other talk. This is the bridge to immortality."
+        },
+        {
+          "id": "mundaka.2.2.6",
+          "sanskrit": "अरा इव रथनाभौ संहता यत्र नाड्यः । स एषोऽन्तश्चरते बहुधा जायमानः । ओमित्येवं ध्यायथ आत्मानं स्वस्ति वः पाराय तमसः परस्तात् ॥",
+          "transliteration": "arā iva rathanābhau saṃhatā yatra nāḍyaḥ | sa eṣo'ntaścarate bahudhā jāyamānaḥ | omityevaṃ dhyāyatha ātmānaṃ svasti vaḥ pārāya tamasaḥ parastāt ||",
+          "english": "Where the arteries meet like spokes in the hub of a wheel, He moves within, becoming many. Meditate on the Self as OM. May you cross beyond darkness."
+        },
+        {
+          "id": "mundaka.2.2.7",
+          "sanskrit": "यः सर्वज्ञः सर्वविद्यस्यैष महिमा भुवि । दिव्ये ब्रह्मपुरे ह्येष व्योम्न्यात्मा प्रतिष्ठितः । मनोमयः प्राणशरीरनेता प्रतिष्ठितोऽन्ने हृदयं संनिधाय । तद्विज्ञानेन परिपश्यन्ति धीरा आनन्दरूपममृतं यद्विभाति ॥",
+          "transliteration": "yaḥ sarvajñaḥ sarvavidyasyaiṣa mahimā bhuvi | divye brahmapure hyeṣa vyomnyātmā pratiṣṭhitaḥ | manomayaḥ prāṇaśarīranetā pratiṣṭhito'nne hṛdayaṃ saṃnidhāya | tadvijñānena paripaśyanti dhīrā ānandarūpamamṛtaṃ yadvibhāti ||",
+          "english": "The all-knowing, all-wise One — His greatness is on earth. In the divine city of Brahman, He is established in space. The wise, through knowledge, see Him who shines as the immortal, blissful form."
+        },
+        {
+          "id": "mundaka.2.2.8",
+          "sanskrit": "भिद्यते हृदयग्रन्थिश्छिद्यन्ते सर्वसंशयाः । क्षीयन्ते चास्य कर्माणि तस्मिन्दृष्टे परावरे ॥",
+          "transliteration": "bhidyate hṛdayagranthiśchidyante sarvasaṃśayāḥ | kṣīyante cāsya karmāṇi tasmindṛṣṭe parāvare ||",
+          "english": "When He is seen — both the high and the low — the knot of the heart is loosened, all doubts are cut, and all karmas are exhausted."
+        },
+        {
+          "id": "mundaka.2.2.9",
+          "sanskrit": "हिरण्मये परे कोशे विरजं ब्रह्म निष्कलम् । तच्छुभ्रं ज्योतिषां ज्योतिस्तद्यदात्मविदो विदुः ॥",
+          "transliteration": "hiraṇmaye pare kośe virajaṃ brahma niṣkalam | tacchubhraṃ jyotiṣāṃ jyotistadyadātmavido viduḥ ||",
+          "english": "In the supreme golden sheath is the spotless, partless Brahman. It is the pure light of lights — known by the knowers of the Self."
+        },
+        {
+          "id": "mundaka.2.2.10",
+          "sanskrit": "न तत्र सूर्यो भाति न चन्द्रतारकं नेमा विद्युतो भान्ति कुतोऽयमग्निः । तमेव भान्तमनुभाति सर्वं तस्य भासा सर्वमिदं विभाति ॥",
+          "transliteration": "na tatra sūryo bhāti na candratārakaṃ nemā vidyuto bhānti kuto'yamagniḥ | tameva bhāntamanubhāti sarvaṃ tasya bhāsā sarvamidaṃ vibhāti ||",
+          "english": "The sun does not shine there, nor the moon and stars, nor lightning, nor fire. When He shines, everything shines after Him. By His light, all this is illuminated."
+        },
+        {
+          "id": "mundaka.2.2.11",
+          "sanskrit": "ब्रह्मैवेदममृतं पुरस्ताद्ब्रह्म पश्चाद्ब्रह्म दक्षिणतश्चोत्तरेण । अधश्चोर्ध्वं च प्रसृतं ब्रह्मैवेदं विश्वमिदं वरिष्ठम् ॥",
+          "transliteration": "brahmaivedamamṛtaṃ purastādbrahma paścādbrahma dakṣiṇataścottareṇa | adhaścordhvaṃ ca prasṛtaṃ brahmaivedaṃ viśvamidaṃ variṣṭham ||",
+          "english": "Brahman is before, Brahman is behind, to the right and left. Brahman extends above and below. Brahman alone is all this — the supreme."
+        }
+      ]
+    },
+    {
+      "id": "3.1",
+      "name": "Third Mundaka, First Khanda",
+      sanskritName: `तृतीयमुण्डके प्रथमः खण्डः`,
+      "verses": [
+        {
+          "id": "mundaka.3.1.1",
+          "sanskrit": "द्वा सुपर्णा सयुजा सखाया समानं वृक्षं परिषस्वजाते । तयोरन्यः पिप्पलं स्वाद्वत्त्यनश्नन्नन्यो अभिचाकशीति ॥",
+          "transliteration": "dvā suparṇā sayujā sakhāyā samānaṃ vṛkṣaṃ pariṣasvajāte | tayoranyaḥ pippalaṃ svādvattyanaśnannanyo abhicākaśīti ||",
+          "english": "Two birds, united as companions, cling to the same tree. One eats the sweet fruit; the other, not eating, looks on."
+        },
+        {
+          "id": "mundaka.3.1.2",
+          "sanskrit": "समाने वृक्षे पुरुषो निमग्नोऽनीशया शोचति मुह्यमानः । जुष्टं यदा पश्यत्यन्यमीशमस्य महिमानमिति वीतशोकः ॥",
+          "transliteration": "samāne vṛkṣe puruṣo nimagno'nīśayā śocati muhyamānaḥ | juṣṭaṃ yadā paśyatyanyamīśamasya mahimānamiti vītaśokaḥ ||",
+          "english": "On the same tree, the individual is immersed, grieving, deluded. When he sees the Lord, the beloved, and His glory, he becomes free from grief."
+        },
+        {
+          "id": "mundaka.3.1.3",
+          "sanskrit": "यदा पश्यः पश्यते रुक्मवर्णं कर्तारमीशं पुरुषं ब्रह्मयोनिम् । तदा विद्वान् पुण्यपापे विधूय निरञ्जनः परमं साम्यमुपैति ॥",
+          "transliteration": "yadā paśyaḥ paśyate rukmavarṇaṃ kartāramīśaṃ puruṣaṃ brahmayonim | tadā vidvān puṇyapāpe vidhūya nirañjanaḥ paramaṃ sāmyamupaiti ||",
+          "english": "When the seer sees the golden-hued Creator, the Lord, the Person, the source of Brahman — then the wise one, shaking off merit and demerit, attains supreme equality."
+        },
+        {
+          "id": "mundaka.3.1.4",
+          "sanskrit": "प्राणो ह्येष यः सर्वभूतैर्विभाति विजानन् विद्वान् भवते नातिवादी । आत्मक्रीड आत्मरतिः क्रियावानेष ब्रह्मविदां वरिष्ठः ॥",
+          "transliteration": "prāṇo hyeṣa yaḥ sarvabhūtairvibhāti vijānan vidvān bhavate nātivādī | ātmakrīḍa ātmaratiḥ kriyāvāneṣa brahmavidāṃ variṣṭhaḥ ||",
+          "english": "This Prana shines forth through all beings. The knower, understanding, does not overstate. Delighting in the Self, rejoicing in the Self, performing actions — he is the best among knowers of Brahman."
+        },
+        {
+          "id": "mundaka.3.1.5",
+          "sanskrit": "सत्येन लभ्यस्तपसा ह्येष आत्मा सम्यग्ज्ञानेन ब्रह्मचर्येण नित्यम् । अन्तःशरीरे ज्योतिर्मयो हि शुभ्रो यं पश्यन्ति यतयः क्षीणदोषाः ॥",
+          "transliteration": "satyena labhyastapasā hyeṣa ātmā samyagjñānena brahmacaryeṇa nityam | antaḥśarīre jyotirmayo hi śubhro yaṃ paśyanti yatayaḥ kṣīṇadoṣāḥ ||",
+          "english": "This Self is attained by truth, austerity, right knowledge, and constant celibacy. The pure, luminous Self within the body is seen by yogis whose impurities are destroyed."
+        },
+        {
+          "id": "mundaka.3.1.6",
+          "sanskrit": "सत्यमेव जयते नानृतं सत्येन पन्था विततो देवयानः । येनाक्रमन्त्यृषयो ह्याप्तकामा यत्र तत्सत्यस्य परमं निधानम् ॥",
+          "transliteration": "satyameva jayate nānṛtaṃ satyena panthā vitato devayānaḥ | yenākramantyṛṣayo hyāptakāmā yatra tatsatyasya paramaṃ nidhānam ||",
+          "english": "Truth alone triumphs, not falsehood. By truth the divine path is spread, by which the sages, free from desires, reach the supreme abode of truth."
+        },
+        {
+          "id": "mundaka.3.1.7",
+          "sanskrit": "बृहच्च तद्दिव्यमचिन्त्यरूपं सूक्ष्माच्च तत्सूक्ष्मतरं विभाति । दूरात्सुदूरे तदिहान्तिके च पश्यत्स्विहैव निहितं गुहायाम् ॥",
+          "transliteration": "bṛhacca taddivyamacintyarūpaṃ sūkṣmācca tatsūkṣmataraṃ vibhāti | dūrātsudūre tadihāntike ca paśyatsvihaiva nihitaṃ guhāyām ||",
+          "english": "The Self is vast, divine, of inconceivable form. It is subtler than the subtle. Far, yet near. It is placed in the cave of the heart."
+        },
+        {
+          "id": "mundaka.3.1.8",
+          "sanskrit": "न चक्षुषा गृह्यते नापि वाचा नान्यैर्देवैस्तपसा कर्मणा वा । ज्ञानप्रसादेन विशुद्धसत्त्वं स्ततस्तु तं पश्यते निष्कलं ध्यायमानः ॥",
+          "transliteration": "na cakṣuṣā gṛhyate nāpi vācā nānyairdevaistapasā karmaṇā vā | jñānaprasādena viśuddhasattvaṃ statastu taṃ paśyate niṣkalaṃ dhyāyamānaḥ ||",
+          "english": "It is not grasped by the eye, nor by speech, nor by other senses, nor by austerity or action. By the grace of knowledge, with purified mind, one sees the partless Self in meditation."
+        },
+        {
+          "id": "mundaka.3.1.9",
+          "sanskrit": "एषोऽणुरात्मा चेतसा वेदितव्यो यस्मिन्प्राणः पञ्चधा संविवेश । प्राणैश्चित्तं सर्वमोतं प्रजानां यस्मिन्विशुद्धे विभवत्येष आत्मा ॥",
+          "transliteration": "eṣo'ṇurātmā cetasā veditavyo yasminprāṇaḥ pañcadhā saṃviveśa | prāṇaiścittaṃ sarvamotaṃ prajānāṃ yasminviśuddhe vibhavatyeṣa ātmā ||",
+          "english": "This subtle Self is to be known by the intellect. In it, the five pranas enter. All beings' minds are woven in it. When it is purified, this Self shines forth."
+        },
+        {
+          "id": "mundaka.3.1.10",
+          "sanskrit": "यं यं लोकं मनसा संविभाति विशुद्धसत्त्वः कामयते यांश्च कामान् । तं तं लोकं जयते तांश्च कामांस्तस्मादात्मज्ञं ह्यर्चयेद्भूतिकामः ॥",
+          "transliteration": "yaṃ yaṃ lokaṃ manasā saṃvibhāti viśuddhasattvaḥ kāmayate yāṃśca kāmān | taṃ taṃ lokaṃ jayate tāṃśca kāmāṃstasmādātmajñaṃ hyarcayedbhūtikāmaḥ ||",
+          "english": "Whatever world a man of pure mind desires, whatever desires, that world he attains. Therefore, one desiring prosperity should worship the knower of the Self."
+        }
+      ]
+    },
+    {
+      "id": "3.2",
+      "name": "Third Mundaka, Second Khanda",
+      sanskritName: `तृतीयमुण्डके द्वितीयः खण्डः`,
+      "verses": [
+        {
+          "id": "mundaka.3.2.1",
+          "sanskrit": "स वेदैतत्परमं ब्रह्म धाम यत्र विश्वं निहितं भाति शुभ्रम् । उपासते पुरुषं ये ह्यकामास्ते शुक्रमेतदतिवर्तन्ति धीराः ॥",
+          "transliteration": "sa vedaitatparamaṃ brahma dhāma yatra viśvaṃ nihitaṃ bhāti śubhram | upāsate puruṣaṃ ye hyakāmāste śukrametadativartanti dhīrāḥ ||",
+          "english": "He knows that supreme Brahman where the universe shines. Those who worship the Person without desires pass beyond this seed."
+        },
+        {
+          "id": "mundaka.3.2.2",
+          "sanskrit": "कामान् यः कामयते मन्यमानः स कामभिर्जायते तत्र तत्र । पर्याप्तकामस्य कृतात्मनस्तु इहैव सर्वे प्रविलीयन्ति कामाः ॥",
+          "transliteration": "kāmān yaḥ kāmayate manyamānaḥ sa kāmabhirjāyate tatra tatra | paryāptakāmasya kṛtātmanastu ihaiva sarve pravilīyanti kāmāḥ ||",
+          "english": "One who desires, thinking of desires, is born here and there. But for one whose desires are fulfilled, whose self is perfected, all desires dissolve here itself."
+        },
+        {
+          "id": "mundaka.3.2.3",
+          "sanskrit": "नायमात्मा प्रवचनेन लभ्यो न मेधया न बहुना श्रुतेन । यमेवैष वृणुते तेन लभ्यस्तस्यैष आत्मा विवृणुते तनूं स्वाम् ॥",
+          "transliteration": "nāyamātmā pravacanena labhyo na medhayā na bahunā śrutena | yamevaiṣa vṛṇute tena labhyastasyaiṣa ātmā vivṛṇute tanūṃ svām ||",
+          "english": "This Self is not attained by instruction, nor by intellect, nor by much learning. It is attained only by the one whom It chooses. To such a one, the Self reveals Its own nature."
+        },
+        {
+          "id": "mundaka.3.2.4",
+          "sanskrit": "नायमात्मा बलहीनेन लभ्यो न च प्रमादात्तपसो वाप्यलिङ्गात् । एतैरुपायैर्यतते यस्तु विद्वान्स्तस्यैष आत्मा विशते ब्रह्मधाम ॥",
+          "transliteration": "nāyamātmā balahīnena labhyo na ca pramādāttapaso vāpyaliṅgāt | etairupāyairyatate yastu vidvānstasyaiṣa ātmā viśate brahmadhāma ||",
+          "english": "This Self is not attained by the weak, nor by the careless, nor by austerity without the proper mark. But the wise one who strives by these means enters the abode of Brahman."
+        },
+        {
+          "id": "mundaka.3.2.5",
+          "sanskrit": "संप्राप्यैनमृषयो ज्ञानतृप्ताः कृतात्मानो वीतरागाः प्रशान्ताः । ते सर्वगं सर्वतः प्राप्य धीरा युक्तात्मानः सर्वमेवाविशन्ति ॥",
+          "transliteration": "saṃprāpyainamṛṣayo jñānatṛptāḥ kṛtātmāno vītarāgāḥ praśāntāḥ | te sarvagaṃ sarvataḥ prāpya dhīrā yuktātmānaḥ sarvamevāviśanti ||",
+          "english": "Having attained Him, the sages, satisfied with knowledge, perfected, free from passion, peaceful — they, the wise, having attained the all-pervading from all sides, enter the All."
+        },
+        {
+          "id": "mundaka.3.2.6",
+          "sanskrit": "वेदान्तविज्ञानसुनिश्चितार्थाः संन्यासयोगाद्यतयः शुद्धसत्त्वाः । ते ब्रह्मलोकेषु परान्तकाले परामृताः परिमुच्यन्ति सर्वे ॥",
+          "transliteration": "vedāntavijñānasuniścitārthāḥ saṃnyāsayogādyatayaḥ śuddhasattvāḥ | te brahmalokeṣu parāntakāle parāmṛtāḥ parimucyanti sarve ||",
+          "english": "Those who have ascertained the meaning of Vedantic knowledge, who practice renunciation and have pure minds — they are all finally liberated in the Brahmaloka at the end of time."
+        },
+        {
+          "id": "mundaka.3.2.7",
+          "sanskrit": "गताः कलाः पञ्चदश प्रतिष्ठा देवाश्च सर्वे प्रतिदेवतासु । कर्माणि विज्ञानमयश्च आत्मा परेऽव्यये सर्वे एकीभवन्ति ॥",
+          "transliteration": "gatāḥ kalāḥ pañcadaśa pratiṣṭhā devāśca sarve pratidevatāsu | karmāṇi vijñānamayaśca ātmā pare'vyaye sarve ekībhavanti ||",
+          "english": "The fifteen parts merge into their supports, all gods into their deities, actions and the conscious Self — all become one in the supreme Imperishable."
+        },
+        {
+          "id": "mundaka.3.2.8",
+          "sanskrit": "यथा नद्यः स्यन्दमानाः समुद्रेऽस्तं गच्छन्ति नामरूपे विहाय । तथा विद्वान् नामरूपाद्विमुक्तः परात्परं पुरुषमुपैति दिव्यम् ॥",
+          "transliteration": "yathā nadyaḥ syandamānāḥ samudre'staṃ gacchanti nāmarūpe vihāya | tathā vidvān nāmarūpādvimuktaḥ parātparaṃ puruṣamupaiti divyam ||",
+          "english": "As flowing rivers merge into the ocean, losing name and form, so the wise one, freed from name and form, attains the supreme Person."
+        },
+        {
+          "id": "mundaka.3.2.9",
+          "sanskrit": "स यो ह वै तत्परमं ब्रह्म वेद ब्रह्मैव भवति नास्याब्रह्मवित्कुले भवति । तरति शोकं तरति पाप्मानं गुहाग्रन्थिभ्यो विमुक्तोऽमृतो भवति ॥",
+          "transliteration": "sa yo ha vai tatparamaṃ brahma veda brahmaiva bhavati nāsyābrahmavitkule bhavati | tarati śokaṃ tarati pāpmānaṃ guhāgranthibhyo vimukto'mṛto bhavati ||",
+          "english": "One who knows that supreme Brahman becomes Brahman itself. None of his family remains ignorant of Brahman. He crosses sorrow, crosses evil, freed from the knots of the heart, he becomes immortal."
+        },
+        {
+          "id": "mundaka.3.2.10",
+          "sanskrit": "क्रियावन्तः श्रोत्रिया ब्रह्मनिष्ठाः स्वयं जुह्वत एकर्षिं श्रद्धयन्तः । तेषामेवैतां ब्रह्मविद्यां वदेत शिरोव्रतं विधिवद्यैस्तु चीर्णम् ॥",
+          "transliteration": "kriyāvantaḥ śrotriyā brahmaniṣṭhāḥ svayaṃ juhvata ekarṣiṃ śraddhayantaḥ | teṣāmevaitāṃ brahmavidyāṃ vadeta śirovrataṃ vidhivadyaistu cīrṇam ||",
+          "english": "The knowers of Brahman, performing actions, with faith, offering to the one Rishi — to them alone should this knowledge be taught, who have duly performed the head-vow."
+        },
+        {
+          "id": "mundaka.3.2.11",
+          "sanskrit": "तदेतत्सत्यमृषिरङ्गिराः पुरोवाच नैतदचीर्णव्रतोऽधीते । नमः परमऋषिभ्यो नमः परमऋषिभ्यः ॥",
+          "transliteration": "tadetatsatyamṛṣiraṅgirāḥ purovāca naitadacīrṇavrato'dhīte | namaḥ paramaṛṣibhyo namaḥ paramaṛṣibhyaḥ ||",
+          "english": "Thus the seer Angiras declared this truth. One who has not performed the vow should not study this. Salutations to the supreme seers! Salutations to the supreme seers!"
+        }
+      ]
+    }
+  ],
+  "verses": [
+    {
+      "id": "mundaka.1.1.1",
+      "sanskrit": "ब्रह्मा देवानां प्रथमः संबभूव विश्वस्य कर्ता भुवनस्य गोप्ता । स ब्रह्मविद्यां सर्वविद्याप्रतिष्ठामथर्वाय ज्येष्ठपुत्राय प्राह ॥",
+      "transliteration": "brahmā devānāṃ prathamaḥ saṃbabhūva viśvasya kartā bhuvanasya goptā | sa brahmavidyāṃ sarvavidyāpratiṣṭhāmatharvāya jyeṣṭhaputrāya prāha ||",
+      "english": "Brahma, the creator and protector of the universe, taught the supreme knowledge of Brahman to his eldest son, Atharva."
+    },
+    {
+      "id": "mundaka.1.1.2",
+      "sanskrit": "अथर्वणे यां प्रवदेत ब्रह्माऽथर्वा तं पुरोवाचाङ्गिरे ब्रह्मविद्याम् । स भारद्वाजाय सत्यवाहाय प्राह भारद्वाजोऽङ्गिरसे परावराम् ॥",
+      "transliteration": "atharvaṇe yāṃ pravadeta brahmā'tharvā taṃ purovācāṅgire brahmavidyām | sa bhāradvājāya satyavāhāya prāha bhāradvājo'ṅgirase parāvarām ||",
+      "english": "Atharva taught Angir. Angir taught Satyavaha Bharadvaja. Thus the supreme knowledge was passed down."
+    },
+    {
+      "id": "mundaka.1.1.3",
+      "sanskrit": "शौनको ह वै महाशालोऽङ्गिरसं विधिवदुपसन्नः पप्रच्छ । कस्मिन्नु भगवो विज्ञाते सर्वमिदं विज्ञातं भवतीति ॥",
+      "transliteration": "śaunako ha vai mahāśālo'ṅgirasaṃ vidhivadupasannaḥ papraccha | kasminnu bhagavo vijñāte sarvamidaṃ vijñātaṃ bhavatīti ||",
+      "english": "Saunaka approached Angiras and asked: \"Lord, by knowing what is all this known?\""
+    },
+    {
+      "id": "mundaka.1.1.4",
+      "sanskrit": "तस्मै स होवाच । द्वे विद्ये वेदितव्ये इति ह स्म यद्ब्रह्मविदो वदन्ति परा चैवापरा च ॥",
+      "transliteration": "tasmai sa hovāca | dve vidye veditavye iti ha sma yadbrahmavido vadanti parā caivāparā ca ||",
+      "english": "He replied: \"Two kinds of knowledge are to be known — the higher (para) and the lower (apara).\""
+    },
+    {
+      "id": "mundaka.1.1.5",
+      "sanskrit": "तत्रापरा ऋग्वेदो यजुर्वेदः सामवेदोऽथर्ववेदः शिक्षा कल्पो व्याकरणं निरुक्तं छन्दो ज्योतिषमिति । अथ परा यया तदक्षरमधिगम्यते ॥",
+      "transliteration": "tatrāparā ṛgvedo yajurvedaḥ sāmavedo'tharvavedaḥ śikṣā kalpo vyākaraṇaṃ niruktaṃ chando jyotiṣamiti | atha parā yayā tadakṣaramadhigamyate ||",
+      "english": "The lower knowledge includes the four Vedas, phonetics, ritual, grammar, etymology, meter, and astronomy. The higher knowledge is that by which the Imperishable is known."
+    },
+    {
+      "id": "mundaka.1.1.6",
+      "sanskrit": "यत्तदद्रेश्यमग्राह्यमगोत्रमवर्ण- मचक्षुःश्रोत्रं तदपाणिपादम् । नित्यं विभुं सर्वगतं सुसूक्ष्मं तदव्ययं यद्भूतयोनिं परिपश्यन्ति धीराः ॥",
+      "transliteration": "yattadadreśyamagrāhyamagotramavarṇa- macakṣuḥśrotraṃ tadapāṇipādam | nityaṃ vibhuṃ sarvagataṃ susūkṣmaṃ tadavyayaṃ yadbhūtayoniṃ paripaśyanti dhīrāḥ ||",
+      "english": "That which is invisible, ungraspable, without lineage, without eyes, ears, hands, or feet — eternal, all-pervading, subtle, imperishable — that the wise perceive as the source of all beings."
+    },
+    {
+      "id": "mundaka.1.1.7",
+      "sanskrit": "यथोर्णनाभिः सृजते गृह्णते च यथा पृथिव्यामोषधयः संभवन्ति । यथा सतः पुरुषात्केशलोमानि तथाऽक्षरात्संभवतीह विश्वम् ॥",
+      "transliteration": "yathorṇanābhiḥ sṛjate gṛhṇate ca yathā pṛthivyāmoṣadhayaḥ saṃbhavanti | yathā sataḥ puruṣātkeśalomāni tathā'kṣarātsaṃbhavatīha viśvam ||",
+      "english": "As a spider spins out and withdraws its web, as herbs grow from the earth, as hair grows from a living person, so the universe arises from the Imperishable."
+    },
+    {
+      "id": "mundaka.1.1.8",
+      "sanskrit": "तपसा चीयते ब्रह्म ततोऽन्नमभिजायते । अन्नात्प्राणो मनः सत्यं लोकाः कर्मसु चामृतम् ॥",
+      "transliteration": "tapasā cīyate brahma tato'nnamabhijāyate | annātprāṇo manaḥ satyaṃ lokāḥ karmasu cāmṛtam ||",
+      "english": "Brahman expands through austerity. From It, food is born. From food, life, mind, truth, worlds, and immortality in action."
+    },
+    {
+      "id": "mundaka.1.1.9",
+      "sanskrit": "यः सर्वज्ञः सर्वविद्यस्य ज्ञानमयं तपः । तस्मादेतद्ब्रह्म नाम रूपमन्नं च जायते ॥",
+      "transliteration": "yaḥ sarvajñaḥ sarvavidyasya jñānamayaṃ tapaḥ | tasmādetadbrahma nāma rūpamannaṃ ca jāyate ||",
+      "english": "The all-knowing, all-wise One — whose austerity is knowledge — from Him are born Brahman, name, form, and food."
+    },
+    {
+      "id": "mundaka.1.2.1",
+      "sanskrit": "तदेतत्सत्यं मन्त्रेषु कर्माणि कवयो यान्यपश्यंस्तानि त्रेतायां बहुधा संततानि । तान्याचरथ नियतं सत्यकामा एष वः पन्थाः सुकृतस्य लोके ॥",
+      "transliteration": "tadetatsatyaṃ mantreṣu karmāṇi kavayo yānyapaśyaṃstāni tretāyāṃ bahudhā saṃtatāni | tānyācaratha niyataṃ satyakāmā eṣa vaḥ panthāḥ sukṛtasya loke ||",
+      "english": "The actions revealed to the sages in the mantras have been spread widely in the three Vedas. Perform them constantly, O seekers of truth. This is your path to the world of good deeds."
+    },
+    {
+      "id": "mundaka.1.2.2",
+      "sanskrit": "यदा लेलायते ह्यर्चिः समिद्धे हव्यवाहने । तदाऽऽज्यभागावन्तरेणाऽऽहुतीः प्रतिपादयेत् ॥",
+      "transliteration": "yadā lelāyate hyarciḥ samiddhe havyavāhane | tadā''jyabhāgāvantareṇā''hutīḥ pratipādayet ||",
+      "english": "When the flame flickers after the fire is kindled, then one should offer oblations between the two portions of clarified butter."
+    },
+    {
+      "id": "mundaka.1.2.3",
+      "sanskrit": "यस्याग्निहोत्रमदर्शमपौर्णमास- मचातुर्मास्यमनाग्रयणमतिथिवर्जितं च । अहुतमवैश्वदेवमविधिना हुत- मासप्तमांस्तस्य लोकान् हिनस्ति ॥",
+      "transliteration": "yasyāgnihotramadarśamapaurṇamāsa- macāturmāsyamanāgrayaṇamatithivarjitaṃ ca | ahutamavaiśvadevamavidhinā huta- māsaptamāṃstasya lokān hinasti ||",
+      "english": "The fire rituals of one who neglects the new and full moon ceremonies, the four-month rites, the harvest offerings, guests, offerings to all beings, and performs incorrectly — destroy his seven worlds."
+    },
+    {
+      "id": "mundaka.1.2.4",
+      "sanskrit": "काली कराली च मनोजवा च सुलोहिता या च सुधूम्रवर्णा । स्फुलिङ्गिनी विश्वरुची च देवी लेलायमाना इति सप्त जिह्वाः ॥",
+      "transliteration": "kālī karālī ca manojavā ca sulohitā yā ca sudhūmravarṇā | sphuliṅginī viśvarucī ca devī lelāyamānā iti sapta jihvāḥ ||",
+      "english": "Kali, Karali, Manojava, Sulohita, Sudhumravarna, Sphulingini, and Visvaruchi — these are the seven tongues of flame."
+    },
+    {
+      "id": "mundaka.1.2.5",
+      "sanskrit": "एतेषु यश्चरते भ्राजमानेषु यथाकालं चाहुतयो ह्याददायन् । तं नयन्त्येताः सूर्यस्य रश्मयो यत्र देवानां पतिरेकोऽधिवासः ॥",
+      "transliteration": "eteṣu yaścarate bhrājamāneṣu yathākālaṃ cāhutayo hyādadāyan | taṃ nayantyetāḥ sūryasya raśmayo yatra devānāṃ patireko'dhivāsaḥ ||",
+      "english": "Those who offer oblations in due time are led by the rays of the sun to where the one Lord of the gods resides."
+    },
+    {
+      "id": "mundaka.1.2.6",
+      "sanskrit": "एह्येहीति तमाहुतयः सुवर्चसः सूर्यस्य रश्मिभिर्यजमानं वहन्ति । प्रियां वाचमभिवदन्त्योऽर्चयन्त्य एष वः पुण्यः सुकृतो ब्रह्मलोकः ॥",
+      "transliteration": "ehyehīti tamāhutayaḥ suvarcasaḥ sūryasya raśmibhiryajamānaṃ vahanti | priyāṃ vācamabhivadantyo'rcayantya eṣa vaḥ puṇyaḥ sukṛto brahmalokaḥ ||",
+      "english": "\"Come, come!\" say the radiant offerings, carrying the sacrificer through the sun's rays. \"This is your holy, well-earned Brahmaloka.\""
+    },
+    {
+      "id": "mundaka.1.2.7",
+      "sanskrit": "प्लवा ह्येते अदृढा यज्ञरूपा अष्टादशोक्तमवरं येषु कर्म । एतच्छ्रेयो येऽभिनन्दन्ति मूढा जरामृत्युं ते पुनरेवापि यन्ति ॥",
+      "transliteration": "plavā hyete adṛḍhā yajñarūpā aṣṭādaśoktamavaraṃ yeṣu karma | etacchreyo ye'bhinandanti mūḍhā jarāmṛtyuṃ te punarevāpi yanti ||",
+      "english": "These sacrifices are like unsteady boats. The 18 forms of inferior action delight fools, who again undergo old age and death."
+    },
+    {
+      "id": "mundaka.1.2.8",
+      "sanskrit": "अविद्यायामन्तरे वर्तमानाः स्वयं धीराः पण्डितंमन्यमानाः । जङ्घन्यमानाः परियन्ति मूढा अन्धेनैव नीयमाना यथान्धाः ॥",
+      "transliteration": "avidyāyāmantare vartamānāḥ svayaṃ dhīrāḥ paṇḍitaṃmanyamānāḥ | jaṅghanyamānāḥ pariyanti mūḍhā andhenaiva nīyamānā yathāndhāḥ ||",
+      "english": "Living in ignorance, calling themselves wise, the deluded wander about like the blind leading the blind."
+    },
+    {
+      "id": "mundaka.1.2.9",
+      "sanskrit": "अविद्यायां बहुधा वर्तमाना वयं कृतार्था इत्यभिमन्यन्ति बालाः । यत्कर्मिणो न प्रवेदयन्ति रागा- त्तेनातुराः क्षीणलोकाश्च्यवन्ते ॥",
+      "transliteration": "avidyāyāṃ bahudhā vartamānā vayaṃ kṛtārthā ityabhimanyanti bālāḥ | yatkarmiṇo na pravedayanti rāgā- ttenāturāḥ kṣīṇalokāścyavante ||",
+      "english": "Living in ignorance in many ways, children think \"We have achieved our purpose.\" Afflicted by passion, they fall from heaven."
+    },
+    {
+      "id": "mundaka.1.2.10",
+      "sanskrit": "इष्टापूर्तम् मन्यमाना वरिष्ठं नान्यच्छ्रेयो वेदयन्ते प्रमूढाः । नाकस्य पृष्ठे ते सुकृतेऽनुभूत्वेमं लोकं हीनतरं वा विशन्ति ॥",
+      "transliteration": "iṣṭāpūrtam manyamānā variṣṭhaṃ nānyacchreyo vedayante pramūḍhāḥ | nākasya pṛṣṭhe te sukṛte'nubhūtvemaṃ lokaṃ hīnataraṃ vā viśanti ||",
+      "english": "Fools think the performance of sacrifices is the highest good. Having enjoyed the heaven of good deeds, they enter this world or a lower one."
+    },
+    {
+      "id": "mundaka.1.2.11",
+      "sanskrit": "तपःश्रद्धे ये ह्युपवसन्त्यरण्ये शान्ता विद्वांसो भैक्ष्यचर्यां चरन्तः । सूर्यद्वारेण ते विरजाः प्रयान्ति यत्रामृतः स पुरुषो ह्यव्ययात्मा ॥",
+      "transliteration": "tapaḥśraddhe ye hyupavasantyaraṇye śāntā vidvāṃso bhaikṣyacaryāṃ carantaḥ | sūryadvāreṇa te virajāḥ prayānti yatrāmṛtaḥ sa puruṣo hyavyayātmā ||",
+      "english": "But those who practice austerity and faith in the forest, peaceful and wise, living on alms — they pass through the sun's door to where the immortal Person dwells."
+    },
+    {
+      "id": "mundaka.1.2.12",
+      "sanskrit": "परीक्ष्य लोकान् कर्मचितान् ब्राह्मणो निर्वेदमायान्नास्त्यकृतः कृतेन । तद्विज्ञानार्थं स गुरुमेवाभिगच्छेत् समित्पाणिः श्रोत्रियं ब्रह्मनिष्ठम् ॥",
+      "transliteration": "parīkṣya lokān karmacitān brāhmaṇo nirvedamāyānnāstyakṛtaḥ kṛtena | tadvijñānārthaṃ sa gurumevābhigacchet samitpāṇiḥ śrotriyaṃ brahmaniṣṭham ||",
+      "english": "Having examined the worlds gained through action, a brahmin should develop detachment. To know the truth, approach a guru who is devoted to Brahman, with firewood in hand."
+    },
+    {
+      "id": "mundaka.1.2.13",
+      "sanskrit": "तस्मै स विद्वानुपसन्नाय सम्यक् प्रशान्तचित्ताय शमान्विताय । येनाक्षरं पुरुषं वेद सत्यं प्रोवाच तां तत्त्वतो ब्रह्मविद्याम् ॥",
+      "transliteration": "tasmai sa vidvānupasannāya samyak praśāntacittāya śamānvitāya | yenākṣaraṃ puruṣaṃ veda satyaṃ provāca tāṃ tattvato brahmavidyām ||",
+      "english": "To that student who has approached properly, with a tranquil mind and peaceful heart, the wise teacher should teach the knowledge of Brahman — by which one knows the Imperishable Person."
+    },
+    {
+      "id": "mundaka.2.1.1",
+      "sanskrit": "तदेतत्सत्यं यथा सुदीप्तात्पावकाद्विस्फुलिङ्गाः सहस्रशः प्रभवन्ते सरूपाः । तथाऽक्षराद्विविधाः सोम्य भावाः प्रजायन्ते तत्र चैवापियन्ति ॥",
+      "transliteration": "tadetatsatyaṃ yathā sudīptātpāvakādvisphuliṅgāḥ sahasraśaḥ prabhavante sarūpāḥ | tathā'kṣarādvividhāḥ somya bhāvāḥ prajāyante tatra caivāpiyanti ||",
+      "english": "As sparks from a blazing fire, so from the Imperishable arise various beings and return to It."
+    },
+    {
+      "id": "mundaka.2.1.2",
+      "sanskrit": "दिव्यो ह्यमूर्तः पुरुषः सबाह्याभ्यन्तरो ह्यजः । अप्राणो ह्यमनाः शुभ्रो ह्यक्षरात्परतः परः ॥",
+      "transliteration": "divyo hyamūrtaḥ puruṣaḥ sabāhyābhyantaro hyajaḥ | aprāṇo hyamanāḥ śubhro hyakṣarātparataḥ paraḥ ||",
+      "english": "The Person is divine, formless, both within and without, unborn, without breath or mind, pure, and beyond the Imperishable."
+    },
+    {
+      "id": "mundaka.2.1.3",
+      "sanskrit": "एतस्माज्जायते प्राणो मनः सर्वेन्द्रियाणि च । खं वायुर्ज्योतिरापः पृथिवी विश्वस्य धारिणी ॥",
+      "transliteration": "etasmājjāyate prāṇo manaḥ sarvendriyāṇi ca | khaṃ vāyurjyotirāpaḥ pṛthivī viśvasya dhāriṇī ||",
+      "english": "From Him are born life, mind, all senses, space, air, fire, water, and earth — the support of all."
+    },
+    {
+      "id": "mundaka.2.1.4",
+      "sanskrit": "अग्निर्मूर्धा चक्षुषी चन्द्रसूर्यौ दिशः श्रोत्रे वाग्विवृताश्च वेदाः । वायुः प्राणो हृदयं विश्वमस्य पद्भ्यां पृथिवी ह्येष सर्वभूतान्तरात्मा ॥",
+      "transliteration": "agnirmūrdhā cakṣuṣī candrasūryau diśaḥ śrotre vāgvivṛtāśca vedāḥ | vāyuḥ prāṇo hṛdayaṃ viśvamasya padbhyāṃ pṛthivī hyeṣa sarvabhūtāntarātmā ||",
+      "english": "Fire is His head, the sun and moon His eyes, the directions His ears, the revealed Vedas His speech, air His breath, the universe His heart, earth His feet — He is the inner Self of all beings."
+    },
+    {
+      "id": "mundaka.2.1.5",
+      "sanskrit": "तस्मादग्निः समिधो यस्य सूर्यः सोमात्पर्जन्य ओषधयः पृथिव्याम् । पुमान् रेतः सिञ्चति योषितायां बह्वीः प्रजाः पुरुषात्संप्रसूताः ॥",
+      "transliteration": "tasmādagniḥ samidho yasya sūryaḥ somātparjanya oṣadhayaḥ pṛthivyām | pumān retaḥ siñcati yoṣitāyāṃ bahvīḥ prajāḥ puruṣātsaṃprasūtāḥ ||",
+      "english": "From Him comes the fire whose fuel is the sun. From rain come herbs on the earth. Man pours seed into woman — thus many beings are born from the Person."
+    },
+    {
+      "id": "mundaka.2.1.6",
+      "sanskrit": "तस्मादृचः साम यजूँषि दीक्षा यज्ञाश्च सर्वे क्रतवो दक्षिणाश्च । संवत्सरश्च यजमानश्च लोकाः सोमो यत्र पवते यत्र सूर्यः ॥",
+      "transliteration": "tasmādṛcaḥ sāma yajū~ṣi dīkṣā yajñāśca sarve kratavo dakṣiṇāśca | saṃvatsaraśca yajamānaśca lokāḥ somo yatra pavate yatra sūryaḥ ||",
+      "english": "From Him come the Rg, Yajur, and Saman Vedas, initiations, all sacrifices, the year, the sacrificer, and the worlds where the moon and sun shine."
+    },
+    {
+      "id": "mundaka.2.1.7",
+      "sanskrit": "तस्माच्च देवा बहुधा संप्रसूताः साध्या मनुष्याः पशवो वयाँसि । प्राणापानौ व्रीहियवौ तपश्च श्रद्धा सत्यं ब्रह्मचर्यं विधिश्च ॥",
+      "transliteration": "tasmācca devā bahudhā saṃprasūtāḥ sādhyā manuṣyāḥ paśavo vayā~si | prāṇāpānau vrīhiyavau tapaśca śraddhā satyaṃ brahmacaryaṃ vidhiśca ||",
+      "english": "From Him arise gods, celestials, humans, animals, and birds. From Him come Prana and Apana, rice and barley, austerity, faith, truth, celibacy, and law."
+    },
+    {
+      "id": "mundaka.2.1.8",
+      "sanskrit": "सप्त प्राणाः प्रभवन्ति तस्मा- त्सप्तार्चिषः समिधः सप्त होमाः । सप्त इमे लोका येषु चरन्ति प्राणा गुहाशया निहिताः सप्त सप्त ॥",
+      "transliteration": "sapta prāṇāḥ prabhavanti tasmā- tsaptārciṣaḥ samidhaḥ sapta homāḥ | sapta ime lokā yeṣu caranti prāṇā guhāśayā nihitāḥ sapta sapta ||",
+      "english": "Seven pranas arise from Him, with their seven flames, seven fuels, seven oblations, and seven worlds where the life-forces move."
+    },
+    {
+      "id": "mundaka.2.1.9",
+      "sanskrit": "अतः समुद्रा गिरयश्च सर्वेऽस्मा- त्स्यन्दन्ते सिन्धवः सर्वरूपाः । अतश्च सर्वा ओषधयो रसश्च येनैष भूतैस्तिष्ठते ह्यन्तरात्मा ॥",
+      "transliteration": "ataḥ samudrā girayaśca sarve'smā- tsyandante sindhavaḥ sarvarūpāḥ | ataśca sarvā oṣadhayo rasaśca yenaiṣa bhūtaistiṣṭhate hyantarātmā ||",
+      "english": "From Him flow all seas, mountains, and rivers of every form. From Him come all herbs and flavors, by which the inner Self sustains the elements."
+    },
+    {
+      "id": "mundaka.2.1.10",
+      "sanskrit": "पुरुष एवेदं विश्वं कर्म तपो ब्रह्म परामृतम् । एतद्यो वेद निहितं गुहायां सोऽविद्याग्रन्थिं विकिरतीह सोम्य ॥",
+      "transliteration": "puruṣa evedaṃ viśvaṃ karma tapo brahma parāmṛtam | etadyo veda nihitaṃ guhāyāṃ so'vidyāgranthiṃ vikiratīha somya ||",
+      "english": "The Person is all this — action, austerity, Brahman, and the supreme immortal. One who knows this hidden in the cave cuts the knot of ignorance."
+    },
+    {
+      "id": "mundaka.2.2.1",
+      "sanskrit": "आविः संनिहितं गुहाचरं नाम महत्पदमत्रैतत्समर्पितम् । एजत्प्राणन्निमिषच्च यदेतज्जानथ सदसद्वरेण्यं परं विज्ञानाद्यद्वरिष्ठं प्रजानाम् ॥",
+      "transliteration": "āviḥ saṃnihitaṃ guhācaraṃ nāma mahatpadamatraitatsamarpitam | ejatprāṇannimiṣacca yadetajjānatha sadasadvareṇyaṃ paraṃ vijñānādyadvariṣṭhaṃ prajānām ||",
+      "english": "The great goal, hidden in the cave, is revealed. Know it as both moving and unmoving, being and non-being, the supreme, the best."
+    },
+    {
+      "id": "mundaka.2.2.2",
+      "sanskrit": "यदर्चिमद्यदणुभ्योऽणु च यस्मिँल्लोका निहिता लोकिनश्च । तदेतदक्षरं ब्रह्म स प्राणस्तदु वाङ्मनः तदेतत्सत्यं तदमृतं तद्वेद्धव्यं सोम्य विद्धि ॥",
+      "transliteration": "yadarcimadyadaṇubhyo'ṇu ca yasmi~llokā nihitā lokinaśca | tadetadakṣaraṃ brahma sa prāṇastadu vāṅmanaḥ tadetatsatyaṃ tadamṛtaṃ tadveddhavyaṃ somya viddhi ||",
+      "english": "That which is brilliant and subtler than the subtle — in which are set the worlds and their inhabitants — that is the Imperishable Brahman. Know it to be known."
+    },
+    {
+      "id": "mundaka.2.2.3",
+      "sanskrit": "धनुर्गृहीत्वौपनिषदं महास्त्रं शरं ह्युपासानिशितं संधयीत । आयम्य तद्भावगतेन चेतसा लक्ष्यं तदेवाक्षरं सोम्य विद्धि ॥",
+      "transliteration": "dhanurgṛhītvaupaniṣadaṃ mahāstraṃ śaraṃ hyupāsāniśitaṃ saṃdhayīta | āyamya tadbhāvagatena cetasā lakṣyaṃ tadevākṣaraṃ somya viddhi ||",
+      "english": "Take the Upanishadic bow, the great weapon. Fix the arrow sharpened by meditation. Draw the bow with mind absorbed in It. Know the Imperishable as the target."
+    },
+    {
+      "id": "mundaka.2.2.4",
+      "sanskrit": "प्रणवो धनुः शरो ह्यात्मा ब्रह्म तल्लक्ष्यमुच्यते । अप्रमत्तेन वेद्धव्यं शरवत्तन्मयो भवेत् ॥",
+      "transliteration": "praṇavo dhanuḥ śaro hyātmā brahma tallakṣyamucyate | apramattena veddhavyaṃ śaravattanmayo bhavet ||",
+      "english": "OM is the bow; the Self is the arrow; Brahman is the target. One should hit It with unwavering attention — become one with It like the arrow in the target."
+    },
+    {
+      "id": "mundaka.2.2.5",
+      "sanskrit": "यस्मिन् द्यौः पृथिवी चान्तरिक्षमोतं मनः सह प्राणैश्च सर्वैः । तमेवैकं जानथ आत्मानमन्या वाचो विमुञ्चथामृतस्यैष सेतुः ॥",
+      "transliteration": "yasmin dyauḥ pṛthivī cāntarikṣamotaṃ manaḥ saha prāṇaiśca sarvaiḥ | tamevaikaṃ jānatha ātmānamanyā vāco vimuñcathāmṛtasyaiṣa setuḥ ||",
+      "english": "In whom the sky, earth, and space are woven, with the mind and all pranas — know that one Self. Give up other talk. This is the bridge to immortality."
+    },
+    {
+      "id": "mundaka.2.2.6",
+      "sanskrit": "अरा इव रथनाभौ संहता यत्र नाड्यः । स एषोऽन्तश्चरते बहुधा जायमानः । ओमित्येवं ध्यायथ आत्मानं स्वस्ति वः पाराय तमसः परस्तात् ॥",
+      "transliteration": "arā iva rathanābhau saṃhatā yatra nāḍyaḥ | sa eṣo'ntaścarate bahudhā jāyamānaḥ | omityevaṃ dhyāyatha ātmānaṃ svasti vaḥ pārāya tamasaḥ parastāt ||",
+      "english": "Where the arteries meet like spokes in the hub of a wheel, He moves within, becoming many. Meditate on the Self as OM. May you cross beyond darkness."
+    },
+    {
+      "id": "mundaka.2.2.7",
+      "sanskrit": "यः सर्वज्ञः सर्वविद्यस्यैष महिमा भुवि । दिव्ये ब्रह्मपुरे ह्येष व्योम्न्यात्मा प्रतिष्ठितः । मनोमयः प्राणशरीरनेता प्रतिष्ठितोऽन्ने हृदयं संनिधाय । तद्विज्ञानेन परिपश्यन्ति धीरा आनन्दरूपममृतं यद्विभाति ॥",
+      "transliteration": "yaḥ sarvajñaḥ sarvavidyasyaiṣa mahimā bhuvi | divye brahmapure hyeṣa vyomnyātmā pratiṣṭhitaḥ | manomayaḥ prāṇaśarīranetā pratiṣṭhito'nne hṛdayaṃ saṃnidhāya | tadvijñānena paripaśyanti dhīrā ānandarūpamamṛtaṃ yadvibhāti ||",
+      "english": "The all-knowing, all-wise One — His greatness is on earth. In the divine city of Brahman, He is established in space. The wise, through knowledge, see Him who shines as the immortal, blissful form."
+    },
+    {
+      "id": "mundaka.2.2.8",
+      "sanskrit": "भिद्यते हृदयग्रन्थिश्छिद्यन्ते सर्वसंशयाः । क्षीयन्ते चास्य कर्माणि तस्मिन्दृष्टे परावरे ॥",
+      "transliteration": "bhidyate hṛdayagranthiśchidyante sarvasaṃśayāḥ | kṣīyante cāsya karmāṇi tasmindṛṣṭe parāvare ||",
+      "english": "When He is seen — both the high and the low — the knot of the heart is loosened, all doubts are cut, and all karmas are exhausted."
+    },
+    {
+      "id": "mundaka.2.2.9",
+      "sanskrit": "हिरण्मये परे कोशे विरजं ब्रह्म निष्कलम् । तच्छुभ्रं ज्योतिषां ज्योतिस्तद्यदात्मविदो विदुः ॥",
+      "transliteration": "hiraṇmaye pare kośe virajaṃ brahma niṣkalam | tacchubhraṃ jyotiṣāṃ jyotistadyadātmavido viduḥ ||",
+      "english": "In the supreme golden sheath is the spotless, partless Brahman. It is the pure light of lights — known by the knowers of the Self."
+    },
+    {
+      "id": "mundaka.2.2.10",
+      "sanskrit": "न तत्र सूर्यो भाति न चन्द्रतारकं नेमा विद्युतो भान्ति कुतोऽयमग्निः । तमेव भान्तमनुभाति सर्वं तस्य भासा सर्वमिदं विभाति ॥",
+      "transliteration": "na tatra sūryo bhāti na candratārakaṃ nemā vidyuto bhānti kuto'yamagniḥ | tameva bhāntamanubhāti sarvaṃ tasya bhāsā sarvamidaṃ vibhāti ||",
+      "english": "The sun does not shine there, nor the moon and stars, nor lightning, nor fire. When He shines, everything shines after Him. By His light, all this is illuminated."
+    },
+    {
+      "id": "mundaka.2.2.11",
+      "sanskrit": "ब्रह्मैवेदममृतं पुरस्ताद्ब्रह्म पश्चाद्ब्रह्म दक्षिणतश्चोत्तरेण । अधश्चोर्ध्वं च प्रसृतं ब्रह्मैवेदं विश्वमिदं वरिष्ठम् ॥",
+      "transliteration": "brahmaivedamamṛtaṃ purastādbrahma paścādbrahma dakṣiṇataścottareṇa | adhaścordhvaṃ ca prasṛtaṃ brahmaivedaṃ viśvamidaṃ variṣṭham ||",
+      "english": "Brahman is before, Brahman is behind, to the right and left. Brahman extends above and below. Brahman alone is all this — the supreme."
+    },
+    {
+      "id": "mundaka.3.1.1",
+      "sanskrit": "द्वा सुपर्णा सयुजा सखाया समानं वृक्षं परिषस्वजाते । तयोरन्यः पिप्पलं स्वाद्वत्त्यनश्नन्नन्यो अभिचाकशीति ॥",
+      "transliteration": "dvā suparṇā sayujā sakhāyā samānaṃ vṛkṣaṃ pariṣasvajāte | tayoranyaḥ pippalaṃ svādvattyanaśnannanyo abhicākaśīti ||",
+      "english": "Two birds, united as companions, cling to the same tree. One eats the sweet fruit; the other, not eating, looks on."
+    },
+    {
+      "id": "mundaka.3.1.2",
+      "sanskrit": "समाने वृक्षे पुरुषो निमग्नोऽनीशया शोचति मुह्यमानः । जुष्टं यदा पश्यत्यन्यमीशमस्य महिमानमिति वीतशोकः ॥",
+      "transliteration": "samāne vṛkṣe puruṣo nimagno'nīśayā śocati muhyamānaḥ | juṣṭaṃ yadā paśyatyanyamīśamasya mahimānamiti vītaśokaḥ ||",
+      "english": "On the same tree, the individual is immersed, grieving, deluded. When he sees the Lord, the beloved, and His glory, he becomes free from grief."
+    },
+    {
+      "id": "mundaka.3.1.3",
+      "sanskrit": "यदा पश्यः पश्यते रुक्मवर्णं कर्तारमीशं पुरुषं ब्रह्मयोनिम् । तदा विद्वान् पुण्यपापे विधूय निरञ्जनः परमं साम्यमुपैति ॥",
+      "transliteration": "yadā paśyaḥ paśyate rukmavarṇaṃ kartāramīśaṃ puruṣaṃ brahmayonim | tadā vidvān puṇyapāpe vidhūya nirañjanaḥ paramaṃ sāmyamupaiti ||",
+      "english": "When the seer sees the golden-hued Creator, the Lord, the Person, the source of Brahman — then the wise one, shaking off merit and demerit, attains supreme equality."
+    },
+    {
+      "id": "mundaka.3.1.4",
+      "sanskrit": "प्राणो ह्येष यः सर्वभूतैर्विभाति विजानन् विद्वान् भवते नातिवादी । आत्मक्रीड आत्मरतिः क्रियावानेष ब्रह्मविदां वरिष्ठः ॥",
+      "transliteration": "prāṇo hyeṣa yaḥ sarvabhūtairvibhāti vijānan vidvān bhavate nātivādī | ātmakrīḍa ātmaratiḥ kriyāvāneṣa brahmavidāṃ variṣṭhaḥ ||",
+      "english": "This Prana shines forth through all beings. The knower, understanding, does not overstate. Delighting in the Self, rejoicing in the Self, performing actions — he is the best among knowers of Brahman."
+    },
+    {
+      "id": "mundaka.3.1.5",
+      "sanskrit": "सत्येन लभ्यस्तपसा ह्येष आत्मा सम्यग्ज्ञानेन ब्रह्मचर्येण नित्यम् । अन्तःशरीरे ज्योतिर्मयो हि शुभ्रो यं पश्यन्ति यतयः क्षीणदोषाः ॥",
+      "transliteration": "satyena labhyastapasā hyeṣa ātmā samyagjñānena brahmacaryeṇa nityam | antaḥśarīre jyotirmayo hi śubhro yaṃ paśyanti yatayaḥ kṣīṇadoṣāḥ ||",
+      "english": "This Self is attained by truth, austerity, right knowledge, and constant celibacy. The pure, luminous Self within the body is seen by yogis whose impurities are destroyed."
+    },
+    {
+      "id": "mundaka.3.1.6",
+      "sanskrit": "सत्यमेव जयते नानृतं सत्येन पन्था विततो देवयानः । येनाक्रमन्त्यृषयो ह्याप्तकामा यत्र तत्सत्यस्य परमं निधानम् ॥",
+      "transliteration": "satyameva jayate nānṛtaṃ satyena panthā vitato devayānaḥ | yenākramantyṛṣayo hyāptakāmā yatra tatsatyasya paramaṃ nidhānam ||",
+      "english": "Truth alone triumphs, not falsehood. By truth the divine path is spread, by which the sages, free from desires, reach the supreme abode of truth."
+    },
+    {
+      "id": "mundaka.3.1.7",
+      "sanskrit": "बृहच्च तद्दिव्यमचिन्त्यरूपं सूक्ष्माच्च तत्सूक्ष्मतरं विभाति । दूरात्सुदूरे तदिहान्तिके च पश्यत्स्विहैव निहितं गुहायाम् ॥",
+      "transliteration": "bṛhacca taddivyamacintyarūpaṃ sūkṣmācca tatsūkṣmataraṃ vibhāti | dūrātsudūre tadihāntike ca paśyatsvihaiva nihitaṃ guhāyām ||",
+      "english": "The Self is vast, divine, of inconceivable form. It is subtler than the subtle. Far, yet near. It is placed in the cave of the heart."
+    },
+    {
+      "id": "mundaka.3.1.8",
+      "sanskrit": "न चक्षुषा गृह्यते नापि वाचा नान्यैर्देवैस्तपसा कर्मणा वा । ज्ञानप्रसादेन विशुद्धसत्त्वं स्ततस्तु तं पश्यते निष्कलं ध्यायमानः ॥",
+      "transliteration": "na cakṣuṣā gṛhyate nāpi vācā nānyairdevaistapasā karmaṇā vā | jñānaprasādena viśuddhasattvaṃ statastu taṃ paśyate niṣkalaṃ dhyāyamānaḥ ||",
+      "english": "It is not grasped by the eye, nor by speech, nor by other senses, nor by austerity or action. By the grace of knowledge, with purified mind, one sees the partless Self in meditation."
+    },
+    {
+      "id": "mundaka.3.1.9",
+      "sanskrit": "एषोऽणुरात्मा चेतसा वेदितव्यो यस्मिन्प्राणः पञ्चधा संविवेश । प्राणैश्चित्तं सर्वमोतं प्रजानां यस्मिन्विशुद्धे विभवत्येष आत्मा ॥",
+      "transliteration": "eṣo'ṇurātmā cetasā veditavyo yasminprāṇaḥ pañcadhā saṃviveśa | prāṇaiścittaṃ sarvamotaṃ prajānāṃ yasminviśuddhe vibhavatyeṣa ātmā ||",
+      "english": "This subtle Self is to be known by the intellect. In it, the five pranas enter. All beings' minds are woven in it. When it is purified, this Self shines forth."
+    },
+    {
+      "id": "mundaka.3.1.10",
+      "sanskrit": "यं यं लोकं मनसा संविभाति विशुद्धसत्त्वः कामयते यांश्च कामान् । तं तं लोकं जयते तांश्च कामांस्तस्मादात्मज्ञं ह्यर्चयेद्भूतिकामः ॥",
+      "transliteration": "yaṃ yaṃ lokaṃ manasā saṃvibhāti viśuddhasattvaḥ kāmayate yāṃśca kāmān | taṃ taṃ lokaṃ jayate tāṃśca kāmāṃstasmādātmajñaṃ hyarcayedbhūtikāmaḥ ||",
+      "english": "Whatever world a man of pure mind desires, whatever desires, that world he attains. Therefore, one desiring prosperity should worship the knower of the Self."
+    },
+    {
+      "id": "mundaka.3.2.1",
+      "sanskrit": "स वेदैतत्परमं ब्रह्म धाम यत्र विश्वं निहितं भाति शुभ्रम् । उपासते पुरुषं ये ह्यकामास्ते शुक्रमेतदतिवर्तन्ति धीराः ॥",
+      "transliteration": "sa vedaitatparamaṃ brahma dhāma yatra viśvaṃ nihitaṃ bhāti śubhram | upāsate puruṣaṃ ye hyakāmāste śukrametadativartanti dhīrāḥ ||",
+      "english": "He knows that supreme Brahman where the universe shines. Those who worship the Person without desires pass beyond this seed."
+    },
+    {
+      "id": "mundaka.3.2.2",
+      "sanskrit": "कामान् यः कामयते मन्यमानः स कामभिर्जायते तत्र तत्र । पर्याप्तकामस्य कृतात्मनस्तु इहैव सर्वे प्रविलीयन्ति कामाः ॥",
+      "transliteration": "kāmān yaḥ kāmayate manyamānaḥ sa kāmabhirjāyate tatra tatra | paryāptakāmasya kṛtātmanastu ihaiva sarve pravilīyanti kāmāḥ ||",
+      "english": "One who desires, thinking of desires, is born here and there. But for one whose desires are fulfilled, whose self is perfected, all desires dissolve here itself."
+    },
+    {
+      "id": "mundaka.3.2.3",
+      "sanskrit": "नायमात्मा प्रवचनेन लभ्यो न मेधया न बहुना श्रुतेन । यमेवैष वृणुते तेन लभ्यस्तस्यैष आत्मा विवृणुते तनूं स्वाम् ॥",
+      "transliteration": "nāyamātmā pravacanena labhyo na medhayā na bahunā śrutena | yamevaiṣa vṛṇute tena labhyastasyaiṣa ātmā vivṛṇute tanūṃ svām ||",
+      "english": "This Self is not attained by instruction, nor by intellect, nor by much learning. It is attained only by the one whom It chooses. To such a one, the Self reveals Its own nature."
+    },
+    {
+      "id": "mundaka.3.2.4",
+      "sanskrit": "नायमात्मा बलहीनेन लभ्यो न च प्रमादात्तपसो वाप्यलिङ्गात् । एतैरुपायैर्यतते यस्तु विद्वान्स्तस्यैष आत्मा विशते ब्रह्मधाम ॥",
+      "transliteration": "nāyamātmā balahīnena labhyo na ca pramādāttapaso vāpyaliṅgāt | etairupāyairyatate yastu vidvānstasyaiṣa ātmā viśate brahmadhāma ||",
+      "english": "This Self is not attained by the weak, nor by the careless, nor by austerity without the proper mark. But the wise one who strives by these means enters the abode of Brahman."
+    },
+    {
+      "id": "mundaka.3.2.5",
+      "sanskrit": "संप्राप्यैनमृषयो ज्ञानतृप्ताः कृतात्मानो वीतरागाः प्रशान्ताः । ते सर्वगं सर्वतः प्राप्य धीरा युक्तात्मानः सर्वमेवाविशन्ति ॥",
+      "transliteration": "saṃprāpyainamṛṣayo jñānatṛptāḥ kṛtātmāno vītarāgāḥ praśāntāḥ | te sarvagaṃ sarvataḥ prāpya dhīrā yuktātmānaḥ sarvamevāviśanti ||",
+      "english": "Having attained Him, the sages, satisfied with knowledge, perfected, free from passion, peaceful — they, the wise, having attained the all-pervading from all sides, enter the All."
+    },
+    {
+      "id": "mundaka.3.2.6",
+      "sanskrit": "वेदान्तविज्ञानसुनिश्चितार्थाः संन्यासयोगाद्यतयः शुद्धसत्त्वाः । ते ब्रह्मलोकेषु परान्तकाले परामृताः परिमुच्यन्ति सर्वे ॥",
+      "transliteration": "vedāntavijñānasuniścitārthāḥ saṃnyāsayogādyatayaḥ śuddhasattvāḥ | te brahmalokeṣu parāntakāle parāmṛtāḥ parimucyanti sarve ||",
+      "english": "Those who have ascertained the meaning of Vedantic knowledge, who practice renunciation and have pure minds — they are all finally liberated in the Brahmaloka at the end of time."
+    },
+    {
+      "id": "mundaka.3.2.7",
+      "sanskrit": "गताः कलाः पञ्चदश प्रतिष्ठा देवाश्च सर्वे प्रतिदेवतासु । कर्माणि विज्ञानमयश्च आत्मा परेऽव्यये सर्वे एकीभवन्ति ॥",
+      "transliteration": "gatāḥ kalāḥ pañcadaśa pratiṣṭhā devāśca sarve pratidevatāsu | karmāṇi vijñānamayaśca ātmā pare'vyaye sarve ekībhavanti ||",
+      "english": "The fifteen parts merge into their supports, all gods into their deities, actions and the conscious Self — all become one in the supreme Imperishable."
+    },
+    {
+      "id": "mundaka.3.2.8",
+      "sanskrit": "यथा नद्यः स्यन्दमानाः समुद्रेऽस्तं गच्छन्ति नामरूपे विहाय । तथा विद्वान् नामरूपाद्विमुक्तः परात्परं पुरुषमुपैति दिव्यम् ॥",
+      "transliteration": "yathā nadyaḥ syandamānāḥ samudre'staṃ gacchanti nāmarūpe vihāya | tathā vidvān nāmarūpādvimuktaḥ parātparaṃ puruṣamupaiti divyam ||",
+      "english": "As flowing rivers merge into the ocean, losing name and form, so the wise one, freed from name and form, attains the supreme Person."
+    },
+    {
+      "id": "mundaka.3.2.9",
+      "sanskrit": "स यो ह वै तत्परमं ब्रह्म वेद ब्रह्मैव भवति नास्याब्रह्मवित्कुले भवति । तरति शोकं तरति पाप्मानं गुहाग्रन्थिभ्यो विमुक्तोऽमृतो भवति ॥",
+      "transliteration": "sa yo ha vai tatparamaṃ brahma veda brahmaiva bhavati nāsyābrahmavitkule bhavati | tarati śokaṃ tarati pāpmānaṃ guhāgranthibhyo vimukto'mṛto bhavati ||",
+      "english": "One who knows that supreme Brahman becomes Brahman itself. None of his family remains ignorant of Brahman. He crosses sorrow, crosses evil, freed from the knots of the heart, he becomes immortal."
+    },
+    {
+      "id": "mundaka.3.2.10",
+      "sanskrit": "क्रियावन्तः श्रोत्रिया ब्रह्मनिष्ठाः स्वयं जुह्वत एकर्षिं श्रद्धयन्तः । तेषामेवैतां ब्रह्मविद्यां वदेत शिरोव्रतं विधिवद्यैस्तु चीर्णम् ॥",
+      "transliteration": "kriyāvantaḥ śrotriyā brahmaniṣṭhāḥ svayaṃ juhvata ekarṣiṃ śraddhayantaḥ | teṣāmevaitāṃ brahmavidyāṃ vadeta śirovrataṃ vidhivadyaistu cīrṇam ||",
+      "english": "The knowers of Brahman, performing actions, with faith, offering to the one Rishi — to them alone should this knowledge be taught, who have duly performed the head-vow."
+    },
+    {
+      "id": "mundaka.3.2.11",
+      "sanskrit": "तदेतत्सत्यमृषिरङ्गिराः पुरोवाच नैतदचीर्णव्रतोऽधीते । नमः परमऋषिभ्यो नमः परमऋषिभ्यः ॥",
+      "transliteration": "tadetatsatyamṛṣiraṅgirāḥ purovāca naitadacīrṇavrato'dhīte | namaḥ paramaṛṣibhyo namaḥ paramaṛṣibhyaḥ ||",
+      "english": "Thus the seer Angiras declared this truth. One who has not performed the vow should not study this. Salutations to the supreme seers! Salutations to the supreme seers!"
+    }
+  ]
+
+}
+
+// ===== Taittiriya Upanishad =====
+export const taittiriyaUpanishad: Upanishad = {
+  id: "taittiriya",
+  name: "Taittiriya Upanishad",
+  sanskritName: "तैत्तिरीयोपनिषद्",
+  transliteration: "Taittirīyopaniṣad",
+  summary: "The Taittiriya Upanishad, belonging to the Krishna Yajurveda, is divided into three Vallis: Siksha Valli (instruction on phonetics), Ananda Valli (the bliss of Brahman), and Bhrigu Valli (Bhrigu's quest). It presents the doctrine of the five sheaths (koshas) and the ascending scale of bliss.",
+  theme: "The five sheaths of the Self, Brahman as Truth-Knowledge-Infinity, the scale of bliss, the importance of teaching.",
+  verseCount: 7,
+  sections: [
+    {
+      id: "siksha",
+      name: "Siksha Valli",
+      sanskritName: "शीक्षावल्ली",
+      verses: [
+        { id: "taittiriya.1.1.1", sanskrit: "ॐ शं नो मित्रः शं वरुणः । शं नो भवत्वर्यमा । शं न इन्द्रो बृहस्पतिः । शं नो विष्णुरुरुक्रमः । नमो ब्रह्मणे । नमस्ते वायो । त्वमेव प्रत्यक्षं ब्रह्मासि । त्वामेव प्रत्यक्षं ब्रह्म वदिष्यामि । ऋतं वदिष्यामि । सत्यं वदिष्यामि । तन्मामवतु । तद्वक्तारमवतु । अवतु माम् । अवतु वक्तारम् । ॐ शान्तिः शान्तिः शान्तिः", transliteration: "oṃ śaṃ no mitraḥ śaṃ varuṇaḥ | śaṃ no bhavatvaryamā | śaṃ na indro bṛhaspatiḥ | śaṃ no viṣṇururukramaḥ | namo brahmaṇe | namaste vāyo | tvameva pratyakṣaṃ brahmāsi | tvāmeva pratyakṣaṃ brahma vadiṣyāmi | ṛtaṃ vadiṣyāmi | satyaṃ vadiṣyāmi | tanmāmavatu | tadvaktāramavatu | avatu mām | avatu vaktāram | oṃ śāntiḥ śāntiḥ śāntiḥ", english: "Om! May Mitra be propitious to us, and Varuna! May Aryaman be propitious to us! May Indra and Brihaspati be propitious to us! May Vishnu, of wide strides, be propitious to us! Salutation to Brahman! Salutation to you, O Vayu! You are indeed the visible Brahman. I shall proclaim you as the visible Brahman. Om! Peace! Peace! Peace!" },
+        { id: "taittiriya.1.2.1", sanskrit: "ॐ शीक्षां व्याख्यास्यामः । वर्णः स्वरः । मात्रा बलम् । साम सन्तानः । इत्युक्तः शीक्षाध्यायः", transliteration: "oṃ śīkṣāṃ vyākhyāsyāmaḥ | varṇaḥ svaraḥ | mātrā balam | sāma santānaḥ | ityuktaḥ śīkṣādhyāyaḥ", english: "Om! We shall explain the science of pronunciation: sound, accent, quantity, force, modulation, and combination." },
+        { id: "taittiriya.1.3.1", sanskrit: "सह नौ यशः । सह नौ ब्रह्मवर्चसम् । अथातः संहिताया उपनिषदं व्याख्यास्यामः । पञ्चस्वधिकरणेषु । अधिलोकमधिज्यौतिषमधिविद्यमधिप्रजमध्यात्मम् । ता महासंहिता इत्याचक्षते", transliteration: "saha nau yaśaḥ | saha nau brahmavarcasam | athātaḥ saṃhitāyā upaniṣadaṃ vyākhyāsyāmaḥ | pañcasvadhikaraṇeṣu | adhilokamadhijyautiṣamadhividyamadhiprajamadhyātmam | tā mahāsaṃhitā ityācakṣate", english: "May glory and Brahman-splendor be with us both. Now we shall explain the Upanishad of the Samhita, under five heads: with reference to the worlds, heavenly lights, knowledge, progeny, and the Self." },
+        { id: "taittiriya.1.4.1", sanskrit: "यश्छन्दसामृषभो विश्वरूपः । छन्दोभ्योऽध्यमृतात्सम्बभूव । स मेन्द्रो मेधया स्पृणोतु । अमृतस्य देव धारणो भूयासम् । शरीरं मे विचर्षणम् । जिह्वा मे मधुमत्तमा । कर्णाभ्यां भूरिविश्रुवम् । ब्रह्मणः कोशोऽसि मेधया पिहितः । श्रुतं मे गोपाय", transliteration: "yaśchandasāmṛṣabho viśvarūpaḥ | chandobhyo'dhyamṛtātsambabhūva | sa mendro medhayā spṛṇotu | amṛtasya deva dhāraṇo bhūyāsam | śarīraṃ me vicarṣaṇam | jihvā me madhumattamā | karṇābhyāṃ bhūriviśruvam | brahmaṇaḥ kośo'si medhayā pihitaḥ | śrutaṃ me gopāya", english: "May the bull of the Vedas, the all-formed one, who sprang from the immortal Vedas — may Indra strengthen me with intelligence. May I become the possessor of immortality." },
+        { id: "taittiriya.1.5.1", sanskrit: "भूर्भुवः सुवरिति वा एतास्तिस्रो व्याहृतयः । तासामुहस्मै तां चतुर्थीम् । माहाचमस्यः प्रवेदयते । मह इति । तद्ब्रह्म । स आत्मा । अङ्गान्यन्या देवताः", transliteration: "bhūrbhuvaḥ suvariti vā etāstisro vyāhṛtayaḥ | tāsāmuhasmai tāṃ caturthīm | māhācamasyaḥ pravedayate | maha iti | tadbrahma | sa ātmā | aṅgānyanyā devatāḥ", english: "Bhuh, Bhuvah, Suvah — these are the three great utterances. The fourth, Mahah, was taught by Mahacamasya: that is Brahman, that is the Self. The other gods are its limbs." },
+        { id: "taittiriya.1.6.1", sanskrit: "स य एषोऽन्तर्हृदय आकाशः । तस्मिन्नयं पुरुषो मनोमयः । अमृतो हिरण्मयः । अन्तरेण तालुके । य एष स्तन इवावलम्बते । सेन्द्रयोनिः", transliteration: "sa ya eṣo'ntarhṛdaya ākāśaḥ | tasminnayaṃ puruṣo manomayaḥ | amṛto hiraṇmayaḥ | antareṇa tāluke | ya eṣa stana ivāvalambate | sendrayoniḥ", english: "The space within the heart — in it dwells the Person consisting of mind, immortal and luminous. Between the palates it hangs like a nipple — this is the birthplace of Indra." },
+        { id: "taittiriya.1.7.1", sanskrit: "पृथिव्यन्तरिक्षं द्यौर्दिशोऽवान्तरदिशाः । अग्निर्वायुरादित्यश्चन्द्रमा नक्षत्राणि । आप ओषधयो वनस्पतय आकाश आत्मा । इत्यधिभूतम् । अथाध्यात्मम् । प्राणो व्यानोऽपान उदानः समानः", transliteration: "pṛthivyantarikṣaṃ dyaurdiśo'vāntaradiśāḥ | agnirvāyurādityaścandramā nakṣatrāṇi | āpa oṣadhayo vanaspataya ākāśa ātmā | ityadhibhūtam | athādhyātmam | prāṇo vyāno'pāna udānaḥ samānaḥ", english: "Earth, sky, heaven, quarters, and intermediate quarters; fire, air, sun, moon, and stars; water, herbs, trees, space, and the Self — thus with reference to the elements." },
+        { id: "taittiriya.1.8.1", sanskrit: "ओमिति ब्रह्म । ओमितीदं सर्वम् । ओमित्येतदनुकृतिर्हस्म वा अप्योश्रावयेत्याश्रावयन्ति । ओमिति सामानि गायन्ति । ॐ शोमिति शस्त्राणि शंसन्ति", transliteration: "omiti brahma | omitīdaṃ sarvam | omityetadanukṛtirhasma vā apyośrāvayetyāśrāvayanti | omiti sāmāni gāyanti | oṃ śomiti śastrāṇi śaṃsanti", english: "Om is Brahman. Om is all this. With Om the Saman hymns are sung. With 'Om' the recitations are intoned." },
+        { id: "taittiriya.1.9.1", sanskrit: "ऋतं च स्वाध्यायप्रवचने च । सत्यं च स्वाध्यायप्रवचने च । तपश्च स्वाध्यायप्रवचने च । दमश्च स्वाध्यायप्रवचने च । शमश्च स्वाध्यायप्रवचने च", transliteration: "ṛtaṃ ca svādhyāyapravacane ca | satyaṃ ca svādhyāyapravacane ca | tapaśca svādhyāyapravacane ca | damaśca svādhyāyapravacane ca | śamaśca svādhyāyapravacane ca", english: "Righteousness and study and teaching; truth and study and teaching; austerity and study and teaching; self-control and study and teaching; tranquility and study and teaching." },
+        { id: "taittiriya.1.10.1", sanskrit: "अहं वृक्षस्य रेरिवा । कीर्तिः पृष्ठं गिरेरिव । ऊर्ध्वपवित्रो वाजिनीव स्वमृतमस्मि । द्रविणं सवर्चसम् । सुमेधा अमृतोक्षितः । इति त्रिशङ्कोर्वेदानुवचनम्", transliteration: "ahaṃ vṛkṣasya rerivā | kīrtiḥ pṛṣṭhaṃ gireriva | ūrdhvapavitro vājinīva svamṛtamasmi | draviṇaṃ savarcasam | sumedhā amṛtokṣitaḥ | iti triśaṅkorvedānuvacanam", english: "I am the mover of the tree. My fame is like the peak of a mountain. I am high and pure like the nectar in the sun." },
+        { id: "taittiriya.1.11.1", sanskrit: "वेदमनूच्याचार्योऽन्तेवासिनमनुशास्ति । सत्यं वद । धर्मं चर । स्वाध्यायान्मा प्रमदः । आचार्याय प्रियं धनमाहृत्य प्रजातन्तुं मा व्यवच्छेत्सीः", transliteration: "vedamanūcyācāryo'ntevāsinamanuśāsti | satyaṃ vada | dharmaṃ cara | svādhyāyānmā pramadaḥ | ācārāya priyaṃ dhanamāhṛtya prajātantuṃ mā vyavacchetsīḥ", english: "Having taught the Vedas, the teacher instructs the pupil: Speak the truth. Practice dharma. Do not neglect study. Having brought the teacher his desired gift, do not cut off the line of progeny." },
+        { id: "taittiriya.1.12.1", sanskrit: "ॐ शं नो मित्रः शं वरुणः । शं नो भवत्वर्यमा । शं न इन्द्रो बृहस्पतिः । शं नो विष्णुरुरुक्रमः । नमो ब्रह्मणे । नमस्ते वायो । त्वमेव प्रत्यक्षं ब्रह्मासि । त्वामेव प्रत्यक्षं ब्रह्मावादिषम् । ऋतमवादिषम् । सत्यमवादिषम् । तन्मामावीत् । तद्वक्तारमावीत् । आवीन्माम् । आवीद्वक्तारम् । ॐ शान्तिः शान्तिः शान्तिः", transliteration: "oṃ śaṃ no mitraḥ śaṃ varuṇaḥ | śaṃ no bhavatvaryamā | śaṃ na indro bṛhaspatiḥ | śaṃ no viṣṇururukramaḥ | namo brahmaṇe | namaste vāyo | tvameva pratyakṣaṃ brahmāsi | tvāmeva pratyakṣaṃ brahmāvādiṣam | ṛtamavādiṣam | satyamavādiṣam | tanmāmāvīt | tadvaktāramāvīt | āvīnmām | āvīdvaktāram | oṃ śāntiḥ śāntiḥ śāntiḥ", english: "Om! May Mitra be propitious to us... I have proclaimed you as the visible Brahman. That has protected me. That has protected the speaker. Om! Peace! Peace! Peace!" }
+      ]
+    },
+    {
+      id: "ananda",
+      name: "Ananda Valli (Brahmananda Valli)",
+      sanskritName: "ब्रह्मानन्दवल्ली",
+      verses: [
+        { id: "taittiriya.2.1.1", sanskrit: "ॐ ब्रह्मविदाप्नोति परम् । तदेषाऽभ्युक्ता । सत्यं ज्ञानमनन्तं ब्रह्म । यो वेद निहितं गुहायां परमे व्योमन् । सोऽश्नुते सर्वान् कामान्सह । ब्रह्मणा विपश्चितेति", transliteration: "om brahmavidāpnoti param | tadeṣā'bhyuktā | satyaṃ jñānamanantaṃ brahma | yo veda nihitaṃ guhāyāṃ parame vyoman | so'śnute sarvān kāmānsaha | brahmaṇā vipaściteti", english: "The knower of Brahman attains the highest. The ancient seer declared: Brahman is Truth, Knowledge, Infinity. One who knows It as hidden in the cave of the heart attains all desires together with the all-knowing Brahman." },
+        { id: "taittiriya.2.2.1", sanskrit: "अन्नाद्वै प्रजाः प्रजायन्ते । याः काश्च पृथिवीं श्रिताः । अथो अन्नेनैव जीवन्ति । अथैनदपि यन्त्यन्ततः । अन्नं हि भूतानां ज्येष्ठम् । तस्मात्सर्वौषधमुच्यते", transliteration: "annādvai prajāḥ prajāyante | yāḥ kāśca pṛthivīṃ śritāḥ | atho annenaiva jīvanti | athainadapi yantyantataḥ | annaṃ hi bhūtānāṃ jyeṣṭham | tasmātsarvauṣadhamucyate", english: "From food indeed all beings are born. By food they live. Into food they finally enter. Food is the eldest of beings, therefore it is called the panacea." },
+        { id: "taittiriya.2.3.1", sanskrit: "प्राणं देवा अनु प्राणन्ति । मनुष्याः पशवश्च ये । प्राणो हि भूतानामायुः । तस्मात्सर्वायुषमुच्यते", transliteration: "prāṇaṃ devā anu prāṇanti | manuṣyāḥ paśavaśca ye | prāṇo hi bhūtānāmāyuḥ | tasmātsarvāyuṣamucyate", english: "Gods, humans, and animals breathe following Prana. Prana is the life-breath of beings — therefore it is called the all-life." },
+        { id: "taittiriya.2.4.1", sanskrit: "यतो वाचो निवर्तन्ते । अप्राप्य मनसा सह । आनन्दं ब्रह्मणो विद्वान् । न बिभेति कदाचनेति", transliteration: "yato vāco nivartante | aprāpya manasā saha | ānandaṃ brahmaṇo vidvān | na bibheti kadācaneti", english: "Whence words return back, together with the mind, without reaching It — the knower of the bliss of Brahman fears nothing at all." },
+        { id: "taittiriya.2.5.1", sanskrit: "विज्ञानं यज्ञं तनुते । कर्माणि तनुतेऽपि च । विज्ञानं देवाः सर्वे । ब्रह्म ज्येष्ठमुपासते", transliteration: "vijñānaṃ yajñaṃ tanute | karmāṇi tanute'pi ca | vijñānaṃ devāḥ sarve | brahma jyeṣṭhamupāsate", english: "Knowledge organizes sacrifice. Knowledge drives all actions. All gods worship Brahman as the highest knowledge." },
+        { id: "taittiriya.2.6.1", sanskrit: "असन्नेव स भवति । असद्ब्रह्मेति वेद चेत् । अस्ति ब्रह्मेति चेद्वेद । सन्तमेनं ततो विदुरिति", transliteration: "asanneva sa bhavati | asadbrahmeti veda cet | asti brahmeti cedveda | santamenaṃ tato viduriti", english: "If one knows Brahman as 'non-being', he becomes non-being. If one knows Brahman as 'being', the wise know him as the real." },
+        { id: "taittiriya.2.7.1", sanskrit: "असद्वा इदमग्र आसीत् । ततो वै सदजायत । तदात्मानं स्वयमकुरुत । तस्मात्तत्सुकृतमुच्यत इति", transliteration: "asadvā idamagra āsīt | tato vai sadajāyata | tadātmānaṃ svayamakuruta | tasmāttatsukṛtamucyata iti", english: "Non-being indeed was this in the beginning. From it, Being was born. It created itself by itself — therefore it is called the well-created." },
+        { id: "taittiriya.2.8.1", sanskrit: "भीषाऽस्माद्वातः पवते । भीषोदेति सूर्यः । भीषाऽस्मादग्निश्चेन्द्रश्च । मृत्युर्धावति पञ्चम इति", transliteration: "bhīṣā'smādvātaḥ pavate | bhīṣodeti sūryaḥ | bhīṣā'smādagniścendraśca | mṛtyurdhāvati pañcama iti", english: "From fear of Him the wind blows. From fear of Him the sun rises. From fear of Him fire and Indra act. Death, the fifth, runs after Him." },
+        { id: "taittiriya.2.9.1", sanskrit: "यतो वाचो निवर्तन्ते । अप्राप्य मनसा सह । आनन्दं ब्रह्मणो विद्वान् । न बिभेति कुतश्चनेति", transliteration: "yato vāco nivartante | aprāpya manasā saha | ānandaṃ brahmaṇo vidvān | na bibheti kutaścaneti", english: "Whence words return back, together with the mind, without reaching It — the knower of the bliss of Brahman fears nothing at all." }
+      ]
+    },
+    {
+      id: "bhrigu",
+      name: "Bhrigu Valli",
+      sanskritName: "भृगुवल्ली",
+      verses: [
+        { id: "taittiriya.3.1.1", sanskrit: "भृगुर्वै वारुणिः । वरुणं पितरमुपससार । अधीहि भगवो ब्रह्मेति । तस्मा एतत्प्रोवाच । अन्नं प्राणं चक्षुः श्रोत्रं मनो वाचमिति", transliteration: "bhṛgurvai vāruṇiḥ | varuṇaṃ pitaramupasasāra | adhīhi bhagavo brahmeti | tasmā etatprovāca | annaṃ prāṇaṃ cakṣuḥ śrotraṃ mano vācamiti", english: "Bhrigu, the son of Varuna, approached his father Varuna, saying: 'Lord, teach me Brahman.' He told him: 'Food, breath, the eye, the ear, the mind, speech.'" },
+        { id: "taittiriya.3.2.1", sanskrit: "अन्नं ब्रह्मेति व्यजानात् । अन्नाद्ध्येव खल्विमानि भूतानि जायन्ते । अन्नेन जातानि जीवन्ति । अन्नं प्रयन्त्यभिसंविशन्तीति", transliteration: "annaṃ brahmeti vyajānāt | annāddhyeva khalvimāni bhūtāni jāyante | annena jātāni jīvanti | annaṃ prayantyabhisaṃviśantīti", english: "He understood: 'Food is Brahman.' For from food beings are born, by food they live, and into food they enter." },
+        { id: "taittiriya.3.3.1", sanskrit: "प्राणो ब्रह्मेति व्यजानात् । प्राणाद्ध्येव खल्विमानि भूतानि जायन्ते । प्राणेन जातानि जीवन्ति । प्राणं प्रयन्त्यभिसंविशन्तीति", transliteration: "prāṇo brahmeti vyajānāt | prāṇāddhyeva khalvimāni bhūtāni jāyante | prāṇena jātāni jīvanti | prāṇaṃ prayantyabhisaṃviśantīti", english: "He understood: 'Breath is Brahman.' For from breath beings are born, by breath they live, and into breath they enter." },
+        { id: "taittiriya.3.4.1", sanskrit: "मनो ब्रह्मेति व्यजानात् । मनसो ह्येव खल्विमानि भूतानि जायन्ते । मनसा जातानि जीवन्ति । मनः प्रयन्त्यभिसंविशन्तीति", transliteration: "mano brahmeti vyajānāt | manaso hyeva khalvimāni bhūtāni jāyante | manasā jātāni jīvanti | manaḥ prayantyabhisaṃviśantīti", english: "He understood: 'Mind is Brahman.' For from mind beings are born, by mind they live, and into mind they enter." },
+        { id: "taittiriya.3.5.1", sanskrit: "विज्ञानं ब्रह्मेति व्यजानात् । विज्ञानाद्ध्येव खल्विमानि भूतानि जायन्ते । विज्ञानेन जातानि जीवन्ति । विज्ञानं प्रयन्त्यभिसंविशन्तीति", transliteration: "vijñānaṃ brahmeti vyajānāt | vijñānāddhyeva khalvimāni bhūtāni jāyante | vijñānena jātāni jīvanti | vijñānaṃ prayantyabhisaṃviśantīti", english: "He understood: 'Knowledge is Brahman.' For from knowledge beings are born, by knowledge they live, and into knowledge they enter." },
+        { id: "taittiriya.3.6.1", sanskrit: "आनन्दो ब्रह्मेति व्यजानात् । आनन्दाद्ध्येव खल्विमानि भूतानि जायन्ते । आनन्देन जातानि जीवन्ति । आनन्दं प्रयन्त्यभिसंविशन्तीति", transliteration: "ānando brahmeti vyajānāt | ānandāddhyeva khalvimāni bhūtāni jāyante | ānandena jātāni jīvanti | ānandaṃ prayantyabhisaṃviśantīti", english: "He understood: 'Bliss is Brahman.' For from bliss beings are born, by bliss they live, and into bliss they enter." },
+        { id: "taittiriya.3.7.1", sanskrit: "अन्नं न निन्द्यात् । तद्व्रतम् । प्राणो वा अन्नम् । शरीरमन्नादम्", transliteration: "annaṃ na nindyāt | tadvratam | prāṇo vā annam | śarīramannādam", english: "Do not despise food. That is the vow. Prana is food, the body is the eater." },
+        { id: "taittiriya.3.8.1", sanskrit: "अन्नं न परिचक्षीत । तद्व्रतम् । आपो वा अन्नम् । ज्योतिरन्नादम्", transliteration: "annaṃ na paricakṣīta | tadvratam | āpo vā annam | jyotirannādam", english: "Do not reject food. That is the vow. Water is food, light is the eater." },
+        { id: "taittiriya.3.9.1", sanskrit: "अन्नं बहु कुर्वीत । तद्व्रतम् । पृथिवी वा अन्नम् । आकाशोऽन्नादः", transliteration: "annaṃ bahu kurvīta | tadvratam | pṛthivī vā annam | ākāśo'nnādaḥ", english: "Produce abundant food. That is the vow. Earth is food, space is the eater." },
+        { id: "taittiriya.3.10.1", sanskrit: "न कञ्चन वसतौ प्रत्याचक्षीत । तद्व्रतम् । तस्माद्यया कया च विधया बह्वन्नं प्राप्नुयात्", transliteration: "na kañcana vasatau pratyācakṣīta | tadvratam | tasmādyayā kaya ca vidhayā bahvannaṃ prāpnuyāt", english: "Do not turn away anyone who seeks shelter. That is the vow. Therefore one should obtain abundant food by any means." },
+        { id: "taittiriya.3.10.5", sanskrit: "अहमन्नमहमन्नमहमन्नम् । अहमन्नादोऽहमन्नादोऽहमन्नादः । अहं श्लोककृदहं श्लोककृदहं श्लोककृत् । अहमस्मि प्रथमजा ऋतस्य । पूर्वं देवेभ्योऽमृतस्य नाभिः", transliteration: "ahamannamahamannamahamannam | ahamannādo'hamannādo'hamannādaḥ | ahaṃ ślokakṛdahaṃ ślokakṛdahaṃ ślokakṛt | ahamasmi prathamajā ṛtasya | pūrvaṃ devebhyo'mṛtasya nābhiḥ", english: "I am food, I am food, I am food. I am the eater of food, I am the eater of food, I am the eater of food. I am the poet, I am the poet, I am the poet. I am the first-born of the cosmic order. Before the gods, I am the navel of immortality." }
+      ]
+    }
+  ],
+  verses: [
+    { id: "taittiriya.1.1.1", sanskrit: "ॐ शं नो मित्रः शं वरुणः । शं नो भवत्वर्यमा । शं न इन्द्रो बृहस्पतिः । शं नो विष्णुरुरुक्रमः । नमो ब्रह्मणे । नमस्ते वायो । त्वमेव प्रत्यक्षं ब्रह्मासि । त्वामेव प्रत्यक्षं ब्रह्म वदिष्यामि । ऋतं वदिष्यामि । सत्यं वदिष्यामि । तन्मामवतु । तद्वक्तारमवतु । अवतु माम् । अवतु वक्तारम् । ॐ शान्तिः शान्तिः शान्तिः", transliteration: "oṃ śaṃ no mitraḥ śaṃ varuṇaḥ | śaṃ no bhavatvaryamā | śaṃ na indro bṛhaspatiḥ | śaṃ no viṣṇururukramaḥ | namo brahmaṇe | namaste vāyo | tvameva pratyakṣaṃ brahmāsi | tvāmeva pratyakṣaṃ brahma vadiṣyāmi | ṛtaṃ vadiṣyāmi | satyaṃ vadiṣyāmi | tanmāmavatu | tadvaktāramavatu | avatu mām | avatu vaktāram | oṃ śāntiḥ śāntiḥ śāntiḥ", english: "Om! May Mitra be propitious to us, and Varuna! May Aryaman be propitious to us! May Indra and Brihaspati be propitious to us! May Vishnu, of wide strides, be propitious to us! Salutation to Brahman! Salutation to you, O Vayu! You are indeed the visible Brahman. I shall proclaim you as the visible Brahman. Om! Peace! Peace! Peace!" },
+    { id: "taittiriya.1.5.1", sanskrit: "भूर्भुवः सुवरिति वा एतास्तिस्रो व्याहृतयः । तासामुहस्मै तां चतुर्थीम् । माहाचमस्यः प्रवेदयते । मह इति । तद्ब्रह्म । स आत्मा", transliteration: "bhūrbhuvaḥ suvariti vā etāstisro vyāhṛtayaḥ | tāsāmuhasmai tāṃ caturthīm | māhācamasyaḥ pravedayate | maha iti | tadbrahma | sa ātmā", english: "Bhuh, Bhuvah, Suvah — these are the three great utterances. The fourth, Mahah: that is Brahman, that is the Self." },
+    { id: "taittiriya.2.1.1", sanskrit: "ॐ ब्रह्मविदाप्नोति परम् । तदेषाऽभ्युक्ता । सत्यं ज्ञानमनन्तं ब्रह्म", transliteration: "om brahmavidāpnoti param | tadeṣā'bhyuktā | satyaṃ jñānamanantaṃ brahma", english: "The knower of Brahman attains the highest. Brahman is Truth, Knowledge, Infinity." },
+    { id: "taittiriya.2.4.1", sanskrit: "यतो वाचो निवर्तन्ते । अप्राप्य मनसा सह । आनन्दं ब्रह्मणो विद्वान् । न बिभेति कदाचनेति", transliteration: "yato vāco nivartante | aprāpya manasā saha | ānandaṃ brahmaṇo vidvān | na bibheti kadācaneti", english: "Whence words return back, together with the mind, without reaching It — the knower of the bliss of Brahman fears nothing at all." },
+    { id: "taittiriya.2.8.1", sanskrit: "भीषाऽस्माद्वातः पवते । भीषोदेति सूर्यः । भीषाऽस्मादग्निश्चेन्द्रश्च । मृत्युर्धावति पञ्चम इति", transliteration: "bhīṣā'smādvātaḥ pavate | bhīṣodeti sūryaḥ | bhīṣā'smādagniścendraśca | mṛtyurdhāvati pañcama iti", english: "From fear of Him the wind blows. From fear of Him the sun rises. From fear of Him fire and Indra act. Death, the fifth, runs." },
+    { id: "taittiriya.3.6.1", sanskrit: "आनन्दो ब्रह्मेति व्यजानात् । आनन्दाद्ध्येव खल्विमानि भूतानि जायन्ते", transliteration: "ānando brahmeti vyajānāt | ānandāddhyeva khalvimāni bhūtāni jāyante", english: "He understood: 'Bliss is Brahman.' For from bliss beings are born." },
+    { id: "taittiriya.3.10.5", sanskrit: "अहमन्नमहमन्नमहमन्नम् । अहमन्नादः । अहं श्लोककृत् । अहमस्मि प्रथमजा ऋतस्य", transliteration: "ahamannamahamannamahamannam | ahamannādaḥ | ahaṃ ślokakṛt | ahamasmi prathamajā ṛtasya", english: "I am food, I am food, I am food. I am the eater of food. I am the poet. I am the first-born of the cosmic order." }
+  ]
+}
+
 export const allUpanishads: Upanishad[] = [
   ishaUpanishad,
   kathaUpanishad,
   mandukyaUpanishad,
+  kenaUpanishad,
+  aitareyaUpanishad,
+  prashnaUpanishad,
+  mundakaUpanishad,
+  taittiriyaUpanishad,
 ]
 
 export const allUpanishadVerses: UpanishadVerse[] = allUpanishads.flatMap((u) => u.verses)

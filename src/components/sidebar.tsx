@@ -23,6 +23,8 @@ const NAV_ITEMS: NavItem[] = [
   { view: 'chalisa', label: 'Hanuman Chalisa', sanskritLabel: 'हनुमान चालीसा', icon: BookOpen, description: 'Devotional hymn to Hanuman' },
   { view: 'baan', label: 'Bajrang Baan', sanskritLabel: 'बजरंग बाण', icon: BookOpen, description: 'Protective arrow of Hanuman' },
   { view: 'tandav', label: 'Shiv Tandav Stotram', sanskritLabel: 'ताण्डवस्तोत्रम्', icon: BookOpen, description: 'Shiva\'s cosmic dance hymn by Ravana' },
+  { view: 'yogasutras', label: 'Yoga Sutras', sanskritLabel: 'योगसूत्राणि', icon: BookOpen, description: 'Patanjali\'s 196 aphorisms of yoga' },
+  { view: 'ashtavakragita', label: 'Ashtavakra Gita', sanskritLabel: 'अष्टावक्रगीता', icon: BookOpen, description: 'Advaita dialogue ~298 verses' },
   { view: 'guide', label: 'AI Spiritual Guide', sanskritLabel: 'गुरु', icon: Sparkles, description: 'Ask, explain, student mode' },
   { view: 'tracker', label: 'Daily Tracker', sanskritLabel: 'साधनम्', icon: CalendarCheck, description: 'Log your spiritual practice' },
   { view: 'skilltree', label: 'Skill Tree', sanskritLabel: 'वृक्ष', icon: GitBranch, description: 'Unlock paths of yoga' },

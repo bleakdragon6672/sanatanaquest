@@ -7,6 +7,10 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
+// Import known verse IDs for unambiguous scripture matching
+import { allVerses as allGitaVerses } from '@/lib/gita-data'
+import { allYogaSutraVerses } from '@/lib/yoga-sutras-data'
+import { allAshtavakraVerses } from '@/lib/ashtavakra-gita-data'
 
 interface Scripture {
   id: string
@@ -14,7 +18,8 @@ interface Scripture {
   sanskritName: string
   viewKey: string
   icon: typeof BookOpen
-  verseIds: RegExp
+  verseIds?: RegExp
+  matchFn?: (id: string) => boolean
   totalVerses: number
   color: string
   description: string
@@ -27,7 +32,7 @@ const SCRIPTURES: Scripture[] = [
     sanskritName: 'श्रीमद्भगवद्गीता',
     viewKey: 'gita',
     icon: BookOpen,
-    verseIds: /^\d+\.\d+$/,
+    matchFn: (id: string) => allGitaVerses.some((v) => v.id === id),
     totalVerses: 700,
     color: 'var(--saffron)',
     description: '18 chapters, 700 verses — the eternal song of Krishna and Arjuna',
@@ -38,10 +43,10 @@ const SCRIPTURES: Scripture[] = [
     sanskritName: 'उपनिषद्',
     viewKey: 'upanishad',
     icon: Mountain,
-    verseIds: /^(isha|katha|mandukya)\./,
-    totalVerses: 149,
+    verseIds: /^(isha|katha|mandukya|kena|aitareya|prashna|mundaka|taittiriya)\./,
+    totalVerses: 355,
     color: 'var(--gold)',
-    description: 'Isha, Katha, and Mandukya — the foundational Vedantic texts',
+    description: 'Isha, Katha, Mandukya, Kena, Aitareya, Prashna, Mundaka, Taittiriya — 8 principal Upanishads',
   },
   {
     id: 'chalisa',
@@ -75,6 +80,28 @@ const SCRIPTURES: Scripture[] = [
     totalVerses: 16,
     color: 'var(--gold)',
     description: '16 stanzas by Ravana — the cosmic dance of Shiva',
+  },
+  {
+    id: 'yogasutras',
+    name: 'Yoga Sutras',
+    sanskritName: 'पातञ्जलयोगसूत्राणि',
+    viewKey: 'yogasutras',
+    icon: BookOpen,
+    matchFn: (id: string) => allYogaSutraVerses.some((v) => v.id === id),
+    totalVerses: 196,
+    color: 'var(--saffron)',
+    description: '196 aphorisms by Patanjali — the path of classical yoga',
+  },
+  {
+    id: 'ashtavakragita',
+    name: 'Ashtavakra Gita',
+    sanskritName: 'अष्टावक्रगीता',
+    viewKey: 'ashtavakragita',
+    icon: BookOpen,
+    matchFn: (id: string) => allAshtavakraVerses.some((v) => v.id === id),
+    totalVerses: 298,
+    color: 'var(--gold)',
+    description: '298 verses of radical Advaita — you are already free',
   },
 ]
 
@@ -143,7 +170,7 @@ export function ScriptureMap() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
         {SCRIPTURES.map((scripture) => {
           const Icon = scripture.icon
-          const readCount = Object.keys(readVerses).filter((id) => scripture.verseIds.test(id)).length
+          const readCount = Object.keys(readVerses).filter((id) => scripture.matchFn?.(id) ?? scripture.verseIds?.test(id) ?? false).length
           const percent = scripture.totalVerses > 0 ? Math.round((readCount / scripture.totalVerses) * 100) : 0
 
           return (

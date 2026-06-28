@@ -9,6 +9,8 @@ export type ViewKey =
   | 'chalisa'
   | 'baan'
   | 'tandav'
+  | 'yogasutras'
+  | 'ashtavakragita'
   | 'guide'
   | 'tracker'
   | 'skilltree'
