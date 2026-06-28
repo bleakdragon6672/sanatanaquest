@@ -9,6 +9,8 @@ import { allUpanishadVerses } from '@/lib/upanishad-data'
 import { hanumanChalisaVerses } from '@/lib/hanuman-chalisa-data'
 import { bajrangBaanVerses } from '@/lib/bajrang-baan-data'
 import { shivTandavVerses } from '@/lib/shiv-tandav-data'
+import { allYogaSutraVerses } from '@/lib/yoga-sutras-data'
+import { allAshtavakraVerses } from '@/lib/ashtavakra-gita-data'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
@@ -27,8 +29,9 @@ export function HomeView() {
   // Count only Gita verses (IDs like "1.1", "2.47" — numeric dot numeric)
   const gitaVerseCount = Object.keys(store.readVerses).filter((id) => /^\d+\.\d+$/.test(id)).length
   // Count total across all scriptures
-  const allScriptureTotal = totalVerseCount + allUpanishadVerses.length + hanumanChalisaVerses.length + bajrangBaanVerses.length + shivTandavVerses.length
+  const allScriptureTotal = totalVerseCount + allUpanishadVerses.length + hanumanChalisaVerses.length + bajrangBaanVerses.length + shivTandavVerses.length + allYogaSutraVerses.length + allAshtavakraVerses.length
   const allVersesRead = Object.keys(store.readVerses).length
+  const overallPct = allScriptureTotal > 0 ? Math.min(100, Math.round((allVersesRead / allScriptureTotal) * 100)) : 0
   const readingHours = store.readingTimeSec / 3600
   const completionPct = Math.min(100, Math.round((gitaVerseCount / totalVerseCount) * 100))
 
@@ -156,6 +159,40 @@ export function HomeView() {
             ) : (
               <span className="font-semibold text-primary">Supreme level reached 🙏</span>
             )}
+          </div>
+        </div>
+      </Card>
+
+      {/* Overall scripture progress */}
+      <Card className="p-5 sm:p-6 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_10%,transparent)] to-[color-mix(in_oklch,var(--gold)_8%,transparent)]">
+        <div className="absolute -right-6 -top-6 opacity-[0.06] pointer-events-none">
+          <span className="text-8xl font-bold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>ॐ</span>
+        </div>
+        <div className="relative">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div>
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
+                📚 Complete Scripture Library
+              </span>
+              <h2 className="text-lg font-bold mt-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+                Overall Progress
+              </h2>
+            </div>
+            <div className="text-right">
+              <span className="text-2xl font-bold text-saffron-gradient">{allVersesRead}</span>
+              <span className="text-sm text-muted-foreground"> / {allScriptureTotal} verses</span>
+            </div>
+          </div>
+          <div className="progress-sacred h-3 bg-card">
+            <div
+              className="h-full bg-gradient-to-r from-saffron via-gold to-vermilion rounded-full transition-all duration-700"
+              style={{ width: `${overallPct}%` }}
+            />
+          </div>
+          <div className="flex justify-between text-xs sm:text-sm text-muted-foreground mt-2">
+            <span>7 sacred texts</span>
+            <span className="font-semibold text-foreground">{overallPct}% complete</span>
+            <span>Gita · Upanishads · Chalisa · Baan · Tandav · Yoga Sutras · Ashtavakra Gita</span>
           </div>
         </div>
       </Card>
