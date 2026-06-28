@@ -226,12 +226,12 @@ export async function createChatCompletion(
 
   // ── Try Gemini first ────────────────────────────────────────────
   const geminiKey = process.env.GEMINI_KEY
-  console.log(`[AI] GEMINI_KEY present: ${!!geminiKey}, length: ${geminiKey?.length ?? 0}`)
+  console.error(`[AI] GEMINI_KEY present: ${!!geminiKey}, length: ${geminiKey?.length ?? 0}`)
   if (geminiKey) {
     try {
-      console.log('[AI] Attempting Gemini call...')
+      console.error('[AI] Attempting Gemini call...')
       const result = await callGemini(request.messages, temperature, maxTokens)
-      console.log('[AI] Gemini succeeded, provider:', result.provider)
+      console.error('[AI] Gemini succeeded, provider:', result.provider)
       return result
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err)
@@ -241,13 +241,13 @@ export async function createChatCompletion(
         msg.includes('RESOURCE_EXHAUSTED')
 
       if (isRateLimit) {
-        console.warn('[AI] Gemini rate-limited, falling back to OpenRouter...')
+        console.error('[AI] Gemini rate-limited, falling back to OpenRouter...')
       } else {
-        console.warn(`[AI] Gemini error (${msg}), falling back to OpenRouter...`)
+        console.error(`[AI] Gemini error (${msg}), falling back to OpenRouter...`)
       }
     }
   } else {
-    console.log('[AI] GEMINI_KEY not set, using OpenRouter directly.')
+    console.error('[AI] GEMINI_KEY not set, using OpenRouter directly.')
   }
 
   // ── Fallback: OpenRouter ────────────────────────────────────────
