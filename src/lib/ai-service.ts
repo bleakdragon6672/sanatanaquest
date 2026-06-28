@@ -1,9 +1,12 @@
 // ── Unified AI Service Layer ────────────────────────────────────────
 // Provider-agnostic interface for AI completions.
-// Currently supports OpenRouter and Z.AI (GLM-4.7 Flash).
+// Primary: Google Gemini (free tier, 1,500 req/day)
+// Fallback: OpenRouter free models
 // The frontend never depends on a specific provider.
 
-export type AIProvider = 'openrouter' | 'zai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
+
+export type AIProvider = 'gemini' | 'openrouter'
 
 export interface AIMessage {
   role: 'system' | 'user' | 'assistant'
@@ -30,8 +33,11 @@ export interface AICompletionResponse {
 
 // ── Configuration ───────────────────────────────────────────────────
 
-// AI Models ranked by quality for spiritual/conversational AI.
-// The service tries each in order; on 429 rate-limit it falls back to the next.
+// Default Gemini model for spiritual/QA use cases
+// Override via GEMINI_MODEL env var (e.g. gemini-2.5-flash for newer)
+const GEMINI_MODEL = process.env.GEMINI_MODEL ?? 'gemini-2.0-flash'
+
+// OpenRouter free models as fallback chain
 const FALLBACK_MODELS = [
   'qwen/qwen3-next-80b-a3b-instruct:free',
   'nousresearch/hermes-3-llama-3.1-405b:free',
@@ -39,21 +45,115 @@ const FALLBACK_MODELS = [
   'openai/gpt-oss-120b:free',
 ]
 
-function getProviderConfig(): { provider: AIProvider; apiKey: string; baseUrl: string; models: string[] } {
-  const provider: AIProvider = 'openrouter'
-  const apiKey = process.env.OPENROUTER_API_KEY
-  if (!apiKey) {
-    throw new Error('OPENROUTER_API_KEY is not set in environment variables')
+// Gemini client — lazily initialised on first use
+let _geminiClient: GoogleGenerativeAI | null = null
+function getGeminiClient(): GoogleGenerativeAI {
+  if (!_geminiClient) {
+    const key = process.env.GEMINI_KEY
+    if (!key) throw new Error('GEMINI_API_KEY is not set')
+    _geminiClient = new GoogleGenerativeAI(key)
   }
+  return _geminiClient
+}
 
+function getOpenRouterConfig(): { apiKey: string; baseUrl: string; models: string[] } {
+  const apiKey = process.env.OPENROUTER_API_KEY
+  if (!apiKey) throw new Error('OPENROUTER_API_KEY is not set in environment variables')
   const baseUrl = process.env.OPENROUTER_BASE_URL ?? 'https://openrouter.ai/api/v1'
   const primaryModel = process.env.AI_MODEL
-  // If user sets a custom model, use it first; otherwise use the default chain
   const models = primaryModel
     ? [primaryModel, ...FALLBACK_MODELS.filter((m) => m !== primaryModel)]
     : FALLBACK_MODELS
+  return { apiKey, baseUrl, models }
+}
 
-  return { provider, apiKey, baseUrl, models }
+// ── Gemini Provider ────────────────────────────────────────────────
+
+async function callGemini(
+  messages: AIMessage[],
+  temperature: number,
+  maxTokens: number,
+): Promise<AICompletionResponse> {
+  const client = getGeminiClient()
+  const model = client.getGenerativeModel({
+    model: GEMINI_MODEL,
+    generationConfig: {
+      temperature,
+      maxOutputTokens: maxTokens,
+    },
+  })
+
+  // Gemini supports systemInstruction as a first-class parameter
+  const systemMsg = messages.find((m) => m.role === 'system')
+  const history = messages.filter((m) => m.role !== 'system')
+
+  const contents: { role: 'user' | 'model'; parts: { text: string }[] }[] = []
+  for (const msg of history) {
+    contents.push({
+      role: msg.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: msg.content }],
+    })
+  }
+
+  // Pass system instruction to the model config instead of polluting history
+  let modelInstance
+  if (systemMsg) {
+    modelInstance = client.getGenerativeModel({
+      model: GEMINI_MODEL,
+      systemInstruction: systemMsg.content,
+      generationConfig: {
+        temperature,
+        maxOutputTokens: maxTokens,
+      },
+    })
+  } else {
+    modelInstance = client.getGenerativeModel({
+      model: GEMINI_MODEL,
+      generationConfig: {
+        temperature,
+        maxOutputTokens: maxTokens,
+      },
+    })
+  }
+
+  const timeoutPromise = new Promise<never>((_, reject) =>
+    setTimeout(() => reject(new Error('Gemini request timed out after 30s')), 30_000),
+  )
+
+  try {
+    const result = await Promise.race([
+      modelInstance.generateContent({ contents }),
+      timeoutPromise,
+    ])
+
+    const response = result.response
+    const content = response.text()
+
+    // Rough token estimate (4 chars ≈ 1 token)
+    const totalChars = content.length + messages.reduce((s, m) => s + m.content.length, 0)
+    const estimatedTokens = Math.ceil(totalChars / 4)
+
+    return {
+      content,
+      model: GEMINI_MODEL,
+      provider: 'gemini',
+      usage: {
+        prompt_tokens: Math.ceil(totalChars * 0.75),
+        completion_tokens: Math.ceil(content.length / 4),
+        total_tokens: estimatedTokens,
+      },
+    }
+  } catch (err: unknown) {
+    if (err instanceof Error && err.message === 'Gemini request timed out after 30s') {
+      throw err
+    }
+    // Check for 429 / rate limit
+    const msg = err instanceof Error ? err.message : String(err)
+    if (msg.includes('429') || msg.includes('RATE_LIMIT') || msg.includes('RESOURCE_EXHAUSTED')) {
+      throw new Error(`Gemini rate-limited (429): ${msg}`)
+    }
+    throw new Error(`Gemini API error: ${msg}`)
+  }
 }
 
 // ── OpenRouter Provider ─────────────────────────────────────────────
@@ -111,24 +211,56 @@ async function callOpenRouter(
 }
 
 // ── Main Service Function ───────────────────────────────────────────
+//
+// Provider priority:
+//   1. Gemini (free, 1,500 req/day) — used when GEMINI_API_KEY is set
+//   2. OpenRouter free models — fallback when Gemini hits rate limits
+//
+// If GEMINI_API_KEY is NOT set, falls straight through to OpenRouter.
 
 export async function createChatCompletion(
   request: AICompletionRequest,
 ): Promise<AICompletionResponse> {
-  const config = getProviderConfig()
   const temperature = request.temperature ?? 0.7
   const maxTokens = request.max_tokens ?? 1024
 
-  // If caller specifies a model, try only that one
-  const models = request.model ? [request.model] : config.models
+  // ── Try Gemini first ────────────────────────────────────────────
+  const geminiKey = process.env.GEMINI_KEY
+  console.log(`[AI] GEMINI_KEY present: ${!!geminiKey}, length: ${geminiKey?.length ?? 0}`)
+  if (geminiKey) {
+    try {
+      console.log('[AI] Attempting Gemini call...')
+      const result = await callGemini(request.messages, temperature, maxTokens)
+      console.log('[AI] Gemini succeeded, provider:', result.provider)
+      return result
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err)
+      const isRateLimit =
+        msg.includes('429') ||
+        msg.includes('RATE_LIMIT') ||
+        msg.includes('RESOURCE_EXHAUSTED')
+
+      if (isRateLimit) {
+        console.warn('[AI] Gemini rate-limited, falling back to OpenRouter...')
+      } else {
+        console.warn(`[AI] Gemini error (${msg}), falling back to OpenRouter...`)
+      }
+    }
+  } else {
+    console.log('[AI] GEMINI_KEY not set, using OpenRouter directly.')
+  }
+
+  // ── Fallback: OpenRouter ────────────────────────────────────────
+  const orConfig = getOpenRouterConfig()
+  const models = request.model ? [request.model] : orConfig.models
 
   let lastError: Error | null = null
 
   for (const model of models) {
     try {
       return await callOpenRouter(
-        config.apiKey,
-        config.baseUrl,
+        orConfig.apiKey,
+        orConfig.baseUrl,
         model,
         request.messages,
         temperature,
@@ -136,9 +268,15 @@ export async function createChatCompletion(
       )
     } catch (err: unknown) {
       lastError = err instanceof Error ? err : new Error(String(err))
-      const isRateLimit = lastError.message.includes('429')
-      if (isRateLimit && model !== models[models.length - 1]) {
-        console.warn(`AI model ${model} rate-limited, trying next fallback...`)
+      // Retry on rate limits AND transient server errors (5xx)
+      const isRetryable =
+        lastError.message.includes('429') ||
+        lastError.message.includes('500') ||
+        lastError.message.includes('502') ||
+        lastError.message.includes('503') ||
+        lastError.message.includes('504')
+      if (isRetryable && model !== models[models.length - 1]) {
+        console.warn(`OpenRouter model ${model} failed (${lastError.message}), trying next fallback...`)
         continue
       }
       throw lastError
