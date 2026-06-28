@@ -1,9 +1,16 @@
 // ── Unified AI Service Layer ────────────────────────────────────────
-// Provider-agnostic interface for AI completions.
-// Currently uses OpenRouter with a chain of free models.
+// Provider-agnostic interface for AI completions with automatic failover.
+// Falls through: NVIDIA → Groq → HuggingFace → OpenRouter → Google Gemini
 // The frontend never depends on a specific provider.
 
-export type AIProvider = 'openrouter'
+import {
+  createProviderConfigs,
+  callProvider,
+  isRetryableError,
+  type CommonRequest,
+} from './ai-providers'
+
+export type AIProvider = 'nvidia' | 'groq' | 'huggingface' | 'openrouter' | 'google'
 
 export interface AIMessage {
   role: 'system' | 'user' | 'assistant'
@@ -28,81 +35,6 @@ export interface AICompletionResponse {
   }
 }
 
-// ── Configuration ───────────────────────────────────────────────────
-
-// OpenRouter free models as fallback chain
-const FALLBACK_MODELS = [
-  'qwen/qwen3-next-80b-a3b-instruct:free',
-  'nousresearch/hermes-3-llama-3.1-405b:free',
-  'google/gemma-4-31b-it:free',
-  'openai/gpt-oss-120b:free',
-]
-
-function getOpenRouterConfig(): { apiKey: string; baseUrl: string; models: string[] } {
-  const apiKey = process.env.OPENROUTER_API_KEY
-  if (!apiKey) throw new Error('OPENROUTER_API_KEY is not set in environment variables')
-  const baseUrl = process.env.OPENROUTER_BASE_URL ?? 'https://openrouter.ai/api/v1'
-  const primaryModel = process.env.AI_MODEL
-  const models = primaryModel
-    ? [primaryModel, ...FALLBACK_MODELS.filter((m) => m !== primaryModel)]
-    : FALLBACK_MODELS
-  return { apiKey, baseUrl, models }
-}
-
-// ── OpenRouter Provider ─────────────────────────────────────────────
-
-async function callOpenRouter(
-  apiKey: string,
-  baseUrl: string,
-  model: string,
-  messages: AIMessage[],
-  temperature: number,
-  maxTokens: number,
-): Promise<AICompletionResponse> {
-  const controller = new AbortController()
-  const timeout = setTimeout(() => controller.abort(), 30_000) // 30s timeout
-
-  try {
-    const response = await fetch(`${baseUrl}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-        'HTTP-Referer': process.env.SITE_URL ?? 'https://sanatanaquest.app',
-        'X-Title': 'SanatanaQuest Spiritual Guide',
-      },
-      body: JSON.stringify({
-        model,
-        messages,
-        temperature,
-        max_tokens: maxTokens,
-      }),
-      signal: controller.signal,
-    })
-
-    if (!response.ok) {
-      const errorBody = await response.text()
-      throw new Error(`OpenRouter API error (${response.status}): ${errorBody}`)
-    }
-
-    const data = await response.json()
-
-    const content =
-      data?.choices?.[0]?.message?.content ??
-      data?.message?.content ??
-      (typeof data === 'string' ? data : '')
-
-    return {
-      content,
-      model: data?.model ?? model,
-      provider: 'openrouter',
-      usage: data?.usage,
-    }
-  } finally {
-    clearTimeout(timeout)
-  }
-}
-
 // ── Main Service Function ───────────────────────────────────────────
 
 export async function createChatCompletion(
@@ -110,34 +42,60 @@ export async function createChatCompletion(
 ): Promise<AICompletionResponse> {
   const temperature = request.temperature ?? 0.7
   const maxTokens = request.max_tokens ?? 1024
+  const messages = request.messages
 
-  const orConfig = getOpenRouterConfig()
-  const models = request.model ? [request.model] : orConfig.models
+  const providers = createProviderConfigs()
 
+  if (providers.length === 0) {
+    throw new Error(
+      'No AI providers configured. Set at least one API key (e.g. OPENROUTER_API_KEY, GROQ_API_KEY, etc.)',
+    )
+  }
+
+  const common: CommonRequest = { messages, temperature, max_tokens: maxTokens }
   let lastError: Error | null = null
 
-  for (const model of models) {
+  for (const provider of providers) {
+    const label = `${provider.name} (${provider.model})`
+    console.log(`[AI] Trying ${label}...`)
+
     try {
-      return await callOpenRouter(
-        orConfig.apiKey,
-        orConfig.baseUrl,
-        model,
-        request.messages,
-        temperature,
-        maxTokens,
-      )
+      const result = await callProvider(provider, common)
+
+      return {
+        content: result.content,
+        model: result.model,
+        provider: provider.name as AIProvider,
+      }
     } catch (err: unknown) {
       lastError = err instanceof Error ? err : new Error(String(err))
-      const isRetryable = lastError.message.includes('429')
-      if (isRetryable && model !== models[models.length - 1]) {
-        console.warn(`AI model ${model} rate-limited, trying next fallback...`)
+
+      if (!isRetryableError(err)) {
+        // Non-retryable (e.g. invalid API key, bad request) — skip provider
+        console.warn(`[AI] ${label} non-retryable error: ${lastError.message}`)
         continue
       }
-      throw lastError
+
+      // Retryable (rate-limit, server error, network) — try next provider
+      const isLast = provider === providers[providers.length - 1]
+      if (!isLast) {
+        console.warn(
+          `[AI] ${label} failed (${lastError.message}). Switching to next provider...`,
+        )
+        continue
+      }
+
+      // All providers exhausted
+      console.error(`[AI] All providers failed. Last error: ${lastError.message}`)
+      throw new Error(
+        'All AI providers are currently busy. Please try again in a minute.',
+      )
     }
   }
 
-  throw lastError ?? new Error('All AI models failed')
+  throw new Error(
+    'All AI providers are currently busy. Please try again in a minute.',
+  )
 }
 
 // ── Convenience Helper ──────────────────────────────────────────────
