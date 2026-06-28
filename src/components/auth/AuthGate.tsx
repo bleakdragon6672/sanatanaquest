@@ -21,6 +21,13 @@ export function AuthGate({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth()
   const [cloudLoaded, setCloudLoaded] = useState(false)
 
+  // IMPORTANT: Depend on user?.id (stable string), NOT user (unstable object ref).
+  // Supabase fires onAuthStateChange on token refresh when the tab regains focus,
+  // creating a new User object reference even for the same user. Dependending on
+  // [user] would cause the effect to re-run, reset cloudLoaded=false, show the
+  // "Restoring your progress..." splash, unmount/remount the entire app, and lose
+  // all UI state (navigation, scroll, AI chat, etc.). The stable user?.id ensures
+  // the effect only runs when the actual authenticated user changes.
   useEffect(() => {
     if (!user) {
       setCloudLoaded(false)
