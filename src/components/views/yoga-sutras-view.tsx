@@ -408,7 +408,7 @@ function VerseCard({ verse, padaId }: { verse: YogaSutraVerse; padaId: string })
           {showTranslit && (
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">IAST Transliteration</p>
-              <p className="text-sm italic text-muted-foreground leading-relaxed" style={{ whiteSpace: 'pre-line' }}>
+              <p className="text-sm italic text-muted-foreground leading-relaxed verse-translit-text" style={{ whiteSpace: 'pre-line' }}>
                 {verse.transliteration}
               </p>
             </div>
@@ -416,7 +416,7 @@ function VerseCard({ verse, padaId }: { verse: YogaSutraVerse; padaId: string })
           {showEnglish && (
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">English Translation</p>
-              <p className="text-base sm:text-lg leading-relaxed text-foreground/90">
+              <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text">
                 {verse.english}
               </p>
             </div>
@@ -433,7 +433,7 @@ function VerseCard({ verse, padaId }: { verse: YogaSutraVerse; padaId: string })
                   </div>
                 </div>
                 <p
-                  className="text-[0.9rem] text-foreground/80 leading-[1.85]"
+                  className="text-[0.9rem] text-foreground/80 leading-[1.85] verse-commentary-text"
                   style={{ fontFamily: 'var(--font-serif), Georgia, serif' }}
                 >{verse.commentary}</p>
                 <div className="flex justify-end mt-2">

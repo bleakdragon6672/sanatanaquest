@@ -872,14 +872,81 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE — Reading Views (≤768px)
+   ══════════════════════════════════════════════════════════════════════ */
+
 @media (max-width: 768px) {
-  /* Add bottom padding to main content so it's not hidden behind bottom nav */
+  /* 1. Main container: 100% width with 16px padding */
   #main-scroll {
     padding-bottom: 5rem;
+    max-width: 100% !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
   }
-  .verse-sanskrit { font-size: 1.1rem; line-height: 1.8; }
-  .verse-english { font-size: 0.95rem; }
-  .reading-focus main { max-width: 100%; padding: 1rem; }
+
+  /* 2. Sanskrit text: 24-28px with comfortable leading */
+  .verse-sanskrit-animated {
+    font-size: 1.625rem !important;  /* ~26px */
+    line-height: 1.8 !important;
+  }
+
+  /* 3. English translation text: 18-20px */
+  .verse-english-text {
+    font-size: 1.125rem !important;  /* 18px */
+    line-height: 1.75 !important;
+  }
+
+  /* 4. Transliteration text: ~16px */
+  .verse-translit-text {
+    font-size: 1rem !important;  /* 16px */
+    line-height: 1.7 !important;
+  }
+
+  /* 5. Commentary text: 17-18px */
+  .verse-commentary-text {
+    font-size: 1.0625rem !important;  /* ~17px */
+    line-height: 1.75 !important;
+  }
+
+  /* 6. Card inner padding: 16px per side (down from 20px) */
+  .verse-card-animated .px-5 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* 7. Center labels (like "Sanskrit", "English Translation") should also adjust */
+  .verse-card-animated .text-\[10px\] {
+    font-size: 0.6875rem !important;  /* ~11px — slightly larger for readability */
+  }
+
+  /* 8. Override reading focus mode on mobile to stretch full width */
+  .reading-focus main {
+    max-width: 100% !important;
+    padding: 0.75rem !important;
+  }
+
+  /* 9. Ensure commentary containers stretch full width */
+  .verse-card-animated .relative.rounded-xl {
+    width: 100%;
+  }
+
+  /* 10. Prevent any horizontal overflow */
+  .verse-slider-container {
+    overflow: hidden;
+  }
+
+  /* 11. Smaller desktop-only badges hide on mobile */
+  .sanskrit-text { font-size: 1rem; line-height: 1.8; }
+  .verse-english { font-size: 1rem; }
+}
+
+/* ── Tablet breakpoint (769-1024px): graceful intermediate sizing ───── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  #main-scroll {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════════════

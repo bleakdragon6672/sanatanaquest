@@ -414,7 +414,7 @@ function VerseCard({ verse, upanishadId }: { verse: UpanishadVerse; upanishadId:
           {showTranslit && (
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Transliteration</p>
-              <p className="text-sm italic text-muted-foreground leading-relaxed" style={{ whiteSpace: 'pre-line' }}>
+              <p className="text-sm italic text-muted-foreground leading-relaxed verse-translit-text" style={{ whiteSpace: 'pre-line' }}>
                 {verse.transliteration}
               </p>
             </div>
@@ -422,7 +422,7 @@ function VerseCard({ verse, upanishadId }: { verse: UpanishadVerse; upanishadId:
           {showEnglish && (
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">English Translation</p>
-              <p className="text-base sm:text-lg leading-relaxed text-foreground/90" style={{ whiteSpace: 'pre-line' }}>
+              <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text" style={{ whiteSpace: 'pre-line' }}>
                 {verse.english}
               </p>
             </div>
@@ -433,7 +433,7 @@ function VerseCard({ verse, upanishadId }: { verse: UpanishadVerse; upanishadId:
                 📜 Commentary
               </p>
               <p
-                className="text-sm text-foreground/85 leading-relaxed whitespace-pre-wrap"
+                className="text-sm text-foreground/85 leading-relaxed whitespace-pre-wrap verse-commentary-text"
                 dangerouslySetInnerHTML={{
                   __html: verse.commentary.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>'),
                 }}

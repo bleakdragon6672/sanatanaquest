@@ -409,7 +409,7 @@ function VerseCard({ verse, chapterNumber }: { verse: AshtavakraVerse; chapterNu
           {showTranslit && verse.transliteration && (
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">IAST Transliteration</p>
-              <p className="text-sm italic text-muted-foreground leading-relaxed" style={{ whiteSpace: 'pre-line' }}>
+              <p className="text-sm italic text-muted-foreground leading-relaxed verse-translit-text" style={{ whiteSpace: 'pre-line' }}>
                 {verse.transliteration}
               </p>
             </div>
@@ -417,8 +417,8 @@ function VerseCard({ verse, chapterNumber }: { verse: AshtavakraVerse; chapterNu
           {showEnglish && (
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">English Translation</p>
-              <p className="text-base sm:text-lg leading-relaxed text-foreground/90">
-                {verse.english}
+              <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text">
+                  {verse.english}
               </p>
             </div>
           )}

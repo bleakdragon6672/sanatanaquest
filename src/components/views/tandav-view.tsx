@@ -219,11 +219,11 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
             </div>
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Transliteration</p>
-              <p className="text-sm italic text-muted-foreground leading-relaxed" style={{ whiteSpace: 'pre-line' }}>{verse.transliteration}</p>
+              <p className="text-sm italic text-muted-foreground leading-relaxed verse-translit-text" style={{ whiteSpace: 'pre-line' }}>{verse.transliteration}</p>
             </div>
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">English Translation</p>
-              <p className="text-base sm:text-lg leading-relaxed text-foreground/90" style={{ whiteSpace: 'pre-line' }}>{verse.english}</p>
+              <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text" style={{ whiteSpace: 'pre-line' }}>{verse.english}</p>
             </div>
             {verse.commentary && (
               <div className="relative rounded-xl overflow-hidden">
@@ -235,7 +235,7 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
                     <p className="text-[10px] uppercase tracking-[0.15em] text-primary/60 font-semibold">Significance</p>
                   </div>
                   <p
-                    className="text-[0.9rem] text-foreground/80 leading-[1.85]"
+                    className="text-[0.9rem] text-foreground/80 leading-[1.85] verse-commentary-text"
                     style={{ fontFamily: 'var(--font-serif), Georgia, serif' }}
                   >{verse.commentary}</p>
                   <div className="flex justify-end mt-2">

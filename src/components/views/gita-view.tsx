@@ -477,7 +477,7 @@ function VerseCard({ verse }: { verse: Verse }) {
           {showTranslit && (
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Transliteration</p>
-              <p className="text-sm italic text-muted-foreground leading-relaxed" style={{ whiteSpace: 'pre-line' }}>
+              <p className="text-sm italic text-muted-foreground leading-relaxed verse-translit-text" style={{ whiteSpace: 'pre-line' }}>
                 {verse.transliteration}
               </p>
             </div>
@@ -485,7 +485,7 @@ function VerseCard({ verse }: { verse: Verse }) {
           {showEnglish && (
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">English Translation</p>
-              <p className="text-base sm:text-lg leading-relaxed text-foreground/90" style={{ whiteSpace: 'pre-line' }}>
+              <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text" style={{ whiteSpace: 'pre-line' }}>
                 {verse.english}
               </p>
             </div>
@@ -517,7 +517,7 @@ function VerseCard({ verse }: { verse: Verse }) {
                 
                 {/* Commentary body */}
                 <div
-                  className="text-[0.9rem] text-foreground/80 leading-[1.85] sm:leading-[1.9] whitespace-pre-wrap"
+                  className="text-[0.9rem] text-foreground/80 leading-[1.85] sm:leading-[1.9] whitespace-pre-wrap verse-commentary-text"
                   style={{ fontFamily: 'var(--font-serif), Georgia, "Times New Roman", serif' }}
                   dangerouslySetInnerHTML={{
                       __html: formatCommentary(verse.commentary),
