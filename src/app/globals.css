@@ -877,6 +877,16 @@
    ══════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
+  /* 0. Root: prevent HTML from being wider than viewport */
+  html {
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
   /* 1. Main container: 100% width with 16px padding */
   #main-scroll {
     padding-bottom: 5rem;
