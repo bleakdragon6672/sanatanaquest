@@ -29,23 +29,23 @@ export function MobileBottomNav() {
           const Icon = item.icon
           // Highlight "Scriptures" for any scripture view
           const isActive = view === item.view ||
-            (item.view === 'gita' && ['gita', 'upanishad', 'chalisa', 'baan', 'tandav'].includes(view))
+            (item.view === 'gita' && ['gita', 'upanishad', 'chalisa', 'baan', 'tandav', 'yogasutras', 'ashtavakragita'].includes(view))
 
           return (
             <button
               key={item.view}
               onClick={() => navigate(item.view)}
               className={cn(
-                'flex flex-col items-center justify-center gap-0.5 w-16 h-14 rounded-xl transition-all',
+                'relative flex flex-col items-center justify-center gap-0.5 w-16 h-14 rounded-xl transition-all duration-200',
                 isActive
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-foreground',
               )}
             >
-              <Icon className={cn('h-5 w-5 transition-transform', isActive && 'scale-110')} />
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <Icon className={cn('h-5 w-5 transition-all duration-200', isActive && 'scale-110')} />
+              <span className={cn('text-[10px] font-medium transition-all duration-200', isActive ? 'font-semibold' : '')}>{item.label}</span>
               {isActive && (
-                <div className="absolute bottom-0 w-8 h-0.5 rounded-full bg-saffron-gradient" />
+                <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-saffron-gradient" />
               )}
             </button>
           )

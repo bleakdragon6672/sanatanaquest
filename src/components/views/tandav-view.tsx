@@ -20,6 +20,7 @@ import { toast } from 'sonner'
 import { LotusIcon } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
 import { VerseSlider } from '@/components/verse-slider'
+import { ActionButton, ActionButtonRow } from '@/components/verse-card-actions'
 
 export function TandavView() {
   const { params, navigate } = useNav()
@@ -203,13 +204,13 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
                 <Badge variant="secondary" className="text-[10px]">श्लोक</Badge>
                 {isRead && <Badge className="bg-saffron-gradient text-white border-0 text-[10px]">✓ Read</Badge>}
               </div>
-              <div className="flex items-center gap-1 sm:gap-2">
-                <ActionButton icon={Check} active={isRead} label="Mark read" onClick={handleMarkRead} />
-                <ActionButton icon={isBookmarked ? BookmarkCheck : Bookmark} active={isBookmarked} label="Bookmark" onClick={() => { store.toggleBookmark(verse.id); toast.success(isBookmarked ? 'Removed' : 'Bookmarked') }} />
-              <ActionButton icon={Highlighter} active={isHighlighted} label="Highlight" onClick={() => { store.toggleHighlight(verse.id); toast.success(isHighlighted ? 'Removed' : 'Highlighted') }} />
-              <ActionButton icon={NotebookPen} active={!!existingNote} label="Note" onClick={() => { setNoteDraft(existingNote); setShowNoteEditor(!showNoteEditor) }} />
-              <ActionButton icon={Share2} label="Share" onClick={() => setShareOpen(true)} />
-            </div>
+              <ActionButtonRow>
+                <ActionButton icon={Check} active={isRead} label="Mark read" onClick={handleMarkRead} shortcut="R" />
+                <ActionButton icon={isBookmarked ? BookmarkCheck : Bookmark} active={isBookmarked} label="Bookmark" onClick={() => { store.toggleBookmark(verse.id); toast.success(isBookmarked ? 'Removed' : 'Bookmarked') }} shortcut="B" />
+              <ActionButton icon={Highlighter} active={isHighlighted} label="Highlight" onClick={() => { store.toggleHighlight(verse.id); toast.success(isHighlighted ? 'Removed' : 'Highlighted') }} shortcut="H" />
+              <ActionButton icon={NotebookPen} active={!!existingNote} label="Note" onClick={() => { setNoteDraft(existingNote); setShowNoteEditor(!showNoteEditor) }} shortcut="N" />
+              <ActionButton icon={Share2} label="Share" onClick={() => setShareOpen(true)} shortcut="S" />
+            </ActionButtonRow>
           </div>
 
           <div className="px-5 sm:px-7 py-6 space-y-4">
@@ -300,14 +301,7 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
   )
 }
 
-function ActionButton({ icon: Icon, active, label, onClick }: { icon: typeof Bookmark; active?: boolean; label: string; onClick: () => void }) {
-  return (
-    <Button size="icon" variant="ghost" className={cn('h-8 w-8 rounded-full', active && 'bg-saffron-gradient-soft text-primary')} onClick={onClick} title={label}>
-      <Icon className={cn('h-4 w-4', active && 'fill-current')} />
-      <span className="sr-only">{label}</span>
-    </Button>
-  )
-}
+
 
 function AudioPlayer({ verse, playing, setPlaying }: { verse: TandavVerse; playing: boolean; setPlaying: (p: boolean) => void }) {
   const [speed, setSpeed] = useState(1)
@@ -329,7 +323,7 @@ function AudioPlayer({ verse, playing, setPlaying }: { verse: TandavVerse; playi
 
   return (
     <div className="flex items-center gap-1">
-      <Button size="sm" variant="ghost" className="h-8 gap-1.5" onClick={play}>
+      <Button size="sm" variant="ghost" className={cn('h-8 gap-1.5 audio-btn-premium', playing && 'playing')} onClick={play}>
         {playing ? <Pause className="h-4 w-4 text-primary" /> : <Play className="h-4 w-4 text-primary" />}
         <span className="text-xs">{playing ? 'Pause' : 'Recite'}</span>
       </Button>

@@ -14,6 +14,7 @@ import { allAshtavakraVerses } from '@/lib/ashtavakra-gita-data'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
+import { cn } from '@/lib/utils'
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { VerseOfDay } from '@/components/verse-of-day'
 import { ReadingStreakCalendar } from '@/components/reading-streak-calendar'
@@ -94,7 +95,8 @@ export function HomeView() {
         </div>
         <div className="relative p-6 sm:p-8">
           <div className="flex flex-col gap-2 mb-4">
-            <span className="text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground font-semibold">
+            <span className="inline-flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.15em] text-muted-foreground font-semibold">
+              <span className="w-2 h-2 rounded-full bg-saffron" />
               ॐ नमः · Welcome back
             </span>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
@@ -105,14 +107,14 @@ export function HomeView() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2 mt-4 sm:mt-6">
-            <Button className="btn-sacred" size="default" onClick={() => navigate('gita')}>
+            <Button className="btn-sacred shadow-md" size="default" onClick={() => navigate('gita')}>
               <BookOpen className="mr-2 h-4 w-4" /> Read the Gita
             </Button>
-            <Button variant="outline" size="default" onClick={() => navigate('guide')}>
+            <Button variant="outline" size="default" onClick={() => navigate('guide')} className="hover:border-primary/40 hover:bg-saffron-gradient-soft transition-all">
               <Sparkles className="mr-2 h-4 w-4" /> Ask the Guide
             </Button>
-            <Button variant="ghost" size="default" onClick={() => navigate('tracker')}>
-              Log today's practice
+            <Button variant="ghost" size="default" onClick={() => navigate('tracker')} className="hover:bg-saffron-gradient-soft transition-all">
+              Log today&apos;s practice
             </Button>
           </div>
         </div>
@@ -209,30 +211,39 @@ export function HomeView() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {stats.map((s) => {
           const Icon = s.icon
+          const iconColor = s.color === 'saffron'
+            ? 'text-saffron'
+            : s.color === 'gold'
+              ? 'text-gold'
+              : 'text-vermilion'
           return (
             <Card
               key={s.label}
-              className="stat-sacred cursor-pointer hover:shadow-lg transition-all"
+              className="group cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg relative overflow-hidden"
               onClick={s.onClick}
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex flex-col gap-1">
-                  <span className="text-[10px] sm:text-xs text-muted-foreground">{s.label}</span>
-                  <span className="text-xl sm:text-2xl font-bold text-foreground">{s.value}</span>
+              <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{
+                background: `linear-gradient(135deg, color-mix(in oklch, var(--${s.color}) 8%, transparent), transparent)`
+              }} />
+              <div className="relative p-5">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex flex-col gap-1.5">
+                    <span className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider font-medium">{s.label}</span>
+                    <span className="text-xl sm:text-2xl font-bold text-foreground">{s.value}</span>
+                  </div>
+                  <div className={cn(
+                    'flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110',
+                    iconColor,
+                  )} style={{
+                    background: s.color === 'saffron'
+                      ? 'color-mix(in oklch, var(--saffron) 15%, transparent)'
+                      : s.color === 'gold'
+                        ? 'color-mix(in oklch, var(--gold) 18%, transparent)'
+                        : 'color-mix(in oklch, var(--vermilion) 15%, transparent)',
+                  }}>
+                    <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </div>
                 </div>
-                <span
-                  className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-lg flex-shrink-0"
-                  style={{
-                    background: 'saffron' === s.color
-                      ? 'color-mix(in oklch, var(--saffron) 18%, transparent)'
-                      : 'gold' === s.color
-                        ? 'color-mix(in oklch, var(--gold) 22%, transparent)'
-                        : 'color-mix(in oklch, var(--vermilion) 18%, transparent)',
-                    color: 'saffron' === s.color ? 'var(--saffron)' : 'gold' === s.color ? 'var(--gold)' : 'var(--vermilion)',
-                  }}
-                >
-                  <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
-                </span>
               </div>
             </Card>
           )
@@ -253,34 +264,48 @@ export function HomeView() {
               Tap any chapter to continue reading. {completionPct}% complete.
             </p>
           </div>
-          <Button variant="ghost" size="sm" onClick={() => navigate('gita')}>
-            All chapters <ChevronRight className="ml-1 h-4 w-4" />
+          <Button variant="ghost" size="sm" onClick={() => navigate('gita')} className="gap-1">
+            All chapters <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-9 gap-2">
-          {chapterProgress.map((c) => (
-            <button
-              key={c.number}
-              onClick={() => navigate('gita', { chapter: String(c.number) })}
-              className="group relative aspect-square rounded-xl border border-border bg-card hover:border-primary hover:bg-saffron-gradient-soft transition-all p-2 flex flex-col items-center justify-center gap-1"
-              title={`Chapter ${c.number}: ${c.name} — ${c.read}/${c.total} verses`}
-            >
-              <span className="text-base font-bold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
-                {c.number}
-              </span>
-              <span className="text-[9px] text-muted-foreground text-center leading-tight">
-                {c.pct}%
-              </span>
-              {c.pct === 100 && (
-                <span className="absolute top-1 right-1 text-amber-500 text-xs">★</span>
-              )}
-            </button>
-          ))}
+          {chapterProgress.map((c) => {
+            const pctColor = c.pct === 100 ? 'border-green-500/40 bg-green-500/5' : c.pct > 50 ? 'border-primary/30' : 'border-border'
+            return (
+              <button
+                key={c.number}
+                onClick={() => navigate('gita', { chapter: String(c.number) })}
+                className={cn(
+                  'group relative aspect-square rounded-xl border bg-card transition-all duration-200 p-2 flex flex-col items-center justify-center gap-1',
+                  'hover:shadow-md hover:-translate-y-0.5',
+                  pctColor,
+                  c.pct > 0 && c.pct < 100 ? 'hover:border-primary hover:bg-saffron-gradient-soft' : '',
+                  c.pct === 100 ? 'hover:border-green-500 hover:bg-green-500/10' : '',
+                )}
+                title={`Chapter ${c.number}: ${c.name} — ${c.read}/${c.total} verses`}
+              >
+                <span className="text-base font-bold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+                  {c.number}
+                </span>
+                <span className={cn(
+                  'text-[9px] text-center leading-tight',
+                  c.pct === 100 ? 'text-green-600 font-semibold' : 'text-muted-foreground',
+                )}>
+                  {c.pct === 100 ? '✓' : `${c.pct}%`}
+                </span>
+                {c.pct === 100 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-green-500 flex items-center justify-center">
+                    <span className="text-white text-[8px]">★</span>
+                  </span>
+                )}
+              </button>
+            )
+          })}
         </div>
       </Card>
 
       {/* Quick actions row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <QuickActionCard
           title="Daily Tracker"
           subtitle="Log meditation, chanting, puja, charity, and more"
@@ -323,21 +348,22 @@ function QuickActionCard({
   return (
     <Card
       onClick={onClick}
-      className="p-5 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all group relative overflow-hidden"
+      className="group cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg relative overflow-hidden"
     >
-      <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
+      <div className="absolute inset-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_6%,transparent)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      <div className="absolute -right-4 -bottom-4 opacity-15 group-hover:opacity-25 transition-all duration-300 pointer-events-none group-hover:scale-110">
         <span className="text-7xl" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
           {sanskrit}
         </span>
       </div>
-      <div className="relative">
-        <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-saffron-gradient-soft text-primary mb-3">
+      <div className="relative p-5">
+        <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-saffron-gradient-soft text-primary mb-3 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-sm">
           {icon}
         </span>
         <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
           {title}
         </h3>
-        <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
+        <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{subtitle}</p>
       </div>
     </Card>
   )

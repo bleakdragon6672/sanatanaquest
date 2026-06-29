@@ -11,7 +11,20 @@ import { GuideView } from '@/components/views/guide-view'
 import { ProfileView } from '@/components/views/profile-view'
 
 // Lazy-loaded views — keeps initial bundle small; loads on first visit
-const skeleton = <div className="h-96 animate-pulse rounded-xl bg-muted" />
+function ViewSkeleton() {
+  return (
+    <div className="animate-scale-in space-y-4">
+      <div className="h-48 rounded-2xl bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_8%,transparent)] to-card relative overflow-hidden">
+        <div className="absolute inset-0 shimmer" />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="h-24 rounded-xl bg-muted/60 relative overflow-hidden"><div className="absolute inset-0 shimmer" /></div>
+        <div className="h-24 rounded-xl bg-muted/60 relative overflow-hidden"><div className="absolute inset-0 shimmer" /></div>
+      </div>
+    </div>
+  )
+}
+const skeleton = <ViewSkeleton />
 
 const UpanishadView = dynamic(() => import('@/components/views/upanishad-view').then(m => ({ default: m.UpanishadView })), { ssr: false, loading: () => skeleton })
 const HanumanChalisaView = dynamic(() => import('@/components/views/chalisa-view').then(m => ({ default: m.HanumanChalisaView })), { ssr: false, loading: () => skeleton })
@@ -207,7 +220,7 @@ function AppShell() {
   useCloudAutoSave(user)
 
   const { currentAtmosphere } = useAtmosphere()
-  const { params } = useNav()
+  const { view, params } = useNav()
   const store = useStore()
   const chapterFromParams = params.chapter ? parseInt(params.chapter, 10) : undefined
 
@@ -235,8 +248,9 @@ function AppShell() {
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0 relative z-10">
         {!isZen && <TopBar />}
-        <main id="main-scroll" className={cn('flex-1 px-4 sm:px-6 lg:px-8 py-6 w-full mx-auto', widthClass)}>
-          <ViewRouter />
+        <main id="main-scroll" className={cn('flex-1 px-4 sm:px-6 lg:px-8 py-6 w-full mx-auto', widthClass)}>              <div key={view} className="animate-slide-up">
+                <ViewRouter />
+              </div>
         </main>
         {!isZen && (
           <footer className="mt-auto px-4 sm:px-6 py-4 text-center text-xs text-muted-foreground">

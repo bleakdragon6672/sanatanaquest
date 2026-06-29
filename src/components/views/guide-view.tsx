@@ -1,10 +1,9 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { Sparkles, Send, Loader2, GraduationCap, MessageCircle, BookOpen, RefreshCw, User } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { useNav } from '@/components/nav-context'
 import { getVerse, type Verse } from '@/lib/gita-data'
@@ -38,7 +37,6 @@ type GuideTab = 'explain' | 'ask' | 'exam'
 
 export function GuideView() {
   const { params } = useNav()
-  // Derive tab & verse from params when explain is requested; otherwise use local state.
   const [localTab, setLocalTab] = useState<GuideTab>('ask')
   const [localVerse, setLocalVerse] = useState<string | null>(null)
   const [mode, setMode] = useState<'simple' | 'beginner' | 'student' | 'application'>('simple')
@@ -49,7 +47,7 @@ export function GuideView() {
   return (
     <div className="space-y-5">
       {/* Header */}
-      <Card className="p-6 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] via-card to-[color-mix(in_oklch,var(--gold)_10%,transparent)]">
+      <Card className="p-6 sm:p-8 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] via-card to-[color-mix(in_oklch,var(--gold)_10%,transparent)]">
         <div className="absolute -right-6 -top-6 opacity-10 pointer-events-none">
           <OmSymbol size={180} />
         </div>
@@ -57,10 +55,10 @@ export function GuideView() {
           <Badge className="mb-2 bg-saffron-gradient text-white border-0">
             <Sparkles className="mr-1 h-3 w-3" /> AI Spiritual Guide
           </Badge>
-          <h1 className="text-3xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
             Your Guru, always present
           </h1>
-          <p className="text-muted-foreground mt-1 max-w-2xl">
+          <p className="text-muted-foreground mt-1 max-w-2xl leading-relaxed">
             Ask any question. Get explanations grounded in the Bhagavad Gita. Receive practical guidance
             for study, discipline, stress, and the spiritual path.
           </p>
@@ -94,8 +92,8 @@ function TabButton({ active, onClick, icon, label, sanskrit }: { active: boolean
       variant={active ? 'default' : 'outline'}
       onClick={onClick}
       className={cn(
-        'rounded-full gap-2',
-        active ? 'bg-saffron-gradient text-white' : 'hover:bg-saffron-gradient-soft',
+        'rounded-full gap-2 transition-all duration-200',
+        active ? 'bg-saffron-gradient text-white shadow-md' : 'hover:bg-saffron-gradient-soft hover:border-primary/30',
       )}
     >
       {icon}
@@ -116,6 +114,78 @@ async function callAI(body: Record<string, unknown>): Promise<{ content: string;
   return { content: data.content, verses: data.verses }
 }
 
+// ── Typing Indicator ──────────────────────────────────────────────
+
+function TypingIndicator() {
+  return (
+    <div className="flex items-start gap-2">
+      <div className="chat-avatar chat-avatar-guru">
+        <OmSymbol size={14} className="!text-white" />
+      </div>
+      <div className="typing-indicator bg-muted/60 rounded-2xl rounded-tl-sm">
+        <span className="typing-dot" />
+        <span className="typing-dot" />
+        <span className="typing-dot" />
+      </div>
+    </div>
+  )
+}
+
+// ── Animated Message Text ─────────────────────────────────────────
+
+function AnimatedMessageText({ content, speed = 30 }: { content: string; speed?: number }) {
+  const [displayed, setDisplayed] = useState('')
+  const [isComplete, setIsComplete] = useState(false)
+  const indexRef = useRef(0)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  useEffect(() => {
+    indexRef.current = 0
+    setDisplayed('')
+    setIsComplete(false)
+
+    // For short messages, reveal instantly
+    if (content.length < 80) {
+      setDisplayed(content)
+      setIsComplete(true)
+      return
+    }
+
+    timerRef.current = setInterval(() => {
+      indexRef.current += 1
+      setDisplayed(content.slice(0, indexRef.current))
+      if (indexRef.current >= content.length) {
+        if (timerRef.current) clearInterval(timerRef.current)
+        setIsComplete(true)
+      }
+    }, speed)
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+  }, [content, speed])
+
+  if (isComplete || content.length < 80) {
+    return (
+      <div
+        className="whitespace-pre-wrap leading-relaxed text-sm"
+        dangerouslySetInnerHTML={{ __html: sanitizeHtml(content.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')) }}
+      />
+    )
+  }
+
+  // During animation, render progressive text
+  const animatedHtml = sanitizeHtml(displayed.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>'))
+  return (
+    <div className="whitespace-pre-wrap leading-relaxed text-sm">
+      <span dangerouslySetInnerHTML={{ __html: animatedHtml }} />
+      <span className="inline-block w-1.5 h-4 bg-primary/60 ml-0.5 animate-pulse" style={{ verticalAlign: 'text-bottom' }} />
+    </div>
+  )
+}
+
+// ── Explain Verse Tab ─────────────────────────────────────────────
+
 function ExplainVerse({
   verseId,
   setVerseId,
@@ -135,11 +205,9 @@ function ExplainVerse({
     if (verseId) {
       void runExplain(verseId, mode)
     }
-     
   }, [verseId, mode])
 
   async function runExplain(id: string, m: typeof mode) {
-    // Try Gita, Upanishad, Chalisa, Baan, then Tandav
     const gv = getVerse(id)
     const uv = getUpanishadVerse(id)
     const cv = getChalisaVerse(id)
@@ -178,19 +246,16 @@ function ExplainVerse({
 
   function handleVerseInputSubmit() {
     if (!verseInput.trim()) return
-    // Try Gita format: "2.47" or "chapter 2 verse 47" or "2:47"
     const gm = verseInput.match(/(\d+)\s*[\.\:\s]\s*(\d+)/)
     if (gm) {
       const id = `${gm[1]}.${gm[2]}`
       if (getVerse(id)) { setVerseId(id); return }
     }
-    // Try Upanishad format: "isha.0.1" or "katha.1.1.1"
     const um = verseInput.match(/(isha|katha|mandukya)[\.\s]/i)
     if (um) {
       const id = verseInput.trim().toLowerCase()
       if (getUpanishadVerse(id)) { setVerseId(id); return }
     }
-    // Try Chalisa format: "v0" through "v35"
     const cm = verseInput.match(/^v(\d+)$/i)
     if (cm) {
       const id = `v${cm[1]}`
@@ -229,10 +294,10 @@ function ExplainVerse({
             value={verseInput}
             onChange={(e) => setVerseInput(e.target.value)}
             placeholder="e.g. 2.47 (Gita), isha.0.1 (Upanishad), v5 (Chalisa), t3 (Tandav)"
-            className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
+            className="flex-1 rounded-lg border border-input bg-background px-3 py-2 text-sm focus:border-primary/40 focus:ring-2 focus:ring-primary/10 transition-all"
             onKeyDown={(e) => e.key === 'Enter' && handleVerseInputSubmit()}
           />
-          <Button onClick={handleVerseInputSubmit} className="bg-saffron-gradient text-white">Explain</Button>
+          <Button onClick={handleVerseInputSubmit} className="bg-saffron-gradient text-white shadow-sm">Explain</Button>
         </div>
         <p className="text-xs text-muted-foreground mb-3">
           Or pick a famous verse:{' '}
@@ -240,7 +305,7 @@ function ExplainVerse({
             <button
               key={id}
               onClick={() => setVerseId(id)}
-              className="inline-block mr-1 mb-1 px-2 py-0.5 rounded bg-saffron-gradient-soft text-primary text-xs hover:bg-saffron-gradient hover:text-white transition-colors"
+              className="chat-suggestion-btn mr-1 mb-1"
             >
               {id}
             </button>
@@ -254,7 +319,7 @@ function ExplainVerse({
               key={m}
               size="sm"
               variant={mode === m ? 'default' : 'outline'}
-              className={cn('rounded-full capitalize', mode === m && 'bg-saffron-gradient text-white')}
+              className={cn('rounded-full capitalize transition-all', mode === m && 'bg-saffron-gradient text-white shadow-sm')}
               onClick={() => setMode(m)}
             >
               {m === 'application' ? 'Modern Application' : m}
@@ -264,12 +329,15 @@ function ExplainVerse({
       </Card>
 
       {verse && (
-        <Card className="p-5 bg-saffron-gradient-soft border-primary/20">
-          <p className="text-xs text-muted-foreground mb-1">{verseLabel}</p>
-          <p className="sanskrit-text text-lg mb-2" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}>
-            {'sanskrit' in verse ? (verse as { sanskrit: string }).sanskrit : ('awadhi' in verse ? (verse as { awadhi: string }).awadhi : '')}
-          </p>
-          <p className="text-sm text-muted-foreground">{verse.english}</p>
+        <Card className="p-5 bg-saffron-gradient-soft border-primary/20 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary/60 to-primary/20" />
+          <div className="pl-3">
+            <p className="text-[10px] uppercase tracking-widest text-primary/70 mb-1">{verseLabel}</p>
+            <p className="sanskrit-text text-lg mb-2" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}>
+              {'sanskrit' in verse ? (verse as { sanskrit: string }).sanskrit : ('awadhi' in verse ? (verse as { awadhi: string }).awadhi : '')}
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">{verse.english}</p>
+          </div>
         </Card>
       )}
 
@@ -278,28 +346,90 @@ function ExplainVerse({
           <h3 className="font-semibold flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-primary" /> AI Explanation
           </h3>
-          {verseId && !loading && (
-            <Button size="sm" variant="ghost" onClick={() => runExplain(verseId, mode)}>
-              <RefreshCw className="mr-1 h-3.5 w-3.5" /> Regenerate
+          {verseId && !loading && explanation && (
+            <Button size="sm" variant="ghost" onClick={() => runExplain(verseId, mode)} className="gap-1.5">
+              <RefreshCw className="h-3.5 w-3.5" /> Regenerate
             </Button>
           )}
         </div>
         {loading ? (
-          <div className="flex items-center gap-3 text-muted-foreground py-8 justify-center">
-            <Loader2 className="h-5 w-5 animate-spin text-primary" />
+          <div className="flex flex-col items-center gap-3 text-muted-foreground py-8 justify-center">
+            <div className="relative">
+              <Loader2 className="h-6 w-6 animate-spin text-primary" />
+            </div>
             <span className="text-sm">The Guru is contemplating your question…</span>
           </div>
         ) : explanation ? (
-          <div
-            className="prose prose-sm max-w-none whitespace-pre-wrap text-foreground/90 leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: sanitizeHtml(explanation.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')) }}
-          />
+          <AnimatedMessageText content={explanation} speed={20} />
         ) : (
           <div className="text-sm text-muted-foreground text-center py-8">
-            Pick a verse to receive the Guru's explanation.
+            <OmSymbol size={48} className="mx-auto mb-3 opacity-30" />
+            <p>Pick a verse to receive the Guru&apos;s explanation.</p>
           </div>
         )}
       </Card>
+    </div>
+  )
+}
+
+// ── Ask Anything Tab ──────────────────────────────────────────────
+
+function ChatInput({ value, onChange, onSend, loading, placeholder }: {
+  value: string
+  onChange: (v: string) => void
+  onSend: () => void
+  loading: boolean
+  placeholder: string
+}) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const adjustHeight = useCallback(() => {
+    const ta = textareaRef.current
+    if (ta) {
+      ta.style.height = 'auto'
+      ta.style.height = Math.min(ta.scrollHeight, 120) + 'px'
+    }
+  }, [])
+
+  useEffect(() => { adjustHeight() }, [value, adjustHeight])
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      onSend()
+    }
+  }
+
+  return (
+    <div className="chat-input-wrapper px-4 py-3">
+      <textarea
+        ref={textareaRef}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder={placeholder}
+        rows={1}
+        disabled={loading}
+        className="flex-1"
+      />
+      <Button
+        onClick={onSend}
+        disabled={!value.trim() || loading}
+        size="icon"
+        className={cn(
+          'h-10 w-10 rounded-xl shrink-0 transition-all duration-200',
+          value.trim() && !loading
+            ? 'bg-saffron-gradient text-white shadow-sm hover:shadow-md'
+            : 'bg-muted text-muted-foreground',
+        )}
+      >
+        {loading ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <Send className="h-4 w-4" />
+        )}
+        <span className="sr-only">Send</span>
+      </Button>
     </div>
   )
 }
@@ -333,7 +463,7 @@ function AskAnything() {
   const SUGGESTIONS = [
     'What does karma yoga mean?',
     'How can I overcome fear and anxiety?',
-    'What is the difference between the body and the soul?',
+    'What is the difference between body and soul?',
     'How do I deal with anger?',
     'What is dharma?',
     'How can I find my life purpose?',
@@ -341,19 +471,21 @@ function AskAnything() {
 
   return (
     <Card className="flex flex-col h-[70vh] min-h-[500px] overflow-hidden">
-      <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3">
         {messages.length === 0 && (
-          <div className="text-center py-8">
-            <OmSymbol size={48} className="mx-auto mb-3" />
-            <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto">
+          <div className="text-center py-6">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-saffron-gradient flex items-center justify-center shadow-lg">
+              <OmSymbol size={24} className="!text-white" />
+            </div>
+            <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto leading-relaxed">
               Ask anything about spirituality, the Gita, life, dharma, the mind, relationships, or your journey.
             </p>
-            <div className="flex flex-wrap gap-2 justify-center max-w-2xl mx-auto">
+            <div className="flex flex-wrap gap-2 justify-center max-w-xl mx-auto">
               {SUGGESTIONS.map((s) => (
                 <button
                   key={s}
-                  onClick={() => setInput(s)}
-                  className="px-3 py-1.5 text-xs rounded-full bg-saffron-gradient-soft text-primary hover:bg-saffron-gradient hover:text-white transition-colors"
+                  onClick={() => { setInput(s); setTimeout(() => send(), 100) }}
+                  className="chat-suggestion-btn"
                 >
                   {s}
                 </button>
@@ -362,37 +494,25 @@ function AskAnything() {
           </div>
         )}
         {messages.map((m, i) => (
-          <MessageBubble key={i} m={m} />
+          <MessageBubble key={i} m={m} index={i} />
         ))}
-        {loading && (
-          <div className="flex items-center gap-2 text-muted-foreground text-sm">
-            <Loader2 className="h-4 w-4 animate-spin text-primary" />
-            <span>The Guru is contemplating…</span>
-          </div>
-        )}
+        {loading && <TypingIndicator />}
         <div ref={endRef} />
       </div>
-      <div className="border-t border-border p-3 flex gap-2 bg-card">
-        <Textarea
+      <div className="border-t border-border/50 p-3 sm:p-4 bg-card/80">
+        <ChatInput
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={setInput}
+          onSend={send}
+          loading={loading}
           placeholder="Ask your question…"
-          className="min-h-[44px] max-h-[120px] resize-none"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault()
-              send()
-            }
-          }}
         />
-        <Button onClick={send} disabled={!input.trim() || loading} className="bg-saffron-gradient text-white self-end">
-          <Send className="h-4 w-4" />
-          <span className="sr-only">Send</span>
-        </Button>
       </div>
     </Card>
   )
 }
+
+// ── Exam Mode Tab ────────────────────────────────────────────────
 
 function ExamMode() {
   const [input, setInput] = useState('')
@@ -431,26 +551,30 @@ function ExamMode() {
 
   return (
     <Card className="flex flex-col h-[70vh] min-h-[500px] overflow-hidden">
-      <div className="px-5 py-3 border-b border-border bg-saffron-gradient-soft flex items-center gap-2">
-        <GraduationCap className="h-5 w-5 text-primary" />
+      <div className="px-5 py-4 border-b border-border/50 bg-saffron-gradient-soft flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-saffron-gradient flex items-center justify-center shadow-sm">
+          <GraduationCap className="h-5 w-5 text-white" />
+        </div>
         <div>
           <p className="font-semibold text-sm">Exam & Student Mode</p>
           <p className="text-xs text-muted-foreground">Connect Gita teachings to focus, discipline, stress & consistency</p>
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3">
         {messages.length === 0 && (
-          <div className="text-center py-8">
-            <OmSymbol size={48} className="mx-auto mb-3" />
-            <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto">
+          <div className="text-center py-6">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-saffron-gradient flex items-center justify-center shadow-lg">
+              <OmSymbol size={24} className="!text-white" />
+            </div>
+            <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto leading-relaxed">
               Student life is its own battlefield. The Gita offers timeless guidance for focus, discipline, stress, and consistency.
             </p>
-            <div className="flex flex-wrap gap-2 justify-center max-w-2xl mx-auto">
+            <div className="flex flex-wrap gap-2 justify-center max-w-xl mx-auto">
               {SUGGESTIONS.map((s) => (
                 <button
                   key={s}
-                  onClick={() => setInput(s)}
-                  className="px-3 py-1.5 text-xs rounded-full bg-saffron-gradient-soft text-primary hover:bg-saffron-gradient hover:text-white transition-colors"
+                  onClick={() => { setInput(s); setTimeout(() => send(), 100) }}
+                  className="chat-suggestion-btn"
                 >
                   {s}
                 </button>
@@ -459,77 +583,72 @@ function ExamMode() {
           </div>
         )}
         {messages.map((m, i) => (
-          <MessageBubble key={i} m={m} />
+          <MessageBubble key={i} m={m} index={i} />
         ))}
-        {loading && (
-          <div className="flex items-center gap-2 text-muted-foreground text-sm">
-            <Loader2 className="h-4 w-4 animate-spin text-primary" />
-            <span>The Guru is contemplating…</span>
-          </div>
-        )}
+        {loading && <TypingIndicator />}
         <div ref={endRef} />
       </div>
-      <div className="border-t border-border p-3 flex gap-2 bg-card">
-        <Textarea
+      <div className="border-t border-border/50 p-3 sm:p-4 bg-card/80">
+        <ChatInput
           value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Share what's on your mind as a student…"
-          className="min-h-[44px] max-h-[120px] resize-none"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault()
-              send()
-            }
-          }}
+          onChange={setInput}
+          onSend={send}
+          loading={loading}
+          placeholder="Share what&apos;s on your mind as a student…"
         />
-        <Button onClick={send} disabled={!input.trim() || loading} className="bg-saffron-gradient text-white self-end">
-          <Send className="h-4 w-4" />
-        </Button>
       </div>
     </Card>
   )
 }
 
-function MessageBubble({ m }: { m: Message }) {
+// ── Message Bubble ───────────────────────────────────────────────
+
+function MessageBubble({ m, index }: { m: Message; index: number }) {
   const { navigate } = useNav()
+
   if (m.role === 'user') {
     return (
-      <div className="flex items-start gap-2 justify-end">
-        <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-saffron-gradient text-white px-4 py-2.5 text-sm">
+      <div className="flex items-start gap-2 justify-end animate-chat-enter-user">
+        <div
+          className="max-w-[85%] rounded-2xl rounded-tr-sm bg-saffron-gradient text-white px-4 py-2.5 text-sm leading-relaxed shadow-sm"
+          style={{ whiteSpace: 'pre-wrap' }}
+        >
           {m.content}
         </div>
-        <div className="h-8 w-8 shrink-0 rounded-full bg-muted flex items-center justify-center">
+        <div className="chat-avatar chat-avatar-user">
           <User className="h-4 w-4 text-muted-foreground" />
         </div>
       </div>
     )
   }
+
   return (
-    <div className="flex items-start gap-2">
-      <div className="h-8 w-8 shrink-0 rounded-full bg-saffron-gradient flex items-center justify-center">
-        <OmSymbol size={16} className="!text-white" />
+    <div className="flex items-start gap-2 animate-chat-enter">
+      <div className="chat-avatar chat-avatar-guru">
+        <OmSymbol size={14} className="!text-white" />
       </div>
       <div className="max-w-[85%] space-y-2">
-        <div
-          className="rounded-2xl rounded-tl-sm bg-muted px-4 py-2.5 text-sm whitespace-pre-wrap leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: sanitizeHtml(m.content.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')) }}
-        />
+        <div className="rounded-2xl rounded-tl-sm bg-muted/60 px-4 py-3 leading-relaxed shadow-sm">
+          <AnimatedMessageText content={m.content} speed={25} />
+        </div>
         {m.foundVerses && m.foundVerses.length > 0 && (
-          <div className="space-y-1.5">
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground px-1">
-              📖 Verses from the Gita
+          <div className="space-y-1.5 pt-1">
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground px-1 flex items-center gap-1.5">
+              <BookOpen className="h-3 w-3" /> Verses from the Gita
             </p>
             {m.foundVerses.map((v) => (
               <button
                 key={v.id}
                 onClick={() => navigate('gita', { chapter: String(v.chapter), verse: v.id })}
-                className="block w-full text-left rounded-xl border border-primary/20 bg-saffron-gradient-soft hover:border-primary/50 transition-all p-3 group"
+                className="block w-full text-left rounded-xl border border-primary/15 bg-card hover:border-primary/40 hover:bg-saffron-gradient-soft/50 transition-all p-3 group"
               >
                 <div className="flex items-center gap-2 mb-1">
                   <Badge variant="outline" className="font-mono text-[10px]">{v.id}</Badge>
-                  <span className="text-[10px] text-primary group-hover:underline">Read full verse →</span>
+                  <span className="text-[10px] text-primary/70 group-hover:text-primary group-hover:underline transition-colors">
+                    Read full verse →
+                  </span>
                 </div>
-                <p className="text-xs text-foreground/80 line-clamp-2">{v.english}</p>
+                <p className="text-xs text-foreground/80 line-clamp-2 leading-relaxed">{v.english}</p>
               </button>
             ))}
           </div>

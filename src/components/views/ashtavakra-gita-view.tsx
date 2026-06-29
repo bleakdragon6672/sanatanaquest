@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import {
   ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Highlighter, NotebookPen,
-  Share2, Play, Pause, Volume2, Settings2, Sparkles, Check,
+  Share2, Play, Pause, Volume2, Sparkles, Check,
 } from 'lucide-react'
 import {
   ashtavakraChapters, getAshtavakraChapter,
@@ -16,23 +16,13 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Textarea } from '@/components/ui/textarea'
-import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu'
 import { ShareCardModal } from '@/components/share-card-modal'
 import { toast } from 'sonner'
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
 import { VerseSlider } from '@/components/verse-slider'
-
-const READING_MODE_LABELS: Record<ReadingMode, string> = {
-  sanskrit: 'Sanskrit Only',
-  english: 'English Only',
-  'sanskrit-english': 'Sanskrit + English',
-  full: 'Sanskrit + Transliteration + English',
-  focus: 'Focus Reading Mode',
-  night: 'Night Reading Mode',
-}
+import { ActionButton, ActionButtonRow } from '@/components/verse-card-actions'
+import { ReadingModeSwitcher } from '@/components/reading-mode-switcher'
 
 export function AshtavakraGitaView() {
   const { params, navigate } = useNav()
@@ -383,13 +373,13 @@ function VerseCard({ verse, chapterNumber }: { verse: AshtavakraVerse; chapterNu
             )}
             {isHighlighted && <Badge variant="secondary" className="text-[10px]">Highlighted</Badge>}
           </div>
-          <div className="flex items-center gap-0.5">
-            <ActionButton icon={Check} active={isRead} label={isRead ? 'Marked as read' : 'Mark as read (+10 XP)'} onClick={handleMarkRead} />
-            <ActionButton icon={isBookmarked ? BookmarkCheck : Bookmark} active={isBookmarked} label="Bookmark" onClick={() => { store.toggleBookmark(verse.id); toast.success(isBookmarked ? 'Removed bookmark' : 'Verse bookmarked') }} />
-            <ActionButton icon={Highlighter} active={isHighlighted} label="Highlight" onClick={() => { store.toggleHighlight(verse.id); toast.success(isHighlighted ? 'Highlight removed' : 'Verse highlighted') }} />
-            <ActionButton icon={NotebookPen} active={!!existingNote} label="Note" onClick={() => { setNoteDraft(existingNote); setShowNoteEditor(!showNoteEditor) }} />
-            <ActionButton icon={Share2} label="Share" onClick={() => setShareOpen(true)} />
-          </div>
+          <ActionButtonRow>
+            <ActionButton icon={Check} active={isRead} label={isRead ? 'Marked as read' : 'Mark as read (+10 XP)'} onClick={handleMarkRead} shortcut="R" />
+            <ActionButton icon={isBookmarked ? BookmarkCheck : Bookmark} active={isBookmarked} label="Bookmark" onClick={() => { store.toggleBookmark(verse.id); toast.success(isBookmarked ? 'Removed bookmark' : 'Verse bookmarked') }} shortcut="B" />
+            <ActionButton icon={Highlighter} active={isHighlighted} label="Highlight" onClick={() => { store.toggleHighlight(verse.id); toast.success(isHighlighted ? 'Highlight removed' : 'Verse highlighted') }} shortcut="H" />
+            <ActionButton icon={NotebookPen} active={!!existingNote} label="Note" onClick={() => { setNoteDraft(existingNote); setShowNoteEditor(!showNoteEditor) }} shortcut="N" />
+            <ActionButton icon={Share2} label="Share" onClick={() => setShareOpen(true)} shortcut="S" />
+          </ActionButtonRow>
         </div>
 
         <div className="px-5 sm:px-7 py-6 space-y-4">
@@ -471,58 +461,7 @@ function VerseCard({ verse, chapterNumber }: { verse: AshtavakraVerse; chapterNu
   )
 }
 
-function ActionButton({
-  icon: Icon,
-  active,
-  label,
-  onClick,
-}: {
-  icon: typeof Bookmark
-  active?: boolean
-  label: string
-  onClick: () => void
-}) {
-  return (
-    <Button
-      size="icon"
-      variant="ghost"
-      className={cn('h-8 w-8 rounded-full', active && 'bg-saffron-gradient-soft text-primary')}
-      onClick={onClick}
-      title={label}
-    >
-      <Icon className={cn('h-4 w-4', active && 'fill-current')} />
-      <span className="sr-only">{label}</span>
-    </Button>
-  )
-}
 
-function ReadingModeSwitcher() {
-  const store = useStore()
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm">
-          <Settings2 className="mr-1 h-4 w-4" />
-          <span className="hidden sm:inline">{READING_MODE_LABELS[store.readingMode]}</span>
-          <span className="sm:hidden">Mode</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-64">
-        <DropdownMenuLabel>Reading Mode</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {(Object.keys(READING_MODE_LABELS) as ReadingMode[]).map((m) => (
-          <DropdownMenuItem
-            key={m}
-            onClick={() => store.setReadingMode(m)}
-            className={cn(store.readingMode === m && 'bg-saffron-gradient-soft')}
-          >
-            {READING_MODE_LABELS[m]}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
 
 function AudioPlayer({
   verse,
@@ -586,7 +525,7 @@ function AudioPlayer({
 
   return (
     <div className="flex items-center gap-1">
-      <Button size="sm" variant="ghost" className="h-8 gap-1.5" onClick={play}>
+      <Button size="sm" variant="ghost" className={cn('h-8 gap-1.5 audio-btn-premium', playing && 'playing')} onClick={play}>
         {playing ? <Pause className="h-4 w-4 text-primary" /> : <Play className="h-4 w-4 text-primary" />}
         <span className="text-xs">{playing ? 'Pause' : 'Recite'}</span>
       </Button>
