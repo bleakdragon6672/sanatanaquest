@@ -13,6 +13,18 @@ interface VerseSliderProps {
   className?: string
 }
 
+// Touch swipe configuration — tuned for deliberate gestures only
+const SWIPE_THRESHOLD = 100     // minimum horizontal px to trigger verse change
+const VELOCITY_RATIO = 2        // horizontal must be at least this many × vertical
+const COOLDOWN_MS = 400         // prevent rapid successive gestures
+
+// Elements that should never trigger verse navigation
+const INTERACTIVE_SELECTOR = [
+  'button', 'a', 'input', 'textarea', 'select',
+  '[role="button"]', '[role="link"]', '[role="tab"]',
+  '[contenteditable]', 'label', '.not-verse-swipe',
+].join(', ')
+
 export function VerseSlider({
   verseId,
   children,
@@ -28,17 +40,17 @@ export function VerseSlider({
   const prevVerseIdRef = useRef(verseId)
   const touchStartX = useRef(0)
   const touchStartY = useRef(0)
-  const isSwiping = useRef(false)
+  const touchCancelled = useRef(false)
+  const lastSwipeTime = useRef(0)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   // Animate when verseId changes
   useEffect(() => {
     const prevId = prevVerseIdRef.current
     prevVerseIdRef.current = verseId
 
-    // Skip animation on initial mount
     if (prevId === verseId) return
 
-    // Determine direction from verse ID comparison
     const oldParts = prevId.split('.').map(Number)
     const newParts = verseId.split('.').map(Number)
     let direction: 'left' | 'right' = 'left'
@@ -74,32 +86,88 @@ export function VerseSlider({
     }
   }, [children, verseId, isAnimating, displayedContent.id])
 
-  // Touch swipe handling
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX
-    touchStartY.current = e.touches[0].clientY
-    isSwiping.current = false
+  // Check whether a touch target is an interactive element that should block swipe
+  const isInteractiveTarget = useCallback((target: EventTarget | null): boolean => {
+    if (!target || !(target instanceof Node)) return false
+    const el = target instanceof Element ? target : (target as Node).parentElement
+    if (!el) return false
+
+    let current: Element | null = el
+    while (current && current !== containerRef.current && current !== document.body) {
+      if (current.matches?.(INTERACTIVE_SELECTOR)) return true
+      current = current.parentElement
+    }
+    return false
   }, [])
 
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    const dx = e.touches[0].clientX - touchStartX.current
-    const dy = e.touches[0].clientY - touchStartY.current
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 30) {
-      isSwiping.current = true
+  // Check whether the user is actively selecting text
+  const hasTextSelection = useCallback((): boolean => {
+    if (typeof window === 'undefined') return false
+    const selection = window.getSelection()
+    return selection ? selection.toString().length > 0 : false
+  }, [])
+
+  // --- Touch gesture handlers ---
+  // Design: evaluate the *full* gesture only on touchend (not mid-gesture).
+  // This prevents premature triggering and gives a natural feel like Kindle / Apple Books.
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    // Do not process touches on interactive controls
+    if (isInteractiveTarget(e.target)) {
+      touchCancelled.current = true
+      return
     }
+
+    // Do not process if user has an active text selection
+    if (hasTextSelection()) {
+      touchCancelled.current = true
+      return
+    }
+
+    // Enforce cooldown between successive gestures
+    if (Date.now() - lastSwipeTime.current < COOLDOWN_MS) {
+      touchCancelled.current = true
+      return
+    }
+
+    touchCancelled.current = false
+    touchStartX.current = e.touches[0].clientX
+    touchStartY.current = e.touches[0].clientY
+  }, [isInteractiveTarget, hasTextSelection])
+
+  const handleTouchMove = useCallback((_e: React.TouchEvent) => {
+    // Intentionally empty — we evaluate the gesture only at touchend.
+    // Not calling preventDefault() preserves smooth vertical scrolling.
   }, [])
 
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    if (!isSwiping.current) return
-    const dx = e.changedTouches[0].clientX - touchStartX.current
-    const threshold = 60
+    if (touchCancelled.current) {
+      touchCancelled.current = false
+      return
+    }
 
-    if (dx < -threshold && hasNext && onNext) {
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    const dy = e.changedTouches[0].clientY - touchStartY.current
+    const absDx = Math.abs(dx)
+    const absDy = Math.abs(dy)
+
+    // Require horizontal to dominate vertical (prevents scroll → swipe false positives)
+    if (absDx < absDy * VELOCITY_RATIO) return
+
+    // Require a deliberate horizontal movement
+    if (absDx < SWIPE_THRESHOLD) return
+
+    // Check text selection again in case it started mid-gesture
+    if (hasTextSelection()) return
+
+    // Fire navigation callback and set cooldown
+    if (dx < 0 && hasNext && onNext) {
+      lastSwipeTime.current = Date.now()
       onNext()
-    } else if (dx > threshold && hasPrevious && onPrevious) {
+    } else if (dx > 0 && hasPrevious && onPrevious) {
+      lastSwipeTime.current = Date.now()
       onPrevious()
     }
-    isSwiping.current = false
   }, [hasNext, hasPrevious, onNext, onPrevious])
 
   // Keyboard navigation
@@ -115,6 +183,7 @@ export function VerseSlider({
 
   return (
     <div
+      ref={containerRef}
       className={cn('verse-slider-container', animationClass, className)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}

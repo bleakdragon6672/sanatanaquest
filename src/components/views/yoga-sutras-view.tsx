@@ -563,15 +563,16 @@ function AudioPlayer({
       setPlaying(false)
       return
     }
-    // Try to load audio from /audio/yogasutras/ folder (optional)
-    const audio = new Audio(`/audio/yogasutras/${verse.id}.mp3`)
+    // Try to load audio from /audio/yoga-sutras/ folder (Edge TTS generated)
+    const audio = new Audio(`/audio/yoga-sutras/${verse.id}.mp3`)
     audio.playbackRate = speed
     audio.onended = () => setPlaying(false)
     audio.onerror = () => {
-      // Fallback to TTS
+      // Fallback: recite Sanskrit using TTS
       if ('speechSynthesis' in window) {
-        const u = new SpeechSynthesisUtterance(verse.english)
-        u.rate = speed; u.pitch = 0.9
+        const u = new SpeechSynthesisUtterance(verse.sanskrit)
+        u.lang = 'hi'  // Hindi language gives good Devanagari pronunciation
+        u.rate = speed * 0.7; u.pitch = 0.85
         u.onend = () => setPlaying(false)
         window.speechSynthesis.speak(u)
         setPlaying(true)
@@ -582,10 +583,11 @@ function AudioPlayer({
     }
     audioRef.current = audio
     audio.play().catch(() => {
-      // If audio playback fails, try TTS
+      // If audio playback fails, try TTS with Sanskrit
       if ('speechSynthesis' in window) {
-        const u = new SpeechSynthesisUtterance(verse.english)
-        u.rate = speed; u.pitch = 0.9
+        const u = new SpeechSynthesisUtterance(verse.sanskrit)
+        u.lang = 'hi'
+        u.rate = speed * 0.7; u.pitch = 0.85
         u.onend = () => setPlaying(false)
         window.speechSynthesis.speak(u)
         setPlaying(true)
