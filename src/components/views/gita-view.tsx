@@ -123,7 +123,7 @@ function ChapterList({ onOpen }: { onOpen: (num: number) => void }) {
         </div>
       </Card>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger-group">
         {gitaChapters.map((c) => {
           const read = c.verses.filter((v) => store.readVerses[v.id]).length
           const total = c.verses.length

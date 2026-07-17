@@ -19,6 +19,7 @@ import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { VerseOfDay } from '@/components/verse-of-day'
 import { ReadingStreakCalendar } from '@/components/reading-streak-calendar'
 import { ScriptureMap } from '@/components/scripture-map'
+import { CountUp } from '@/components/count-up'
 
 export function HomeView() {
   const { navigate } = useNav()
@@ -47,28 +48,33 @@ export function HomeView() {
   const stats = [
     {
       label: 'Chapters Completed',
-      value: `${chaptersCompleted.length}/18`,
+      value: chaptersCompleted.length,
+      suffix: `/${18}`,
       icon: BookOpen,
       color: 'saffron',
       onClick: () => navigate('gita'),
     },
     {
       label: 'Verses Read',
-      value: `${gitaVerseCount}/${totalVerseCount}`,
+      value: gitaVerseCount,
+      suffix: `/${totalVerseCount}`,
       icon: Sparkles,
       color: 'gold',
       onClick: () => navigate('gita'),
     },
     {
       label: 'Reading Time',
-      value: `${readingHours.toFixed(1)}h`,
+      value: readingHours,
+      decimals: 1,
+      suffix: 'h',
       icon: Clock,
       color: 'vermilion',
       onClick: () => navigate('analytics'),
     },
     {
       label: 'Daily Streak',
-      value: `${store.currentStreak} days`,
+      value: store.currentStreak,
+      suffix: ' days',
       icon: Flame,
       color: 'saffron',
       onClick: () => navigate('tracker'),
@@ -84,7 +90,7 @@ export function HomeView() {
   const progressPercent = nextLevel ? Math.round((store.totalXp / nextLevel.minXp) * 100) : 100
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 stagger-group">
       {/* Hero */}
       <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_18%,transparent)] via-card to-[color-mix(in_oklch,var(--gold)_12%,transparent)]">
         <div className="absolute -right-12 -top-12 opacity-[0.08] pointer-events-none">
@@ -143,7 +149,7 @@ export function HomeView() {
           </div>
           <div className="text-right">
             <div className="text-2xl sm:text-3xl font-bold text-saffron-gradient">
-              {store.totalXp.toLocaleString()}
+              <CountUp value={store.totalXp} />
             </div>
             <div className="text-xs sm:text-sm text-muted-foreground">Dharma XP</div>
           </div>
@@ -181,7 +187,9 @@ export function HomeView() {
               </h2>
             </div>
             <div className="text-right">
-              <span className="text-2xl font-bold text-saffron-gradient">{allVersesRead}</span>
+              <span className="text-2xl font-bold text-saffron-gradient">
+                <CountUp value={allVersesRead} />
+              </span>
               <span className="text-sm text-muted-foreground"> / {allScriptureTotal} verses</span>
             </div>
           </div>
@@ -219,7 +227,7 @@ export function HomeView() {
           return (
             <Card
               key={s.label}
-              className="group cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg relative overflow-hidden"
+              className="group cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:ring-2 hover:ring-saffron/30 relative overflow-hidden"
               onClick={s.onClick}
             >
               <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{
@@ -229,7 +237,9 @@ export function HomeView() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex flex-col gap-1.5">
                     <span className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider font-medium">{s.label}</span>
-                    <span className="text-xl sm:text-2xl font-bold text-foreground">{s.value}</span>
+                    <span className="text-xl sm:text-2xl font-bold text-foreground">
+                      <CountUp value={s.value} suffix={s.suffix} decimals={s.decimals ?? 0} />
+                    </span>
                   </div>
                   <div className={cn(
                     'flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110',

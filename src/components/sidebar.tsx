@@ -58,6 +58,7 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
             )}
             data-active={isActive}
           >
+            <span className="nav-sacred-indicator" />
             <span
               className={cn(
                 'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors',
