@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { OmSymbol } from '@/components/spiritual-icons'
 import { useAuth } from '@/lib/auth-context'
+import { supabase } from '@/lib/supabase-client'
 import { toast } from 'sonner'
 
 type Mode = 'signup' | 'login'
@@ -83,6 +84,15 @@ export function AuthScreen() {
         <OmSymbol size={300} className="text-primary" />
       </div>
       <Card className="w-full max-w-md p-8 relative shadow-xl border-primary/20">
+        {!supabase && (
+          <div className="mb-5 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2.5 text-xs leading-relaxed text-amber-800 dark:text-amber-200">
+            <strong className="font-semibold">Cloud sync isn't configured yet.</strong>{' '}
+            Add your Supabase project URL and anon key (
+            <code className="rounded bg-amber-500/15 px-1 py-0.5 font-mono text-[11px]">NEXT_PUBLIC_SUPABASE_URL</code>,{' '}
+            <code className="rounded bg-amber-500/15 px-1 py-0.5 font-mono text-[11px]">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>
+            ) to enable accounts and cloud progress.
+          </div>
+        )}
         <div className="text-center mb-6">
           <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-saffron-gradient shadow-lg mb-3">
             <OmSymbol size={36} className="!text-white" />

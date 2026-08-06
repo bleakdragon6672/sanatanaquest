@@ -12,6 +12,9 @@ import { createContext, useCallback, useContext, useEffect, useState, type React
 import type { Session, User } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase-client'
 
+const NOT_CONFIGURED_MSG =
+  'Cloud sync is not configured yet. Add your Supabase project URL and anon key (NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY) and reload.'
+
 export interface AuthContextValue {
   user: User | null
   session: Session | null
@@ -53,7 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp = useCallback(
     async (email: string, password: string, name?: string) => {
-      if (!supabase) return { error: 'Supabase not configured' }
+      if (!supabase) return { error: NOT_CONFIGURED_MSG }
       if (password.length < 6) return { error: 'Password must be at least 6 characters' }
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -71,7 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 
   const signIn = useCallback(async (email: string, password: string) => {
-    if (!supabase) return { error: 'Supabase not configured' }
+    if (!supabase) return { error: NOT_CONFIGURED_MSG }
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     return error ? { error: error.message } : { error: null }
   }, [])

@@ -105,3 +105,23 @@ CREATE POLICY "Users can delete own progress"
 --      NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 --      NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 --    Then run this SQL on your new project.
+
+-- ── Public leaderboard view ──────────────────────────────────────────────
+-- Used by /api/leaderboard (queries `leaderboard_public` with the anon key).
+-- Created as a SECURITY DEFINER view (owned by postgres) so it bypasses RLS
+-- on user_progress — the leaderboard is intentionally public. Only
+-- non-sensitive columns are exposed; order by total_xp at query time.
+
+CREATE OR REPLACE VIEW public.leaderboard_public AS
+SELECT
+  user_id,
+  user_name,
+  total_xp,
+  current_streak,
+  longest_streak,
+  read_verses,
+  joined_at
+FROM public.user_progress;
+
+REVOKE ALL ON public.leaderboard_public FROM anon;
+GRANT SELECT ON public.leaderboard_public TO anon;
