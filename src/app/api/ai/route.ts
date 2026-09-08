@@ -373,7 +373,7 @@ Be personal, warm, and specific — never generic. Speak directly to "you."`
     }
 
     const completion = await createSpiritualGuideCompletion(SYSTEM_PROMPT, userPrompt, {
-      max_tokens: 800,
+      max_tokens: 1500,
       temperature: 0.7,
     })
 
