@@ -117,9 +117,13 @@ function openAICompatible(
 export function createProviderConfigs(): AIProviderConfig[] {
   const nvidiaKey = process.env.NVIDIA_API_KEY
   const groqKey = process.env.GROQ_API_KEY
-  const hfKey = process.env.HF_API_KEY
+  const hfKey = process.env.HF_API_KEY ?? process.env.HUGGINGFACE_API_KEY
   const openrouterKey = process.env.OPENROUTER_API_KEY
-  const googleKey = process.env.GOOGLE_API_KEY
+  const googleKey =
+    process.env.GOOGLE_API_KEY ??
+    process.env.GEMINI_API_KEY ??
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY
+  const openaiKey = process.env.OPENAI_API_KEY
 
   const nvidiaBase =
     process.env.NVIDIA_BASE_URL ?? 'https://integrate.api.nvidia.com/v1'
@@ -127,7 +131,15 @@ export function createProviderConfigs(): AIProviderConfig[] {
     process.env.OPENROUTER_BASE_URL ?? 'https://openrouter.ai/api/v1'
 
   return [
-    // 1. NVIDIA NIM (OpenAI-compatible)
+    // 1. OpenAI (OpenAI-compatible)
+    openAICompatible(
+      'openai',
+      openaiKey,
+      'https://api.openai.com/v1',
+      process.env.OPENAI_MODEL ?? 'gpt-4o-mini',
+    ),
+
+    // 2. NVIDIA NIM (OpenAI-compatible)
     // Using 8B model for faster responses; 70B was timing out at 30s
     {
       name: 'nvidia',
@@ -162,7 +174,7 @@ export function createProviderConfigs(): AIProviderConfig[] {
       },
     },
 
-    // 2. Groq (OpenAI-compatible)
+    // 3. Groq (OpenAI-compatible)
     openAICompatible(
       'groq',
       groqKey,
@@ -170,7 +182,7 @@ export function createProviderConfigs(): AIProviderConfig[] {
       'llama-3.3-70b-versatile',
     ),
 
-    // 3. Hugging Face Inference API (non-OpenAI format)
+    // 4. Hugging Face Inference API (non-OpenAI format)
     {
       name: 'huggingface',
       apiKey: hfKey,
@@ -203,12 +215,14 @@ export function createProviderConfigs(): AIProviderConfig[] {
       },
     },
 
-    // 4. OpenRouter (OpenAI-compatible with custom headers)
+    // 5. OpenRouter (OpenAI-compatible with custom headers)
     {
       name: 'openrouter',
       apiKey: openrouterKey,
       baseURL: openrouterBase,
-      model: process.env.AI_MODEL ?? 'qwen/qwen3-next-80b-a3b-instruct:free',
+      model: process.env.AI_MODEL && !process.env.AI_MODEL.includes('qwen3-next')
+        ? process.env.AI_MODEL
+        : 'liquid/lfm-2.5-2.6b:free',
       isConfigured: !!openrouterKey,
       prepareRequest(req: CommonRequest) {
         return {
@@ -238,7 +252,7 @@ export function createProviderConfigs(): AIProviderConfig[] {
       },
     },
 
-    // 5. Google AI Studio / Gemini (non-OpenAI format — key in query param)
+    // 6. Google AI Studio / Gemini (non-OpenAI format — key in query param)
     {
       name: 'google',
       apiKey: googleKey,

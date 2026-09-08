@@ -8,6 +8,7 @@ import { shivTandavVerses, type TandavVerse } from '@/lib/shiv-tandav-data'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+export const maxDuration = 60
 
 interface RequestBody {
   action: 'explain' | 'ask' | 'exam' | 'reflection'
@@ -392,7 +393,9 @@ Be personal, warm, and specific — never generic. Speak directly to "you."`
     console.error('AI guide error:', err)
     return NextResponse.json(
       {
-        error: 'The Spiritual Guide is briefly silent. Please try again in a moment.',
+        error: msg.includes('No AI providers configured')
+          ? msg
+          : 'The Spiritual Guide is briefly silent. Please try again in a moment.',
         details: msg,
       },
       { status: 500 },
