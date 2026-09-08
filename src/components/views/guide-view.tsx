@@ -47,7 +47,7 @@ export function GuideView() {
   return (
     <div className="space-y-5">
       {/* Header */}
-      <Card className="p-6 sm:p-8 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] via-card to-[color-mix(in_oklch,var(--gold)_10%,transparent)]">
+      <Card className="p-6 sm:p-8 relative overflow-hidden card-sacred-glow">
         <div className="absolute -right-6 -top-6 opacity-10 pointer-events-none">
           <OmSymbol size={180} />
         </div>

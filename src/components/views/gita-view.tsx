@@ -93,7 +93,7 @@ function ChapterList({ onOpen }: { onOpen: (num: number) => void }) {
 
   return (
     <div className="space-y-6">
-      <Card className="p-6 sm:p-8 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
+      <Card className="p-6 sm:p-8 relative overflow-hidden card-sacred-glow">
         <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
           <LotusIcon size={200} className="text-primary" />
         </div>

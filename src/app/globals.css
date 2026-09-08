@@ -481,6 +481,23 @@
   border: 1px solid color-mix(in oklch, var(--border) 30%, transparent);
 }
 
+.card-sacred-glow {
+  background: color-mix(in oklch, var(--card) 82%, transparent);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  border: 1px solid color-mix(in oklch, var(--saffron) 25%, var(--border));
+  box-shadow: 0 4px 24px -6px color-mix(in oklch, var(--saffron) 12%, transparent),
+              0 1px 2px oklch(0 0 0 / 4%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-sacred-glow:hover {
+  border-color: color-mix(in oklch, var(--saffron) 45%, var(--border));
+  box-shadow: 0 8px 32px -4px color-mix(in oklch, var(--saffron) 22%, transparent),
+              0 2px 8px oklch(0 0 0 / 6%);
+  transform: translateY(-2px);
+}
+
 /* ── Premium Animations ──────────────────────────────────────────────── */
 
 @keyframes premium-fade-in {
@@ -528,6 +545,49 @@
     0 2px 4px oklch(0 0 0 / 5%),
     0 8px 20px oklch(0 0 0 / 7%),
     0 18px 44px color-mix(in oklch, var(--saffron) 9%, oklch(0 0 0 / 6%));
+}
+
+/* ── Gradient hairline border (premium edge) ───────────────────────── */
+
+.gradient-border {
+  position: relative;
+  border-radius: inherit;
+}
+.gradient-border::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--saffron) 55%, transparent),
+    color-mix(in oklch, var(--gold) 35%, transparent) 45%,
+    transparent 70%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+.gradient-border:hover::after {
+  opacity: 1;
+}
+
+/* ── Typography rhythm (professional polish) ───────────────────────── */
+
+.text-balance {
+  text-wrap: balance;
+}
+.display-heading {
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  line-height: 1.1;
+}
+.prose-relaxed {
+  line-height: 1.75;
 }
 
 /* ── Staggered entrance (children cascade in) ──────────────────────── */
