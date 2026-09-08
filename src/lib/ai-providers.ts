@@ -115,7 +115,10 @@ function openAICompatible(
 // ── Provider Definitions ────────────────────────────────────────────
 
 export function createProviderConfigs(): AIProviderConfig[] {
-  const nvidiaKey = process.env.NVIDIA_API_KEY
+  const nvidiaKey =
+    process.env.NVIDIA_API_KEY ??
+    process.env.NVIDIA_NIM_API_KEY ??
+    process.env.NV_API_KEY
   const groqKey = process.env.GROQ_API_KEY
   const hfKey = process.env.HF_API_KEY ?? process.env.HUGGINGFACE_API_KEY
   const openrouterKey = process.env.OPENROUTER_API_KEY
@@ -129,6 +132,7 @@ export function createProviderConfigs(): AIProviderConfig[] {
     process.env.NVIDIA_BASE_URL ?? 'https://integrate.api.nvidia.com/v1'
   const openrouterBase =
     process.env.OPENROUTER_BASE_URL ?? 'https://openrouter.ai/api/v1'
+  const nvidiaModel = process.env.NVIDIA_MODEL ?? 'meta/llama-3.1-8b-instruct'
 
   return [
     // 1. OpenAI (OpenAI-compatible)
@@ -140,12 +144,11 @@ export function createProviderConfigs(): AIProviderConfig[] {
     ),
 
     // 2. NVIDIA NIM (OpenAI-compatible)
-    // Using 8B model for faster responses; 70B was timing out at 30s
     {
       name: 'nvidia',
       apiKey: nvidiaKey,
       baseURL: nvidiaBase,
-      model: 'meta/llama-3.1-8b-instruct',
+      model: nvidiaModel,
       isConfigured: !!nvidiaKey,
       timeoutMs: 60_000,
       prepareRequest(req: CommonRequest) {
@@ -156,7 +159,7 @@ export function createProviderConfigs(): AIProviderConfig[] {
             Authorization: `Bearer ${nvidiaKey ?? ''}`,
           },
           body: {
-            model: 'meta/llama-3.1-8b-instruct',
+            model: nvidiaModel,
             messages: req.messages,
             temperature: req.temperature,
             max_tokens: req.max_tokens,
@@ -169,7 +172,7 @@ export function createProviderConfigs(): AIProviderConfig[] {
         const message = choices?.[0]?.message as Record<string, unknown> | undefined
         return {
           content: (message?.content as string) ?? '',
-          model: (body?.model as string) ?? 'meta/llama-3.1-8b-instruct',
+          model: (body?.model as string) ?? nvidiaModel,
         }
       },
     },
