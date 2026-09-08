@@ -41,7 +41,14 @@ export async function createChatCompletion(
   request: AICompletionRequest,
 ): Promise<AICompletionResponse> {
   const temperature = request.temperature ?? 0.7
-  const maxTokens = request.max_tokens ?? 1024
+  
+  // Enforce a strict max_tokens cap to protect against credit exhaustion.
+  // Defaults to 800 tokens (~600 words), customizable via process.env.AI_MAX_TOKENS.
+  const defaultCap = 800
+  const envCap = process.env.AI_MAX_TOKENS ? parseInt(process.env.AI_MAX_TOKENS, 10) : defaultCap
+  const tokenCap = isNaN(envCap) || envCap <= 0 ? defaultCap : envCap
+  const maxTokens = Math.min(request.max_tokens ?? tokenCap, tokenCap)
+
   const messages = request.messages
 
   const providers = createProviderConfigs()
