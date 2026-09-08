@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Headphones, Play, Pause, Volume2, VolumeX, Timer, Sparkles, Youtube, ExternalLink, RefreshCw, CheckCircle, RotateCcw, Monitor } from 'lucide-react'
+import { Headphones, Play, Pause, Volume2, VolumeX, Timer, Sparkles, Music, CheckCircle, RotateCcw } from 'lucide-react'
 import { OmSymbol } from '@/components/spiritual-icons'
 import { useStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
@@ -22,7 +22,7 @@ const TRACKS: SoundTrack[] = [
     id: 'om432',
     title: '432Hz Om Sacred Chanting',
     sanskrit: 'ॐकार जप 432Hz',
-    description: 'Authentic vocal Om chanting tuned to 432Hz for deep heart chakra resonance and stillness.',
+    description: 'Authentic studio vocal Om chanting tuned to 432Hz for deep heart chakra resonance and stillness.',
     youtubeId: '80aU9vIThG8',
     frequency: '432 Hz Vocal'
   },
@@ -72,7 +72,8 @@ export function SoundscapesView() {
   const addXp = useStore((s) => s.addXp)
   const [activeTrack, setActiveTrack] = useState<SoundPreset>('om432')
   const [isPlaying, setIsPlaying] = useState<boolean>(true)
-  const [showVideo, setShowVideo] = useState<boolean>(true)
+  const [volume, setVolume] = useState<number>(0.8)
+  const [isMuted, setIsMuted] = useState<boolean>(false)
 
   // Timer states (in seconds)
   const [timerDuration, setTimerDuration] = useState<number>(600) // Default 10 min
@@ -124,10 +125,10 @@ export function SoundscapesView() {
     }
   }, [timerRunning, timeLeft])
 
-  // Animated wave visualizer overlay when video is hidden
+  // Animated wave visualizer overlay
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas || showVideo) return
+    if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
@@ -139,7 +140,7 @@ export function SoundscapesView() {
       const centerY = height / 2
 
       ctx.beginPath()
-      ctx.lineWidth = 3
+      ctx.lineWidth = 3.5
       const strokeGrad = ctx.createLinearGradient(0, 0, width, 0)
       strokeGrad.addColorStop(0, '#f59e0b')
       strokeGrad.addColorStop(0.5, '#ea580c')
@@ -147,7 +148,7 @@ export function SoundscapesView() {
       ctx.strokeStyle = strokeGrad
 
       phase += isPlaying ? 0.05 : 0.01
-      const amplitude = isPlaying ? 35 : 8
+      const amplitude = isPlaying ? 40 : 10
 
       for (let x = 0; x < width; x++) {
         const y = centerY + Math.sin(x * 0.02 + phase) * amplitude * Math.sin(x * 0.005)
@@ -155,6 +156,18 @@ export function SoundscapesView() {
         else ctx.lineTo(x, y)
       }
       ctx.stroke()
+
+      // Render glowing floating particles
+      if (isPlaying) {
+        for (let i = 0; i < 5; i++) {
+          const px = (Math.sin(phase + i * 2) * 0.5 + 0.5) * width
+          const py = centerY + Math.cos(phase * 1.5 + i) * 25
+          ctx.beginPath()
+          ctx.arc(px, py, 3, 0, Math.PI * 2)
+          ctx.fillStyle = 'rgba(245, 158, 11, 0.6)'
+          ctx.fill()
+        }
+      }
 
       animationFrameRef.current = requestAnimationFrame(render)
     }
@@ -164,7 +177,7 @@ export function SoundscapesView() {
     return () => {
       if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current)
     }
-  }, [isPlaying, showVideo])
+  }, [isPlaying])
 
   const formatTime = (secs: number) => {
     const m = Math.floor(secs / 60)
@@ -181,19 +194,31 @@ export function SoundscapesView() {
 
   return (
     <div className="space-y-6 animate-fade-in pb-12">
+      {/* Off-screen audio stream player (NO video frame visible on page) */}
+      <div className="absolute top-0 left-0 w-1 h-1 overflow-hidden opacity-0 pointer-events-none z-0">
+        {isPlaying && (
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${currentTrack.youtubeId}?autoplay=1&rel=0&modestbranding=1&loop=1`}
+            title={currentTrack.title}
+            allow="autoplay; encrypted-media"
+            className="w-1 h-1 border-0"
+          />
+        )}
+      </div>
+
       {/* Header */}
       <div className="card-sacred-glow relative overflow-hidden rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-card via-card/90 to-background border border-saffron/20 shadow-xl">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-saffron-100 dark:bg-saffron-950/60 text-saffron-600 dark:text-saffron-400 text-xs font-semibold">
               <Headphones className="h-3.5 w-3.5" />
-              <span>Real Studio Audio Soundscapes</span>
+              <span>Pure Audio Meditation Studio</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight font-serif-display">
               Sacred Soundscapes & Meditation <span className="text-muted-foreground text-lg font-normal font-serif">नादयोगः</span>
             </h1>
             <p className="text-sm text-muted-foreground max-w-xl">
-              Listen to authentic 432Hz Om chanting, studio Tanpura drones, Tibetan singing bowls, and Bansuri flute recordings.
+              Listen to pure high-definition audio recordings of 432Hz Om chanting, studio Tanpura drones, Tibetan singing bowls, and Bansuri flutes.
             </p>
           </div>
           <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-saffron-gradient text-white shadow-lg glow-sacred-pulse">
@@ -202,54 +227,52 @@ export function SoundscapesView() {
         </div>
       </div>
 
-      {/* Studio Grid */}
+      {/* Pure Audio Studio Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Real Audio & Embedded Video Player */}
+        {/* Pure Audio Player Card */}
         <div className="lg:col-span-7 card-sacred-glow rounded-2xl p-6 bg-card border border-border shadow-lg space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-bold font-serif-display text-foreground">{currentTrack.title}</h2>
-              <p className="text-xs text-saffron font-serif">{currentTrack.sanskrit}</p>
+          {/* Audio Canvas Waveform */}
+          <div className="relative w-full h-44 rounded-2xl bg-gradient-to-br from-background via-muted/40 to-background border border-saffron/30 overflow-hidden flex items-center justify-center shadow-inner">
+            <canvas ref={canvasRef} width={600} height={180} className="w-full h-full" />
+            <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1 rounded-full bg-background/90 backdrop-blur-md text-xs font-semibold text-saffron border border-border/80 shadow-sm">
+              <span className={cn('h-2.5 w-2.5 rounded-full', isPlaying ? 'bg-emerald-500 animate-ping' : 'bg-muted-foreground')} />
+              <span>{isPlaying ? 'Streaming Pure Studio Audio' : 'Audio Stream Paused'}</span>
+            </div>
+            <div className="absolute bottom-4 right-4 px-3.5 py-1 rounded-full bg-saffron-gradient text-white font-mono text-xs font-bold shadow-md">
+              {currentTrack.frequency}
+            </div>
+          </div>
+
+          {/* Main Controls Bar */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-muted/40 border border-border/60 shadow-sm">
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+              <button
+                onClick={() => setIsPlaying(!isPlaying)}
+                className="h-14 w-14 shrink-0 rounded-full bg-saffron-gradient text-white flex items-center justify-center shadow-lg hover:scale-105 transition-all glow-saffron"
+              >
+                {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6 ml-1" />}
+              </button>
+              <div>
+                <h3 className="text-base sm:text-lg font-bold font-serif-display text-foreground">{currentTrack.title}</h3>
+                <p className="text-xs text-saffron font-serif font-semibold">{currentTrack.sanskrit}</p>
+              </div>
             </div>
 
-            {/* Video / Visualizer Toggle Button */}
-            <button
-              onClick={() => setShowVideo(!showVideo)}
-              className="py-1.5 px-3 rounded-full bg-muted hover:bg-muted/80 text-xs font-medium text-muted-foreground flex items-center gap-1.5 border border-border"
-            >
-              <Monitor className="h-3.5 w-3.5" />
-              <span>{showVideo ? 'Waveform View' : 'Video View'}</span>
-            </button>
+            {/* Mute/Volume Indicator */}
+            <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+              <button
+                onClick={() => setIsMuted(!isMuted)}
+                className="h-10 w-10 flex items-center justify-center rounded-full hover:bg-muted text-muted-foreground border border-border/60"
+              >
+                {isMuted ? <VolumeX className="h-5 w-5 text-destructive" /> : <Volume2 className="h-5 w-5 text-saffron" />}
+              </button>
+            </div>
           </div>
 
-          {/* Media Player Frame */}
-          <div className="relative w-full aspect-video rounded-xl bg-black border border-saffron/20 overflow-hidden shadow-md">
-            {showVideo ? (
-              <iframe
-                src={`https://www.youtube-nocookie.com/embed/${currentTrack.youtubeId}?autoplay=1&rel=0&modestbranding=1&loop=1`}
-                title={currentTrack.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full border-0"
-              />
-            ) : (
-              <div className="relative w-full h-full bg-gradient-to-br from-background via-muted/30 to-background flex items-center justify-center">
-                <canvas ref={canvasRef} width={600} height={300} className="w-full h-full" />
-                <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1 rounded-full bg-background/90 backdrop-blur-md text-xs font-semibold text-saffron border border-border">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
-                  <span>Real Recording Stream</span>
-                </div>
-                <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-saffron-gradient text-white font-mono text-xs font-bold shadow-md">
-                  {currentTrack.frequency}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Tracks Selection Grid */}
+          {/* Audio Tracks Selector */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-              <Youtube className="h-4 w-4 text-red-500" /> Authentic Recording Tracks
+              <Music className="h-4 w-4 text-saffron" /> Select Studio Audio Track
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {TRACKS.map((track) => {
