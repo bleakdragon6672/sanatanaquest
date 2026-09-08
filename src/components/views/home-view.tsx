@@ -92,7 +92,7 @@ export function HomeView() {
   return (
     <div className="space-y-6 stagger-group">
       {/* Hero */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_18%,transparent)] via-card to-[color-mix(in_oklch,var(--gold)_12%,transparent)]">
+      <Card className="gradient-border relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_18%,transparent)] via-card to-[color-mix(in_oklch,var(--gold)_12%,transparent)]">
         <div className="absolute -right-12 -top-12 opacity-[0.08] pointer-events-none">
           <LotusIcon size={240} className="text-primary" />
         </div>
@@ -105,10 +105,10 @@ export function HomeView() {
               <span className="w-2 h-2 rounded-full bg-saffron" />
               ॐ नमः · Welcome back
             </span>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+            <h1 className="display-heading text-2xl sm:text-3xl lg:text-4xl font-bold mb-2" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
               Hari Om, <span className="text-saffron-gradient">{store.userName}</span>
             </h1>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl prose-relaxed">
               Continue your sacred quest. Read a verse, log your practice, and let the Gita illumine your day.
             </p>
           </div>
@@ -172,7 +172,7 @@ export function HomeView() {
       </Card>
 
       {/* Overall scripture progress */}
-      <Card className="p-5 sm:p-6 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_10%,transparent)] to-[color-mix(in_oklch,var(--gold)_8%,transparent)]">
+      <Card className="gradient-border p-5 sm:p-6 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_10%,transparent)] to-[color-mix(in_oklch,var(--gold)_8%,transparent)]">
         <div className="absolute -right-6 -top-6 opacity-[0.06] pointer-events-none">
           <span className="text-8xl font-bold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>ॐ</span>
         </div>
@@ -182,7 +182,7 @@ export function HomeView() {
               <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
                 📚 Complete Scripture Library
               </span>
-              <h2 className="text-lg font-bold mt-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+              <h2 className="display-heading text-lg font-bold mt-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
                 Overall Progress
               </h2>
             </div>
@@ -264,13 +264,13 @@ export function HomeView() {
       <VerseOfDay />
 
       {/* Chapter progress strip */}
-      <Card className="p-5">
+      <Card className="gradient-border p-5">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h2 className="text-lg font-semibold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+            <h2 className="display-heading text-lg font-semibold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
               Your Journey Through the Gita
             </h2>
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <p className="text-xs text-muted-foreground mt-0.5 prose-relaxed">
               Tap any chapter to continue reading. {completionPct}% complete.
             </p>
           </div>

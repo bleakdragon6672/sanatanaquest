@@ -1,6 +1,6 @@
 'use client'
 
-import { Home, BookOpen, Sparkles, CalendarCheck, GitBranch, Trophy, Award, NotebookPen, BarChart3, User, Search, Menu, X, Crown, Bookmark } from 'lucide-react'
+import { Home, BookOpen, Sparkles, CalendarCheck, GitBranch, Trophy, Award, NotebookPen, BarChart3, User, Search, Menu, X, Crown, Bookmark, Network, Headphones, Compass, GraduationCap } from 'lucide-react'
 import { useNav, ViewKey } from '@/components/nav-context'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -26,6 +26,10 @@ const NAV_ITEMS: NavItem[] = [
   { view: 'yogasutras', label: 'Yoga Sutras', sanskritLabel: 'योगसूत्राणि', icon: BookOpen, description: 'Patanjali\'s 196 aphorisms of yoga' },
   { view: 'ashtavakragita', label: 'Ashtavakra Gita', sanskritLabel: 'अष्टावक्रगीता', icon: BookOpen, description: 'Advaita dialogue ~298 verses' },
   { view: 'treasury', label: 'Personal Treasury', sanskritLabel: 'कोशः', icon: Bookmark, description: 'Saved verses, highlights & notes' },
+  { view: 'mindmap', label: 'Dharma Mind Map', sanskritLabel: 'धर्मचित्रम्', icon: Network, description: 'Interactive cosmic concept canvas' },
+  { view: 'soundscapes', label: 'Sacred Soundscapes', sanskritLabel: 'नादयोगः', icon: Headphones, description: '432Hz Om & meditation visualizer' },
+  { view: 'dilemma', label: 'Dharma Dilemmas', sanskritLabel: 'धर्मसंकटम्', icon: Compass, description: 'Modern struggles & Gita wisdom' },
+  { view: 'memorizer', label: 'Shloka Memorizer', sanskritLabel: 'स्वाध्यायः', icon: GraduationCap, description: 'Gamified shloka flip cards & quiz' },
   { view: 'guide', label: 'AI Spiritual Guide', sanskritLabel: 'गुरु', icon: Sparkles, description: 'Ask, explain, student mode' },
   { view: 'tracker', label: 'Daily Tracker', sanskritLabel: 'साधनम्', icon: CalendarCheck, description: 'Log your spiritual practice' },
   { view: 'skilltree', label: 'Skill Tree', sanskritLabel: 'वृक्ष', icon: GitBranch, description: 'Unlock paths of yoga' },

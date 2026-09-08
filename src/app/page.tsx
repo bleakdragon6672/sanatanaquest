@@ -41,6 +41,10 @@ const LeaderboardView = dynamic(() => import('@/components/views/leaderboard-vie
 const YogaSutrasView = dynamic(() => import('@/components/views/yoga-sutras-view').then(m => ({ default: m.YogaSutrasView })), { ssr: false, loading: () => skeleton })
 const AshtavakraGitaView = dynamic(() => import('@/components/views/ashtavakra-gita-view').then(m => ({ default: m.AshtavakraGitaView })), { ssr: false, loading: () => skeleton })
 const TreasuryView = dynamic(() => import('@/components/views/treasury-view').then(m => ({ default: m.TreasuryView })), { ssr: false, loading: () => skeleton })
+const MindMapView = dynamic(() => import('@/components/views/mindmap-view').then(m => ({ default: m.MindMapView })), { ssr: false, loading: () => skeleton })
+const SoundscapesView = dynamic(() => import('@/components/views/soundscapes-view').then(m => ({ default: m.SoundscapesView })), { ssr: false, loading: () => skeleton })
+const DilemmaView = dynamic(() => import('@/components/views/dilemma-view').then(m => ({ default: m.DilemmaView })), { ssr: false, loading: () => skeleton })
+const MemorizerView = dynamic(() => import('@/components/views/memorizer-view').then(m => ({ default: m.MemorizerView })), { ssr: false, loading: () => skeleton })
 import { OmSymbol } from '@/components/spiritual-icons'
 import { useStore } from '@/lib/store'
 import { BookOpen, Search, Menu } from 'lucide-react'
@@ -87,6 +91,10 @@ function TopBar() {
     yogasutras: { title: 'Yoga Sutras', sanskrit: 'योगसूत्राणि' },
     ashtavakragita: { title: 'Ashtavakra Gita', sanskrit: 'अष्टावक्रगीता' },
     treasury: { title: 'Personal Treasury', sanskrit: 'कोशः' },
+    mindmap: { title: 'Dharma Mind Map', sanskrit: 'धर्मचित्रम्' },
+    soundscapes: { title: 'Sacred Soundscapes', sanskrit: 'नादयोगः' },
+    dilemma: { title: 'Dharma Dilemmas', sanskrit: 'धर्मसंकटम्' },
+    memorizer: { title: 'Shloka Memorizer', sanskrit: 'स्वाध्यायः' },
   }
 
   const current = viewTitles[view] ?? viewTitles.home
@@ -155,9 +163,14 @@ function ViewRouter() {
     case 'yogasutras': return <YogaSutrasView />
     case 'ashtavakragita': return <AshtavakraGitaView />
     case 'treasury': return <TreasuryView />
+    case 'mindmap': return <MindMapView />
+    case 'soundscapes': return <SoundscapesView />
+    case 'dilemma': return <DilemmaView />
+    case 'memorizer': return <MemorizerView />
     default: return <HomeView />
   }
 }
+
 
 /**
  * useCloudAutoSave — debounced 2-second auto-save of the entire store state to

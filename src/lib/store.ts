@@ -260,6 +260,7 @@ interface StoreState {
   checkInChallenge: (id: string) => void
 
   unlockSkill: (id: string) => void
+  addXp: (amount: number) => void
 
   resetAll: () => void
 
@@ -530,6 +531,11 @@ export const useStore = create<StoreState>()(
           unlockedSkills: [...state.unlockedSkills, id],
           totalXp: state.totalXp + xpGain,
         })
+      },
+
+      addXp: (amount: number) => {
+        const state = get()
+        set({ totalXp: Math.max(0, state.totalXp + amount) })
       },
 
       resetAll: () => set({ ...initialState, joinedAt: Date.now() }),

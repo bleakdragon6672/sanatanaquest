@@ -22,6 +22,10 @@ export type ViewKey =
   | 'search'
   | 'leaderboard'
   | 'treasury'
+  | 'mindmap'
+  | 'soundscapes'
+  | 'dilemma'
+  | 'memorizer'
 
 interface NavState {
   view: ViewKey
