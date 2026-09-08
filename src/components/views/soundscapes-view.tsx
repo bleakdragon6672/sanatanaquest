@@ -1,12 +1,13 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Headphones, Play, Pause, Volume2, VolumeX, Timer, Sparkles, Music, CheckCircle, RotateCcw } from 'lucide-react'
+import { Headphones, Play, Pause, Volume2, VolumeX, Timer, Sparkles, Youtube, Radio, CheckCircle, RotateCcw, Volume1 } from 'lucide-react'
 import { OmSymbol } from '@/components/spiritual-icons'
 import { useStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 
 export type SoundPreset = 'om432' | 'tanpura' | 'singingBowl' | 'gangesRain' | 'bansuri' | 'tandavChant'
+export type AudioEngine = 'youtube' | 'webAudio'
 
 interface SoundTrack {
   id: SoundPreset
@@ -71,7 +72,8 @@ const TRACKS: SoundTrack[] = [
 export function SoundscapesView() {
   const addXp = useStore((s) => s.addXp)
   const [activeTrack, setActiveTrack] = useState<SoundPreset>('om432')
-  const [isPlaying, setIsPlaying] = useState<boolean>(true)
+  const [engine, setEngine] = useState<AudioEngine>('youtube')
+  const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [volume, setVolume] = useState<number>(0.8)
   const [isMuted, setIsMuted] = useState<boolean>(false)
 
@@ -85,13 +87,187 @@ export function SoundscapesView() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const animationFrameRef = useRef<number | null>(null)
 
+  // Web Audio refs for fallback engine
+  const audioCtxRef = useRef<AudioContext | null>(null)
+  const masterGainRef = useRef<GainNode | null>(null)
+  const activeNodesRef = useRef<AudioNode[]>([])
+
   const currentTrack = TRACKS.find((t) => t.id === activeTrack) ?? TRACKS[0]
 
-  // Singing bowl completion chime via Web Audio
+  // Initialize Web Audio Context
+  const getAudioContext = () => {
+    if (!audioCtxRef.current) {
+      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
+      audioCtxRef.current = new AudioCtx()
+      const master = audioCtxRef.current.createGain()
+      master.gain.value = volume
+      master.connect(audioCtxRef.current.destination)
+      masterGainRef.current = master
+    }
+    if (audioCtxRef.current.state === 'suspended') {
+      audioCtxRef.current.resume()
+    }
+    return audioCtxRef.current
+  }
+
+  // Stop current Web Audio nodes
+  const stopWebAudio = () => {
+    activeNodesRef.current.forEach(node => {
+      try {
+        if ('stop' in node && typeof (node as AudioScheduledSourceNode).stop === 'function') {
+          (node as AudioScheduledSourceNode).stop()
+        }
+        node.disconnect()
+      } catch {
+        /* ignore */
+      }
+    })
+    activeNodesRef.current = []
+  }
+
+  // Start Web Audio synth preset
+  const startWebAudioSound = (preset: SoundPreset) => {
+    stopWebAudio()
+    const ctx = getAudioContext()
+    const master = masterGainRef.current!
+
+    if (preset === 'om432') {
+      const freqs = [108, 216, 432, 864]
+      const gains = [0.3, 0.25, 0.35, 0.1]
+      const nodes: AudioNode[] = []
+
+      freqs.forEach((freq, idx) => {
+        const osc = ctx.createOscillator()
+        const g = ctx.createGain()
+        osc.type = idx === 0 ? 'sine' : 'triangle'
+        osc.frequency.setValueAtTime(freq, ctx.currentTime)
+        g.gain.setValueAtTime(gains[idx], ctx.currentTime)
+        osc.connect(g)
+        g.connect(master)
+        osc.start()
+        nodes.push(osc, g)
+      })
+
+      activeNodesRef.current = nodes
+    } else if (preset === 'tanpura') {
+      const stringFreqs = [204.15, 136.1, 136.1, 68.05]
+      const nodes: AudioNode[] = []
+
+      let stringIndex = 0
+      const pluckNextString = () => {
+        if (!audioCtxRef.current || audioCtxRef.current.state !== 'running') return
+        const freq = stringFreqs[stringIndex]
+        const now = ctx.currentTime
+
+        const osc = ctx.createOscillator()
+        const g = ctx.createGain()
+        osc.type = 'triangle'
+        osc.frequency.setValueAtTime(freq, now)
+        g.gain.setValueAtTime(0.001, now)
+        g.gain.linearRampToValueAtTime(0.3, now + 0.05)
+        g.gain.exponentialRampToValueAtTime(0.001, now + 3.0)
+
+        osc.connect(g)
+        g.connect(master)
+        osc.start(now)
+        osc.stop(now + 3.1)
+
+        stringIndex = (stringIndex + 1) % stringFreqs.length
+      }
+
+      pluckNextString()
+      const interval = setInterval(pluckNextString, 850)
+      nodes.push({ disconnect: () => clearInterval(interval) } as unknown as AudioNode)
+
+      activeNodesRef.current = nodes
+    } else if (preset === 'singingBowl') {
+      const nodes: AudioNode[] = []
+      const strikeBowl = () => {
+        if (!audioCtxRef.current || audioCtxRef.current.state !== 'running') return
+        const now = ctx.currentTime
+        const osc1 = ctx.createOscillator()
+        const osc2 = ctx.createOscillator()
+        const g = ctx.createGain()
+
+        osc1.type = 'sine'
+        osc2.type = 'sine'
+        osc1.frequency.setValueAtTime(528, now)
+        osc2.frequency.setValueAtTime(530.5, now)
+
+        g.gain.setValueAtTime(0.001, now)
+        g.gain.linearRampToValueAtTime(0.4, now + 0.02)
+        g.gain.exponentialRampToValueAtTime(0.001, now + 5.5)
+
+        osc1.connect(g)
+        osc2.connect(g)
+        g.connect(master)
+        osc1.start(now)
+        osc2.start(now)
+        osc1.stop(now + 5.6)
+        osc2.stop(now + 5.6)
+      }
+
+      strikeBowl()
+      const interval = setInterval(strikeBowl, 5000)
+      nodes.push({ disconnect: () => clearInterval(interval) } as unknown as AudioNode)
+      activeNodesRef.current = nodes
+    } else {
+      // Ganges Rain noise buffer
+      const bufferSize = ctx.sampleRate * 2
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate)
+      const data = buffer.getChannelData(0)
+      for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1
+
+      const noise = ctx.createBufferSource()
+      noise.buffer = buffer
+      noise.loop = true
+
+      const filter = ctx.createBiquadFilter()
+      filter.type = 'lowpass'
+      filter.frequency.setValueAtTime(700, ctx.currentTime)
+
+      const gRain = ctx.createGain()
+      gRain.gain.setValueAtTime(0.3, ctx.currentTime)
+
+      noise.connect(filter)
+      filter.connect(gRain)
+      gRain.connect(master)
+      noise.start()
+      activeNodesRef.current = [noise, filter, gRain]
+    }
+  }
+
+  // Toggle play/pause
+  const togglePlay = () => {
+    if (isPlaying) {
+      if (engine === 'webAudio') stopWebAudio()
+      setIsPlaying(false)
+    } else {
+      if (engine === 'webAudio') startWebAudioSound(activeTrack)
+      setIsPlaying(true)
+    }
+  }
+
+  const changeTrack = (trackId: SoundPreset) => {
+    setActiveTrack(trackId)
+    setIsPlaying(true)
+    if (engine === 'webAudio') {
+      startWebAudioSound(trackId)
+    }
+  }
+
+  const changeEngine = (newEngine: AudioEngine) => {
+    if (engine === 'webAudio') stopWebAudio()
+    setEngine(newEngine)
+    if (isPlaying && newEngine === 'webAudio') {
+      startWebAudioSound(activeTrack)
+    }
+  }
+
+  // Singing bowl completion chime
   const playCompletionChime = () => {
     try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
-      const ctx = new AudioCtx()
+      const ctx = getAudioContext()
       const osc = ctx.createOscillator()
       const gain = ctx.createGain()
       osc.type = 'sine'
@@ -148,7 +324,7 @@ export function SoundscapesView() {
       ctx.strokeStyle = strokeGrad
 
       phase += isPlaying ? 0.05 : 0.01
-      const amplitude = isPlaying ? 40 : 10
+      const amplitude = isPlaying ? 35 : 8
 
       for (let x = 0; x < width; x++) {
         const y = centerY + Math.sin(x * 0.02 + phase) * amplitude * Math.sin(x * 0.005)
@@ -156,18 +332,6 @@ export function SoundscapesView() {
         else ctx.lineTo(x, y)
       }
       ctx.stroke()
-
-      // Render glowing floating particles
-      if (isPlaying) {
-        for (let i = 0; i < 5; i++) {
-          const px = (Math.sin(phase + i * 2) * 0.5 + 0.5) * width
-          const py = centerY + Math.cos(phase * 1.5 + i) * 25
-          ctx.beginPath()
-          ctx.arc(px, py, 3, 0, Math.PI * 2)
-          ctx.fillStyle = 'rgba(245, 158, 11, 0.6)'
-          ctx.fill()
-        }
-      }
 
       animationFrameRef.current = requestAnimationFrame(render)
     }
@@ -178,6 +342,13 @@ export function SoundscapesView() {
       if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current)
     }
   }, [isPlaying])
+
+  // Cleanup Web Audio on unmount
+  useEffect(() => {
+    return () => {
+      stopWebAudio()
+    }
+  }, [])
 
   const formatTime = (secs: number) => {
     const m = Math.floor(secs / 60)
@@ -194,31 +365,19 @@ export function SoundscapesView() {
 
   return (
     <div className="space-y-6 animate-fade-in pb-12">
-      {/* Off-screen audio stream player (NO video frame visible on page) */}
-      <div className="absolute top-0 left-0 w-1 h-1 overflow-hidden opacity-0 pointer-events-none z-0">
-        {isPlaying && (
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${currentTrack.youtubeId}?autoplay=1&rel=0&modestbranding=1&loop=1`}
-            title={currentTrack.title}
-            allow="autoplay; encrypted-media"
-            className="w-1 h-1 border-0"
-          />
-        )}
-      </div>
-
       {/* Header */}
       <div className="card-sacred-glow relative overflow-hidden rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-card via-card/90 to-background border border-saffron/20 shadow-xl">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-saffron-100 dark:bg-saffron-950/60 text-saffron-600 dark:text-saffron-400 text-xs font-semibold">
               <Headphones className="h-3.5 w-3.5" />
-              <span>Pure Audio Meditation Studio</span>
+              <span>Interactive Sacred Sound Studio</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight font-serif-display">
               Sacred Soundscapes & Meditation <span className="text-muted-foreground text-lg font-normal font-serif">नादयोगः</span>
             </h1>
             <p className="text-sm text-muted-foreground max-w-xl">
-              Listen to pure high-definition audio recordings of 432Hz Om chanting, studio Tanpura drones, Tibetan singing bowls, and Bansuri flutes.
+              Listen to authentic 432Hz Om chanting, studio Tanpura drones, Tibetan singing bowls, and Bansuri flutes with guaranteed audio playback.
             </p>
           </div>
           <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-saffron-gradient text-white shadow-lg glow-sacred-pulse">
@@ -227,63 +386,110 @@ export function SoundscapesView() {
         </div>
       </div>
 
-      {/* Pure Audio Studio Grid */}
+      {/* Main Studio Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Pure Audio Player Card */}
+        {/* Main Player Card */}
         <div className="lg:col-span-7 card-sacred-glow rounded-2xl p-6 bg-card border border-border shadow-lg space-y-6">
-          {/* Audio Canvas Waveform */}
-          <div className="relative w-full h-44 rounded-2xl bg-gradient-to-br from-background via-muted/40 to-background border border-saffron/30 overflow-hidden flex items-center justify-center shadow-inner">
-            <canvas ref={canvasRef} width={600} height={180} className="w-full h-full" />
-            <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1 rounded-full bg-background/90 backdrop-blur-md text-xs font-semibold text-saffron border border-border/80 shadow-sm">
-              <span className={cn('h-2.5 w-2.5 rounded-full', isPlaying ? 'bg-emerald-500 animate-ping' : 'bg-muted-foreground')} />
-              <span>{isPlaying ? 'Streaming Pure Studio Audio' : 'Audio Stream Paused'}</span>
+          {/* Audio Engine Selector Tabs */}
+          <div className="flex items-center justify-between border-b border-border/60 pb-4">
+            <div>
+              <h2 className="text-lg font-bold font-serif-display text-foreground">{currentTrack.title}</h2>
+              <p className="text-xs text-saffron font-serif">{currentTrack.sanskrit}</p>
             </div>
-            <div className="absolute bottom-4 right-4 px-3.5 py-1 rounded-full bg-saffron-gradient text-white font-mono text-xs font-bold shadow-md">
-              {currentTrack.frequency}
+
+            <div className="flex items-center gap-1.5 bg-muted p-1 rounded-xl">
+              <button
+                onClick={() => changeEngine('youtube')}
+                className={cn(
+                  'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5',
+                  engine === 'youtube'
+                    ? 'bg-saffron-gradient text-white shadow-md'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                <Youtube className="h-3.5 w-3.5" />
+                <span>HD Recording Stream</span>
+              </button>
+              <button
+                onClick={() => changeEngine('webAudio')}
+                className={cn(
+                  'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5',
+                  engine === 'webAudio'
+                    ? 'bg-saffron-gradient text-white shadow-md'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                <Radio className="h-3.5 w-3.5" />
+                <span>Acoustic Synth</span>
+              </button>
             </div>
           </div>
 
-          {/* Main Controls Bar */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-muted/40 border border-border/60 shadow-sm">
-            <div className="flex items-center gap-4 w-full sm:w-auto">
-              <button
-                onClick={() => setIsPlaying(!isPlaying)}
-                className="h-14 w-14 shrink-0 rounded-full bg-saffron-gradient text-white flex items-center justify-center shadow-lg hover:scale-105 transition-all glow-saffron"
-              >
-                {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6 ml-1" />}
-              </button>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold font-serif-display text-foreground">{currentTrack.title}</h3>
-                <p className="text-xs text-saffron font-serif font-semibold">{currentTrack.sanskrit}</p>
+          {/* Interactive Player Window */}
+          {engine === 'youtube' ? (
+            <div className="space-y-4">
+              <div className="relative w-full aspect-video rounded-2xl bg-black border border-saffron/30 overflow-hidden shadow-xl">
+                {isPlaying ? (
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${currentTrack.youtubeId}?autoplay=1&rel=0&modestbranding=1&loop=1`}
+                    title={currentTrack.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full border-0"
+                  />
+                ) : (
+                  <div
+                    onClick={() => setIsPlaying(true)}
+                    className="w-full h-full bg-gradient-to-br from-background via-muted to-background flex flex-col items-center justify-center gap-3 cursor-pointer group"
+                  >
+                    <div className="h-16 w-16 rounded-full bg-saffron-gradient text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform glow-sacred-pulse">
+                      <Play className="h-8 w-8 ml-1" />
+                    </div>
+                    <span className="text-xs font-bold text-saffron">Click to Play HD Audio Stream</span>
+                  </div>
+                )}
+              </div>
+              <p className="text-xs text-muted-foreground text-center">
+                Press play directly inside the HD stream above for instant live audio chanting.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {/* Web Audio Canvas Waveform */}
+              <div className="relative w-full h-44 rounded-2xl bg-gradient-to-br from-background via-muted/40 to-background border border-saffron/30 overflow-hidden flex items-center justify-center shadow-inner">
+                <canvas ref={canvasRef} width={600} height={180} className="w-full h-full" />
+                <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1 rounded-full bg-background/90 backdrop-blur-md text-xs font-semibold text-saffron border border-border/80 shadow-sm">
+                  <span className={cn('h-2.5 w-2.5 rounded-full', isPlaying ? 'bg-emerald-500 animate-ping' : 'bg-muted-foreground')} />
+                  <span>{isPlaying ? 'Synthesizing Audio Tone' : 'Synth Paused'}</span>
+                </div>
+                <div className="absolute bottom-4 right-4 px-3.5 py-1 rounded-full bg-saffron-gradient text-white font-mono text-xs font-bold shadow-md">
+                  {currentTrack.frequency}
+                </div>
+              </div>
+
+              {/* Web Audio Main Play Button */}
+              <div className="flex items-center justify-center gap-4 p-4 rounded-xl bg-muted/40 border border-border">
+                <button
+                  onClick={togglePlay}
+                  className="py-3 px-8 rounded-xl bg-saffron-gradient text-white font-bold text-sm shadow-lg hover:scale-105 transition-all flex items-center gap-2 glow-saffron"
+                >
+                  {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+                  <span>{isPlaying ? 'Pause Acoustic Synth' : 'Start Acoustic Synth'}</span>
+                </button>
               </div>
             </div>
+          )}
 
-            {/* Mute/Volume Indicator */}
-            <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
-              <button
-                onClick={() => setIsMuted(!isMuted)}
-                className="h-10 w-10 flex items-center justify-center rounded-full hover:bg-muted text-muted-foreground border border-border/60"
-              >
-                {isMuted ? <VolumeX className="h-5 w-5 text-destructive" /> : <Volume2 className="h-5 w-5 text-saffron" />}
-              </button>
-            </div>
-          </div>
-
-          {/* Audio Tracks Selector */}
+          {/* Sound Presets Selector */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-              <Music className="h-4 w-4 text-saffron" /> Select Studio Audio Track
-            </h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Select Soundscape Preset</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {TRACKS.map((track) => {
                 const isActive = activeTrack === track.id
                 return (
                   <button
                     key={track.id}
-                    onClick={() => {
-                      setActiveTrack(track.id)
-                      setIsPlaying(true)
-                    }}
+                    onClick={() => changeTrack(track.id)}
                     className={cn(
                       'p-4 rounded-xl border text-left transition-all relative overflow-hidden flex flex-col justify-between gap-2',
                       isActive
