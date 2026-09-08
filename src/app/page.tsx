@@ -40,6 +40,7 @@ const SearchView = dynamic(() => import('@/components/views/search-view').then(m
 const LeaderboardView = dynamic(() => import('@/components/views/leaderboard-view').then(m => ({ default: m.LeaderboardView })), { ssr: false, loading: () => skeleton })
 const YogaSutrasView = dynamic(() => import('@/components/views/yoga-sutras-view').then(m => ({ default: m.YogaSutrasView })), { ssr: false, loading: () => skeleton })
 const AshtavakraGitaView = dynamic(() => import('@/components/views/ashtavakra-gita-view').then(m => ({ default: m.AshtavakraGitaView })), { ssr: false, loading: () => skeleton })
+const TreasuryView = dynamic(() => import('@/components/views/treasury-view').then(m => ({ default: m.TreasuryView })), { ssr: false, loading: () => skeleton })
 import { OmSymbol } from '@/components/spiritual-icons'
 import { useStore } from '@/lib/store'
 import { BookOpen, Search, Menu } from 'lucide-react'
@@ -85,6 +86,7 @@ function TopBar() {
     leaderboard: { title: 'Leaderboard', sanskrit: 'लीडरबोर्ड' },
     yogasutras: { title: 'Yoga Sutras', sanskrit: 'योगसूत्राणि' },
     ashtavakragita: { title: 'Ashtavakra Gita', sanskrit: 'अष्टावक्रगीता' },
+    treasury: { title: 'Personal Treasury', sanskrit: 'कोशः' },
   }
 
   const current = viewTitles[view] ?? viewTitles.home
@@ -152,6 +154,7 @@ function ViewRouter() {
     case 'leaderboard': return <LeaderboardView />
     case 'yogasutras': return <YogaSutrasView />
     case 'ashtavakragita': return <AshtavakraGitaView />
+    case 'treasury': return <TreasuryView />
     default: return <HomeView />
   }
 }

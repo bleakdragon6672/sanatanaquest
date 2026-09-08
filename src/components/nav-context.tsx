@@ -21,6 +21,7 @@ export type ViewKey =
   | 'profile'
   | 'search'
   | 'leaderboard'
+  | 'treasury'
 
 interface NavState {
   view: ViewKey
