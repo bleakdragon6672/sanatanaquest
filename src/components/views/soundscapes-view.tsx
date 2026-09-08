@@ -114,100 +114,195 @@ export function SoundscapesView() {
     const master = masterGainRef.current!
 
     if (preset === 'om432') {
-      // 432 Hz fundamental + 864 Hz octave harmonic
-      const osc1 = ctx.createOscillator()
-      const osc2 = ctx.createOscillator()
-      const g1 = ctx.createGain()
-      const g2 = ctx.createGain()
+      // Rich 432Hz Om Vocal Resonance with deep sub-bass and harmonic shimmer
+      const freqs = [108, 216, 432, 864, 1296]
+      const gains = [0.35, 0.3, 0.4, 0.12, 0.05]
+      const nodes: AudioNode[] = []
 
-      osc1.type = 'sine'
-      osc1.frequency.setValueAtTime(432, ctx.currentTime)
-      g1.gain.setValueAtTime(0.4, ctx.currentTime)
-
-      osc2.type = 'sine'
-      osc2.frequency.setValueAtTime(864, ctx.currentTime)
-      g2.gain.setValueAtTime(0.1, ctx.currentTime)
-
-      // Low LFO tremolo
+      // LFO for organic breath pulsing (0.08 Hz)
       const lfo = ctx.createOscillator()
       const lfoGain = ctx.createGain()
-      lfo.frequency.setValueAtTime(0.2, ctx.currentTime) // 0.2 Hz slow breath
-      lfoGain.gain.setValueAtTime(0.1, ctx.currentTime)
-      lfo.connect(lfoGain)
-      lfoGain.connect(g1.gain)
-
-      osc1.connect(g1)
-      osc2.connect(g2)
-      g1.connect(master)
-      g2.connect(master)
-
-      osc1.start()
-      osc2.start()
+      lfo.frequency.setValueAtTime(0.08, ctx.currentTime)
+      lfoGain.gain.setValueAtTime(0.15, ctx.currentTime)
       lfo.start()
-      activeNodesRef.current = [osc1, osc2, g1, g2, lfo, lfoGain]
+      nodes.push(lfo, lfoGain)
+
+      // Filter for warm vocal tone
+      const filter = ctx.createBiquadFilter()
+      filter.type = 'lowpass'
+      filter.frequency.setValueAtTime(1400, ctx.currentTime)
+      lfoGain.connect(filter.frequency)
+      filter.connect(master)
+      nodes.push(filter)
+
+      freqs.forEach((freq, idx) => {
+        const osc = ctx.createOscillator()
+        const g = ctx.createGain()
+        // Subtle detuning for chorusing warmth
+        const detune = (idx % 2 === 0 ? 1 : -1) * (idx * 2)
+        osc.type = idx === 0 ? 'sine' : idx === 1 ? 'triangle' : 'sine'
+        osc.frequency.setValueAtTime(freq, ctx.currentTime)
+        osc.detune.setValueAtTime(detune, ctx.currentTime)
+        g.gain.setValueAtTime(gains[idx], ctx.currentTime)
+
+        osc.connect(g)
+        g.connect(filter)
+        osc.start()
+        nodes.push(osc, g)
+      })
+
+      activeNodesRef.current = nodes
     } else if (preset === 'tanpura') {
-      // Root Sa (136.1 Hz C# Om frequency) + Pa (204.15 Hz)
-      const oscSa = ctx.createOscillator()
-      const oscPa = ctx.createOscillator()
-      const gSa = ctx.createGain()
-      const gPa = ctx.createGain()
+      // Authentic 4-String Plucked Tanpura (Pa - Sa - Sa - Sa Low)
+      // Pluck frequencies: Pa (204.15 Hz), Sa (136.10 Hz), Sa (136.10 Hz), Low Sa (68.05 Hz)
+      const stringFreqs = [204.15, 136.1, 136.1, 68.05]
+      const stringDetunes = [0, -3, 3, -1]
+      const nodes: AudioNode[] = []
 
-      oscSa.type = 'triangle'
-      oscSa.frequency.setValueAtTime(136.1, ctx.currentTime)
-      gSa.gain.setValueAtTime(0.35, ctx.currentTime)
+      const filter = ctx.createBiquadFilter()
+      filter.type = 'lowpass'
+      filter.frequency.setValueAtTime(1800, ctx.currentTime)
+      filter.connect(master)
+      nodes.push(filter)
 
-      oscPa.type = 'sine'
-      oscPa.frequency.setValueAtTime(204.15, ctx.currentTime)
-      gPa.gain.setValueAtTime(0.25, ctx.currentTime)
+      let stringIndex = 0
+      const pluckNextString = () => {
+        if (!audioCtxRef.current || audioCtxRef.current.state !== 'running') return
+        const freq = stringFreqs[stringIndex]
+        const detune = stringDetunes[stringIndex]
+        const now = ctx.currentTime
 
-      oscSa.connect(gSa)
-      oscPa.connect(gPa)
-      gSa.connect(master)
-      gPa.connect(master)
+        // String oscillator (sawtooth/triangle blend for rich overtones)
+        const osc = ctx.createOscillator()
+        const g = ctx.createGain()
+        osc.type = stringIndex === 0 ? 'triangle' : 'sine'
+        osc.frequency.setValueAtTime(freq, now)
+        osc.detune.setValueAtTime(detune, now)
 
-      oscSa.start()
-      oscPa.start()
-      activeNodesRef.current = [oscSa, oscPa, gSa, gPa]
+        // String attack-decay envelope (sharp pluck + long resonance)
+        g.gain.setValueAtTime(0.001, now)
+        g.gain.linearRampToValueAtTime(0.35, now + 0.05)
+        g.gain.exponentialRampToValueAtTime(0.001, now + 3.2)
+
+        osc.connect(g)
+        g.connect(filter)
+        osc.start(now)
+        osc.stop(now + 3.3)
+
+        stringIndex = (stringIndex + 1) % stringFreqs.length
+      }
+
+      // Initial pluck + repeating sequence every 850ms
+      pluckNextString()
+      const interval = setInterval(pluckNextString, 850)
+
+      // Store dummy node holding interval cleanup reference
+      nodes.push({
+        disconnect: () => clearInterval(interval)
+      } as unknown as AudioNode)
+
+      activeNodesRef.current = nodes
     } else if (preset === 'singingBowl') {
-      // Periodic bowl strike synth
-      const osc1 = ctx.createOscillator()
-      const g1 = ctx.createGain()
-      osc1.type = 'sine'
-      osc1.frequency.setValueAtTime(528, ctx.currentTime) // 528 Hz transformation tone
-      g1.gain.setValueAtTime(0.3, ctx.currentTime)
+      // Tibetan Singing Bowl with strike transient & dual frequency warble beating (528 Hz + 530.5 Hz)
+      const nodes: AudioNode[] = []
 
-      osc1.connect(g1)
-      g1.connect(master)
-      osc1.start()
-      activeNodesRef.current = [osc1, g1]
+      const strikeBowl = () => {
+        if (!audioCtxRef.current || audioCtxRef.current.state !== 'running') return
+        const now = ctx.currentTime
+
+        // Dual frequencies for acoustic beating
+        const osc1 = ctx.createOscillator()
+        const osc2 = ctx.createOscillator()
+        const g = ctx.createGain()
+
+        osc1.type = 'sine'
+        osc2.type = 'sine'
+        osc1.frequency.setValueAtTime(528, now)
+        osc2.frequency.setValueAtTime(530.5, now) // 2.5Hz natural warble
+
+        // Exponential bowl ring decay (6 seconds)
+        g.gain.setValueAtTime(0.001, now)
+        g.gain.linearRampToValueAtTime(0.5, now + 0.02)
+        g.gain.exponentialRampToValueAtTime(0.001, now + 6.0)
+
+        // Metal attack noise burst
+        const bufferSize = ctx.sampleRate * 0.03
+        const noiseBuf = ctx.createBuffer(1, bufferSize, ctx.sampleRate)
+        const output = noiseBuf.getChannelData(0)
+        for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1
+        const noiseSrc = ctx.createBufferSource()
+        const noiseGain = ctx.createGain()
+        noiseSrc.buffer = noiseBuf
+        noiseGain.gain.setValueAtTime(0.15, now)
+        noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.03)
+
+        noiseSrc.connect(noiseGain)
+        noiseGain.connect(master)
+        noiseSrc.start(now)
+
+        osc1.connect(g)
+        osc2.connect(g)
+        g.connect(master)
+        osc1.start(now)
+        osc2.start(now)
+        osc1.stop(now + 6.1)
+        osc2.stop(now + 6.1)
+      }
+
+      strikeBowl()
+      const interval = setInterval(strikeBowl, 5500)
+      nodes.push({
+        disconnect: () => clearInterval(interval)
+      } as unknown as AudioNode)
+
+      activeNodesRef.current = nodes
     } else if (preset === 'gangesRain') {
-      // Buffer noise generator
-      const bufferSize = ctx.sampleRate * 2
+      // Organic Ganges Rain Pink Noise with gentle wave LFO filtering
+      const bufferSize = ctx.sampleRate * 3
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate)
       const data = buffer.getChannelData(0)
+      let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0
       for (let i = 0; i < bufferSize; i++) {
-        data[i] = Math.random() * 2 - 1
+        const white = Math.random() * 2 - 1
+        b0 = 0.99886 * b0 + white * 0.0555179
+        b1 = 0.99332 * b1 + white * 0.0750759
+        b2 = 0.96900 * b2 + white * 0.1538520
+        b3 = 0.86650 * b3 + white * 0.3104856
+        b4 = 0.55000 * b4 + white * 0.5329522
+        b5 = -0.7616 * b5 - white * 0.0168980
+        data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.05
+        b6 = white * 0.115926
       }
+
       const noise = ctx.createBufferSource()
       noise.buffer = buffer
       noise.loop = true
 
-      // Filter rain noise
+      // Dynamic Filter Sweep simulating gentle gusts & river movement
       const filter = ctx.createBiquadFilter()
       filter.type = 'lowpass'
-      filter.frequency.setValueAtTime(800, ctx.currentTime)
+      filter.frequency.setValueAtTime(650, ctx.currentTime)
+
+      const lfo = ctx.createOscillator()
+      const lfoGain = ctx.createGain()
+      lfo.frequency.setValueAtTime(0.12, ctx.currentTime)
+      lfoGain.gain.setValueAtTime(250, ctx.currentTime)
 
       const gRain = ctx.createGain()
-      gRain.gain.setValueAtTime(0.2, ctx.currentTime)
+      gRain.gain.setValueAtTime(0.4, ctx.currentTime)
 
+      lfo.connect(lfoGain)
+      lfoGain.connect(filter.frequency)
       noise.connect(filter)
       filter.connect(gRain)
       gRain.connect(master)
 
       noise.start()
-      activeNodesRef.current = [noise, filter, gRain]
+      lfo.start()
+      activeNodesRef.current = [noise, filter, lfo, lfoGain, gRain]
     }
   }
+
 
   // Toggle play/pause
   const togglePlay = () => {
