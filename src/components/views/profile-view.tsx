@@ -8,6 +8,8 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Progress } from '@/components/ui/progress'
 import { useStore, useLevel, useChaptersCompleted, getNextLevel, SPIRITUAL_LEVELS, CHALLENGES, ACHIEVEMENTS, ACTIVITY_LABELS } from '@/lib/store'
+import { useAuth } from '@/lib/auth-context'
+import { updateCloudUserName } from '@/lib/cloud-sync'
 import { totalVerseCount } from '@/lib/gita-data'
 import { ShareCardModal } from '@/components/share-card-modal'
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
@@ -17,6 +19,7 @@ import {
 } from '@/components/ui/dialog'
 
 export function ProfileView() {
+  const { user } = useAuth()
   const store = useStore()
   const level = useLevel()
   const chaptersCompleted = useChaptersCompleted()
@@ -211,15 +214,30 @@ export function ProfileView() {
             placeholder="Your name"
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                store.setUserName(nameDraft)
-                setEditNameOpen(false)
-                toast.success('Name updated')
+                const trimmed = nameDraft.trim()
+                if (trimmed) {
+                  store.setUserName(trimmed)
+                  if (user) updateCloudUserName(user, trimmed)
+                  setEditNameOpen(false)
+                  toast.success('Name updated and synced to Leaderboard')
+                }
               }
             }}
           />
           <DialogFooter>
             <Button variant="ghost" onClick={() => setEditNameOpen(false)}>Cancel</Button>
-            <Button className="bg-saffron-gradient text-white" onClick={() => { store.setUserName(nameDraft); setEditNameOpen(false); toast.success('Name updated') }}>
+            <Button
+              className="bg-saffron-gradient text-white"
+              onClick={() => {
+                const trimmed = nameDraft.trim()
+                if (trimmed) {
+                  store.setUserName(trimmed)
+                  if (user) updateCloudUserName(user, trimmed)
+                  setEditNameOpen(false)
+                  toast.success('Name updated and synced to Leaderboard')
+                }
+              }}
+            >
               <Check className="mr-1 h-4 w-4" /> Save
             </Button>
           </DialogFooter>

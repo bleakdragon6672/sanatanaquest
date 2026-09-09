@@ -11,7 +11,7 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { Loader2 } from 'lucide-react'
 import { useAuth } from '@/lib/auth-context'
-import { loadCloudProgress } from '@/lib/cloud-sync'
+import { loadCloudProgress, formatDisplayNameFromEmail } from '@/lib/cloud-sync'
 import { useStore } from '@/lib/store'
 import { toast } from 'sonner'
 import { OmSymbol } from '@/components/spiritual-icons'
@@ -41,13 +41,27 @@ export function AuthGate({ children }: { children: ReactNode }) {
       const cloudData = await loadCloudProgress(user)
       if (cancelled) return
 
+      // Determine best human name:
+      const currentStoreName = useStore.getState().userName
+      const cloudNameValid = cloudData?.userName && cloudData.userName !== 'Seeker' ? cloudData.userName : null
+      const metaName = user.user_metadata?.name?.trim() || null
+      const emailFallback = user.email ? formatDisplayNameFromEmail(user.email) : null
+
+      const bestName = cloudNameValid || (currentStoreName && currentStoreName !== 'Seeker' ? currentStoreName : null) || metaName || emailFallback || 'Seeker'
+
       if (cloudData && (cloudData.totalXp ?? 0) > 0) {
-        // Only overwrite local data if cloud has meaningful progress
-        // This prevents losing local progress when Supabase is reset or empty
-        useStore.getState().loadFromCloud(cloudData)
+        // Overwrite local data if cloud has meaningful progress, ensuring real name is used
+        useStore.getState().loadFromCloud({
+          ...cloudData,
+          userName: bestName,
+        })
         toast.success('Your progress has been restored from the cloud')
+      } else {
+        // If cloud data is empty or starting fresh, ensure real name is set
+        if (!currentStoreName || currentStoreName === 'Seeker') {
+          useStore.getState().setUserName(bestName)
+        }
       }
-      // If cloud has no data, keep local localStorage data intact
       setCloudLoaded(true)
     })()
 

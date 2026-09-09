@@ -33,14 +33,15 @@
 
 import { supabase } from '@/lib/supabase-client'
 import type { User } from '@supabase/supabase-js'
-import type {
-  ActivityLog,
-  ChallengeProgress,
-  JournalEntry,
-  ReadingMode,
-  ReadingWidth,
-  ReadingViewMode,
-  AccentColor,
+import {
+  useStore,
+  type ActivityLog,
+  type ChallengeProgress,
+  type JournalEntry,
+  type ReadingMode,
+  type ReadingWidth,
+  type ReadingViewMode,
+  type AccentColor,
 } from '@/lib/store'
 
 /** Shape of the cloud row (snake_case DB columns). */
@@ -207,3 +208,64 @@ export async function saveCloudProgress(
 
   return { error: null }
 }
+
+/**
+ * Format a human-friendly display name from an email address when no name was entered.
+ * e.g. "arjun.sharma@gmail.com" -> "Arjun Sharma"
+ *      "priya_patel@yahoo.com" -> "Priya Patel"
+ */
+export function formatDisplayNameFromEmail(email: string): string {
+  if (!email) return 'Seeker'
+  const username = email.split('@')[0] || ''
+  // Replace dots, underscores, hyphens, and strip trailing numbers
+  const cleaned = username
+    .replace(/[._-]+/g, ' ')
+    .replace(/[0-9]+$/g, '')
+    .trim()
+  if (!cleaned) return 'Seeker'
+  // Capitalize each word
+  return cleaned
+    .split(' ')
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(' ')
+}
+
+/**
+ * Immediately update the user's public display name in both the local Zustand store
+ * and the Supabase `user_progress` table.
+ *
+ * This ensures that when a user sets their public name on the Leaderboard or Profile,
+ * the change takes effect immediately without waiting for the 2-second debounced auto-save.
+ */
+export async function updateCloudUserName(
+  user: User,
+  newName: string
+): Promise<{ success: boolean; error?: string }> {
+  const trimmed = newName.trim()
+  if (!trimmed) {
+    return { success: false, error: 'Name cannot be empty' }
+  }
+
+  // 1. Update local store
+  useStore.getState().setUserName(trimmed)
+
+  // 2. Update Supabase if available
+  if (supabase) {
+    try {
+      const { error } = await supabase
+        .from('user_progress')
+        .update({ user_name: trimmed })
+        .eq('user_id', user.id)
+
+      if (error) {
+        return { success: false, error: error.message }
+      }
+    } catch (err) {
+      return { success: false, error: String(err) }
+    }
+  }
+
+  return { success: true }
+}
+

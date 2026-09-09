@@ -18,6 +18,8 @@ import { Input } from '@/components/ui/input'
 import { OmSymbol } from '@/components/spiritual-icons'
 import { useAuth } from '@/lib/auth-context'
 import { supabase } from '@/lib/supabase-client'
+import { useStore } from '@/lib/store'
+import { formatDisplayNameFromEmail } from '@/lib/cloud-sync'
 import { toast } from 'sonner'
 
 type Mode = 'signup' | 'login'
@@ -40,7 +42,8 @@ export function AuthScreen() {
     setSubmitting(true)
     try {
       if (mode === 'signup') {
-        const { error } = await signUp(email.trim(), password, name.trim() || 'Seeker')
+        const chosenName = name.trim() || formatDisplayNameFromEmail(email.trim())
+        const { error } = await signUp(email.trim(), password, chosenName)
         if (error) {
           if (error.includes('confirm') || error.includes('check your email')) {
             toast.success('Check your email!', {
@@ -55,7 +58,8 @@ export function AuthScreen() {
             toast.error(error)
           }
         } else {
-          toast.success('Welcome to Sanatan Quest! 🙏')
+          useStore.getState().setUserName(chosenName)
+          toast.success(`Welcome to Sanatan Quest, ${chosenName}! 🙏`)
         }
       } else {
         const { error } = await signIn(email.trim(), password)
@@ -68,6 +72,11 @@ export function AuthScreen() {
             toast.error(error)
           }
         } else {
+          const currentName = useStore.getState().userName
+          if (!currentName || currentName === 'Seeker') {
+            const fallback = formatDisplayNameFromEmail(email.trim())
+            useStore.getState().setUserName(fallback)
+          }
           toast.success('Welcome back! 🙏')
         }
       }
@@ -113,11 +122,14 @@ export function AuthScreen() {
             <div>
               <Input
                 type="text"
-                placeholder="Your name (optional)"
+                placeholder="Your Name (e.g. Arjun, Priya, Samarth)"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="h-11"
               />
+              <p className="text-[11px] text-muted-foreground mt-1 px-1">
+                Your public display name on the Dharma Leaderboard.
+              </p>
             </div>
           )}
           <Input
