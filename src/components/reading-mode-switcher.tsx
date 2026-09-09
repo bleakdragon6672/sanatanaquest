@@ -67,7 +67,7 @@ export function ReadingModeSwitcher({ onOpenBookMode }: ReadingModeSwitcherProps
           </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80 p-2 shadow-xl border-border/80">
+      <DropdownMenuContent align="end" className="w-[calc(100vw-2rem)] max-w-xs sm:w-80 p-2 shadow-xl border-border/80">
         <DropdownMenuLabel className="px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
           Reading Mode
         </DropdownMenuLabel>

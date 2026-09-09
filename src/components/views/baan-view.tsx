@@ -289,8 +289,8 @@ function VerseReader({ verse, onBack, initialBookMode = false }: { verse: BaanVe
               `reader-font-${store.readerFont}`,
               isHighlighted ? highlightMeta.cardClass : 'hover:border-saffron/30',
             )}>
-              <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
-                <div className="flex items-center gap-2">
+              <div className="px-4 sm:px-7 pt-3.5 sm:pt-4 pb-2 flex flex-wrap items-center justify-between gap-2 border-b border-border/40">
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                   <Badge variant="outline" className="font-mono text-xs">{verse.id}</Badge>
                   <Badge variant="secondary" className="text-[10px]">{verse.type === 'doha' ? 'दोहा' : 'चौपाई'}</Badge>
                   {isRead && <Badge className="bg-saffron-gradient text-white border-0 text-[10px]">✓ Read</Badge>}
@@ -310,7 +310,7 @@ function VerseReader({ verse, onBack, initialBookMode = false }: { verse: BaanVe
                 </ActionButtonRow>
               </div>
 
-              <div className="px-5 sm:px-7 py-6 space-y-4">
+              <div className="px-4 sm:px-7 py-5 sm:py-6 space-y-4">
                 <div>
                   <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>अवधी · Awadhi</p>
                   <p

@@ -264,18 +264,19 @@ function VerseReader({
               </h1>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <Button
               size="sm"
               onClick={() => {
                 setBookReaderOpen(true)
                 store.setReadingMode('kindle')
               }}
-              className="rounded-full gap-2 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all px-3.5 py-1.5 text-xs sm:text-sm border border-amber-300/30 ring-2 ring-amber-500/20 animate-pulse-subtle"
+              className="rounded-full gap-1.5 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm border border-amber-300/30 ring-2 ring-amber-500/20 animate-pulse-subtle"
               title="Read in Kindle / Apple Books Mode"
             >
-              <BookOpen className="w-4 h-4 shrink-0" />
-              <span className="font-medium">📖 Kindle Mode</span>
+              <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+              <span className="hidden xs:inline font-medium">📖 Kindle Mode</span>
+              <span className="xs:hidden font-medium">📖 Book</span>
               <span className="hidden sm:inline text-[9px] uppercase tracking-wider bg-white/25 px-1.5 py-0.5 rounded-full font-bold">New</span>
             </Button>
             <KindleAppearanceMenu align="right" />
@@ -296,8 +297,8 @@ function VerseReader({
             : 'bg-card text-card-foreground border-border',
           isHighlighted ? highlightMeta.cardClass : 'hover:border-saffron/30',
         )}>
-          <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
-            <div className="flex items-center gap-2">
+          <div className="px-4 sm:px-7 pt-3.5 sm:pt-4 pb-2 flex flex-wrap items-center justify-between gap-2 border-b border-border/40">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
               <Badge variant="outline" className="font-mono text-xs">{verse.id}</Badge>
               <Badge variant="secondary" className="text-[10px]">{verse.type === 'doha' ? 'दोहा' : 'चौपाई'}</Badge>
               {isRead && <Badge className="bg-saffron-gradient text-white border-0 text-[10px]">✓ Read</Badge>}
@@ -317,7 +318,7 @@ function VerseReader({
             </ActionButtonRow>
           </div>
 
-          <div className="px-5 sm:px-7 py-6 space-y-4">
+          <div className="px-4 sm:px-7 py-5 sm:py-6 space-y-4">
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>अवधी · Awadhi</p>
               <p

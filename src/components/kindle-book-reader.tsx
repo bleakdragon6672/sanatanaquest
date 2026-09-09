@@ -17,6 +17,7 @@ import {
   NotebookPen,
   Eye,
   Sliders,
+  MoreHorizontal,
 } from 'lucide-react'
 import {
   useStore,
@@ -30,6 +31,14 @@ import {
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
+} from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { KindleAppearanceMenu } from '@/components/kindle-appearance-menu'
@@ -160,6 +169,68 @@ export function KindleBookReader({
     if (currentIndex > 0) {
       goToIndex(currentIndex - 1, 'prev')
     }
+  }
+
+  // Touch swipe handling for mobile
+  const touchStartX = useRef<number>(0)
+  const touchStartY = useRef<number>(0)
+  const touchStartTime = useRef<number>(0)
+  const isSwiping = useRef<boolean>(false)
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length !== 1) return
+    touchStartX.current = e.touches[0].clientX
+    touchStartY.current = e.touches[0].clientY
+    touchStartTime.current = Date.now()
+    isSwiping.current = true
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!isSwiping.current) return
+    isSwiping.current = false
+    const touchEndX = e.changedTouches[0].clientX
+    const touchEndY = e.changedTouches[0].clientY
+    const deltaX = touchEndX - touchStartX.current
+    const deltaY = touchEndY - touchStartY.current
+    const deltaTime = Date.now() - touchStartTime.current
+
+    // Only recognize horizontal swipe if |deltaX| is at least 40px and more than 1.3x vertical movement
+    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3 && deltaTime < 600) {
+      if (deltaX < 0) {
+        // Swiped left -> Next page
+        goNext()
+      } else {
+        // Swiped right -> Previous page
+        goPrev()
+      }
+    }
+  }
+
+  const handleCanvasClick = (e: React.MouseEvent) => {
+    // If user clicked inside an interactive element, do not trigger page turn / HUD
+    const target = e.target as HTMLElement
+    if (target.closest('button, a, input, textarea, select, [role="button"], [contenteditable]')) {
+      return
+    }
+
+    if (store.readerPaging === 'paged') {
+      const { clientX } = e
+      const windowWidth = window.innerWidth
+      const leftZone = windowWidth * 0.22  // Left 22% tap zone
+      const rightZone = windowWidth * 0.78 // Right 22% tap zone
+
+      if (clientX < leftZone) {
+        goPrev()
+        return
+      }
+      if (clientX > rightZone) {
+        goNext()
+        return
+      }
+    }
+
+    // Tap center zone (or anywhere in continuous scroll mode) -> Toggle HUD
+    setHudVisible((prev) => !prev)
   }
 
   // Keyboard navigation
@@ -308,37 +379,37 @@ export function KindleBookReader({
         )}
       >
         {/* Left: Back / Close & Scripture Info */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <Button
             variant="ghost"
             size="icon"
             onClick={onClose}
-            className="rounded-full hover:bg-black/5 dark:hover:bg-white/10"
+            className="rounded-full hover:bg-black/5 dark:hover:bg-white/10 shrink-0 h-8 w-8 sm:h-9 sm:w-9"
             title="Exit Book Mode (Esc)"
           >
             <X className="w-5 h-5" />
           </Button>
 
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs uppercase tracking-widest font-semibold opacity-60">
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="text-xs uppercase tracking-wider sm:tracking-widest font-semibold opacity-60 truncate max-w-[90px] sm:max-w-none">
                 {scriptureTitle}
               </span>
               <span className="text-xs opacity-40">•</span>
-              <span className="text-xs font-mono font-medium opacity-80">
-                {chapterTitle}
+              <span className="text-xs font-mono font-medium opacity-80 truncate">
+                {currentVerse ? `v${currentVerse.chapter}.${currentVerse.verse ?? currentVerse.number}` : chapterTitle}
               </span>
             </div>
             {chapterSubtitle && (
-              <p className="text-[11px] opacity-60 line-clamp-1 italic font-serif">
+              <p className="text-[10px] sm:text-[11px] opacity-60 truncate italic font-serif hidden xs:block">
                 {chapterSubtitle}
               </p>
             )}
           </div>
         </div>
 
-        {/* Right: Appearance Menu + Highlighter + Bookmark + Audio + Share */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        {/* Right: Desktop Controls (hidden on small mobile) */}
+        <div className="hidden sm:flex items-center gap-1.5 sm:gap-2">
           {currentVerse && (
             <>
               {/* Chanting Audio */}
@@ -413,17 +484,133 @@ export function KindleBookReader({
           {/* Kindle iconic "aA" Appearance Menu */}
           <KindleAppearanceMenu align="right" />
         </div>
+
+        {/* Right: Mobile Controls (< sm screens) */}
+        <div className="flex sm:hidden items-center gap-1">
+          {currentVerse && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                store.toggleBookmark(currentVerse.id)
+                toast.success(
+                  store.bookmarks.includes(currentVerse.id)
+                    ? 'Bookmark removed'
+                    : 'Verse bookmarked'
+                )
+              }}
+              className={cn(
+                'rounded-full h-8 w-8 hover:bg-black/5 dark:hover:bg-white/10',
+                store.bookmarks.includes(currentVerse.id) && 'text-amber-500'
+              )}
+              title="Bookmark"
+            >
+              {store.bookmarks.includes(currentVerse.id) ? (
+                <BookmarkCheck className="w-4 h-4" />
+              ) : (
+                <Bookmark className="w-4 h-4" />
+              )}
+            </Button>
+          )}
+
+          {/* aA menu button */}
+          <KindleAppearanceMenu align="right" />
+
+          {/* More Actions Dropdown on Mobile */}
+          {currentVerse && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full h-8 w-8 hover:bg-black/5 dark:hover:bg-white/10"
+                  title="More actions"
+                >
+                  <MoreHorizontal className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 p-2 rounded-2xl shadow-xl z-50">
+                <DropdownMenuLabel className="text-[10px] uppercase font-semibold text-muted-foreground px-2 py-1">
+                  Verse Actions • {currentVerse.chapter}.{currentVerse.verse ?? currentVerse.number}
+                </DropdownMenuLabel>
+                
+                <DropdownMenuItem onClick={toggleAudio} className="gap-2.5 rounded-xl text-xs py-2 cursor-pointer">
+                  {playingAudio ? <VolumeX className="w-4 h-4 text-amber-500" /> : <Volume2 className="w-4 h-4" />}
+                  <span>{playingAudio ? 'Stop Recitation' : 'Listen to Chanting'}</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem onClick={() => setShowNoteEditor(true)} className="gap-2.5 rounded-xl text-xs py-2 cursor-pointer">
+                  <NotebookPen className={cn('w-4 h-4', store.notes[currentVerse.id] && 'text-amber-500')} />
+                  <span>{store.notes[currentVerse.id] ? 'Edit Reflection' : 'Add Personal Reflection'}</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem onClick={() => setShareOpen(true)} className="gap-2.5 rounded-xl text-xs py-2 cursor-pointer">
+                  <Share2 className="w-4 h-4" />
+                  <span>Share Sacred Verse</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem
+                  onClick={() => {
+                    if (store.readVerses[currentVerse.id]) {
+                      store.unmarkVerseRead(currentVerse.id)
+                      toast.success('Marked unread')
+                    } else {
+                      store.markVerseRead(currentVerse.id)
+                      store.addReadingTime(20)
+                      toast.success('Marked as read · +10 XP')
+                    }
+                  }}
+                  className="gap-2.5 rounded-xl text-xs py-2 cursor-pointer"
+                >
+                  <Check className={cn('w-4 h-4', store.readVerses[currentVerse.id] && 'text-green-500')} />
+                  <span>{store.readVerses[currentVerse.id] ? 'Mark as Unread' : 'Mark as Read (+10 XP)'}</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator />
+
+                <div className="px-2 py-2">
+                  <span className="text-[10px] uppercase font-semibold text-muted-foreground block mb-2">
+                    Sacred Highlighter
+                  </span>
+                  <div className="flex items-center justify-between gap-1">
+                    {(['saffron', 'lotus', 'vermilion', 'ash', 'teal'] as const).map((colorKey) => {
+                      const meta = PASTEL_HIGHLIGHTS[colorKey]
+                      const isCurrent = store.highlights.includes(currentVerse.id) && (store.highlightColors?.[currentVerse.id] || 'saffron') === colorKey
+                      return (
+                        <button
+                          key={colorKey}
+                          type="button"
+                          onClick={() => {
+                            store.setHighlightColor(currentVerse.id, colorKey)
+                            toast.success(`Highlighted in ${meta.name}`)
+                          }}
+                          className={cn(
+                            'w-6 h-6 rounded-full border shadow-xs transition-transform active:scale-95 flex items-center justify-center',
+                            meta.dotClass,
+                            isCurrent && 'ring-2 ring-primary ring-offset-1 scale-110'
+                          )}
+                          title={meta.name}
+                        >
+                          {isCurrent && <span className="w-1.5 h-1.5 rounded-full bg-current" />}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
       </header>
 
-      {/* ── READING CANVAS (PAGED or SCROLL) ─────────────────── */}
+      {/* ── READING CANVAS (PAGED or SCROLL) with TOUCH SWIPE ─── */}
       <main
         ref={scrollContainerRef}
-        onClick={() => {
-          // Clicking center area toggles HUD
-          setHudVisible((prev) => !prev)
-        }}
+        onClick={handleCanvasClick}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
         className={cn(
-          'relative flex-1 overflow-y-auto px-4 sm:px-8 py-6 flex flex-col justify-start items-center transition-all',
+          'relative flex-1 overflow-y-auto px-3 sm:px-8 py-4 sm:py-6 flex flex-col justify-start items-center transition-all touch-pan-y',
           store.readerPaging === 'paged' ? 'cursor-pointer' : 'cursor-auto'
         )}
       >
@@ -575,7 +762,7 @@ export function KindleBookReader({
       {/* ── BOTTOM HUD (Paging, Scrubber Bar, Reading Time) ── */}
       <footer
         className={cn(
-          'relative z-30 px-4 sm:px-8 py-3 border-t transition-all duration-300 backdrop-blur-md',
+          'relative z-30 px-3 sm:px-8 py-2.5 sm:py-3 border-t transition-all duration-300 backdrop-blur-md pb-[max(0.75rem,env(safe-area-inset-bottom))]',
           store.paperTone === 'obsidian'
             ? 'bg-[#141210]/90 border-[#2E2722] text-[#EAE0D2]'
             : 'bg-background/80 border-border/40 text-foreground',
@@ -584,16 +771,16 @@ export function KindleBookReader({
             : 'opacity-0 translate-y-full pointer-events-none'
         )}
       >
-        <div className="max-w-4xl mx-auto flex flex-col gap-2">
+        <div className="max-w-4xl mx-auto flex flex-col gap-1.5 sm:gap-2">
           {/* Scrubber slider & Shloka count */}
-          <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             {/* Prev page button */}
             <Button
               variant="ghost"
               size="icon"
               disabled={currentIndex === 0}
               onClick={goPrev}
-              className="rounded-full h-8 w-8 hover:bg-black/5 dark:hover:bg-white/10 shrink-0"
+              className="rounded-full h-9 w-9 hover:bg-black/5 dark:hover:bg-white/10 shrink-0"
               title="Previous Verse (← / K)"
             >
               <ChevronLeft className="w-5 h-5" />
@@ -609,7 +796,7 @@ export function KindleBookReader({
                   value={currentIndex}
                   onChange={(e) => goToIndex(parseInt(e.target.value, 10))}
                   aria-label="Chapter Progress Scrubber"
-                  className="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-amber-500 bg-border/60 hover:bg-border transition-colors"
+                  className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-amber-500 bg-border/60 hover:bg-border transition-colors touch-pan-x"
                 />
               </div>
             </div>
@@ -620,7 +807,7 @@ export function KindleBookReader({
               size="icon"
               disabled={currentIndex === verses.length - 1}
               onClick={goNext}
-              className="rounded-full h-8 w-8 hover:bg-black/5 dark:hover:bg-white/10 shrink-0"
+              className="rounded-full h-9 w-9 hover:bg-black/5 dark:hover:bg-white/10 shrink-0"
               title="Next Verse (→ / J)"
             >
               <ChevronRight className="w-5 h-5" />
@@ -628,10 +815,10 @@ export function KindleBookReader({
           </div>
 
           {/* Bottom Metainfo: Shloka Counter + Time Remaining + Percentage */}
-          <div className="flex items-center justify-between text-[11px] font-mono opacity-60 px-2">
+          <div className="flex items-center justify-between text-[11px] font-mono opacity-70 px-1">
             <span className="flex items-center gap-1">
               <Clock className="w-3 h-3" />
-              {minutesLeft}m left in chapter
+              <span>{minutesLeft}m left</span>
             </span>
 
             <span className="font-sans font-medium text-xs">
@@ -693,7 +880,7 @@ function BookVerseCard({
   return (
     <article
       className={cn(
-        'relative rounded-3xl p-6 sm:p-10 transition-all duration-300 border shadow-md',
+        'relative rounded-2xl sm:rounded-3xl p-4 sm:p-8 md:p-10 transition-all duration-300 border shadow-md w-full max-w-full overflow-hidden',
         paperTone === 'obsidian'
           ? 'bg-[#181613] border-[#2C2621] text-[#EAE0D2]'
           : paperTone === 'bhojpatra'
@@ -707,8 +894,8 @@ function BookVerseCard({
       )}
     >
       {/* Top Header info */}
-      <div className="flex items-center justify-between mb-6 pb-3 border-b border-current/10">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between mb-4 sm:mb-6 pb-2.5 sm:pb-3 border-b border-current/10">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
           <Badge
             variant="outline"
             className="font-mono text-xs px-2.5 py-0.5 border-current/20 bg-transparent text-current"
@@ -738,7 +925,7 @@ function BookVerseCard({
         <button
           type="button"
           onClick={onToggleRead}
-          className="text-xs opacity-60 hover:opacity-100 transition-opacity font-medium"
+          className="text-xs opacity-60 hover:opacity-100 transition-opacity font-medium py-1 px-1.5 rounded-md"
         >
           {isRead ? 'Mark as Unread' : 'Mark as Read'}
         </button>
@@ -746,12 +933,13 @@ function BookVerseCard({
 
       {/* Sanskrit / Awadhi Sacred Text */}
       {sacredScript && (
-        <div className="mb-6 text-center">
+        <div className="mb-5 sm:mb-6 text-center">
           <p
-            className="sanskrit-text text-2xl sm:text-3xl leading-[2.3] sm:leading-[2.4] tracking-wide select-text text-balance"
+            className="sanskrit-text font-medium leading-[2.1] sm:leading-[2.4] tracking-wide select-text text-balance break-words"
             style={{
               fontFamily:
                 'var(--font-noto-devanagari), var(--font-devanagari), "Noto Serif Devanagari", serif',
+              fontSize: `clamp(1.15rem, 4.2vw, ${1.35 * fontScale}rem)`,
             }}
           >
             {sacredScript}
@@ -761,12 +949,14 @@ function BookVerseCard({
 
       {/* Transliteration */}
       {verse.transliteration && (
-        <div className="mb-6 text-center">
+        <div className="mb-5 sm:mb-6 text-center">
           <p
-            className="italic text-base sm:text-lg opacity-75 leading-relaxed tracking-normal select-text text-balance"
+            className="italic opacity-75 leading-relaxed tracking-normal select-text text-balance break-words"
             style={{
               fontFamily:
                 'var(--font-cormorant-garamond), var(--font-cormorant), "Cormorant Garamond", Georgia, serif',
+              fontSize: `clamp(0.95rem, 3.2vw, ${1.05 * fontScale}rem)`,
+              lineHeight: lineSpacing * 0.95,
             }}
           >
             {verse.transliteration}
@@ -775,11 +965,11 @@ function BookVerseCard({
       )}
 
       {/* English Translation */}
-      <div className="mb-6">
+      <div className="mb-5 sm:mb-6">
         <p
-          className={cn('select-text text-balance', readerFontClass)}
+          className={cn('select-text text-balance break-words', readerFontClass)}
           style={{
-            fontSize: `${1.18 * fontScale}rem`,
+            fontSize: `clamp(1.05rem, 3.6vw, ${1.18 * fontScale}rem)`,
             lineHeight: lineSpacing,
           }}
         >
@@ -789,24 +979,24 @@ function BookVerseCard({
 
       {/* Word-by-word meaning if available */}
       {verse.meaning && (
-        <div className="mb-6 border-l-2 border-amber-500/40 pl-4 py-1 italic opacity-85 text-sm select-text">
+        <div className="mb-5 sm:mb-6 border-l-2 border-amber-500/40 pl-3 sm:pl-4 py-1 italic opacity-85 text-xs sm:text-sm select-text break-words">
           {verse.meaning}
         </div>
       )}
 
       {/* Classical Commentary */}
       {verse.commentary && (
-        <div className="mt-8 pt-6 border-t border-current/10 relative">
-          <div className="flex items-center gap-2 mb-3">
+        <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-current/10 relative">
+          <div className="flex items-center gap-2 mb-2.5 sm:mb-3">
             <span className="text-xl font-serif opacity-30 leading-none">“</span>
             <span className="text-xs uppercase tracking-wider font-semibold opacity-60">
               Commentary
             </span>
           </div>
           <div
-            className={cn('opacity-90 select-text leading-relaxed', readerFontClass)}
+            className={cn('opacity-90 select-text leading-relaxed break-words', readerFontClass)}
             style={{
-              fontSize: `${1.05 * fontScale}rem`,
+              fontSize: `clamp(0.92rem, 3.2vw, ${1.05 * fontScale}rem)`,
               lineHeight: lineSpacing,
             }}
             dangerouslySetInnerHTML={{

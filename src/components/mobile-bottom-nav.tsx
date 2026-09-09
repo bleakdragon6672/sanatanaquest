@@ -21,6 +21,12 @@ const NAV_ITEMS: NavItem[] = [
 export function MobileBottomNav() {
   const { view, navigate } = useNav()
   const totalXp = useStore((s) => s.totalXp)
+  const isBookReaderOpen = useStore((s) => s.isBookReaderOpen)
+  const readingMode = useStore((s) => s.readingMode)
+
+  if (isBookReaderOpen || readingMode === 'kindle') {
+    return null
+  }
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden glass-strong border-t safe-area-bottom" style={{ borderColor: 'color-mix(in oklch, var(--saffron) 12%, var(--border))' }}>

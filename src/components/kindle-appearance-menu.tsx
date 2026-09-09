@@ -91,15 +91,23 @@ export function KindleAppearanceMenu({ className, align = 'right' }: KindleAppea
         <span className="text-xs font-medium leading-none opacity-80">A</span>
       </button>
 
+      {/* Mobile Backdrop Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/30 sm:hidden backdrop-blur-xs"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
       {/* Popover Card */}
       {isOpen && (
         <div
           className={cn(
-            'absolute top-full mt-2 w-[340px] sm:w-[380px] p-4 rounded-2xl shadow-2xl border backdrop-blur-xl z-50 animate-in fade-in zoom-in-95 duration-150',
-            'bg-card/95 text-card-foreground border-border/80',
-            align === 'right' && 'right-0',
-            align === 'left' && 'left-0',
-            align === 'center' && 'left-1/2 -translate-x-1/2'
+            'fixed sm:absolute top-16 sm:top-full mt-2 left-3 right-3 sm:left-auto max-w-[380px] sm:w-[380px] p-4 rounded-2xl shadow-2xl border backdrop-blur-xl z-50 animate-in fade-in zoom-in-95 duration-150 mx-auto sm:mx-0 max-h-[85vh] overflow-y-auto overscroll-contain',
+            'bg-card/95 text-card-foreground border-border/80 shadow-black/25',
+            align === 'right' && 'sm:right-0',
+            align === 'left' && 'sm:left-0',
+            align === 'center' && 'sm:left-1/2 sm:-translate-x-1/2'
           )}
         >
           {/* Header */}
@@ -120,7 +128,7 @@ export function KindleAppearanceMenu({ className, align = 'right' }: KindleAppea
             <label className="text-xs font-medium text-muted-foreground block mb-2">
               Manuscript Paper Tone
             </label>
-            <div className="grid grid-cols-5 gap-2">
+            <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
               {PAPER_ORDER.map((toneKey) => {
                 const meta = PAPER_TONES[toneKey]
                 const isActive = store.paperTone === toneKey
@@ -131,7 +139,7 @@ export function KindleAppearanceMenu({ className, align = 'right' }: KindleAppea
                     onClick={() => store.setPaperTone(toneKey)}
                     title={`${meta.name} (${meta.sanskrit}) — ${meta.description}`}
                     className={cn(
-                      'group flex flex-col items-center gap-1 p-2 rounded-xl border transition-all text-center relative',
+                      'group flex flex-col items-center gap-1 p-1.5 sm:p-2 rounded-xl border transition-all text-center relative',
                       meta.swatchClass,
                       isActive
                         ? 'ring-2 ring-primary ring-offset-2 ring-offset-background scale-105 shadow-md border-primary/40'
@@ -140,7 +148,7 @@ export function KindleAppearanceMenu({ className, align = 'right' }: KindleAppea
                   >
                     <div
                       className={cn(
-                        'w-7 h-7 rounded-full border shadow-inner flex items-center justify-center',
+                        'w-6 h-6 sm:w-7 sm:h-7 rounded-full border shadow-inner flex items-center justify-center',
                         toneKey === 'parchment' && 'bg-[#F8F5EE] border-[#E8DEC8]',
                         toneKey === 'bhojpatra' && 'bg-[#EFE6D5] border-[#DFD0B8]',
                         toneKey === 'aranya' && 'bg-[#EDF1EA] border-[#D5DDD1]',
@@ -151,13 +159,13 @@ export function KindleAppearanceMenu({ className, align = 'right' }: KindleAppea
                       {isActive && (
                         <Check
                           className={cn(
-                            'w-3.5 h-3.5',
+                            'w-3 h-3 sm:w-3.5 sm:h-3.5',
                             toneKey === 'obsidian' ? 'text-amber-400' : 'text-primary'
                           )}
                         />
                       )}
                     </div>
-                    <span className="text-[10px] font-sans font-medium line-clamp-1 leading-tight mt-0.5">
+                    <span className="text-[9px] sm:text-[10px] font-sans font-medium line-clamp-1 leading-tight mt-0.5">
                       {meta.sanskrit}
                     </span>
                   </button>
