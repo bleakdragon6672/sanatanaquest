@@ -18,7 +18,10 @@ import {
   Eye,
   Sliders,
   MoreHorizontal,
+  Maximize2,
+  Minimize2,
 } from 'lucide-react'
+import { playPaperFlipSound, triggerHaptic } from '@/lib/reader-sound'
 import {
   useStore,
   PAPER_TONES,
@@ -101,6 +104,84 @@ export function KindleBookReader({
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const scrollContainerRef = useRef<HTMLDivElement | null>(null)
   const verseRefs = useRef<Record<string, HTMLDivElement | null>>({})
+  const autoHideTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Fullscreen state tracking with vendor prefix support
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false)
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const doc = document as unknown as {
+        fullscreenElement?: Element
+        webkitFullscreenElement?: Element
+      }
+      setIsFullscreen(Boolean(doc.fullscreenElement || doc.webkitFullscreenElement))
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
+    }
+  }, [])
+
+  const toggleFullscreen = async () => {
+    try {
+      const doc = document as unknown as {
+        fullscreenElement?: Element
+        webkitFullscreenElement?: Element
+        exitFullscreen?: () => Promise<void>
+        webkitExitFullscreen?: () => Promise<void>
+      }
+      const el = document.documentElement as unknown as {
+        requestFullscreen?: () => Promise<void>
+        webkitRequestFullscreen?: () => Promise<void>
+      }
+
+      if (!doc.fullscreenElement && !doc.webkitFullscreenElement) {
+        if (el.requestFullscreen) {
+          await el.requestFullscreen()
+        } else if (el.webkitRequestFullscreen) {
+          await el.webkitRequestFullscreen()
+        }
+      } else {
+        if (doc.exitFullscreen) {
+          await doc.exitFullscreen()
+        } else if (doc.webkitExitFullscreen) {
+          await doc.webkitExitFullscreen()
+        }
+      }
+    } catch {
+      // Ignored if permissions not granted
+    }
+  }
+
+  // Auto-hide inactivity timer (4 seconds of idle reading fades the HUD into pure Zen mode)
+  const resetInactivityTimer = () => {
+    if (autoHideTimerRef.current) {
+      clearTimeout(autoHideTimerRef.current)
+    }
+    if (!showNoteEditor && !shareOpen) {
+      autoHideTimerRef.current = setTimeout(() => {
+        setHudVisible(false)
+      }, 4000)
+    }
+  }
+
+  const handleUserActivity = () => {
+    setHudVisible(true)
+    resetInactivityTimer()
+  }
+
+  useEffect(() => {
+    if (isOpen) {
+      resetInactivityTimer()
+    }
+    return () => {
+      if (autoHideTimerRef.current) clearTimeout(autoHideTimerRef.current)
+    }
+  }, [isOpen, showNoteEditor, shareOpen])
 
   // Synchronize when initialVerseId changes
   useEffect(() => {
@@ -142,11 +223,25 @@ export function KindleBookReader({
     return Math.round(((currentIndex + 1) / verses.length) * 100)
   }, [verses.length, currentIndex])
 
+  // Sound and haptic feedback helper on page navigation
+  const triggerPageFeedback = () => {
+    if (store.pageTurnSound) {
+      playPaperFlipSound()
+    }
+    if (store.hapticsEnabled) {
+      triggerHaptic(10)
+    }
+  }
+
   // Paging controls
   const goToIndex = (idx: number, direction: 'next' | 'prev' | 'none' = 'none') => {
     if (idx < 0 || idx >= verses.length) return
+    if (idx !== currentIndex) {
+      triggerPageFeedback()
+    }
     setTurnDirection(direction)
     setCurrentIndex(idx)
+    handleUserActivity()
     if (onSelectVerse && verses[idx]) {
       onSelectVerse(verses[idx].id)
     }
@@ -230,7 +325,15 @@ export function KindleBookReader({
     }
 
     // Tap center zone (or anywhere in continuous scroll mode) -> Toggle HUD
-    setHudVisible((prev) => !prev)
+    setHudVisible((prev) => {
+      const next = !prev
+      if (next) {
+        resetInactivityTimer()
+      } else if (autoHideTimerRef.current) {
+        clearTimeout(autoHideTimerRef.current)
+      }
+      return next
+    })
   }
 
   // Keyboard navigation
@@ -245,6 +348,8 @@ export function KindleBookReader({
       ) {
         return
       }
+
+      handleUserActivity()
 
       switch (e.key) {
         case 'ArrowRight':
@@ -265,6 +370,7 @@ export function KindleBookReader({
             e.preventDefault()
             const exists = store.bookmarks.includes(currentVerse.id)
             store.toggleBookmark(currentVerse.id)
+            if (store.hapticsEnabled) triggerHaptic([8, 35, 12])
             toast.success(exists ? 'Bookmark removed' : 'Bookmarked verse')
           }
           break
@@ -274,25 +380,40 @@ export function KindleBookReader({
             e.preventDefault()
             const isH = store.highlights.includes(currentVerse.id)
             store.toggleHighlight(currentVerse.id)
+            if (store.hapticsEnabled) triggerHaptic([8, 35, 12])
             toast.success(isH ? 'Highlight removed' : 'Highlighted verse')
           }
           break
         case 'Escape':
           e.preventDefault()
-          onClose()
+          if (isFullscreen) {
+            toggleFullscreen()
+          } else {
+            onClose()
+          }
           break
         case 'f':
         case 'F':
           // Toggle HUD
           e.preventDefault()
-          setHudVisible((prev) => !prev)
+          setHudVisible((prev) => {
+            const next = !prev
+            if (next) resetInactivityTimer()
+            return next
+          })
+          break
+        case 'z':
+        case 'Z':
+          // Toggle Zen Fullscreen Mode
+          e.preventDefault()
+          toggleFullscreen()
           break
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, currentIndex, currentVerse, verses.length, store, onClose])
+  }, [isOpen, currentIndex, currentVerse, verses.length, store, onClose, isFullscreen])
 
   // Audio recitation toggle
   const toggleAudio = () => {
@@ -361,6 +482,8 @@ export function KindleBookReader({
 
   return (
     <div
+      onMouseMove={handleUserActivity}
+      onTouchMove={handleUserActivity}
       className={cn(
         'fixed inset-0 z-50 flex flex-col transition-colors duration-300 select-none overflow-hidden',
         paperToneClass
@@ -483,6 +606,21 @@ export function KindleBookReader({
 
           {/* Kindle iconic "aA" Appearance Menu */}
           <KindleAppearanceMenu align="right" />
+
+          {/* Zen Fullscreen Mode Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleFullscreen}
+            className="rounded-full h-8 w-8 hover:bg-black/5 dark:hover:bg-white/10"
+            title={isFullscreen ? 'Exit Zen Fullscreen (Z)' : 'Zen Fullscreen Mode (Z)'}
+          >
+            {isFullscreen ? (
+              <Minimize2 className="w-4 h-4 text-amber-500" />
+            ) : (
+              <Maximize2 className="w-4 h-4" />
+            )}
+          </Button>
         </div>
 
         {/* Right: Mobile Controls (< sm screens) */}
@@ -564,6 +702,13 @@ export function KindleBookReader({
                 >
                   <Check className={cn('w-4 h-4', store.readVerses[currentVerse.id] && 'text-green-500')} />
                   <span>{store.readVerses[currentVerse.id] ? 'Mark as Unread' : 'Mark as Read (+10 XP)'}</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem onClick={toggleFullscreen} className="gap-2.5 rounded-xl text-xs py-2 cursor-pointer">
+                  {isFullscreen ? <Minimize2 className="w-4 h-4 text-amber-500" /> : <Maximize2 className="w-4 h-4" />}
+                  <span>{isFullscreen ? 'Exit Fullscreen' : 'Zen Fullscreen Mode'}</span>
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator />

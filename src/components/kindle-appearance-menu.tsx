@@ -10,7 +10,11 @@ import {
   ScrollText,
   Check,
   Sparkles,
+  Volume2,
+  VolumeX,
+  Smartphone,
 } from 'lucide-react'
+import { playPaperFlipSound, triggerHaptic } from '@/lib/reader-sound'
 import {
   useStore,
   PAPER_TONES,
@@ -45,7 +49,55 @@ const LINE_SPACINGS = [
 export function KindleAppearanceMenu({ className, align = 'right' }: KindleAppearanceMenuProps) {
   const store = useStore()
   const [isOpen, setIsOpen] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const doc = document as unknown as {
+        fullscreenElement?: Element
+        webkitFullscreenElement?: Element
+      }
+      setIsFullscreen(Boolean(doc.fullscreenElement || doc.webkitFullscreenElement))
+    }
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
+    }
+  }, [])
+
+  const toggleFullscreen = async () => {
+    try {
+      const doc = document as unknown as {
+        fullscreenElement?: Element
+        webkitFullscreenElement?: Element
+        exitFullscreen?: () => Promise<void>
+        webkitExitFullscreen?: () => Promise<void>
+      }
+      const el = document.documentElement as unknown as {
+        requestFullscreen?: () => Promise<void>
+        webkitRequestFullscreen?: () => Promise<void>
+      }
+
+      if (!doc.fullscreenElement && !doc.webkitFullscreenElement) {
+        if (el.requestFullscreen) {
+          await el.requestFullscreen()
+        } else if (el.webkitRequestFullscreen) {
+          await el.webkitRequestFullscreen()
+        }
+      } else {
+        if (doc.exitFullscreen) {
+          await doc.exitFullscreen()
+        } else if (doc.webkitExitFullscreen) {
+          await doc.webkitExitFullscreen()
+        }
+      }
+    } catch {
+      // Ignored
+    }
+  }
 
   // Close when clicking outside or pressing Escape
   useEffect(() => {
@@ -342,6 +394,79 @@ export function KindleAppearanceMenu({ className, align = 'right' }: KindleAppea
                 <span>Continuous</span>
               </button>
             </div>
+          </div>
+
+          {/* 6. Atmosphere & Sensory Feedback (Sound, Haptic & Zen Mode) */}
+          <div className="mt-4 pt-3 border-t border-border/40">
+            <label className="text-xs font-medium text-muted-foreground block mb-2">
+              Atmosphere & Sensory Feedback
+            </label>
+            <div className="grid grid-cols-2 gap-2 mb-2.5">
+              {/* Page Turn Sound Toggle */}
+              <button
+                type="button"
+                onClick={() => {
+                  const next = !store.pageTurnSound
+                  store.setPageTurnSound(next)
+                  if (next) playPaperFlipSound()
+                }}
+                className={cn(
+                  'flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium border transition-all',
+                  store.pageTurnSound
+                    ? 'bg-primary/10 border-primary/40 text-primary font-semibold'
+                    : 'bg-muted/30 border-border/50 text-muted-foreground hover:text-foreground'
+                )}
+                title="Subtle whisper-quiet paper flip sound on page turn"
+              >
+                <span className="flex items-center gap-1.5 truncate">
+                  {store.pageTurnSound ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5 opacity-60" />}
+                  <span>Page Sound</span>
+                </span>
+                <span className={cn('text-[10px] uppercase font-mono px-1 rounded', store.pageTurnSound ? 'bg-primary/20 text-primary' : 'opacity-40')}>
+                  {store.pageTurnSound ? 'ON' : 'OFF'}
+                </span>
+              </button>
+
+              {/* Haptic Touch Toggle */}
+              <button
+                type="button"
+                onClick={() => {
+                  const next = !store.hapticsEnabled
+                  store.setHapticsEnabled(next)
+                  if (next) triggerHaptic(15)
+                }}
+                className={cn(
+                  'flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium border transition-all',
+                  store.hapticsEnabled
+                    ? 'bg-primary/10 border-primary/40 text-primary font-semibold'
+                    : 'bg-muted/30 border-border/50 text-muted-foreground hover:text-foreground'
+                )}
+                title="Tactile micro-vibrations on page turns and bookmarks"
+              >
+                <span className="flex items-center gap-1.5 truncate">
+                  <Smartphone className={cn('w-3.5 h-3.5', !store.hapticsEnabled && 'opacity-60')} />
+                  <span>Haptics</span>
+                </span>
+                <span className={cn('text-[10px] uppercase font-mono px-1 rounded', store.hapticsEnabled ? 'bg-primary/20 text-primary' : 'opacity-40')}>
+                  {store.hapticsEnabled ? 'ON' : 'OFF'}
+                </span>
+              </button>
+            </div>
+
+            {/* Zen Fullscreen Button */}
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              className={cn(
+                'w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-medium border transition-all',
+                isFullscreen
+                  ? 'bg-amber-500/15 border-amber-500/50 text-amber-600 dark:text-amber-400 font-semibold shadow-xs'
+                  : 'bg-muted/30 border-border/50 text-foreground hover:bg-muted/60'
+              )}
+            >
+              {isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+              <span>{isFullscreen ? 'Exit Zen Fullscreen (Z)' : 'True Zen Fullscreen (Z)'}</span>
+            </button>
           </div>
         </div>
       )}

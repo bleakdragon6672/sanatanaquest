@@ -360,6 +360,8 @@ interface StoreState {
   readerFont: ReaderFontFamily
   readerPaging: ReaderLayoutMode
   isBookReaderOpen: boolean
+  pageTurnSound: boolean
+  hapticsEnabled: boolean
 
   // Progress
   readVerses: Record<string, number>
@@ -403,6 +405,8 @@ interface StoreState {
   setReaderFont: (font: ReaderFontFamily) => void
   setReaderPaging: (mode: ReaderLayoutMode) => void
   setBookReaderOpen: (open: boolean) => void
+  setPageTurnSound: (enabled: boolean) => void
+  setHapticsEnabled: (enabled: boolean) => void
 
   markVerseRead: (verseId: string) => void
   unmarkVerseRead: (verseId: string) => void
@@ -512,6 +516,8 @@ const initialState = {
   readerFont: 'cormorant' as ReaderFontFamily,
   readerPaging: 'paged' as ReaderLayoutMode,
   isBookReaderOpen: false,
+  pageTurnSound: true,
+  hapticsEnabled: true,
   readVerses: {} as Record<string, number>,
   readingTimeSec: 0,
   currentStreak: 0,
@@ -546,6 +552,8 @@ export const useStore = create<StoreState>()(
       setReaderFont: (font) => set({ readerFont: font }),
       setReaderPaging: (mode) => set({ readerPaging: mode }),
       setBookReaderOpen: (open) => set({ isBookReaderOpen: open }),
+      setPageTurnSound: (enabled) => set({ pageTurnSound: enabled }),
+      setHapticsEnabled: (enabled) => set({ hapticsEnabled: enabled }),
 
       markVerseRead: (verseId) => {
         const state = get()
@@ -799,6 +807,8 @@ export const useStore = create<StoreState>()(
           paperTone: state.paperTone ?? 'parchment',
           readerFont: state.readerFont ?? 'cormorant',
           readerPaging: state.readerPaging ?? 'paged',
+          pageTurnSound: state.pageTurnSound ?? true,
+          hapticsEnabled: state.hapticsEnabled ?? true,
         }
       },
       // Don't persist computed getters
@@ -815,6 +825,8 @@ export const useStore = create<StoreState>()(
         paperTone: s.paperTone,
         readerFont: s.readerFont,
         readerPaging: s.readerPaging,
+        pageTurnSound: s.pageTurnSound,
+        hapticsEnabled: s.hapticsEnabled,
         readVerses: s.readVerses,
         readingTimeSec: s.readingTimeSec,
         currentStreak: s.currentStreak,
