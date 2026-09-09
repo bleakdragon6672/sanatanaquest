@@ -5,7 +5,7 @@ import {
   Bookmark, BookmarkCheck, Highlighter, NotebookPen, Sparkles, Trash2,
   ExternalLink, Share2, Search, Filter, BookOpen, ChevronRight, RefreshCw, Pencil, Check
 } from 'lucide-react'
-import { useStore } from '@/lib/store'
+import { useStore, PASTEL_HIGHLIGHTS, type PastelHighlightColor } from '@/lib/store'
 import { useNav, ViewKey } from '@/components/nav-context'
 import { getVerse, type Verse } from '@/lib/gita-data'
 import { getUpanishadVerse, type UpanishadVerse } from '@/lib/upanishad-data'
@@ -170,6 +170,7 @@ export function TreasuryView() {
   const { navigate } = useNav()
   const [activeTab, setActiveTab] = useState<TabType>('bookmarks')
   const [sourceFilter, setSourceFilter] = useState<SourceFilter>('all')
+  const [colorFilter, setColorFilter] = useState<PastelHighlightColor | 'all'>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null)
   const [noteDraft, setNoteDraft] = useState('')
@@ -190,6 +191,12 @@ export function TreasuryView() {
 
   // Apply source filter & search query
   const filteredVerses = resolvedVerses.filter((v) => {
+    // Color filter for highlights
+    if (activeTab === 'highlights' && colorFilter !== 'all') {
+      const vColor = store.highlightColors?.[v.id] || 'saffron'
+      if (vColor !== colorFilter) return false
+    }
+
     // Source filter
     if (sourceFilter === 'gita' && v.sourceKey !== 'gita') return false
     if (sourceFilter === 'upanishad' && v.sourceKey !== 'upanishad') return false
@@ -314,25 +321,63 @@ export function TreasuryView() {
         </div>
       </div>
 
-      {/* Source Filters */}
-      <div className="flex flex-wrap items-center gap-1.5 text-xs">
-        <span className="text-muted-foreground mr-1 flex items-center gap-1">
-          <Filter className="h-3 w-3" /> Filter by:
-        </span>
-        {(['all', 'gita', 'upanishad', 'ashtavakra', 'yogasutras', 'devotional'] as const).map((sf) => (
-          <Button
-            key={sf}
-            size="sm"
-            variant={sourceFilter === sf ? 'default' : 'ghost'}
-            className={cn(
-              'h-7 rounded-full text-xs capitalize',
-              sourceFilter === sf && 'bg-primary text-primary-foreground'
-            )}
-            onClick={() => setSourceFilter(sf)}
-          >
-            {sf === 'devotional' ? 'Chalisa & Stotram' : sf === 'ashtavakra' ? 'Ashtavakra' : sf === 'yogasutras' ? 'Yoga Sutras' : sf}
-          </Button>
-        ))}
+      {/* Source & Color Filters */}
+      <div className="space-y-2">
+        <div className="flex flex-wrap items-center gap-1.5 text-xs">
+          <span className="text-muted-foreground mr-1 flex items-center gap-1">
+            <Filter className="h-3 w-3" /> Source:
+          </span>
+          {(['all', 'gita', 'upanishad', 'ashtavakra', 'yogasutras', 'devotional'] as const).map((sf) => (
+            <Button
+              key={sf}
+              size="sm"
+              variant={sourceFilter === sf ? 'default' : 'ghost'}
+              className={cn(
+                'h-7 rounded-full text-xs capitalize',
+                sourceFilter === sf && 'bg-primary text-primary-foreground'
+              )}
+              onClick={() => setSourceFilter(sf)}
+            >
+              {sf === 'devotional' ? 'Chalisa & Stotram' : sf === 'ashtavakra' ? 'Ashtavakra' : sf === 'yogasutras' ? 'Yoga Sutras' : sf}
+            </Button>
+          ))}
+        </div>
+
+        {activeTab === 'highlights' && (
+          <div className="flex flex-wrap items-center gap-1.5 text-xs pt-1 border-t border-border/40">
+            <span className="text-muted-foreground mr-1 flex items-center gap-1">
+              <Highlighter className="h-3 w-3 text-primary" /> Pastel Hue:
+            </span>
+            <Button
+              size="sm"
+              variant={colorFilter === 'all' ? 'default' : 'ghost'}
+              className={cn('h-7 rounded-full text-xs', colorFilter === 'all' && 'bg-primary text-primary-foreground')}
+              onClick={() => setColorFilter('all')}
+            >
+              All ({store.highlights.length})
+            </Button>
+            {(['saffron', 'lotus', 'vermilion', 'ash', 'teal'] as PastelHighlightColor[]).map((c) => {
+              const meta = PASTEL_HIGHLIGHTS[c]
+              const count = store.highlights.filter((id) => (store.highlightColors?.[id] || 'saffron') === c).length
+              return (
+                <Button
+                  key={c}
+                  size="sm"
+                  variant={colorFilter === c ? 'default' : 'ghost'}
+                  className={cn(
+                    'h-7 rounded-full text-xs gap-1.5',
+                    colorFilter === c && 'bg-primary text-primary-foreground'
+                  )}
+                  onClick={() => setColorFilter(c)}
+                >
+                  <span className={cn('w-2 h-2 rounded-full', meta.dotClass)} />
+                  <span>{meta.name}</span>
+                  <span className="opacity-60 text-[10px]">({count})</span>
+                </Button>
+              )
+            })}
+          </div>
+        )}
       </div>
 
       {/* Verse List */}
@@ -341,18 +386,18 @@ export function TreasuryView() {
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-saffron-gradient-soft flex items-center justify-center">
             <OmSymbol size={32} className="opacity-50" />
           </div>
-          <h3 className="font-semibold text-lg mb-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <h3 className="font-semibold text-lg mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
             {activeTab === 'bookmarks'
               ? 'No Bookmarked Verses Yet'
               : activeTab === 'highlights'
-                ? 'No Highlighted Verses Yet'
+                ? 'No Highlighted Verses Found'
                 : 'No Personal Notes Yet'}
           </h3>
           <p className="text-sm text-muted-foreground max-w-md mx-auto mb-6">
             {activeTab === 'bookmarks'
               ? 'Click the bookmark icon on any verse while reading scriptures to save it to your personal treasury.'
               : activeTab === 'highlights'
-                ? 'Highlight profound verses to review them anytime in your sanctuary.'
+                ? 'Highlight profound verses in your chosen sacred pastel hues to review them anytime in your sanctuary.'
                 : 'Add personal reflections and notes to verses as you read.'}
           </p>
           <div className="flex flex-wrap gap-2 justify-center">
@@ -369,17 +414,25 @@ export function TreasuryView() {
           {filteredVerses.map((v) => {
             const isBookmarked = store.bookmarks.includes(v.id)
             const isHighlighted = store.highlights.includes(v.id)
+            const highlightColor = store.highlightColors?.[v.id] || 'saffron'
+            const highlightMeta = PASTEL_HIGHLIGHTS[highlightColor] || PASTEL_HIGHLIGHTS.saffron
             const noteText = store.notes[v.id]
             const isEditingThisNote = editingNoteId === v.id
 
             return (
-              <Card key={v.id} className="p-5 sm:p-6 relative overflow-hidden transition-all hover:border-primary/30 group">
+              <Card
+                key={v.id}
+                className={cn(
+                  'p-5 sm:p-6 relative overflow-hidden transition-all border group',
+                  isHighlighted ? highlightMeta.cardClass : 'hover:border-primary/30'
+                )}
+              >
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div className="flex items-center gap-2 flex-wrap">
                     <Badge className="bg-saffron-gradient text-white border-0 font-mono text-xs">
                       {v.id}
                     </Badge>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-xs" style={{ fontFamily: 'var(--font-cinzel), sans-serif' }}>
                       {v.sourceTitle}
                     </Badge>
                     {isBookmarked && (
@@ -388,8 +441,9 @@ export function TreasuryView() {
                       </Badge>
                     )}
                     {isHighlighted && (
-                      <Badge variant="secondary" className="text-[10px] gap-1">
-                        <Highlighter className="h-3 w-3 text-primary" /> Highlighted
+                      <Badge variant="outline" className={cn('text-[10px] font-medium border gap-1 shadow-xs', highlightMeta.textClass, highlightMeta.borderClass)}>
+                        <span className={cn('w-1.5 h-1.5 rounded-full', highlightMeta.dotClass)} />
+                        {highlightMeta.name}
                       </Badge>
                     )}
                   </div>
@@ -432,16 +486,16 @@ export function TreasuryView() {
                 <div className="space-y-2 mb-4">
                   {v.sanskrit && (
                     <p
-                      className="text-lg sm:text-xl font-medium leading-relaxed text-foreground/90"
-                      style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}
+                      className="text-lg sm:text-xl font-medium leading-[2.2] text-foreground/90"
+                      style={{ fontFamily: 'var(--font-devanagari), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line', letterSpacing: '0.025em' }}
                     >
                       {v.sanskrit}
                     </p>
                   )}
                   {v.transliteration && (
-                    <p className="text-xs italic text-muted-foreground">{v.transliteration}</p>
+                    <p className="text-base italic text-muted-foreground leading-relaxed" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>{v.transliteration}</p>
                   )}
-                  <p className="text-sm text-foreground/85 leading-relaxed">{v.english}</p>
+                  <p className="text-base sm:text-lg text-foreground/85 leading-relaxed" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>{v.english}</p>
                 </div>
 
                 {/* Note Section */}

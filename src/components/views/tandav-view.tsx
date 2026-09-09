@@ -9,7 +9,7 @@ import {
   shivTandavVerses, shivTandavInfo, getTandavVerse,
   type TandavVerse,
 } from '@/lib/shiv-tandav-data'
-import { useStore } from '@/lib/store'
+import { useStore, PASTEL_HIGHLIGHTS } from '@/lib/store'
 import { useNav } from '@/components/nav-context'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -21,6 +21,7 @@ import { LotusIcon } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
 import { VerseSlider } from '@/components/verse-slider'
 import { ActionButton, ActionButtonRow } from '@/components/verse-card-actions'
+import { HighlighterPalette } from '@/components/highlighter-palette'
 
 export function TandavView() {
   const { params, navigate } = useNav()
@@ -146,6 +147,8 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
   const isRead = !!store.readVerses[verse.id]
   const isBookmarked = store.bookmarks.includes(verse.id)
   const isHighlighted = store.highlights.includes(verse.id)
+  const highlightColor = store.highlightColors?.[verse.id] || 'saffron'
+  const highlightMeta = PASTEL_HIGHLIGHTS[highlightColor] || PASTEL_HIGHLIGHTS.saffron
 
   const idx = shivTandavVerses.findIndex((v) => v.id === verse.id)
   const prevVerse = idx > 0 ? shivTandavVerses[idx - 1] : null
@@ -175,8 +178,8 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full hover:bg-saffron-gradient-soft"><ChevronLeft className="h-5 w-5" /></Button>
           <div>
-            <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-0.5">Shiv Tandav Stotram</p>
-            <h1 className="text-lg sm:text-xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>Stanza {verse.number}</h1>
+            <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-0.5" style={{ fontFamily: 'var(--font-cinzel), sans-serif' }}>Shiv Tandav Stotram</p>
+            <h1 className="text-lg sm:text-xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>Stanza {verse.number}</h1>
           </div>
         </div>
 
@@ -197,55 +200,64 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
             onPrevious={() => { prevVerse && navigate('tandav', { verse: prevVerse.id }); handleVerseChange(prevVerse?.id ?? '') }}
             onNext={() => { nextVerse && navigate('tandav', { verse: nextVerse.id }); handleVerseChange(nextVerse?.id ?? '') }}
           >
-          <Card className={cn('p-0 overflow-hidden verse-card-animated', isHighlighted && 'ring-2 ring-primary/40')}>
+          <Card className={cn(
+            'p-0 overflow-hidden verse-card-animated border',
+            isHighlighted ? highlightMeta.cardClass : 'hover:border-saffron/30',
+          )}>
             <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="font-mono text-xs">{verse.id}</Badge>
                 <Badge variant="secondary" className="text-[10px]">श्लोक</Badge>
                 {isRead && <Badge className="bg-saffron-gradient text-white border-0 text-[10px]">✓ Read</Badge>}
+                {isHighlighted && (
+                  <Badge variant="outline" className={cn('text-[10px] font-medium border gap-1 shadow-xs', highlightMeta.textClass, highlightMeta.borderClass)}>
+                    <span className={cn('w-1.5 h-1.5 rounded-full', highlightMeta.dotClass)} />
+                    {highlightMeta.name}
+                  </Badge>
+                )}
               </div>
               <ActionButtonRow>
                 <ActionButton icon={Check} active={isRead} label="Mark read" onClick={handleMarkRead} shortcut="R" />
                 <ActionButton icon={isBookmarked ? BookmarkCheck : Bookmark} active={isBookmarked} label="Bookmark" onClick={() => { store.toggleBookmark(verse.id); toast.success(isBookmarked ? 'Removed' : 'Bookmarked') }} shortcut="B" />
-              <ActionButton icon={Highlighter} active={isHighlighted} label="Highlight" onClick={() => { store.toggleHighlight(verse.id); toast.success(isHighlighted ? 'Removed' : 'Highlighted') }} shortcut="H" />
-              <ActionButton icon={NotebookPen} active={!!existingNote} label="Note" onClick={() => { setNoteDraft(existingNote); setShowNoteEditor(!showNoteEditor) }} shortcut="N" />
-              <ActionButton icon={Share2} label="Share" onClick={() => setShareOpen(true)} shortcut="S" />
-            </ActionButtonRow>
-          </div>
+                <HighlighterPalette verseId={verse.id} shortcut="H" />
+                <ActionButton icon={NotebookPen} active={!!existingNote} label="Note" onClick={() => { setNoteDraft(existingNote); setShowNoteEditor(!showNoteEditor) }} shortcut="N" />
+                <ActionButton icon={Share2} label="Share" onClick={() => setShareOpen(true)} shortcut="S" />
+              </ActionButtonRow>
+            </div>
 
-          <div className="px-5 sm:px-7 py-6 space-y-4">
-            <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>संस्कृतम् · Sanskrit</p>
-              <p className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2] text-foreground/95" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}>{verse.sanskrit}</p>
-            </div>
-            <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Transliteration</p>
-              <p className="text-sm italic text-muted-foreground leading-relaxed verse-translit-text" style={{ whiteSpace: 'pre-line' }}>{verse.transliteration}</p>
-            </div>
-            <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">English Translation</p>
-              <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text" style={{ whiteSpace: 'pre-line' }}>{verse.english}</p>
-            </div>
-            {verse.commentary && (
-              <div className="relative rounded-xl overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_8%,transparent)] via-[color-mix(in_oklch,var(--gold)_5%,transparent)] to-transparent" />
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary/60 via-primary/30 to-transparent" />
-                <div className="relative px-5 py-4 sm:px-6 sm:py-5">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'Georgia, serif' }}>"</span>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-primary/60 font-semibold">Significance</p>
-                  </div>
-                  <p
-                    className="text-[0.9rem] text-foreground/80 leading-[1.85] verse-commentary-text"
-                    style={{ fontFamily: 'var(--font-serif), Georgia, serif' }}
-                  >{verse.commentary}</p>
-                  <div className="flex justify-end mt-2">
-                    <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'Georgia, serif' }}>"</span>
+            <div className="px-5 sm:px-7 py-6 space-y-4">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>संस्कृतम् · Sanskrit</p>
+                <p className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2.2] text-foreground/95" style={{ fontFamily: 'var(--font-devanagari), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line', letterSpacing: '0.025em' }}>{verse.sanskrit}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>Transliteration</p>
+                <p className="text-base italic text-muted-foreground leading-relaxed verse-translit-text" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>{verse.transliteration}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>English Translation</p>
+                <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>{verse.english}</p>
+              </div>
+              {verse.commentary && (
+                <div className="relative rounded-xl overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_8%,transparent)] via-[color-mix(in_oklch,var(--gold)_5%,transparent)] to-transparent" />
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary/60 via-primary/30 to-transparent" />
+                  <div className="relative px-5 py-4 sm:px-6 sm:py-5">
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}>"</span>
+                      <p className="text-[10px] uppercase tracking-[0.15em] text-primary/60 font-semibold" style={{ fontFamily: 'var(--font-cinzel), sans-serif' }}>Significance</p>
+                    </div>
+                    <p
+                      className="text-base text-foreground/85 leading-[1.85] verse-commentary-text"
+                      style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif' }}
+                    >{verse.commentary}</p>
+                    <div className="flex justify-end mt-2">
+                      <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}>"</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
 
           <div className="px-5 sm:px-7 pb-4 flex flex-wrap items-center justify-between gap-2 border-t border-border/40 pt-3">
             <div className="flex items-center gap-1">

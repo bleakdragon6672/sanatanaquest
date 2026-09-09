@@ -15,6 +15,78 @@ export type ReadingViewMode = 'standard' | 'focus' | 'zen'
 export type ReadingWidth = 'narrow' | 'normal' | 'wide'
 export type AccentColor = 'saffron' | 'gold' | 'vermilion' | 'lotus' | 'ocean' | 'forest'
 
+export type PastelHighlightColor = 'saffron' | 'lotus' | 'vermilion' | 'ash' | 'teal'
+
+export interface PastelHighlightMeta {
+  id: PastelHighlightColor
+  name: string
+  sanskrit: string
+  dotClass: string
+  bgClass: string
+  borderClass: string
+  textClass: string
+  cardClass: string
+  hex: string
+}
+
+export const PASTEL_HIGHLIGHTS: Record<PastelHighlightColor, PastelHighlightMeta> = {
+  saffron: {
+    id: 'saffron',
+    name: 'Saffron Gold',
+    sanskrit: 'सुवर्ण',
+    dotClass: 'bg-amber-400',
+    bgClass: 'bg-amber-500/15',
+    borderClass: 'border-amber-400',
+    textClass: 'text-amber-600 dark:text-amber-400',
+    cardClass: 'highlight-pastel-saffron',
+    hex: '#FDE68A',
+  },
+  lotus: {
+    id: 'lotus',
+    name: 'Lotus Pink',
+    sanskrit: 'कमल',
+    dotClass: 'bg-pink-400',
+    bgClass: 'bg-pink-500/15',
+    borderClass: 'border-pink-400',
+    textClass: 'text-pink-600 dark:text-pink-400',
+    cardClass: 'highlight-pastel-lotus',
+    hex: '#FCE7F3',
+  },
+  vermilion: {
+    id: 'vermilion',
+    name: 'Temple Vermilion',
+    sanskrit: 'सिन्दूर',
+    dotClass: 'bg-rose-500',
+    bgClass: 'bg-rose-500/15',
+    borderClass: 'border-rose-400',
+    textClass: 'text-rose-600 dark:text-rose-400',
+    cardClass: 'highlight-pastel-vermilion',
+    hex: '#FEE2E2',
+  },
+  ash: {
+    id: 'ash',
+    name: 'Sacred Ash',
+    sanskrit: 'भस्म',
+    dotClass: 'bg-slate-400',
+    bgClass: 'bg-slate-500/15',
+    borderClass: 'border-slate-400',
+    textClass: 'text-slate-600 dark:text-slate-400',
+    cardClass: 'highlight-pastel-ash',
+    hex: '#E2E8F0',
+  },
+  teal: {
+    id: 'teal',
+    name: 'Peacock Teal',
+    sanskrit: 'मयूर',
+    dotClass: 'bg-teal-400',
+    bgClass: 'bg-teal-500/15',
+    borderClass: 'border-teal-400',
+    textClass: 'text-teal-600 dark:text-teal-400',
+    cardClass: 'highlight-pastel-teal',
+    hex: '#CCFBF1',
+  },
+}
+
 export type ActivityType =
   | 'gita'
   | 'ramayana'
@@ -215,6 +287,7 @@ interface StoreState {
   // Bookmarks / highlights / notes
   bookmarks: string[]
   highlights: string[]
+  highlightColors: Record<string, PastelHighlightColor>
   notes: Record<string, string>
 
   // XP & Levels
@@ -248,7 +321,8 @@ interface StoreState {
   touchStreak: () => void
 
   toggleBookmark: (verseId: string) => void
-  toggleHighlight: (verseId: string) => void
+  toggleHighlight: (verseId: string, color?: PastelHighlightColor) => void
+  setHighlightColor: (verseId: string, color: PastelHighlightColor) => void
   setNote: (verseId: string, note: string) => void
 
   logActivity: (type: ActivityType, duration?: number, note?: string) => void
@@ -353,6 +427,7 @@ const initialState = {
   dailyActivity: {} as Record<string, string[]>,
   bookmarks: [] as string[],
   highlights: [] as string[],
+  highlightColors: {} as Record<string, PastelHighlightColor>,
   notes: {} as Record<string, string>,
   totalXp: 0,
   activities: [] as ActivityLog[],
@@ -378,9 +453,17 @@ export const useStore = create<StoreState>()(
       markVerseRead: (verseId) => {
         const state = get()
         if (state.readVerses[verseId]) return // already counted
+        const newCount = (state.readVerses[verseId] || 0) + 1
+        const xpGain = 10
+        const today = todayStr()
+        const todayVerses = state.dailyActivity[today] || []
         set({
-          readVerses: { ...state.readVerses, [verseId]: Date.now() },
-          totalXp: state.totalXp + ACTIVITY_XP.gita,
+          readVerses: { ...state.readVerses, [verseId]: newCount },
+          totalXp: state.totalXp + xpGain,
+          dailyActivity: {
+            ...state.dailyActivity,
+            [today]: todayVerses.includes(verseId) ? todayVerses : [...todayVerses, verseId],
+          },
         })
         get().touchStreak()
       },
@@ -401,19 +484,28 @@ export const useStore = create<StoreState>()(
       touchStreak: () => {
         const state = get()
         const today = todayStr()
-        if (state.lastActiveDate === today) return
-        let newStreak = 1
-        if (state.lastActiveDate) {
-          const d = diffDays(state.lastActiveDate, today)
-          if (d === 1) newStreak = state.currentStreak + 1
-          else if (d <= 0) newStreak = state.currentStreak
-          else newStreak = 1 // gap
+        const last = state.lastActiveDate
+        if (last === today) return // already active today
+
+        if (!last) {
+          // First activity
+          set({ currentStreak: 1, longestStreak: 1, lastActiveDate: today })
+          return
         }
-        set({
-          currentStreak: newStreak,
-          longestStreak: Math.max(state.longestStreak, newStreak),
-          lastActiveDate: today,
-        })
+
+        const days = diffDays(last, today)
+        if (days === 1) {
+          // Consecutive day
+          const newStreak = state.currentStreak + 1
+          set({
+            currentStreak: newStreak,
+            longestStreak: Math.max(newStreak, state.longestStreak),
+            lastActiveDate: today,
+          })
+        } else if (days > 1) {
+          // Streak broken
+          set({ currentStreak: 1, lastActiveDate: today })
+        }
       },
 
       toggleBookmark: (verseId) => {
@@ -426,13 +518,30 @@ export const useStore = create<StoreState>()(
         })
       },
 
-      toggleHighlight: (verseId) => {
+      toggleHighlight: (verseId, color = 'saffron') => {
         const state = get()
         const exists = state.highlights.includes(verseId)
+        const currentColor = state.highlightColors[verseId]
+        if (exists && (!color || currentColor === color)) {
+          const newColors = { ...state.highlightColors }
+          delete newColors[verseId]
+          set({
+            highlights: state.highlights.filter((h) => h !== verseId),
+            highlightColors: newColors,
+          })
+        } else {
+          set({
+            highlights: exists ? state.highlights : [...state.highlights, verseId],
+            highlightColors: { ...state.highlightColors, [verseId]: color },
+          })
+        }
+      },
+
+      setHighlightColor: (verseId, color) => {
+        const state = get()
         set({
-          highlights: exists
-            ? state.highlights.filter((h) => h !== verseId)
-            : [...state.highlights, verseId],
+          highlights: state.highlights.includes(verseId) ? state.highlights : [...state.highlights, verseId],
+          highlightColors: { ...state.highlightColors, [verseId]: color },
         })
       },
 
@@ -551,6 +660,7 @@ export const useStore = create<StoreState>()(
           readVerses: snapshot.readVerses ?? {},
           bookmarks: snapshot.bookmarks ?? [],
           highlights: snapshot.highlights ?? [],
+          highlightColors: (snapshot as unknown as { highlightColors?: Record<string, PastelHighlightColor> }).highlightColors ?? {},
           notes: snapshot.notes ?? {},
           dailyActivity: snapshot.dailyActivity ?? {},
           activities: snapshot.activities ?? [],
@@ -610,6 +720,7 @@ export const useStore = create<StoreState>()(
         dailyActivity: s.dailyActivity,
         bookmarks: s.bookmarks,
         highlights: s.highlights,
+        highlightColors: s.highlightColors,
         notes: s.notes,
         totalXp: s.totalXp,
         activities: s.activities,

@@ -6,7 +6,7 @@ import {
   Share2, Play, Pause, Volume2, Sparkles, Check,
 } from 'lucide-react'
 import { gitaChapters, getChapter, type Verse } from '@/lib/gita-data'
-import { useStore, type ReadingMode } from '@/lib/store'
+import { useStore, PASTEL_HIGHLIGHTS, type ReadingMode } from '@/lib/store'
 import { useNav } from '@/components/nav-context'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils'
 import { formatCommentary } from '@/lib/sanitize'
 import { VerseSlider } from '@/components/verse-slider'
 import { ActionButton, ActionButtonRow } from '@/components/verse-card-actions'
+import { HighlighterPalette } from '@/components/highlighter-palette'
 import { ReadingModeSwitcher } from '@/components/reading-mode-switcher'
 
 export function GitaView() {
@@ -101,7 +102,7 @@ function ChapterList({ onOpen }: { onOpen: (num: number) => void }) {
           <Badge className="mb-3 bg-saffron-gradient text-white border-0 text-sm px-3 py-1">
             श्रीमद्भगवद्गीता
           </Badge>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
             The Bhagavad Gita
           </h1>
           <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
@@ -231,7 +232,7 @@ function ChapterReader({
             <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-0.5">
               Chapter {chapter.number}
             </p>
-            <h1 className="text-xl sm:text-2xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+            <h1 className="text-xl sm:text-2xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
               {chapter.name}
             </h1>
           </div>
@@ -244,7 +245,7 @@ function ChapterReader({
       {/* Chapter summary banner (only when on first verse) */}
       {verse.id === chapter.verses[0].id && (
         <Card className="p-4 sm:p-5 bg-saffron-gradient-soft border-primary/20">
-          <p className="text-[10px] sm:text-xs uppercase tracking-widest text-primary/70 mb-2" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <p className="text-[10px] sm:text-xs uppercase tracking-widest text-primary/70 mb-2" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
             {chapter.sanskritName} · {chapter.transliteration}
           </p>
           <p className="text-sm sm:text-base text-foreground/85 leading-relaxed">{chapter.summary}</p>
@@ -329,6 +330,8 @@ function VerseCard({ verse }: { verse: Verse }) {
   const readTimestamp = store.readVerses[verse.id]
   const isBookmarked = store.bookmarks.includes(verse.id)
   const isHighlighted = store.highlights.includes(verse.id)
+  const highlightColor = store.highlightColors?.[verse.id] || 'saffron'
+  const highlightMeta = PASTEL_HIGHLIGHTS[highlightColor] || PASTEL_HIGHLIGHTS.saffron
   const isRead = !!readTimestamp
 
   function handleMarkRead() {
@@ -364,8 +367,8 @@ function VerseCard({ verse }: { verse: Verse }) {
     <>
       <Card
         className={cn(
-          'p-0 overflow-hidden transition-all verse-card-animated',
-          isHighlighted && 'ring-2 ring-primary/40',
+          'p-0 overflow-hidden transition-all verse-card-animated border',
+          isHighlighted ? highlightMeta.cardClass : 'hover:border-saffron/30',
           isNight && 'bg-[#1a1410] text-amber-50 border-amber-900/30',
           isFocus && 'mx-auto max-w-2xl',
         )}
@@ -379,12 +382,17 @@ function VerseCard({ verse }: { verse: Verse }) {
             {isRead && (
               <Badge className="bg-saffron-gradient text-white border-0 text-[10px]">✓ Read</Badge>
             )}
-            {isHighlighted && <Badge variant="secondary" className="text-[10px]">Highlighted</Badge>}
+            {isHighlighted && (
+              <Badge variant="outline" className={cn('text-[10px] font-medium border gap-1 shadow-xs', highlightMeta.textClass, highlightMeta.borderClass)}>
+                <span className={cn('w-1.5 h-1.5 rounded-full', highlightMeta.dotClass)} />
+                {highlightMeta.name}
+              </Badge>
+            )}
           </div>
           <ActionButtonRow>
             <ActionButton icon={Check} active={isRead} label={isRead ? 'Marked as read' : 'Mark as read (+10 XP)'} onClick={handleMarkRead} shortcut="R" />
             <ActionButton icon={isBookmarked ? BookmarkCheck : Bookmark} active={isBookmarked} label="Bookmark" onClick={() => { store.toggleBookmark(verse.id); toast.success(isBookmarked ? 'Removed bookmark' : 'Verse bookmarked') }} shortcut="B" />
-            <ActionButton icon={Highlighter} active={isHighlighted} label="Highlight" onClick={() => { store.toggleHighlight(verse.id); toast.success(isHighlighted ? 'Highlight removed' : 'Verse highlighted') }} shortcut="H" />
+            <HighlighterPalette verseId={verse.id} shortcut="H" />
             <ActionButton icon={NotebookPen} active={!!existingNote} label="Note" onClick={() => { setNoteDraft(existingNote); setShowNoteEditor(!showNoteEditor) }} shortcut="N" />
             <ActionButton icon={Share2} label="Share" onClick={() => setShareOpen(true)} shortcut="S" />
           </ActionButtonRow>
@@ -394,12 +402,12 @@ function VerseCard({ verse }: { verse: Verse }) {
         <div className="px-5 sm:px-7 py-6 space-y-4">
           {showSanskrit && (
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
                 संस्कृतम् · Sanskrit
               </p>
               <p
-                className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2] text-foreground/95"
-                style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line' }}
+                className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2.2] text-foreground/95"
+                style={{ fontFamily: 'var(--font-devanagari), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line', letterSpacing: '0.025em' }}
               >
                 {verse.sanskrit}
               </p>
@@ -407,22 +415,22 @@ function VerseCard({ verse }: { verse: Verse }) {
           )}
           {showTranslit && (
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Transliteration</p>
-              <p className="text-sm italic text-muted-foreground leading-relaxed verse-translit-text" style={{ whiteSpace: 'pre-line' }}>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>Transliteration</p>
+              <p className="text-base italic text-muted-foreground leading-relaxed verse-translit-text" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>
                 {verse.transliteration}
               </p>
             </div>
           )}
           {showEnglish && (
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">English Translation</p>
-              <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text" style={{ whiteSpace: 'pre-line' }}>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>English Translation</p>
+              <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>
                 {verse.english}
               </p>
             </div>
           )}
           {verse.meaning && (
-            <div className="border-l-2 border-primary/40 pl-3 italic text-sm text-muted-foreground/90 leading-relaxed">
+            <div className="border-l-2 border-primary/40 pl-3 italic text-base text-muted-foreground/90 leading-relaxed" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif' }}>
               {verse.meaning}
             </div>
           )}
@@ -435,9 +443,9 @@ function VerseCard({ verse }: { verse: Verse }) {
               <div className="relative px-5 py-4 sm:px-6 sm:py-5">
                 {/* Header with decorative quote */}
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'Georgia, serif' }}>"</span>
+                  <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}>"</span>
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-primary/60 font-semibold" style={{ fontFamily: 'var(--font-sans), sans-serif' }}>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-primary/60 font-semibold" style={{ fontFamily: 'var(--font-cinzel), sans-serif' }}>
                       Swami Mukundananda
                     </p>
                     <p className="text-[9px] uppercase tracking-widest text-muted-foreground/50">
@@ -448,8 +456,8 @@ function VerseCard({ verse }: { verse: Verse }) {
                 
                 {/* Commentary body */}
                 <div
-                  className="text-[0.9rem] text-foreground/80 leading-[1.85] sm:leading-[1.9] whitespace-pre-wrap verse-commentary-text"
-                  style={{ fontFamily: 'var(--font-serif), Georgia, "Times New Roman", serif' }}
+                  className="text-base text-foreground/85 leading-[1.85] sm:leading-[1.9] whitespace-pre-wrap verse-commentary-text"
+                  style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif' }}
                   dangerouslySetInnerHTML={{
                       __html: formatCommentary(verse.commentary),
                   }}
@@ -457,7 +465,7 @@ function VerseCard({ verse }: { verse: Verse }) {
                 
                 {/* Closing quote */}
                 <div className="flex justify-end mt-2">
-                  <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'Georgia, serif' }}>"</span>
+                  <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}>"</span>
                 </div>
               </div>
             </div>

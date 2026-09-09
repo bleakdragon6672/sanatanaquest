@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
+import { Geist, Geist_Mono, Playfair_Display, Cormorant_Garamond, Cinzel, Noto_Serif_Devanagari } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
@@ -19,6 +19,24 @@ const playfair = Playfair_Display({
   variable: "--font-serif-display",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+});
+
+const notoDevanagari = Noto_Serif_Devanagari({
+  variable: "--font-devanagari",
+  subsets: ["devanagari", "latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -72,7 +90,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${cormorant.variable} ${cinzel.variable} ${notoDevanagari.variable} antialiased bg-background text-foreground`}
       >
         <ThemeProvider
           attribute="class"
