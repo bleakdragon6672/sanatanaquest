@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import dynamic from 'next/dynamic'
-import { NavProvider, useNav } from '@/components/nav-context'
+import { NavProvider, useNav, type ViewKey } from '@/components/nav-context'
 import { Sidebar, MobileNavProvider, MobileNavTrigger, MobileNavDrawer } from '@/components/sidebar'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { HomeView } from '@/components/views/home-view'
@@ -47,7 +47,7 @@ const DilemmaView = dynamic(() => import('@/components/views/dilemma-view').then
 const MemorizerView = dynamic(() => import('@/components/views/memorizer-view').then(m => ({ default: m.MemorizerView })), { ssr: false, loading: () => skeleton })
 import { OmSymbol } from '@/components/spiritual-icons'
 import { useStore } from '@/lib/store'
-import { BookOpen, Search, Menu } from 'lucide-react'
+import { BookOpen, Search, Menu, Headphones } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { AuthProvider, useAuth } from '@/lib/auth-context'
 import { AuthGate } from '@/components/auth/AuthGate'
@@ -116,15 +116,31 @@ function TopBar() {
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => navigate('gita')}
-            className="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full hover:bg-saffron-gradient-soft"
-            title="Read Gita"
+            className={cn(
+              'hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full hover:bg-saffron-gradient-soft transition-colors',
+              view === 'gita' && 'bg-saffron-gradient-soft text-primary font-semibold'
+            )}
+            title="Read Bhagavad Gita"
           >
             <BookOpen className="h-4 w-4" />
           </button>
           <button
+            onClick={() => navigate('soundscapes')}
+            className={cn(
+              'hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full hover:bg-saffron-gradient-soft transition-colors',
+              view === 'soundscapes' && 'bg-saffron-gradient-soft text-primary font-semibold'
+            )}
+            title="Sacred Soundscapes (432Hz Om, Tanpura, Flute)"
+          >
+            <Headphones className="h-4 w-4" />
+          </button>
+          <button
             onClick={() => navigate('search')}
-            className="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full hover:bg-saffron-gradient-soft"
-            title="Search"
+            className={cn(
+              'hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full hover:bg-saffron-gradient-soft transition-colors',
+              view === 'search' && 'bg-saffron-gradient-soft text-primary font-semibold'
+            )}
+            title="Search Scripture"
           >
             <Search className="h-4 w-4" />
           </button>
@@ -243,12 +259,31 @@ function AppShell() {
   // Track XP changes for animations
   useXpTracker()
 
-  // Reading width classes
-  const widthClass = store.readingWidth === 'narrow' ? 'max-w-3xl' : store.readingWidth === 'wide' ? 'max-w-7xl' : 'max-w-6xl'
+  // Reading views where text column width constraint is desired
+  const scriptureViews: ViewKey[] = [
+    'gita',
+    'upanishad',
+    'chalisa',
+    'baan',
+    'tandav',
+    'yogasutras',
+    'ashtavakragita',
+  ]
+  const isScriptureView = scriptureViews.includes(view)
 
-  // Reading view mode classes
-  const isZen = store.readingViewMode === 'zen'
-  const isFocus = store.readingViewMode === 'focus'
+  // Scope reading width: non-reading views (Dashboard, Mind Map, Analytics, Skill Tree, Treasury, etc.)
+  // get full desktop max-w-7xl so multi-column layouts and charts aren't squished!
+  const widthClass = isScriptureView
+    ? store.readingWidth === 'narrow'
+      ? 'max-w-4xl'
+      : store.readingWidth === 'wide'
+      ? 'max-w-7xl'
+      : 'max-w-5xl'
+    : 'max-w-7xl'
+
+  // Reading view mode classes — only apply zen / focus shell override when actively reading a scripture!
+  const isZen = isScriptureView && store.readingViewMode === 'zen'
+  const isFocus = isScriptureView && store.readingViewMode === 'focus'
 
   return (
     <MobileNavProvider>

@@ -199,10 +199,10 @@ export function HomeView() {
               style={{ width: `${overallPct}%` }}
             />
           </div>
-          <div className="flex justify-between text-xs sm:text-sm text-muted-foreground mt-2">
-            <span>7 sacred texts</span>
+          <div className="flex flex-wrap items-center justify-between text-xs sm:text-sm text-muted-foreground mt-2 gap-2">
+            <span className="font-medium">7 sacred texts</span>
             <span className="font-semibold text-foreground">{overallPct}% complete</span>
-            <span>Gita · Upanishads · Chalisa · Baan · Tandav · Yoga Sutras · Ashtavakra Gita</span>
+            <span className="hidden md:inline text-xs opacity-75">Gita · Upanishads · Chalisa · Baan · Tandav · Yoga Sutras · Ashtavakra Gita</span>
           </div>
         </div>
       </Card>

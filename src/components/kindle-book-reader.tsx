@@ -21,6 +21,7 @@ import {
   MoreHorizontal,
   Maximize2,
   Minimize2,
+  Keyboard,
 } from 'lucide-react'
 import { playPaperFlipSound, triggerHaptic } from '@/lib/reader-sound'
 import {
@@ -94,6 +95,7 @@ export function KindleBookReader({
   const [noteDraft, setNoteDraft] = useState<string>('')
   const [shareOpen, setShareOpen] = useState<boolean>(false)
   const [playingAudio, setPlayingAudio] = useState<boolean>(false)
+  const [shortcutsOpen, setShortcutsOpen] = useState<boolean>(false)
   const [mounted, setMounted] = useState<boolean>(false)
 
   useEffect(() => {
@@ -482,7 +484,9 @@ export function KindleBookReader({
           break
         case 'Escape':
           e.preventDefault()
-          if (useStore.getState().isZenMode || isFullscreen) {
+          if (shortcutsOpen) {
+            setShortcutsOpen(false)
+          } else if (useStore.getState().isZenMode || isFullscreen) {
             toggleZenMode()
           } else {
             onClose()
@@ -504,12 +508,16 @@ export function KindleBookReader({
           e.preventDefault()
           toggleZenMode()
           break
+        case '?':
+          e.preventDefault()
+          setShortcutsOpen((prev) => !prev)
+          break
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, currentIndex, currentVerse, verses.length, onClose, isFullscreen])
+  }, [isOpen, currentIndex, currentVerse, verses.length, onClose, isFullscreen, shortcutsOpen])
 
   // Audio recitation toggle
   const toggleAudio = () => {
@@ -714,6 +722,17 @@ export function KindleBookReader({
           {/* Kindle iconic "aA" Appearance Menu */}
           <KindleAppearanceMenu align="right" />
 
+          {/* Keyboard Shortcuts Trigger (Desktop / Laptop) */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setShortcutsOpen(true)}
+            className="rounded-full h-8 w-8 hover:bg-black/5 dark:hover:bg-white/10 hidden sm:inline-flex"
+            title="Keyboard Shortcuts (?)"
+          >
+            <Keyboard className="w-4 h-4" />
+          </Button>
+
           {/* Zen Fullscreen Mode Button */}
           <Button
             variant="ghost"
@@ -795,6 +814,47 @@ export function KindleBookReader({
           )}
         </div>
       </header>
+
+      {/* ── Floating Desktop Page Turn Chevrons (Paged Mode) ─── */}
+      {store.readerPaging === 'paged' && currentIndex > 0 && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation()
+            goPrev()
+          }}
+          className={cn(
+            'hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 h-12 w-12 items-center justify-center rounded-full',
+            'bg-background/85 hover:bg-background text-foreground shadow-xl border border-border/70 backdrop-blur-md',
+            'transition-all duration-200 hover:scale-110 active:scale-95 group cursor-pointer',
+            hudVisible ? 'opacity-85' : 'opacity-0 hover:opacity-100 focus:opacity-100'
+          )}
+          title="Previous Verse (← or K)"
+          aria-label="Previous Verse"
+        >
+          <ChevronLeft className="w-6 h-6 transition-transform group-hover:-translate-x-0.5" />
+        </button>
+      )}
+
+      {store.readerPaging === 'paged' && currentIndex < verses.length - 1 && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation()
+            goNext()
+          }}
+          className={cn(
+            'hidden md:flex fixed right-4 top-1/2 -translate-y-1/2 z-40 h-12 w-12 items-center justify-center rounded-full',
+            'bg-background/85 hover:bg-background text-foreground shadow-xl border border-border/70 backdrop-blur-md',
+            'transition-all duration-200 hover:scale-110 active:scale-95 group cursor-pointer',
+            hudVisible ? 'opacity-85' : 'opacity-0 hover:opacity-100 focus:opacity-100'
+          )}
+          title="Next Verse (→ or J)"
+          aria-label="Next Verse"
+        >
+          <ChevronRight className="w-6 h-6 transition-transform group-hover:translate-x-0.5" />
+        </button>
+      )}
 
       {/* ── READING CANVAS (PAGED or SCROLL) with TOUCH SWIPE ─── */}
       <main
@@ -1035,6 +1095,75 @@ export function KindleBookReader({
           body={currentVerse.english}
           footer="Sanatan Quest Luxury Reader"
         />
+      )}
+
+      {/* Keyboard Shortcuts Dialog for Desktop Users */}
+      {shortcutsOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-in fade-in duration-150"
+          onClick={() => setShortcutsOpen(false)}
+        >
+          <div
+            className={cn(
+              'w-full max-w-sm rounded-2xl border p-5 shadow-2xl space-y-4',
+              store.paperTone === 'obsidian'
+                ? 'bg-[#181512] border-[#38302A] text-[#EAE0D2]'
+                : 'bg-card border-border text-card-foreground'
+            )}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-2 border-b border-border/50">
+              <div className="flex items-center gap-2">
+                <Keyboard className="w-4 h-4 text-amber-500" />
+                <h3 className="text-sm font-semibold">Keyboard Shortcuts</h3>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShortcutsOpen(false)}
+                className="h-7 w-7 rounded-full hover:bg-black/5 dark:hover:bg-white/10"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+            <div className="space-y-2 text-xs">
+              <div className="flex items-center justify-between py-1 border-b border-border/30">
+                <span className="text-muted-foreground">Next Page / Verse</span>
+                <div className="flex gap-1">
+                  <kbd className="px-1.5 py-0.5 rounded bg-muted font-mono font-bold text-[11px]">→</kbd>
+                  <kbd className="px-1.5 py-0.5 rounded bg-muted font-mono font-bold text-[11px]">J</kbd>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-1 border-b border-border/30">
+                <span className="text-muted-foreground">Previous Page / Verse</span>
+                <div className="flex gap-1">
+                  <kbd className="px-1.5 py-0.5 rounded bg-muted font-mono font-bold text-[11px]">←</kbd>
+                  <kbd className="px-1.5 py-0.5 rounded bg-muted font-mono font-bold text-[11px]">K</kbd>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-1 border-b border-border/30">
+                <span className="text-muted-foreground">Bookmark Verse</span>
+                <kbd className="px-1.5 py-0.5 rounded bg-muted font-mono font-bold text-[11px]">B</kbd>
+              </div>
+              <div className="flex items-center justify-between py-1 border-b border-border/30">
+                <span className="text-muted-foreground">Highlight Verse</span>
+                <kbd className="px-1.5 py-0.5 rounded bg-muted font-mono font-bold text-[11px]">H</kbd>
+              </div>
+              <div className="flex items-center justify-between py-1 border-b border-border/30">
+                <span className="text-muted-foreground">Zen Fullscreen Mode</span>
+                <kbd className="px-1.5 py-0.5 rounded bg-muted font-mono font-bold text-[11px]">Z</kbd>
+              </div>
+              <div className="flex items-center justify-between py-1 border-b border-border/30">
+                <span className="text-muted-foreground">Toggle Controls / HUD</span>
+                <kbd className="px-1.5 py-0.5 rounded bg-muted font-mono font-bold text-[11px]">F</kbd>
+              </div>
+              <div className="flex items-center justify-between py-1">
+                <span className="text-muted-foreground">Exit Reader</span>
+                <kbd className="px-1.5 py-0.5 rounded bg-muted font-mono font-bold text-[11px]">Esc</kbd>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>,
     document.body
