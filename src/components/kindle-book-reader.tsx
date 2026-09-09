@@ -31,18 +31,11 @@ import {
   type ReaderFontFamily,
   type ReaderLayoutMode,
   type ReadingWidth,
+  type PastelHighlightColor,
 } from '@/lib/store'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-  DropdownMenuLabel,
-} from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { KindleAppearanceMenu } from '@/components/kindle-appearance-menu'
@@ -587,7 +580,7 @@ export function KindleBookReader({
     <div
       onMouseMove={handleMouseMove}
       className={cn(
-        'fixed inset-0 h-[100dvh] w-screen z-[9999] flex flex-col transition-colors duration-300 select-none overflow-hidden overscroll-none',
+        'fixed inset-0 h-[100dvh] w-screen z-[60] flex flex-col transition-colors duration-300 select-none overflow-hidden overscroll-none',
         paperToneClass
       )}
     >
@@ -768,96 +761,37 @@ export function KindleBookReader({
           {/* aA menu button */}
           <KindleAppearanceMenu align="right" />
 
-          {/* More Actions Dropdown on Mobile */}
+          {/* More Actions Menu on Mobile */}
           {currentVerse && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full h-8 w-8 hover:bg-black/5 dark:hover:bg-white/10"
-                  title="More actions"
-                >
-                  <MoreHorizontal className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 p-2 rounded-2xl shadow-xl z-50">
-                <DropdownMenuLabel className="text-[10px] uppercase font-semibold text-muted-foreground px-2 py-1">
-                  Verse Actions • {currentVerse.chapter}.{currentVerse.verse ?? currentVerse.number}
-                </DropdownMenuLabel>
-                
-                <DropdownMenuItem onClick={toggleAudio} className="gap-2.5 rounded-xl text-xs py-2 cursor-pointer">
-                  {playingAudio ? <VolumeX className="w-4 h-4 text-amber-500" /> : <Volume2 className="w-4 h-4" />}
-                  <span>{playingAudio ? 'Stop Recitation' : 'Listen to Chanting'}</span>
-                </DropdownMenuItem>
-
-                <DropdownMenuItem onClick={() => setShowNoteEditor(true)} className="gap-2.5 rounded-xl text-xs py-2 cursor-pointer">
-                  <NotebookPen className={cn('w-4 h-4', store.notes[currentVerse.id] && 'text-amber-500')} />
-                  <span>{store.notes[currentVerse.id] ? 'Edit Reflection' : 'Add Personal Reflection'}</span>
-                </DropdownMenuItem>
-
-                <DropdownMenuItem onClick={() => setShareOpen(true)} className="gap-2.5 rounded-xl text-xs py-2 cursor-pointer">
-                  <Share2 className="w-4 h-4" />
-                  <span>Share Sacred Verse</span>
-                </DropdownMenuItem>
-
-                <DropdownMenuItem
-                  onClick={() => {
-                    if (store.readVerses[currentVerse.id]) {
-                      store.unmarkVerseRead(currentVerse.id)
-                      toast.success('Marked unread')
-                    } else {
-                      store.markVerseRead(currentVerse.id)
-                      store.addReadingTime(20)
-                      toast.success('Marked as read · +10 XP')
-                    }
-                  }}
-                  className="gap-2.5 rounded-xl text-xs py-2 cursor-pointer"
-                >
-                  <Check className={cn('w-4 h-4', store.readVerses[currentVerse.id] && 'text-green-500')} />
-                  <span>{store.readVerses[currentVerse.id] ? 'Mark as Unread' : 'Mark as Read (+10 XP)'}</span>
-                </DropdownMenuItem>
-
-                <DropdownMenuSeparator />
-
-                <DropdownMenuItem onClick={toggleZenMode} className="gap-2.5 rounded-xl text-xs py-2 cursor-pointer">
-                  {store.isZenMode ? <Minimize2 className="w-4 h-4 text-amber-500" /> : <Maximize2 className="w-4 h-4" />}
-                  <span>{store.isZenMode ? 'Exit Zen Mode' : 'Zen Fullscreen Mode'}</span>
-                </DropdownMenuItem>
-
-                <DropdownMenuSeparator />
-
-                <div className="px-2 py-2">
-                  <span className="text-[10px] uppercase font-semibold text-muted-foreground block mb-2">
-                    Sacred Highlighter
-                  </span>
-                  <div className="flex items-center justify-between gap-1">
-                    {(['saffron', 'lotus', 'vermilion', 'ash', 'teal'] as const).map((colorKey) => {
-                      const meta = PASTEL_HIGHLIGHTS[colorKey]
-                      const isCurrent = store.highlights.includes(currentVerse.id) && (store.highlightColors?.[currentVerse.id] || 'saffron') === colorKey
-                      return (
-                        <button
-                          key={colorKey}
-                          type="button"
-                          onClick={() => {
-                            store.setHighlightColor(currentVerse.id, colorKey)
-                            toast.success(`Highlighted in ${meta.name}`)
-                          }}
-                          className={cn(
-                            'w-6 h-6 rounded-full border shadow-xs transition-transform active:scale-95 flex items-center justify-center',
-                            meta.dotClass,
-                            isCurrent && 'ring-2 ring-primary ring-offset-1 scale-110'
-                          )}
-                          title={meta.name}
-                        >
-                          {isCurrent && <span className="w-1.5 h-1.5 rounded-full bg-current" />}
-                        </button>
-                      )
-                    })}
-                  </div>
-                </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <MobileMoreMenu
+              currentVerse={currentVerse}
+              playingAudio={playingAudio}
+              toggleAudio={toggleAudio}
+              onOpenNote={() => setShowNoteEditor(true)}
+              onOpenShare={() => setShareOpen(true)}
+              onToggleZen={toggleZenMode}
+              isZenMode={store.isZenMode}
+              isRead={Boolean(store.readVerses[currentVerse.id])}
+              onToggleRead={() => {
+                if (store.readVerses[currentVerse.id]) {
+                  store.unmarkVerseRead(currentVerse.id)
+                  toast.success('Marked unread')
+                } else {
+                  store.markVerseRead(currentVerse.id)
+                  store.addReadingTime(20)
+                  toast.success('Marked as read · +10 XP')
+                }
+              }}
+              noteDraftExists={Boolean(store.notes[currentVerse.id])}
+              highlightColors={store.highlightColors || {}}
+              highlights={store.highlights || []}
+              onSelectHighlight={(colorKey) => {
+                store.setHighlightColor(currentVerse.id, colorKey)
+                const meta = PASTEL_HIGHLIGHTS[colorKey as keyof typeof PASTEL_HIGHLIGHTS]
+                if (meta) toast.success(`Highlighted in ${meta.name}`)
+                if (store.hapticsEnabled) triggerHaptic(10)
+              }}
+            />
           )}
         </div>
       </header>
@@ -1279,5 +1213,224 @@ function BookVerseCard({
         </div>
       )}
     </article>
+  )
+}
+
+/* ── Mobile More Actions Menu Component ─────────────────────────── */
+interface MobileMoreMenuProps {
+  currentVerse: GenericBookVerse
+  playingAudio: boolean
+  toggleAudio: () => void
+  onOpenNote: () => void
+  onOpenShare: () => void
+  onToggleZen: () => void
+  isZenMode: boolean
+  isRead: boolean
+  onToggleRead: () => void
+  noteDraftExists: boolean
+  highlightColors: Record<string, PastelHighlightColor>
+  highlights: string[]
+  onSelectHighlight: (color: PastelHighlightColor) => void
+}
+
+function MobileMoreMenu({
+  currentVerse,
+  playingAudio,
+  toggleAudio,
+  onOpenNote,
+  onOpenShare,
+  onToggleZen,
+  isZenMode,
+  isRead,
+  onToggleRead,
+  noteDraftExists,
+  highlightColors,
+  highlights,
+  onSelectHighlight,
+}: MobileMoreMenuProps) {
+  const [isOpen, setIsOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  // Close when clicking outside or pressing Escape
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent | TouchEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false)
+      }
+    }
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener('touchstart', handleClickOutside)
+      document.addEventListener('keydown', handleKeyDown)
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('touchstart', handleClickOutside)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen])
+
+  return (
+    <div className="relative inline-flex items-center" ref={menuRef}>
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => setIsOpen((prev) => !prev)}
+        className={cn(
+          'rounded-full h-8 w-8 transition-colors select-none',
+          isOpen
+            ? 'bg-black/10 dark:bg-white/15 text-foreground'
+            : 'hover:bg-black/5 dark:hover:bg-white/10 text-foreground/80'
+        )}
+        title="More actions"
+        aria-label="More actions"
+        aria-expanded={isOpen}
+      >
+        <MoreHorizontal className="w-4 h-4" />
+      </Button>
+
+      {/* Backdrop overlay for mobile to tap anywhere outside */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/25 backdrop-blur-xs"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Popover Card */}
+      {isOpen && (
+        <div
+          className={cn(
+            'fixed sm:absolute top-14 sm:top-full mt-2 right-3 w-[265px] p-2.5 rounded-2xl shadow-2xl border backdrop-blur-xl z-50',
+            'bg-card text-card-foreground border-border/80 shadow-black/30 animate-in fade-in zoom-in-95 duration-150 select-none'
+          )}
+        >
+          {/* Header */}
+          <div className="text-[10px] uppercase font-semibold text-muted-foreground px-2 py-1 flex items-center justify-between border-b border-border/40 mb-1.5 pb-1.5">
+            <span>Verse Actions</span>
+            <span className="font-mono text-[11px] opacity-75">
+              v{currentVerse.chapter}.{currentVerse.verse ?? currentVerse.number}
+            </span>
+          </div>
+
+          {/* Action List */}
+          <div className="flex flex-col gap-0.5">
+            {/* Chanting Audio */}
+            <button
+              type="button"
+              onClick={() => {
+                toggleAudio()
+                setIsOpen(false)
+              }}
+              className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-medium hover:bg-muted/70 active:scale-[0.98] transition-all text-left w-full cursor-pointer"
+            >
+              {playingAudio ? (
+                <VolumeX className="w-4 h-4 text-amber-500 shrink-0" />
+              ) : (
+                <Volume2 className="w-4 h-4 text-muted-foreground shrink-0" />
+              )}
+              <span className={playingAudio ? 'text-amber-600 dark:text-amber-400 font-semibold' : ''}>
+                {playingAudio ? 'Stop Recitation' : 'Listen to Chanting'}
+              </span>
+            </button>
+
+            {/* Reflection Note */}
+            <button
+              type="button"
+              onClick={() => {
+                onOpenNote()
+                setIsOpen(false)
+              }}
+              className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-medium hover:bg-muted/70 active:scale-[0.98] transition-all text-left w-full cursor-pointer"
+            >
+              <NotebookPen className={cn('w-4 h-4 shrink-0', noteDraftExists ? 'text-amber-500' : 'text-muted-foreground')} />
+              <span>{noteDraftExists ? 'Edit Reflection' : 'Add Personal Reflection'}</span>
+            </button>
+
+            {/* Share Sacred Verse */}
+            <button
+              type="button"
+              onClick={() => {
+                onOpenShare()
+                setIsOpen(false)
+              }}
+              className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-medium hover:bg-muted/70 active:scale-[0.98] transition-all text-left w-full cursor-pointer"
+            >
+              <Share2 className="w-4 h-4 text-muted-foreground shrink-0" />
+              <span>Share Sacred Verse</span>
+            </button>
+
+            {/* Mark as Read */}
+            <button
+              type="button"
+              onClick={() => {
+                onToggleRead()
+                setIsOpen(false)
+              }}
+              className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-medium hover:bg-muted/70 active:scale-[0.98] transition-all text-left w-full cursor-pointer"
+            >
+              <Check className={cn('w-4 h-4 shrink-0', isRead ? 'text-emerald-500 font-bold' : 'text-muted-foreground')} />
+              <span>{isRead ? 'Mark as Unread' : 'Mark as Read (+10 XP)'}</span>
+            </button>
+
+            {/* Zen Mode */}
+            <button
+              type="button"
+              onClick={() => {
+                onToggleZen()
+                setIsOpen(false)
+              }}
+              className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-medium hover:bg-muted/70 active:scale-[0.98] transition-all text-left w-full cursor-pointer"
+            >
+              {isZenMode ? (
+                <Minimize2 className="w-4 h-4 text-amber-500 shrink-0" />
+              ) : (
+                <Maximize2 className="w-4 h-4 text-muted-foreground shrink-0" />
+              )}
+              <span>{isZenMode ? 'Exit Zen Mode' : 'Zen Fullscreen Mode'}</span>
+            </button>
+          </div>
+
+          {/* Divider */}
+          <div className="h-px bg-border/40 my-2" />
+
+          {/* Sacred Highlighter Palette */}
+          <div className="px-1 py-1">
+            <span className="text-[10px] uppercase font-semibold text-muted-foreground block mb-2 px-1">
+              Sacred Highlighter
+            </span>
+            <div className="flex items-center justify-between gap-1 px-1">
+              {(['saffron', 'lotus', 'vermilion', 'ash', 'teal'] as const).map((colorKey) => {
+                const meta = PASTEL_HIGHLIGHTS[colorKey]
+                const isCurrent =
+                  highlights.includes(currentVerse.id) &&
+                  (highlightColors?.[currentVerse.id] || 'saffron') === colorKey
+                return (
+                  <button
+                    key={colorKey}
+                    type="button"
+                    onClick={() => onSelectHighlight(colorKey)}
+                    className={cn(
+                      'w-7 h-7 rounded-full border shadow-xs transition-transform active:scale-95 flex items-center justify-center cursor-pointer',
+                      meta.dotClass,
+                      isCurrent && 'ring-2 ring-primary ring-offset-2 ring-offset-background scale-110'
+                    )}
+                    title={meta.name}
+                    aria-label={`Highlight with ${meta.name}`}
+                  >
+                    {isCurrent && <span className="w-1.5 h-1.5 rounded-full bg-current" />}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
