@@ -402,12 +402,12 @@ function VerseCard({ verse }: { verse: Verse }) {
         <div className="px-5 sm:px-7 py-6 space-y-4">
           {showSanskrit && (
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel-classic), var(--font-cinzel), Cinzel, serif' }}>
                 संस्कृतम् · Sanskrit
               </p>
               <p
                 className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2.2] text-foreground/95"
-                style={{ fontFamily: 'var(--font-devanagari), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line', letterSpacing: '0.025em' }}
+                style={{ fontFamily: 'var(--font-noto-devanagari), var(--font-devanagari), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line', letterSpacing: '0.025em' }}
               >
                 {verse.sanskrit}
               </p>
@@ -415,22 +415,22 @@ function VerseCard({ verse }: { verse: Verse }) {
           )}
           {showTranslit && (
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>Transliteration</p>
-              <p className="text-base italic text-muted-foreground leading-relaxed verse-translit-text" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel-classic), var(--font-cinzel), Cinzel, serif' }}>Transliteration</p>
+              <p className="text-base italic text-muted-foreground leading-relaxed verse-translit-text" style={{ fontFamily: 'var(--font-cormorant-garamond), var(--font-cormorant), "Cormorant Garamond", Georgia, serif', whiteSpace: 'pre-line' }}>
                 {verse.transliteration}
               </p>
             </div>
           )}
           {showEnglish && (
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>English Translation</p>
-              <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel-classic), var(--font-cinzel), Cinzel, serif' }}>English Translation</p>
+              <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text" style={{ fontFamily: 'var(--font-cormorant-garamond), var(--font-cormorant), "Cormorant Garamond", Georgia, serif', whiteSpace: 'pre-line' }}>
                 {verse.english}
               </p>
             </div>
           )}
           {verse.meaning && (
-            <div className="border-l-2 border-primary/40 pl-3 italic text-base text-muted-foreground/90 leading-relaxed" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif' }}>
+            <div className="border-l-2 border-primary/40 pl-3 italic text-base text-muted-foreground/90 leading-relaxed" style={{ fontFamily: 'var(--font-cormorant-garamond), var(--font-cormorant), "Cormorant Garamond", Georgia, serif' }}>
               {verse.meaning}
             </div>
           )}
@@ -443,9 +443,9 @@ function VerseCard({ verse }: { verse: Verse }) {
               <div className="relative px-5 py-4 sm:px-6 sm:py-5">
                 {/* Header with decorative quote */}
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}>"</span>
+                  <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'var(--font-cinzel-classic), var(--font-cinzel), Cinzel, Georgia, serif' }}>"</span>
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-primary/60 font-semibold" style={{ fontFamily: 'var(--font-cinzel), sans-serif' }}>
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-primary/60 font-semibold" style={{ fontFamily: 'var(--font-cinzel-classic), var(--font-cinzel), Cinzel, sans-serif' }}>
                       Swami Mukundananda
                     </p>
                     <p className="text-[9px] uppercase tracking-widest text-muted-foreground/50">
@@ -457,7 +457,7 @@ function VerseCard({ verse }: { verse: Verse }) {
                 {/* Commentary body */}
                 <div
                   className="text-base text-foreground/85 leading-[1.85] sm:leading-[1.9] whitespace-pre-wrap verse-commentary-text"
-                  style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif' }}
+                  style={{ fontFamily: 'var(--font-cormorant-garamond), var(--font-cormorant), "Cormorant Garamond", Georgia, serif' }}
                   dangerouslySetInnerHTML={{
                       __html: formatCommentary(verse.commentary),
                   }}
@@ -465,7 +465,7 @@ function VerseCard({ verse }: { verse: Verse }) {
                 
                 {/* Closing quote */}
                 <div className="flex justify-end mt-2">
-                  <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}>"</span>
+                  <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'var(--font-cinzel-classic), var(--font-cinzel), Cinzel, Georgia, serif' }}>"</span>
                 </div>
               </div>
             </div>

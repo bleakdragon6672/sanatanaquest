@@ -22,21 +22,25 @@ const playfair = Playfair_Display({
 });
 
 const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+  variable: "--font-cormorant-garamond",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 const cinzel = Cinzel({
-  variable: "--font-cinzel",
+  variable: "--font-cinzel-classic",
   subsets: ["latin"],
   weight: ["400", "600", "700", "800"],
+  display: "swap",
 });
 
 const notoDevanagari = Noto_Serif_Devanagari({
-  variable: "--font-devanagari",
+  variable: "--font-noto-devanagari",
   subsets: ["devanagari", "latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
