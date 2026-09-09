@@ -9,6 +9,7 @@ import { useStore, type ReadingWidth, type ReadingViewMode, type AccentColor } f
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
+import { KindleAppearanceMenu } from '@/components/kindle-appearance-menu'
 
 const WIDTH_LABELS: Record<ReadingWidth, string> = {
   narrow: 'Narrow',
@@ -107,6 +108,8 @@ export function ReadingToolbar() {
         })}
 
         <div className="w-px h-5 bg-border mx-1" />
+
+        <KindleAppearanceMenu align="center" />
 
         <Button
           variant="ghost"

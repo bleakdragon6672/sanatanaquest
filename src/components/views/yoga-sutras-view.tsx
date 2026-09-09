@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import {
   ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Highlighter, NotebookPen,
-  Share2, Play, Pause, Volume2, Sparkles, Check,
+  Share2, Play, Pause, Volume2, Sparkles, Check, BookOpen,
 } from 'lucide-react'
 import {
   yogaPadas, getYogaPada,
@@ -24,6 +24,8 @@ import { VerseSlider } from '@/components/verse-slider'
 import { ActionButton, ActionButtonRow } from '@/components/verse-card-actions'
 import { HighlighterPalette } from '@/components/highlighter-palette'
 import { ReadingModeSwitcher } from '@/components/reading-mode-switcher'
+import { KindleBookReader } from '@/components/kindle-book-reader'
+import { KindleAppearanceMenu } from '@/components/kindle-appearance-menu'
 
 export function YogaSutrasView() {
   const { params, navigate } = useNav()
@@ -180,6 +182,7 @@ function PadaReader({
       ? initialVerseId
       : pada.verses[0]?.id ?? '',
   )
+  const [bookReaderOpen, setBookReaderOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const verse = pada.verses.find((v) => v.id === currentVerseId) ?? null
 
@@ -225,6 +228,17 @@ function PadaReader({
           </div>
         </div>
         <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setBookReaderOpen(true)}
+            className="rounded-full gap-1.5 border-primary/30 hover:border-primary hover:bg-saffron-gradient-soft text-xs font-medium shadow-xs"
+            title="Open Kindle / Apple Books Mode"
+          >
+            <BookOpen className="w-3.5 h-3.5 text-primary" />
+            <span className="hidden xs:inline">Book Mode</span>
+          </Button>
+          <KindleAppearanceMenu align="right" />
           <ReadingModeSwitcher />
         </div>
       </div>
@@ -306,6 +320,22 @@ function PadaReader({
           </Button>
         ) : <div className="w-full sm:w-auto"></div>}
       </div>
+
+      {/* Kindle / Apple Books Full-Screen Luxury Reader */}
+      <KindleBookReader
+        isOpen={bookReaderOpen}
+        onClose={() => setBookReaderOpen(false)}
+        scriptureTitle="Patanjali Yoga Sutras"
+        chapterTitle={`Pada ${pada.number}: ${pada.name}`}
+        chapterSubtitle={`${pada.sanskritName} • ${pada.transliteration}`}
+        verses={pada.verses.map((v) => ({
+          ...v,
+          chapter: v.pada,
+          verse: v.number,
+        }))}
+        initialVerseId={currentVerseId}
+        onSelectVerse={(id) => setCurrentVerseId(id)}
+      />
     </div>
   )
 }

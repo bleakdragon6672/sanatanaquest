@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import {
   ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Highlighter, NotebookPen,
-  Share2, Play, Pause, Volume2, Settings2, Sparkles, Check, Heart,
+  Share2, Play, Pause, Volume2, Settings2, Sparkles, Check, Heart, BookOpen,
 } from 'lucide-react'
 import {
   hanumanChalisaVerses, hanumanChalisaInfo, getChalisaVerse,
@@ -22,6 +22,8 @@ import { cn } from '@/lib/utils'
 import { VerseSlider } from '@/components/verse-slider'
 import { ActionButton, ActionButtonRow } from '@/components/verse-card-actions'
 import { HighlighterPalette } from '@/components/highlighter-palette'
+import { KindleBookReader } from '@/components/kindle-book-reader'
+import { KindleAppearanceMenu } from '@/components/kindle-appearance-menu'
 
 export function HanumanChalisaView() {
   const { params, navigate } = useNav()
@@ -46,6 +48,7 @@ function FullChalisa() {
   const store = useStore()
   const { navigate } = useNav()
   const [loading, setLoading] = useState(true)
+  const [bookReaderOpen, setBookReaderOpen] = useState(false)
   const readCount = hanumanChalisaVerses.filter((v) => store.readVerses[v.id]).length
   const total = hanumanChalisaVerses.length
 
@@ -61,29 +64,22 @@ function FullChalisa() {
           <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
             <LotusIcon size={200} className="text-primary" />
           </div>
-          <div className="animate-pulse">
-            <div className="h-6 w-48 bg-muted rounded mb-2"></div>
-            <div className="h-8 w-72 bg-muted rounded mb-4"></div>
-            <div className="h-4 w-96 bg-muted rounded mb-3"></div>
-            <div className="h-4 w-80 bg-muted rounded"></div>
+          <div className="relative">
+            <div className="animate-pulse">
+              <div className="h-6 w-48 bg-muted rounded mb-2"></div>
+              <div className="h-8 w-72 bg-muted rounded mb-4"></div>
+              <div className="h-4 w-96 bg-muted rounded mb-3"></div>
+              <div className="h-4 w-80 bg-muted rounded"></div>
+            </div>
           </div>
         </Card>
-        <div className="space-y-3">
-          {[...Array(40)].map((_, i) => (
-            <Card key={i} className="p-4 animate-pulse">
-              <div className="h-4 w-32 bg-muted rounded mb-2"></div>
-              <div className="h-3 w-full bg-muted rounded"></div>
-              <div className="h-3 w-3/4 bg-muted rounded mt-2"></div>
-            </Card>
-          ))}
-        </div>
       </div>
     )
   }
 
   return (
     <div className="space-y-6">
-      <Card className="p-6 sm:p-8 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
+      <Card className="p-6 sm:p-8 relative overflow-hidden card-sacred-glow">
         <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
           <LotusIcon size={200} className="text-primary" />
         </div>
@@ -100,13 +96,28 @@ function FullChalisa() {
           <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
             {hanumanChalisaInfo.summary}
           </p>
-          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-            <span className="inline-flex items-center gap-2">
-              <Check className="h-4 w-4 text-primary" /> {readCount}/{total} verses read
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <Heart className="h-4 w-4 text-primary" /> {hanumanChalisaInfo.author} · {hanumanChalisaInfo.period}
-            </span>
+          <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground">
+            <div className="flex flex-wrap gap-4">
+              <span className="inline-flex items-center gap-2">
+                <Check className="h-4 w-4 text-primary" /> {readCount}/{total} verses read
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <Heart className="h-4 w-4 text-primary" /> {hanumanChalisaInfo.author} · {hanumanChalisaInfo.period}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setBookReaderOpen(true)}
+                className="rounded-full gap-1.5 border-primary/30 hover:border-primary hover:bg-saffron-gradient-soft text-xs font-medium shadow-xs"
+                title="Open Kindle / Apple Books Mode"
+              >
+                <BookOpen className="w-3.5 h-3.5 text-primary" />
+                <span>Open Book Mode</span>
+              </Button>
+              <KindleAppearanceMenu align="right" />
+            </div>
           </div>
         </div>
       </Card>
@@ -146,6 +157,24 @@ function FullChalisa() {
           )
         })}
       </div>
+
+      {/* Kindle / Apple Books Full-Screen Luxury Reader */}
+      <KindleBookReader
+        isOpen={bookReaderOpen}
+        onClose={() => setBookReaderOpen(false)}
+        scriptureTitle="Hanuman Chalisa"
+        chapterTitle="श्री हनुमान चालीसा"
+        chapterSubtitle="Awadhi Hymn of 40 Chaupais & 3 Dohas by Goswami Tulsidas"
+        verses={hanumanChalisaVerses.map((v) => ({
+          id: v.id,
+          chapter: v.type === 'doha' ? 'Doha' : 'Chaupai',
+          verse: v.number,
+          sanskrit: v.awadhi,
+          transliteration: v.transliteration,
+          english: v.english,
+          commentary: v.commentary,
+        }))}
+      />
     </div>
   )
 }
@@ -168,6 +197,8 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
   const isHighlighted = store.highlights.includes(verse.id)
   const highlightColor = store.highlightColors?.[verse.id] || 'saffron'
   const highlightMeta = PASTEL_HIGHLIGHTS[highlightColor] || PASTEL_HIGHLIGHTS.saffron
+
+  const [bookReaderOpen, setBookReaderOpen] = useState(false)
 
   // Find prev/next verse
   const idx = hanumanChalisaVerses.findIndex((v) => v.id === verse.id)
@@ -194,17 +225,32 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
   return (
     <>
       <div className="space-y-4">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full hover:bg-saffron-gradient-soft">
-            <ChevronLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-0.5" style={{ fontFamily: 'var(--font-cinzel), sans-serif' }}>
-              Hanuman Chalisa
-            </p>
-            <h1 className="text-lg sm:text-xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
-              {verse.type === 'doha' ? 'Doha' : 'Chaupai'} {verse.number}
-            </h1>
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full hover:bg-saffron-gradient-soft">
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+            <div>
+              <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-0.5" style={{ fontFamily: 'var(--font-cinzel), sans-serif' }}>
+                Hanuman Chalisa
+              </p>
+              <h1 className="text-lg sm:text-xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
+                {verse.type === 'doha' ? 'Doha' : 'Chaupai'} {verse.number}
+              </h1>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setBookReaderOpen(true)}
+              className="rounded-full gap-1.5 border-primary/30 hover:border-primary hover:bg-saffron-gradient-soft text-xs font-medium shadow-xs"
+              title="Open Kindle / Apple Books Mode"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-primary" />
+              <span className="hidden xs:inline">Book Mode</span>
+            </Button>
+            <KindleAppearanceMenu align="right" />
           </div>
         </div>
 
@@ -323,6 +369,26 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
       </div>
 
       <ShareCardModal open={shareOpen} onClose={() => setShareOpen(false)} title={`Hanuman Chalisa — ${verse.type === 'doha' ? 'Doha' : 'Chaupai'} ${verse.number}`} subtitle={verse.transliteration.split('\n')[0]} body={verse.english} footer="Sanatan Quest · Hanuman Chalisa" />
+
+      {/* Kindle / Apple Books Full-Screen Luxury Reader */}
+      <KindleBookReader
+        isOpen={bookReaderOpen}
+        onClose={() => setBookReaderOpen(false)}
+        scriptureTitle="Hanuman Chalisa"
+        chapterTitle={`${verse.type === 'doha' ? 'Doha' : 'Chaupai'} ${verse.number}`}
+        chapterSubtitle="Awadhi Hymn by Goswami Tulsidas"
+        verses={hanumanChalisaVerses.map((v) => ({
+          id: v.id,
+          chapter: v.type === 'doha' ? 'Doha' : 'Chaupai',
+          verse: v.number,
+          sanskrit: v.awadhi,
+          transliteration: v.transliteration,
+          english: v.english,
+          commentary: v.commentary,
+        }))}
+        initialVerseId={verse.id}
+        onSelectVerse={(id) => navigate('chalisa', { verse: id })}
+      />
     </>
   )
 }

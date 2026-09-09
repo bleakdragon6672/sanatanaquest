@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import {
   ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Highlighter, NotebookPen,
-  Share2, Play, Pause, Volume2, Sparkles, Check, Shield,
+  Share2, Play, Pause, Volume2, Sparkles, Check, Shield, BookOpen,
 } from 'lucide-react'
 import {
   bajrangBaanVerses, bajrangBaanInfo, getBaanVerse,
@@ -22,6 +22,8 @@ import { cn } from '@/lib/utils'
 import { VerseSlider } from '@/components/verse-slider'
 import { ActionButton, ActionButtonRow } from '@/components/verse-card-actions'
 import { HighlighterPalette } from '@/components/highlighter-palette'
+import { KindleBookReader } from '@/components/kindle-book-reader'
+import { KindleAppearanceMenu } from '@/components/kindle-appearance-menu'
 
 export function BajrangBaanView() {
   const { params, navigate } = useNav()
@@ -38,6 +40,7 @@ function FullBaan() {
   const store = useStore()
   const { navigate } = useNav()
   const [loading, setLoading] = useState(true)
+  const [bookReaderOpen, setBookReaderOpen] = useState(false)
   const readCount = bajrangBaanVerses.filter((v) => store.readVerses[v.id]).length
   const total = bajrangBaanVerses.length
 
@@ -92,13 +95,28 @@ function FullBaan() {
           <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
             {bajrangBaanInfo.summary}
           </p>
-          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-            <span className="inline-flex items-center gap-2">
-              <Check className="h-4 w-4 text-primary" /> {readCount}/{total} verses read
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <Shield className="h-4 w-4 text-primary" /> {bajrangBaanInfo.author}
-            </span>
+          <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground">
+            <div className="flex flex-wrap gap-4">
+              <span className="inline-flex items-center gap-2">
+                <Check className="h-4 w-4 text-primary" /> {readCount}/{total} verses read
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <Shield className="h-4 w-4 text-primary" /> {bajrangBaanInfo.author}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setBookReaderOpen(true)}
+                className="rounded-full gap-1.5 border-primary/30 hover:border-primary hover:bg-saffron-gradient-soft text-xs font-medium shadow-xs"
+                title="Open Kindle / Apple Books Mode"
+              >
+                <BookOpen className="w-3.5 h-3.5 text-primary" />
+                <span>Open Book Mode</span>
+              </Button>
+              <KindleAppearanceMenu align="right" />
+            </div>
           </div>
         </div>
       </Card>
@@ -136,6 +154,24 @@ function FullBaan() {
           )
         })}
       </div>
+
+      {/* Kindle / Apple Books Full-Screen Luxury Reader */}
+      <KindleBookReader
+        isOpen={bookReaderOpen}
+        onClose={() => setBookReaderOpen(false)}
+        scriptureTitle="Bajrang Baan"
+        chapterTitle="श्री बजरंग बाण"
+        chapterSubtitle="Awadhi Shield of Devotion by Goswami Tulsidas"
+        verses={bajrangBaanVerses.map((v) => ({
+          id: v.id,
+          chapter: v.type === 'doha' ? 'Doha' : 'Chaupai',
+          verse: v.number,
+          sanskrit: v.awadhi,
+          transliteration: v.transliteration,
+          english: v.english,
+          commentary: v.commentary,
+        }))}
+      />
     </div>
   )
 }
@@ -144,6 +180,7 @@ function VerseReader({ verse, onBack }: { verse: BaanVerse; onBack: () => void }
   const store = useStore()
   const { navigate } = useNav()
   const [loading, setLoading] = useState(false)
+  const [bookReaderOpen, setBookReaderOpen] = useState(false)
   const existingNote = store.notes[verse.id] ?? ''
   const [showNoteEditor, setShowNoteEditor] = useState(false)
   const [noteDraft, setNoteDraft] = useState(existingNote)
@@ -180,13 +217,28 @@ function VerseReader({ verse, onBack }: { verse: BaanVerse; onBack: () => void }
     <>
       <div className="space-y-5">
         {/* Top bar */}
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full hover:bg-saffron-gradient-soft"><ChevronLeft className="h-5 w-5" /></Button>
-          <div>
-            <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-0.5" style={{ fontFamily: 'var(--font-cinzel), sans-serif' }}>Bajrang Baan</p>
-            <h1 className="text-lg sm:text-xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
-              {verse.type === 'doha' ? 'Doha' : 'Chaupai'} {verse.number}
-            </h1>
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full hover:bg-saffron-gradient-soft"><ChevronLeft className="h-5 w-5" /></Button>
+            <div>
+              <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-0.5" style={{ fontFamily: 'var(--font-cinzel), sans-serif' }}>Bajrang Baan</p>
+              <h1 className="text-lg sm:text-xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
+                {verse.type === 'doha' ? 'Doha' : 'Chaupai'} {verse.number}
+              </h1>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setBookReaderOpen(true)}
+              className="rounded-full gap-1.5 border-primary/30 hover:border-primary hover:bg-saffron-gradient-soft text-xs font-medium shadow-xs"
+              title="Open Kindle / Apple Books Mode"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-primary" />
+              <span className="hidden xs:inline">Book Mode</span>
+            </Button>
+            <KindleAppearanceMenu align="right" />
           </div>
         </div>
 
@@ -312,6 +364,26 @@ function VerseReader({ verse, onBack }: { verse: BaanVerse; onBack: () => void }
       </div>
 
       <ShareCardModal open={shareOpen} onClose={() => setShareOpen(false)} title={`Bajrang Baan — ${verse.type === 'doha' ? 'Doha' : 'Chaupai'} ${verse.number}`} subtitle={verse.transliteration.split('\n')[0]} body={verse.english} footer="Sanatan Quest · Bajrang Baan" />
+
+      {/* Kindle / Apple Books Full-Screen Luxury Reader */}
+      <KindleBookReader
+        isOpen={bookReaderOpen}
+        onClose={() => setBookReaderOpen(false)}
+        scriptureTitle="Bajrang Baan"
+        chapterTitle={`${verse.type === 'doha' ? 'Doha' : 'Chaupai'} ${verse.number}`}
+        chapterSubtitle="Awadhi Shield of Devotion by Goswami Tulsidas"
+        verses={bajrangBaanVerses.map((v) => ({
+          id: v.id,
+          chapter: v.type === 'doha' ? 'Doha' : 'Chaupai',
+          verse: v.number,
+          sanskrit: v.awadhi,
+          transliteration: v.transliteration,
+          english: v.english,
+          commentary: v.commentary,
+        }))}
+        initialVerseId={verse.id}
+        onSelectVerse={(id) => navigate('baan', { verse: id })}
+      />
     </>
   )
 }

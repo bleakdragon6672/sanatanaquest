@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import {
   ChevronLeft, ChevronRight, Bookmark, BookmarkCheck, Highlighter, NotebookPen,
-  Share2, Play, Pause, Volume2, Sparkles, Check, Flame,
+  Share2, Play, Pause, Volume2, Sparkles, Check, Flame, BookOpen,
 } from 'lucide-react'
 import {
   shivTandavVerses, shivTandavInfo, getTandavVerse,
@@ -22,6 +22,8 @@ import { cn } from '@/lib/utils'
 import { VerseSlider } from '@/components/verse-slider'
 import { ActionButton, ActionButtonRow } from '@/components/verse-card-actions'
 import { HighlighterPalette } from '@/components/highlighter-palette'
+import { KindleBookReader } from '@/components/kindle-book-reader'
+import { KindleAppearanceMenu } from '@/components/kindle-appearance-menu'
 
 export function TandavView() {
   const { params, navigate } = useNav()
@@ -38,6 +40,7 @@ function FullTandav() {
   const store = useStore()
   const { navigate } = useNav()
   const [loading, setLoading] = useState(true)
+  const [bookReaderOpen, setBookReaderOpen] = useState(false)
   const readCount = shivTandavVerses.filter((v) => store.readVerses[v.id]).length
   const total = shivTandavVerses.length
 
@@ -92,13 +95,28 @@ function FullTandav() {
           <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
             {shivTandavInfo.summary}
           </p>
-          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-            <span className="inline-flex items-center gap-2">
-              <Check className="h-4 w-4 text-primary" /> {readCount}/{total} stanzas read
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <Flame className="h-4 w-4 text-primary" /> {shivTandavInfo.author} · {shivTandavInfo.language}
-            </span>
+          <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground">
+            <div className="flex flex-wrap gap-4">
+              <span className="inline-flex items-center gap-2">
+                <Check className="h-4 w-4 text-primary" /> {readCount}/{total} stanzas read
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <Flame className="h-4 w-4 text-primary" /> {shivTandavInfo.author} · {shivTandavInfo.language}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setBookReaderOpen(true)}
+                className="rounded-full gap-1.5 border-primary/30 hover:border-primary hover:bg-saffron-gradient-soft text-xs font-medium shadow-xs"
+                title="Open Kindle / Apple Books Mode"
+              >
+                <BookOpen className="w-3.5 h-3.5 text-primary" />
+                <span>Open Book Mode</span>
+              </Button>
+              <KindleAppearanceMenu align="right" />
+            </div>
           </div>
         </div>
       </Card>
@@ -131,6 +149,24 @@ function FullTandav() {
           )
         })}
       </div>
+
+      {/* Kindle / Apple Books Full-Screen Luxury Reader */}
+      <KindleBookReader
+        isOpen={bookReaderOpen}
+        onClose={() => setBookReaderOpen(false)}
+        scriptureTitle="Shiv Tandav Stotram"
+        chapterTitle="शिवताण्डवस्तोत्रम्"
+        chapterSubtitle="Ecstatic Hymn of 15 Stanzas Composed by Ravana"
+        verses={shivTandavVerses.map((v) => ({
+          id: v.id,
+          chapter: 'Stanza',
+          verse: v.number,
+          sanskrit: v.sanskrit,
+          transliteration: v.transliteration,
+          english: v.english,
+          commentary: v.commentary,
+        }))}
+      />
     </div>
   )
 }
@@ -139,6 +175,7 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
   const store = useStore()
   const { navigate } = useNav()
   const [loading, setLoading] = useState(false)
+  const [bookReaderOpen, setBookReaderOpen] = useState(false)
   const existingNote = store.notes[verse.id] ?? ''
   const [showNoteEditor, setShowNoteEditor] = useState(false)
   const [noteDraft, setNoteDraft] = useState(existingNote)
@@ -175,11 +212,26 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
     <>
       <div className="space-y-5">
         {/* Top bar */}
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full hover:bg-saffron-gradient-soft"><ChevronLeft className="h-5 w-5" /></Button>
-          <div>
-            <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-0.5" style={{ fontFamily: 'var(--font-cinzel), sans-serif' }}>Shiv Tandav Stotram</p>
-            <h1 className="text-lg sm:text-xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>Stanza {verse.number}</h1>
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full hover:bg-saffron-gradient-soft"><ChevronLeft className="h-5 w-5" /></Button>
+            <div>
+              <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-0.5" style={{ fontFamily: 'var(--font-cinzel), sans-serif' }}>Shiv Tandav Stotram</p>
+              <h1 className="text-lg sm:text-xl font-semibold leading-tight" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>Stanza {verse.number}</h1>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setBookReaderOpen(true)}
+              className="rounded-full gap-1.5 border-primary/30 hover:border-primary hover:bg-saffron-gradient-soft text-xs font-medium shadow-xs"
+              title="Open Kindle / Apple Books Mode"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-primary" />
+              <span className="hidden xs:inline">Book Mode</span>
+            </Button>
+            <KindleAppearanceMenu align="right" />
           </div>
         </div>
 
@@ -309,6 +361,26 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
       </div>
 
       <ShareCardModal open={shareOpen} onClose={() => setShareOpen(false)} title={`Shiv Tandav Stotram — Stanza ${verse.number}`} subtitle={verse.transliteration.split('\n')[0]} body={verse.english} footer="Sanatan Quest · Shiv Tandav Stotram" />
+
+      {/* Kindle / Apple Books Full-Screen Luxury Reader */}
+      <KindleBookReader
+        isOpen={bookReaderOpen}
+        onClose={() => setBookReaderOpen(false)}
+        scriptureTitle="Shiv Tandav Stotram"
+        chapterTitle={`Stanza ${verse.number}`}
+        chapterSubtitle="Ecstatic Hymn by Ravana"
+        verses={shivTandavVerses.map((v) => ({
+          id: v.id,
+          chapter: 'Stanza',
+          verse: v.number,
+          sanskrit: v.sanskrit,
+          transliteration: v.transliteration,
+          english: v.english,
+          commentary: v.commentary,
+        }))}
+        initialVerseId={verse.id}
+        onSelectVerse={(id) => navigate('tandav', { verse: id })}
+      />
     </>
   )
 }

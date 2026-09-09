@@ -15,6 +15,86 @@ export type ReadingViewMode = 'standard' | 'focus' | 'zen'
 export type ReadingWidth = 'narrow' | 'normal' | 'wide'
 export type AccentColor = 'saffron' | 'gold' | 'vermilion' | 'lotus' | 'ocean' | 'forest'
 
+export type ReadingPaperTone = 'default' | 'parchment' | 'bhojpatra' | 'aranya' | 'obsidian'
+export type ReaderFontFamily = 'cormorant' | 'cinzel' | 'playfair' | 'sans'
+export type ReaderLayoutMode = 'paged' | 'scroll'
+
+export interface PaperToneMeta {
+  id: ReadingPaperTone
+  name: string
+  sanskrit: string
+  bgClass: string
+  textClass: string
+  borderClass: string
+  cardClass: string
+  description: string
+  swatchClass: string
+  hex: string
+}
+
+export const PAPER_TONES: Record<ReadingPaperTone, PaperToneMeta> = {
+  default: {
+    id: 'default',
+    name: 'Theme Surface',
+    sanskrit: 'सहज',
+    bgClass: 'bg-background',
+    textClass: 'text-foreground',
+    borderClass: 'border-border',
+    cardClass: 'bg-card text-card-foreground border-border',
+    description: 'System dark/light appearance',
+    swatchClass: 'bg-card border-border text-foreground',
+    hex: '#ffffff',
+  },
+  parchment: {
+    id: 'parchment',
+    name: 'Chandan Parchment',
+    sanskrit: 'चन्दन',
+    bgClass: 'bg-[#F8F5EE] dark:bg-[#1A1815]',
+    textClass: 'text-[#2B2118] dark:text-[#E8DFC8]',
+    borderClass: 'border-[#E8DEC8] dark:border-[#38322A]',
+    cardClass: 'bg-[#F4EFE6] dark:bg-[#201D19] text-[#2B2118] dark:text-[#E8DFC8] border-[#E2D6BE] dark:border-[#3A332B]',
+    description: 'Warm sandalwood linen paper (Apple Books sepia)',
+    swatchClass: 'bg-[#F8F5EE] border-[#E8DEC8] text-[#2B2118]',
+    hex: '#F8F5EE',
+  },
+  bhojpatra: {
+    id: 'bhojpatra',
+    name: 'Bhojpatra Leaf',
+    sanskrit: 'भोजपत्र',
+    bgClass: 'bg-[#EFE6D5] dark:bg-[#181510]',
+    textClass: 'text-[#2A1B0E] dark:text-[#EAE0D0]',
+    borderClass: 'border-[#DFD0B8] dark:border-[#352C1E]',
+    cardClass: 'bg-[#E7DCC7] dark:bg-[#1E1913] text-[#2A1B0E] dark:text-[#EAE0D0] border-[#D6C5A9] dark:border-[#3B3021]',
+    description: 'Ancient golden manuscript tone with deep sepia ink',
+    swatchClass: 'bg-[#EFE6D5] border-[#DFD0B8] text-[#2A1B0E]',
+    hex: '#EFE6D5',
+  },
+  aranya: {
+    id: 'aranya',
+    name: 'Aranya Hermitage',
+    sanskrit: 'अरण्य',
+    bgClass: 'bg-[#EDF1EA] dark:bg-[#131913]',
+    textClass: 'text-[#1A251A] dark:text-[#D5E2D5]',
+    borderClass: 'border-[#D5DDD1] dark:border-[#273527]',
+    cardClass: 'bg-[#E4EAE0] dark:bg-[#192219] text-[#1A251A] dark:text-[#D5E2D5] border-[#C8D3C4] dark:border-[#2D3F2D]',
+    description: 'Soothing herbal sage paper for zero eye fatigue',
+    swatchClass: 'bg-[#EDF1EA] border-[#D5DDD1] text-[#1A251A]',
+    hex: '#EDF1EA',
+  },
+  obsidian: {
+    id: 'obsidian',
+    name: 'Temple Night',
+    sanskrit: 'वैराग्य',
+    bgClass: 'bg-[#141210]',
+    textClass: 'text-[#EAE0D2]',
+    borderClass: 'border-[#2E2722]',
+    cardClass: 'bg-[#1B1815] text-[#EAE0D2] border-[#38302A]',
+    description: 'Warm midnight charcoal with golden candlelight glow',
+    swatchClass: 'bg-[#141210] border-[#2E2722] text-[#EAE0D2]',
+    hex: '#141210',
+  },
+}
+
 export type PastelHighlightColor = 'saffron' | 'lotus' | 'vermilion' | 'ash' | 'teal'
 
 export interface PastelHighlightMeta {
@@ -275,6 +355,10 @@ interface StoreState {
   readingViewMode: ReadingViewMode
   animationsEnabled: boolean
   accentColor: AccentColor
+  paperTone: ReadingPaperTone
+  readerFont: ReaderFontFamily
+  readerPaging: ReaderLayoutMode
+  isBookReaderOpen: boolean
 
   // Progress
   readVerses: Record<string, number>
@@ -314,6 +398,10 @@ interface StoreState {
   setReadingViewMode: (m: ReadingViewMode) => void
   setAnimationsEnabled: (v: boolean) => void
   setAccentColor: (c: AccentColor) => void
+  setPaperTone: (tone: ReadingPaperTone) => void
+  setReaderFont: (font: ReaderFontFamily) => void
+  setReaderPaging: (mode: ReaderLayoutMode) => void
+  setBookReaderOpen: (open: boolean) => void
 
   markVerseRead: (verseId: string) => void
   unmarkVerseRead: (verseId: string) => void
@@ -419,6 +507,10 @@ const initialState = {
   readingViewMode: 'standard' as ReadingViewMode,
   animationsEnabled: true,
   accentColor: 'saffron' as AccentColor,
+  paperTone: 'parchment' as ReadingPaperTone,
+  readerFont: 'cormorant' as ReaderFontFamily,
+  readerPaging: 'paged' as ReaderLayoutMode,
+  isBookReaderOpen: false,
   readVerses: {} as Record<string, number>,
   readingTimeSec: 0,
   currentStreak: 0,
@@ -449,6 +541,10 @@ export const useStore = create<StoreState>()(
       setReadingViewMode: (m) => set({ readingViewMode: m }),
       setAnimationsEnabled: (v) => set({ animationsEnabled: v }),
       setAccentColor: (c) => set({ accentColor: c }),
+      setPaperTone: (tone) => set({ paperTone: tone }),
+      setReaderFont: (font) => set({ readerFont: font }),
+      setReaderPaging: (mode) => set({ readerPaging: mode }),
+      setBookReaderOpen: (open) => set({ isBookReaderOpen: open }),
 
       markVerseRead: (verseId) => {
         const state = get()
@@ -699,6 +795,9 @@ export const useStore = create<StoreState>()(
           readingViewMode: state.readingViewMode ?? 'standard',
           animationsEnabled: state.animationsEnabled ?? true,
           accentColor: state.accentColor ?? 'saffron',
+          paperTone: state.paperTone ?? 'parchment',
+          readerFont: state.readerFont ?? 'cormorant',
+          readerPaging: state.readerPaging ?? 'paged',
         }
       },
       // Don't persist computed getters
@@ -712,6 +811,9 @@ export const useStore = create<StoreState>()(
         readingViewMode: s.readingViewMode,
         animationsEnabled: s.animationsEnabled,
         accentColor: s.accentColor,
+        paperTone: s.paperTone,
+        readerFont: s.readerFont,
+        readerPaging: s.readerPaging,
         readVerses: s.readVerses,
         readingTimeSec: s.readingTimeSec,
         currentStreak: s.currentStreak,
