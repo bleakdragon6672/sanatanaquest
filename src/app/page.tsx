@@ -282,12 +282,14 @@ function AppShell() {
         )}
       </div>
       <MobileNavDrawer />
-      {/* Mobile bottom navigation */}
-      <MobileBottomNav />
-      {/* Atmosphere panel (right-side Sheet, opened from the gita-view or mini widget). */}
-      <AtmospherePanel chapter={chapterFromParams} />
-      {/* Mini widget floating bottom-right whenever an atmosphere is selected. */}
-      <AtmosphereMiniWidget />
+      {/* Mobile bottom navigation & atmospheric floating widgets — hidden during book reader / zen mode */}
+      {!store.isBookReaderOpen && !store.isZenMode && store.readingMode !== 'kindle' && (
+        <>
+          <MobileBottomNav />
+          <AtmospherePanel chapter={chapterFromParams} />
+          <AtmosphereMiniWidget />
+        </>
+      )}
     </div>
     </MobileNavProvider>
   )

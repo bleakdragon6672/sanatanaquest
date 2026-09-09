@@ -269,6 +269,7 @@ function ChapterReader({
             size="sm"
             onClick={() => {
               setBookReaderOpen(true)
+              store.setBookReaderOpen(true)
               store.setReadingMode('kindle')
             }}
             className="rounded-full gap-1.5 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm border border-amber-300/30 ring-2 ring-amber-500/20 animate-pulse-subtle"
@@ -280,7 +281,12 @@ function ChapterReader({
             <span className="hidden sm:inline text-[9px] uppercase tracking-wider bg-white/25 px-1.5 py-0.5 rounded-full font-bold">New</span>
           </Button>
           <KindleAppearanceMenu align="right" />
-          <ReadingModeSwitcher onOpenBookMode={() => setBookReaderOpen(true)} />
+          <ReadingModeSwitcher
+            onOpenBookMode={() => {
+              setBookReaderOpen(true)
+              store.setBookReaderOpen(true)
+            }}
+          />
         </div>
       </div>
 

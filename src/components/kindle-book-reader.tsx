@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useMemo } from 'react'
+import { createPortal } from 'react-dom'
 import {
   X,
   ChevronLeft,
@@ -100,6 +101,21 @@ export function KindleBookReader({
   const [noteDraft, setNoteDraft] = useState<string>('')
   const [shareOpen, setShareOpen] = useState<boolean>(false)
   const [playingAudio, setPlayingAudio] = useState<boolean>(false)
+  const [mounted, setMounted] = useState<boolean>(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Synchronize store.isBookReaderOpen whenever KindleBookReader is open
+  useEffect(() => {
+    if (isOpen) {
+      store.setBookReaderOpen(true)
+    }
+    return () => {
+      store.setBookReaderOpen(false)
+    }
+  }, [isOpen, store])
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const scrollContainerRef = useRef<HTMLDivElement | null>(null)
@@ -530,7 +546,7 @@ export function KindleBookReader({
     toast.success('Reflection saved')
   }
 
-  if (!isOpen || !verses.length) return null
+  if (!isOpen || !verses.length || !mounted) return null
 
   // Paper surface class
   const paperToneClass =
@@ -562,11 +578,11 @@ export function KindleBookReader({
       ? 'max-w-4xl'
       : 'max-w-2xl'
 
-  return (
+  return createPortal(
     <div
       onMouseMove={handleMouseMove}
       className={cn(
-        'fixed inset-0 h-[100dvh] w-screen z-50 flex flex-col transition-colors duration-300 select-none overflow-hidden overscroll-none',
+        'fixed inset-0 h-[100dvh] w-screen z-[9999] flex flex-col transition-colors duration-300 select-none overflow-hidden overscroll-none',
         paperToneClass
       )}
     >
@@ -877,6 +893,7 @@ export function KindleBookReader({
               isRead={!!store.readVerses[currentVerse.id]}
               isHighlighted={store.highlights.includes(currentVerse.id)}
               highlightColor={store.highlightColors?.[currentVerse.id] || 'saffron'}
+              isZenMode={store.isZenMode}
               onToggleRead={() => {
                 if (store.readVerses[currentVerse.id]) {
                   store.unmarkVerseRead(currentVerse.id)
@@ -921,6 +938,7 @@ export function KindleBookReader({
                     isRead={!!store.readVerses[v.id]}
                     isHighlighted={store.highlights.includes(v.id)}
                     highlightColor={store.highlightColors?.[v.id] || 'saffron'}
+                    isZenMode={store.isZenMode}
                     onToggleRead={() => {
                       if (store.readVerses[v.id]) {
                         store.unmarkVerseRead(v.id)
@@ -1079,7 +1097,8 @@ export function KindleBookReader({
           footer="Sanatan Quest Luxury Reader"
         />
       )}
-    </div>
+    </div>,
+    document.body
   )
 }
 
@@ -1095,6 +1114,7 @@ interface BookVerseCardProps {
   isHighlighted: boolean
   highlightColor: string
   onToggleRead: () => void
+  isZenMode?: boolean
 }
 
 function BookVerseCard({
@@ -1108,66 +1128,76 @@ function BookVerseCard({
   isHighlighted,
   highlightColor,
   onToggleRead,
+  isZenMode = false,
 }: BookVerseCardProps) {
   const highlightMeta =
     PASTEL_HIGHLIGHTS[highlightColor as keyof typeof PASTEL_HIGHLIGHTS] ||
     PASTEL_HIGHLIGHTS.saffron
 
   const sacredScript = verse.sanskrit || verse.awadhi
+  const currentPaper = PAPER_TONES[paperTone] || PAPER_TONES.parchment
 
   return (
     <article
       className={cn(
-        'relative rounded-2xl sm:rounded-3xl p-4 sm:p-8 md:p-10 transition-all duration-300 border shadow-md w-full max-w-full overflow-hidden',
-        paperTone === 'obsidian'
-          ? 'bg-[#181613] border-[#2C2621] text-[#EAE0D2]'
-          : paperTone === 'bhojpatra'
-          ? 'bg-[#E7DCC7]/50 border-[#D6C5A9] text-[#2A1B0E]'
-          : paperTone === 'parchment'
-          ? 'bg-[#F4EFE6]/60 border-[#E2D6BE] text-[#2B2118]'
-          : paperTone === 'aranya'
-          ? 'bg-[#E4EAE0]/50 border-[#C8D3C4] text-[#1A251A]'
-          : 'bg-card/70 border-border text-card-foreground',
+        'relative transition-all duration-300 w-full max-w-full overflow-hidden',
+        isZenMode
+          ? 'border-0 shadow-none bg-transparent p-1 sm:p-4 text-current'
+          : cn(
+              'rounded-2xl sm:rounded-3xl p-4 sm:p-8 md:p-10 border shadow-md',
+              currentPaper.cardClass
+            ),
         isHighlighted && highlightMeta.cardClass
       )}
     >
-      {/* Top Header info */}
-      <div className="flex items-center justify-between mb-4 sm:mb-6 pb-2.5 sm:pb-3 border-b border-current/10">
-        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-          <Badge
-            variant="outline"
-            className="font-mono text-xs px-2.5 py-0.5 border-current/20 bg-transparent text-current"
-          >
-            {verse.chapter}.{verse.verse ?? verse.number}
-          </Badge>
-          {isRead && (
-            <Badge className="bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-[10px] px-2">
-              ✓ Read
-            </Badge>
-          )}
-          {isHighlighted && (
+      {/* Zen Mode subtle top rubric (no buttons) */}
+      {isZenMode && (
+        <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4 opacity-40 select-none">
+          <span className="font-serif text-[11px] tracking-widest uppercase">
+            ❧ {verse.chapter}.{verse.verse ?? verse.number} ❧
+          </span>
+        </div>
+      )}
+
+      {/* Standard Header info (hidden in Zen mode for distraction-free reading) */}
+      {!isZenMode && (
+        <div className="flex items-center justify-between mb-4 sm:mb-6 pb-2.5 sm:pb-3 border-b border-current/10">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
             <Badge
               variant="outline"
-              className={cn(
-                'text-[10px] font-medium border gap-1 shadow-xs',
-                highlightMeta.textClass,
-                highlightMeta.borderClass
-              )}
+              className="font-mono text-xs px-2.5 py-0.5 border-current/20 bg-transparent text-current"
             >
-              <span className={cn('w-1.5 h-1.5 rounded-full', highlightMeta.dotClass)} />
-              {highlightMeta.name}
+              {verse.chapter}.{verse.verse ?? verse.number}
             </Badge>
-          )}
-        </div>
+            {isRead && (
+              <Badge className="bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-[10px] px-2">
+                ✓ Read
+              </Badge>
+            )}
+            {isHighlighted && (
+              <Badge
+                variant="outline"
+                className={cn(
+                  'text-[10px] font-medium border gap-1 shadow-xs',
+                  highlightMeta.textClass,
+                  highlightMeta.borderClass
+                )}
+              >
+                <span className={cn('w-1.5 h-1.5 rounded-full', highlightMeta.dotClass)} />
+                {highlightMeta.name}
+              </Badge>
+            )}
+          </div>
 
-        <button
-          type="button"
-          onClick={onToggleRead}
-          className="text-xs opacity-60 hover:opacity-100 transition-opacity font-medium py-1 px-1.5 rounded-md"
-        >
-          {isRead ? 'Mark as Unread' : 'Mark as Read'}
-        </button>
-      </div>
+          <button
+            type="button"
+            onClick={onToggleRead}
+            className="text-xs opacity-60 hover:opacity-100 transition-opacity font-medium py-1 px-1.5 rounded-md"
+          >
+            {isRead ? 'Mark as Unread' : 'Mark as Read'}
+          </button>
+        </div>
+      )}
 
       {/* Sanskrit / Awadhi Sacred Text */}
       {sacredScript && (

@@ -23,8 +23,9 @@ export function MobileBottomNav() {
   const totalXp = useStore((s) => s.totalXp)
   const isBookReaderOpen = useStore((s) => s.isBookReaderOpen)
   const readingMode = useStore((s) => s.readingMode)
+  const isZenMode = useStore((s) => s.isZenMode)
 
-  if (isBookReaderOpen || readingMode === 'kindle') {
+  if (isBookReaderOpen || readingMode === 'kindle' || isZenMode) {
     return null
   }
 

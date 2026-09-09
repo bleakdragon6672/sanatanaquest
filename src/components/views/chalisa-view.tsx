@@ -117,6 +117,7 @@ function ChalisaList({ onOpenVerse }: { onOpenVerse?: (id: string, bookMode?: bo
                 size="sm"
                 onClick={() => {
                   setBookReaderOpen(true)
+                  store.setBookReaderOpen(true)
                   store.setReadingMode('kindle')
                 }}
                 className="rounded-full gap-2 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all px-4 py-2 text-xs sm:text-sm border border-amber-300/30 ring-2 ring-amber-500/20 animate-pulse-subtle"
@@ -269,6 +270,7 @@ function VerseReader({
               size="sm"
               onClick={() => {
                 setBookReaderOpen(true)
+                store.setBookReaderOpen(true)
                 store.setReadingMode('kindle')
               }}
               className="rounded-full gap-1.5 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm border border-amber-300/30 ring-2 ring-amber-500/20 animate-pulse-subtle"
