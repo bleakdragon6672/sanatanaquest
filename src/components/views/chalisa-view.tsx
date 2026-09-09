@@ -9,7 +9,7 @@ import {
   hanumanChalisaVerses, hanumanChalisaInfo, getChalisaVerse,
   type ChalisaVerse,
 } from '@/lib/hanuman-chalisa-data'
-import { useStore, PASTEL_HIGHLIGHTS, type ReadingMode } from '@/lib/store'
+import { useStore, PASTEL_HIGHLIGHTS, PAPER_TONES, type ReadingMode } from '@/lib/store'
 import { useNav } from '@/components/nav-context'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -36,15 +36,22 @@ export function HanumanChalisaView() {
     return (
       <VerseReader
         verse={selectedVerse}
+        initialBookMode={params.bookMode === '1'}
         onBack={() => navigate('chalisa')}
       />
     )
   }
 
-  return <FullChalisa />
+  return (
+    <ChalisaList
+      onOpenVerse={(id, bookMode) =>
+        navigate('chalisa', { verse: id, ...(bookMode ? { bookMode: '1' } : {}) })
+      }
+    />
+  )
 }
 
-function FullChalisa() {
+function ChalisaList({ onOpenVerse }: { onOpenVerse?: (id: string, bookMode?: boolean) => void }) {
   const store = useStore()
   const { navigate } = useNav()
   const [loading, setLoading] = useState(true)
@@ -107,14 +114,17 @@ function FullChalisa() {
             </div>
             <div className="flex items-center gap-2">
               <Button
-                variant="outline"
                 size="sm"
-                onClick={() => setBookReaderOpen(true)}
-                className="rounded-full gap-1.5 border-primary/30 hover:border-primary hover:bg-saffron-gradient-soft text-xs font-medium shadow-xs"
-                title="Open Kindle / Apple Books Mode"
+                onClick={() => {
+                  setBookReaderOpen(true)
+                  store.setReadingMode('kindle')
+                }}
+                className="rounded-full gap-2 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all px-4 py-2 text-xs sm:text-sm border border-amber-300/30 ring-2 ring-amber-500/20 animate-pulse-subtle"
+                title="Read in Kindle / Apple Books Mode"
               >
-                <BookOpen className="w-3.5 h-3.5 text-primary" />
-                <span>Open Book Mode</span>
+                <BookOpen className="w-4 h-4 shrink-0" />
+                <span>📖 Kindle Book Mode</span>
+                <span className="hidden sm:inline text-[9px] uppercase tracking-wider bg-white/25 px-1.5 py-0.5 rounded-full font-bold">New</span>
               </Button>
               <KindleAppearanceMenu align="right" />
             </div>
@@ -139,15 +149,13 @@ function FullChalisa() {
             >
               <div className="flex items-start gap-3 sm:gap-4">
                 <div className="flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-muted text-xs font-mono">
-                  {isRead ? <Check className="h-4 w-4 text-green-500" /> : verse.number}
+                  {isRead ? <Check className="h-4 w-4 text-green-500" /> : idx + 1}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-medium text-foreground/90 mb-1 sm:mb-2" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif' }}>
                     {verse.awadhi.split('\n')[0]}
                   </p>
-                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
-                    {verse.english}
-                  </p>
+                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">{verse.english}</p>
                 </div>
                 <Badge variant="outline" className="text-[10px] shrink-0">
                   {verse.type === 'doha' ? 'दोहा' : 'चौपाई'}
@@ -161,7 +169,13 @@ function FullChalisa() {
       {/* Kindle / Apple Books Full-Screen Luxury Reader */}
       <KindleBookReader
         isOpen={bookReaderOpen}
-        onClose={() => setBookReaderOpen(false)}
+        onClose={() => {
+          setBookReaderOpen(false)
+          store.setBookReaderOpen(false)
+          if (store.readingMode === 'kindle') {
+            store.setReadingMode('full')
+          }
+        }}
         scriptureTitle="Hanuman Chalisa"
         chapterTitle="श्री हनुमान चालीसा"
         chapterSubtitle="Awadhi Hymn of 40 Chaupais & 3 Dohas by Goswami Tulsidas"
@@ -179,7 +193,15 @@ function FullChalisa() {
   )
 }
 
-function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => void }) {
+function VerseReader({
+  verse,
+  initialBookMode = false,
+  onBack,
+}: {
+  verse: ChalisaVerse
+  initialBookMode?: boolean
+  onBack: () => void
+}) {
   const store = useStore()
   const { navigate } = useNav()
   const existingNote = store.notes[verse.id] ?? ''
@@ -197,8 +219,11 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
   const isHighlighted = store.highlights.includes(verse.id)
   const highlightColor = store.highlightColors?.[verse.id] || 'saffron'
   const highlightMeta = PASTEL_HIGHLIGHTS[highlightColor] || PASTEL_HIGHLIGHTS.saffron
+  const currentPaper = PAPER_TONES[store.paperTone] || PAPER_TONES.parchment
 
-  const [bookReaderOpen, setBookReaderOpen] = useState(false)
+  const [bookReaderOpen, setBookReaderOpen] = useState(
+    initialBookMode || store.isBookReaderOpen || store.readingMode === 'kindle'
+  )
 
   // Find prev/next verse
   const idx = hanumanChalisaVerses.findIndex((v) => v.id === verse.id)
@@ -241,14 +266,17 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
           </div>
           <div className="flex items-center gap-2">
             <Button
-              variant="outline"
               size="sm"
-              onClick={() => setBookReaderOpen(true)}
-              className="rounded-full gap-1.5 border-primary/30 hover:border-primary hover:bg-saffron-gradient-soft text-xs font-medium shadow-xs"
-              title="Open Kindle / Apple Books Mode"
+              onClick={() => {
+                setBookReaderOpen(true)
+                store.setReadingMode('kindle')
+              }}
+              className="rounded-full gap-2 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all px-3.5 py-1.5 text-xs sm:text-sm border border-amber-300/30 ring-2 ring-amber-500/20 animate-pulse-subtle"
+              title="Read in Kindle / Apple Books Mode"
             >
-              <BookOpen className="w-3.5 h-3.5 text-primary" />
-              <span className="hidden xs:inline">Book Mode</span>
+              <BookOpen className="w-4 h-4 shrink-0" />
+              <span className="font-medium">📖 Kindle Mode</span>
+              <span className="hidden sm:inline text-[9px] uppercase tracking-wider bg-white/25 px-1.5 py-0.5 rounded-full font-bold">New</span>
             </Button>
             <KindleAppearanceMenu align="right" />
           </div>
@@ -262,7 +290,10 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
           onNext={() => nextVerse && navigate('chalisa', { verse: nextVerse.id })}
         >
         <Card className={cn(
-          'p-0 overflow-hidden verse-card-animated border',
+          'p-0 overflow-hidden verse-card-animated border shadow-sm',
+          store.paperTone !== 'default'
+            ? currentPaper.cardClass
+            : 'bg-card text-card-foreground border-border',
           isHighlighted ? highlightMeta.cardClass : 'hover:border-saffron/30',
         )}>
           <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
@@ -278,7 +309,7 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
               )}
             </div>
             <ActionButtonRow>
-              <ActionButton icon={Check} active={isRead} label="Mark read" onClick={handleMarkRead} shortcut="R" />
+              <ActionButton icon={Check} active={isRead} label={isRead ? 'Marked as read' : 'Mark as read (+10 XP)'} onClick={handleMarkRead} shortcut="R" />
               <ActionButton icon={isBookmarked ? BookmarkCheck : Bookmark} active={isBookmarked} label="Bookmark" onClick={() => { store.toggleBookmark(verse.id); toast.success(isBookmarked ? 'Removed' : 'Bookmarked') }} shortcut="B" />
               <HighlighterPalette verseId={verse.id} shortcut="H" />
               <ActionButton icon={NotebookPen} active={!!existingNote} label="Note" onClick={() => { setNoteDraft(existingNote); setShowNoteEditor(!showNoteEditor) }} shortcut="N" />
@@ -289,15 +320,43 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
           <div className="px-5 sm:px-7 py-6 space-y-4">
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>अवधी · Awadhi</p>
-              <p className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2.2] text-foreground/95" style={{ fontFamily: 'var(--font-devanagari), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line', letterSpacing: '0.025em' }}>{verse.awadhi}</p>
+              <p
+                className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2.2] text-foreground/95"
+                style={{
+                  fontFamily: 'var(--font-devanagari), "Noto Serif Devanagari", serif',
+                  fontSize: `${store.fontScale * 1.35}rem`,
+                  whiteSpace: 'pre-line',
+                  letterSpacing: '0.025em',
+                }}
+              >
+                {verse.awadhi}
+              </p>
             </div>
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>Transliteration</p>
-              <p className="text-base italic text-muted-foreground leading-relaxed verse-translit-text" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>{verse.transliteration}</p>
+              <p
+                className={cn('text-base italic leading-relaxed verse-translit-text', `reader-font-${store.readerFont}`)}
+                style={{
+                  fontSize: `${store.fontScale * 1.0}rem`,
+                  lineHeight: store.lineSpacing,
+                  whiteSpace: 'pre-line',
+                }}
+              >
+                {verse.transliteration}
+              </p>
             </div>
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>English Translation</p>
-              <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>{verse.english}</p>
+              <p
+                className={cn('leading-relaxed text-foreground/90 verse-english-text', `reader-font-${store.readerFont}`)}
+                style={{
+                  fontSize: `${store.fontScale * 1.12}rem`,
+                  lineHeight: store.lineSpacing,
+                  whiteSpace: 'pre-line',
+                }}
+              >
+                {verse.english}
+              </p>
             </div>
             {verse.commentary && (
               <div className="relative rounded-xl overflow-hidden">
@@ -309,8 +368,11 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
                     <p className="text-[10px] uppercase tracking-[0.15em] text-primary/60 font-semibold" style={{ fontFamily: 'var(--font-cinzel), sans-serif' }}>Significance</p>
                   </div>
                   <p
-                    className="text-base text-foreground/85 leading-[1.85] verse-commentary-text"
-                    style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif' }}
+                    className={cn('leading-relaxed verse-commentary-text text-foreground/85', `reader-font-${store.readerFont}`)}
+                    style={{
+                      fontSize: `${store.fontScale * 1.0}rem`,
+                      lineHeight: store.lineSpacing,
+                    }}
                   >{verse.commentary}</p>
                   <div className="flex justify-end mt-2">
                     <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}>"</span>
@@ -373,7 +435,13 @@ function VerseReader({ verse, onBack }: { verse: ChalisaVerse; onBack: () => voi
       {/* Kindle / Apple Books Full-Screen Luxury Reader */}
       <KindleBookReader
         isOpen={bookReaderOpen}
-        onClose={() => setBookReaderOpen(false)}
+        onClose={() => {
+          setBookReaderOpen(false)
+          store.setBookReaderOpen(false)
+          if (store.readingMode === 'kindle') {
+            store.setReadingMode('full')
+          }
+        }}
         scriptureTitle="Hanuman Chalisa"
         chapterTitle={`${verse.type === 'doha' ? 'Doha' : 'Chaupai'} ${verse.number}`}
         chapterSubtitle="Awadhi Hymn by Goswami Tulsidas"

@@ -9,7 +9,7 @@ import {
   shivTandavVerses, shivTandavInfo, getTandavVerse,
   type TandavVerse,
 } from '@/lib/shiv-tandav-data'
-import { useStore, PASTEL_HIGHLIGHTS } from '@/lib/store'
+import { useStore, PASTEL_HIGHLIGHTS, PAPER_TONES } from '@/lib/store'
 import { useNav } from '@/components/nav-context'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -30,19 +30,26 @@ export function TandavView() {
   const selectedVerse = params.verse ? getTandavVerse(params.verse) : null
 
   if (selectedVerse) {
-    return <VerseReader verse={selectedVerse} onBack={() => navigate('tandav')} />
+    return <VerseReader verse={selectedVerse} onBack={() => navigate('tandav')} initialBookMode={params.bookMode === '1'} />
   }
 
-  return <FullTandav />
+  return <FullTandav initialBookMode={params.bookMode === '1'} />
 }
 
-function FullTandav() {
+function FullTandav({ initialBookMode = false }: { initialBookMode?: boolean }) {
   const store = useStore()
   const { navigate } = useNav()
   const [loading, setLoading] = useState(true)
-  const [bookReaderOpen, setBookReaderOpen] = useState(false)
+  const [bookReaderOpen, setBookReaderOpen] = useState(initialBookMode || store.isBookReaderOpen || store.readingMode === 'kindle')
   const readCount = shivTandavVerses.filter((v) => store.readVerses[v.id]).length
   const total = shivTandavVerses.length
+
+  useEffect(() => {
+    if (initialBookMode) {
+      setBookReaderOpen(true)
+      store.setBookReaderOpen(true)
+    }
+  }, [initialBookMode])
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800)
@@ -106,14 +113,16 @@ function FullTandav() {
             </div>
             <div className="flex items-center gap-2">
               <Button
-                variant="outline"
                 size="sm"
-                onClick={() => setBookReaderOpen(true)}
-                className="rounded-full gap-1.5 border-primary/30 hover:border-primary hover:bg-saffron-gradient-soft text-xs font-medium shadow-xs"
+                onClick={() => {
+                  setBookReaderOpen(true)
+                  store.setBookReaderOpen(true)
+                }}
+                className="rounded-full gap-2 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-semibold text-xs shadow-md shadow-amber-500/20 border border-amber-300/40 animate-pulse-subtle"
                 title="Open Kindle / Apple Books Mode"
               >
-                <BookOpen className="w-3.5 h-3.5 text-primary" />
-                <span>Open Book Mode</span>
+                <BookOpen className="w-3.5 h-3.5 text-slate-950" />
+                <span>📖 Kindle Book Mode</span>
               </Button>
               <KindleAppearanceMenu align="right" />
             </div>
@@ -153,7 +162,11 @@ function FullTandav() {
       {/* Kindle / Apple Books Full-Screen Luxury Reader */}
       <KindleBookReader
         isOpen={bookReaderOpen}
-        onClose={() => setBookReaderOpen(false)}
+        onClose={() => {
+          setBookReaderOpen(false)
+          store.setBookReaderOpen(false)
+          if (store.readingMode === 'kindle') store.setReadingMode('full')
+        }}
         scriptureTitle="Shiv Tandav Stotram"
         chapterTitle="शिवताण्डवस्तोत्रम्"
         chapterSubtitle="Ecstatic Hymn of 15 Stanzas Composed by Ravana"
@@ -171,11 +184,12 @@ function FullTandav() {
   )
 }
 
-function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void }) {
+function VerseReader({ verse, onBack, initialBookMode = false }: { verse: TandavVerse; onBack: () => void; initialBookMode?: boolean }) {
   const store = useStore()
   const { navigate } = useNav()
   const [loading, setLoading] = useState(false)
-  const [bookReaderOpen, setBookReaderOpen] = useState(false)
+  const [bookReaderOpen, setBookReaderOpen] = useState(initialBookMode || store.isBookReaderOpen || store.readingMode === 'kindle')
+  const currentPaper = PAPER_TONES[store.paperTone] || PAPER_TONES.parchment
   const existingNote = store.notes[verse.id] ?? ''
   const [showNoteEditor, setShowNoteEditor] = useState(false)
   const [noteDraft, setNoteDraft] = useState(existingNote)
@@ -190,6 +204,13 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
   const idx = shivTandavVerses.findIndex((v) => v.id === verse.id)
   const prevVerse = idx > 0 ? shivTandavVerses[idx - 1] : null
   const nextVerse = idx < shivTandavVerses.length - 1 ? shivTandavVerses[idx + 1] : null
+
+  useEffect(() => {
+    if (initialBookMode) {
+      setBookReaderOpen(true)
+      store.setBookReaderOpen(true)
+    }
+  }, [initialBookMode])
 
   function handleMarkRead() {
     if (isRead) { store.unmarkVerseRead(verse.id); toast.success('Marked as unread') }
@@ -222,14 +243,17 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
           </div>
           <div className="flex items-center gap-2">
             <Button
-              variant="outline"
               size="sm"
-              onClick={() => setBookReaderOpen(true)}
-              className="rounded-full gap-1.5 border-primary/30 hover:border-primary hover:bg-saffron-gradient-soft text-xs font-medium shadow-xs"
+              onClick={() => {
+                setBookReaderOpen(true)
+                store.setBookReaderOpen(true)
+              }}
+              className="rounded-full gap-1.5 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-semibold text-xs shadow-md shadow-amber-500/20 border border-amber-300/40 animate-pulse-subtle"
               title="Open Kindle / Apple Books Mode"
             >
-              <BookOpen className="w-3.5 h-3.5 text-primary" />
-              <span className="hidden xs:inline">Book Mode</span>
+              <BookOpen className="w-3.5 h-3.5 text-slate-950" />
+              <span className="hidden xs:inline">📖 Kindle Mode</span>
+              <span className="xs:hidden">📖 Book</span>
             </Button>
             <KindleAppearanceMenu align="right" />
           </div>
@@ -253,7 +277,9 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
             onNext={() => { nextVerse && navigate('tandav', { verse: nextVerse.id }); handleVerseChange(nextVerse?.id ?? '') }}
           >
           <Card className={cn(
-            'p-0 overflow-hidden verse-card-animated border',
+            'p-0 overflow-hidden verse-card-animated border transition-colors duration-300',
+            currentPaper.cardClass,
+            `reader-font-${store.readerFont}`,
             isHighlighted ? highlightMeta.cardClass : 'hover:border-saffron/30',
           )}>
             <div className="px-5 sm:px-7 pt-4 pb-2 flex items-center justify-between gap-3 border-b border-border/40">
@@ -280,15 +306,40 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
             <div className="px-5 sm:px-7 py-6 space-y-4">
               <div>
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>संस्कृतम् · Sanskrit</p>
-                <p className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2.2] text-foreground/95" style={{ fontFamily: 'var(--font-devanagari), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line', letterSpacing: '0.025em' }}>{verse.sanskrit}</p>
+                <p
+                  className="verse-sanskrit-animated font-medium text-foreground/95"
+                  style={{
+                    fontFamily: 'var(--font-devanagari), "Noto Serif Devanagari", serif',
+                    whiteSpace: 'pre-line',
+                    fontSize: `${1.35 * store.fontScale}rem`,
+                    lineHeight: store.lineSpacing * 1.35,
+                    letterSpacing: '0.025em',
+                  }}
+                >{verse.sanskrit}</p>
               </div>
               <div>
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>Transliteration</p>
-                <p className="text-base italic text-muted-foreground leading-relaxed verse-translit-text" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>{verse.transliteration}</p>
+                <p
+                  className="italic text-muted-foreground leading-relaxed verse-translit-text"
+                  style={{
+                    fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif',
+                    fontSize: `${0.95 * store.fontScale}rem`,
+                    lineHeight: store.lineSpacing * 1.1,
+                    whiteSpace: 'pre-line',
+                  }}
+                >{verse.transliteration}</p>
               </div>
               <div>
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>English Translation</p>
-                <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>{verse.english}</p>
+                <p
+                  className="text-foreground/90 verse-english-text"
+                  style={{
+                    fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif',
+                    fontSize: `${1.1 * store.fontScale}rem`,
+                    lineHeight: store.lineSpacing * 1.15,
+                    whiteSpace: 'pre-line',
+                  }}
+                >{verse.english}</p>
               </div>
               {verse.commentary && (
                 <div className="relative rounded-xl overflow-hidden">
@@ -300,8 +351,12 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
                       <p className="text-[10px] uppercase tracking-[0.15em] text-primary/60 font-semibold" style={{ fontFamily: 'var(--font-cinzel), sans-serif' }}>Significance</p>
                     </div>
                     <p
-                      className="text-base text-foreground/85 leading-[1.85] verse-commentary-text"
-                      style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif' }}
+                      className="text-foreground/85 verse-commentary-text"
+                      style={{
+                        fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif',
+                        fontSize: `${1.0 * store.fontScale}rem`,
+                        lineHeight: store.lineSpacing * 1.2,
+                      }}
                     >{verse.commentary}</p>
                     <div className="flex justify-end mt-2">
                       <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}>"</span>
@@ -365,7 +420,11 @@ function VerseReader({ verse, onBack }: { verse: TandavVerse; onBack: () => void
       {/* Kindle / Apple Books Full-Screen Luxury Reader */}
       <KindleBookReader
         isOpen={bookReaderOpen}
-        onClose={() => setBookReaderOpen(false)}
+        onClose={() => {
+          setBookReaderOpen(false)
+          store.setBookReaderOpen(false)
+          if (store.readingMode === 'kindle') store.setReadingMode('full')
+        }}
         scriptureTitle="Shiv Tandav Stotram"
         chapterTitle={`Stanza ${verse.number}`}
         chapterSubtitle="Ecstatic Hymn by Ravana"

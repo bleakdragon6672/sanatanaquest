@@ -9,7 +9,7 @@ import {
   yogaPadas, getYogaPada,
   type YogaPada, type YogaSutraVerse,
 } from '@/lib/yoga-sutras-data'
-import { useStore, PASTEL_HIGHLIGHTS, type ReadingMode } from '@/lib/store'
+import { useStore, PASTEL_HIGHLIGHTS, PAPER_TONES, type ReadingMode } from '@/lib/store'
 import { useNav } from '@/components/nav-context'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -37,15 +37,22 @@ export function YogaSutrasView() {
         key={`${selectedPada.id}-${params.verse ?? ''}`}
         pada={selectedPada}
         initialVerseId={params.verse ?? null}
+        initialBookMode={params.bookMode === '1'}
         onBack={() => navigate('yogasutras')}
       />
     )
   }
 
-  return <PadaList onOpen={(id) => navigate('yogasutras', { pada: id })} />
+  return (
+    <PadaList
+      onOpen={(id, bookMode) =>
+        navigate('yogasutras', { pada: id, ...(bookMode ? { bookMode: '1' } : {}) })
+      }
+    />
+  )
 }
 
-function PadaList({ onOpen }: { onOpen: (id: string) => void }) {
+function PadaList({ onOpen }: { onOpen: (id: string, bookMode?: boolean) => void }) {
   const store = useStore()
   const [loading, setLoading] = useState(true)
 
@@ -113,6 +120,34 @@ function PadaList({ onOpen }: { onOpen: (id: string) => void }) {
               <NotebookPen className="h-4 w-4 text-primary" /> {Object.keys(store.notes).length} notes
             </span>
           </div>
+
+          <div className="flex flex-wrap items-center gap-3 mt-6 pt-5 border-t border-border/40">
+            <Button
+              size="default"
+              onClick={() => {
+                const firstUnread = yogaPadas.find((p) => p.verses.some((v) => !store.readVerses[v.id])) || yogaPadas[0]
+                onOpen(firstUnread.id, true)
+              }}
+              className="rounded-full gap-2 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all px-5 py-2.5 animate-pulse-subtle border border-amber-300/30"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>📖 Read in Kindle Book Mode</span>
+              <Badge variant="secondary" className="bg-white/20 text-white border-0 text-[10px] ml-1">LUXURY</Badge>
+            </Button>
+            <Button
+              variant="outline"
+              size="default"
+              onClick={() => {
+                const firstUnread = yogaPadas.find((p) => p.verses.some((v) => !store.readVerses[v.id])) || yogaPadas[0]
+                onOpen(firstUnread.id, false)
+              }}
+              className="rounded-full gap-2 hover:bg-saffron-gradient-soft"
+            >
+              <span>Continue Pada {yogaPadas.find((p) => p.verses.some((v) => !store.readVerses[v.id]))?.number || 1}</span>
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+            <KindleAppearanceMenu align="right" />
+          </div>
         </div>
       </Card>
 
@@ -169,10 +204,12 @@ function PadaList({ onOpen }: { onOpen: (id: string) => void }) {
 function PadaReader({
   pada,
   initialVerseId,
+  initialBookMode = false,
   onBack,
 }: {
   pada: YogaPada
   initialVerseId: string | null
+  initialBookMode?: boolean
   onBack: () => void
 }) {
   const store = useStore()
@@ -182,7 +219,9 @@ function PadaReader({
       ? initialVerseId
       : pada.verses[0]?.id ?? '',
   )
-  const [bookReaderOpen, setBookReaderOpen] = useState(false)
+  const [bookReaderOpen, setBookReaderOpen] = useState(
+    initialBookMode || store.isBookReaderOpen || store.readingMode === 'kindle'
+  )
   const [loading, setLoading] = useState(false)
   const verse = pada.verses.find((v) => v.id === currentVerseId) ?? null
 
@@ -229,17 +268,20 @@ function PadaReader({
         </div>
         <div className="flex items-center gap-2">
           <Button
-            variant="outline"
             size="sm"
-            onClick={() => setBookReaderOpen(true)}
-            className="rounded-full gap-1.5 border-primary/30 hover:border-primary hover:bg-saffron-gradient-soft text-xs font-medium shadow-xs"
-            title="Open Kindle / Apple Books Mode"
+            onClick={() => {
+              setBookReaderOpen(true)
+              store.setReadingMode('kindle')
+            }}
+            className="rounded-full gap-2 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all px-3.5 py-1.5 text-xs sm:text-sm border border-amber-300/30 ring-2 ring-amber-500/20 animate-pulse-subtle"
+            title="Read in Kindle / Apple Books Mode"
           >
-            <BookOpen className="w-3.5 h-3.5 text-primary" />
-            <span className="hidden xs:inline">Book Mode</span>
+            <BookOpen className="w-4 h-4 shrink-0" />
+            <span className="font-medium">📖 Kindle Mode</span>
+            <span className="hidden sm:inline text-[9px] uppercase tracking-wider bg-white/25 px-1.5 py-0.5 rounded-full font-bold">New</span>
           </Button>
           <KindleAppearanceMenu align="right" />
-          <ReadingModeSwitcher />
+          <ReadingModeSwitcher onOpenBookMode={() => setBookReaderOpen(true)} />
         </div>
       </div>
 
@@ -324,7 +366,13 @@ function PadaReader({
       {/* Kindle / Apple Books Full-Screen Luxury Reader */}
       <KindleBookReader
         isOpen={bookReaderOpen}
-        onClose={() => setBookReaderOpen(false)}
+        onClose={() => {
+          setBookReaderOpen(false)
+          store.setBookReaderOpen(false)
+          if (store.readingMode === 'kindle') {
+            store.setReadingMode('full')
+          }
+        }}
         scriptureTitle="Patanjali Yoga Sutras"
         chapterTitle={`Pada ${pada.number}: ${pada.name}`}
         chapterSubtitle={`${pada.sanskritName} • ${pada.transliteration}`}
@@ -379,14 +427,19 @@ function VerseCard({ verse, padaId }: { verse: YogaSutraVerse; padaId: string })
   const showEnglish = mode === 'english' || mode === 'sanskrit-english' || mode === 'full' || mode === 'focus' || mode === 'night'
   const isNight = mode === 'night'
   const isFocus = mode === 'focus'
+  const currentPaper = PAPER_TONES[store.paperTone] || PAPER_TONES.parchment
 
   return (
     <>
       <Card
         className={cn(
-          'p-0 overflow-hidden transition-all verse-card-animated border',
+          'p-0 overflow-hidden transition-all verse-card-animated border shadow-sm',
+          store.paperTone !== 'default'
+            ? currentPaper.cardClass
+            : isNight
+            ? 'bg-[#1a1410] text-amber-50 border-amber-900/30'
+            : 'bg-card text-card-foreground border-border',
           isHighlighted ? highlightMeta.cardClass : 'hover:border-saffron/30',
-          isNight && 'bg-[#1a1410] text-amber-50 border-amber-900/30',
           isFocus && 'mx-auto max-w-2xl',
         )}
       >
@@ -427,7 +480,12 @@ function VerseCard({ verse, padaId }: { verse: YogaSutraVerse; padaId: string })
               </p>
               <p
                 className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2.2] text-foreground/95"
-                style={{ fontFamily: 'var(--font-devanagari), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line', letterSpacing: '0.025em' }}
+                style={{
+                  fontFamily: 'var(--font-devanagari), "Noto Serif Devanagari", serif',
+                  fontSize: `${store.fontScale * 1.35}rem`,
+                  whiteSpace: 'pre-line',
+                  letterSpacing: '0.025em',
+                }}
               >
                 {verse.sanskrit}
               </p>
@@ -436,7 +494,14 @@ function VerseCard({ verse, padaId }: { verse: YogaSutraVerse; padaId: string })
           {showTranslit && (
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>IAST Transliteration</p>
-              <p className="text-base italic text-muted-foreground leading-relaxed verse-translit-text" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>
+              <p
+                className={cn('text-base italic leading-relaxed verse-translit-text', `reader-font-${store.readerFont}`)}
+                style={{
+                  fontSize: `${store.fontScale * 1.0}rem`,
+                  lineHeight: store.lineSpacing,
+                  whiteSpace: 'pre-line',
+                }}
+              >
                 {verse.transliteration}
               </p>
             </div>
@@ -444,7 +509,14 @@ function VerseCard({ verse, padaId }: { verse: YogaSutraVerse; padaId: string })
           {showEnglish && (
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>English Translation</p>
-              <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text" style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif', whiteSpace: 'pre-line' }}>
+              <p
+                className={cn('leading-relaxed text-foreground/90 verse-english-text', `reader-font-${store.readerFont}`)}
+                style={{
+                  fontSize: `${store.fontScale * 1.12}rem`,
+                  lineHeight: store.lineSpacing,
+                  whiteSpace: 'pre-line',
+                }}
+              >
                 {verse.english}
               </p>
             </div>
@@ -461,8 +533,11 @@ function VerseCard({ verse, padaId }: { verse: YogaSutraVerse; padaId: string })
                   </div>
                 </div>
                 <p
-                  className="text-base text-foreground/85 leading-[1.85] verse-commentary-text"
-                  style={{ fontFamily: 'var(--font-cormorant), var(--font-serif), Georgia, serif' }}
+                  className={cn('leading-relaxed verse-commentary-text text-foreground/85', `reader-font-${store.readerFont}`)}
+                  style={{
+                    fontSize: `${store.fontScale * 1.0}rem`,
+                    lineHeight: store.lineSpacing,
+                  }}
                 >{verse.commentary}</p>
                 <div className="flex justify-end mt-2">
                   <span className="text-3xl leading-none text-primary/20 select-none" style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}>"</span>

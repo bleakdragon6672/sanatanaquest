@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware'
 import { gitaChapters } from './gita-data'
 
 export type ReadingMode =
+  | 'kindle'
   | 'sanskrit'
   | 'english'
   | 'sanskrit-english'

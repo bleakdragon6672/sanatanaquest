@@ -1869,3 +1869,19 @@ textarea:focus-visible {
   animation: bookTurnLeft 0.24s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.94;
+    transform: scale(1.02);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 3.5s ease-in-out infinite;
+}
+
+

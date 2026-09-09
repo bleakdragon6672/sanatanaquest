@@ -6,7 +6,7 @@ import {
   Share2, Play, Pause, Volume2, Sparkles, Check, BookOpen,
 } from 'lucide-react'
 import { gitaChapters, getChapter, type Verse } from '@/lib/gita-data'
-import { useStore, PASTEL_HIGHLIGHTS, type ReadingMode } from '@/lib/store'
+import { useStore, PASTEL_HIGHLIGHTS, PAPER_TONES, type ReadingMode } from '@/lib/store'
 import { useNav } from '@/components/nav-context'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -42,6 +42,7 @@ export function GitaView() {
         key={`ch-${selectedChapter}-${params.verse ?? ''}`}
         chapterNum={selectedChapter}
         initialVerseId={params.verse ?? null}
+        initialBookMode={params.bookMode === '1'}
         onBack={() => {
           navigate('gita')
         }}
@@ -52,10 +53,16 @@ export function GitaView() {
     )
   }
 
-  return <ChapterList onOpen={(num) => navigate('gita', { chapter: String(num) })} />
+  return (
+    <ChapterList
+      onOpen={(num, bookMode) =>
+        navigate('gita', { chapter: String(num), ...(bookMode ? { bookMode: '1' } : {}) })
+      }
+    />
+  )
 }
 
-function ChapterList({ onOpen }: { onOpen: (num: number) => void }) {
+function ChapterList({ onOpen }: { onOpen: (num: number, bookMode?: boolean) => void }) {
   const store = useStore()
   const [loading, setLoading] = useState(true)
 
@@ -123,6 +130,34 @@ function ChapterList({ onOpen }: { onOpen: (num: number) => void }) {
               <NotebookPen className="h-4 w-4 text-primary" /> {Object.keys(store.notes).length} notes
             </span>
           </div>
+
+          <div className="flex flex-wrap items-center gap-3 mt-6 pt-5 border-t border-border/40">
+            <Button
+              size="default"
+              onClick={() => {
+                const firstUnread = gitaChapters.find((c) => c.verses.some((v) => !store.readVerses[v.id])) || gitaChapters[0]
+                onOpen(firstUnread.number, true)
+              }}
+              className="rounded-full gap-2 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all px-5 py-2.5 animate-pulse-subtle border border-amber-300/30"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>📖 Read in Kindle Book Mode</span>
+              <Badge variant="secondary" className="bg-white/20 text-white border-0 text-[10px] ml-1">LUXURY</Badge>
+            </Button>
+            <Button
+              variant="outline"
+              size="default"
+              onClick={() => {
+                const firstUnread = gitaChapters.find((c) => c.verses.some((v) => !store.readVerses[v.id])) || gitaChapters[0]
+                onOpen(firstUnread.number, false)
+              }}
+              className="rounded-full gap-2 hover:bg-saffron-gradient-soft"
+            >
+              <span>Continue Chapter {gitaChapters.find((c) => c.verses.some((v) => !store.readVerses[v.id]))?.number || 1}</span>
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+            <KindleAppearanceMenu align="right" />
+          </div>
         </div>
       </Card>
 
@@ -182,11 +217,13 @@ function ChapterList({ onOpen }: { onOpen: (num: number) => void }) {
 function ChapterReader({
   chapterNum,
   initialVerseId,
+  initialBookMode = false,
   onBack,
   onSelectVerse,
 }: {
   chapterNum: number
   initialVerseId: string | null
+  initialBookMode?: boolean
   onBack: () => void
   onSelectVerse: (id: string) => void
 }) {
@@ -199,7 +236,9 @@ function ChapterReader({
       ? initialVerseId
       : chapter.verses[0]?.id ?? '',
   )
-  const [bookReaderOpen, setBookReaderOpen] = useState(false)
+  const [bookReaderOpen, setBookReaderOpen] = useState(
+    initialBookMode || store.isBookReaderOpen || store.readingMode === 'kindle'
+  )
   const [loading, setLoading] = useState(false)
   const verse = chapter.verses.find((v) => v.id === currentVerseId) ?? null
 
@@ -242,17 +281,20 @@ function ChapterReader({
         </div>
         <div className="flex items-center gap-2">
           <Button
-            variant="outline"
             size="sm"
-            onClick={() => setBookReaderOpen(true)}
-            className="rounded-full gap-1.5 border-primary/30 hover:border-primary hover:bg-saffron-gradient-soft text-xs font-medium shadow-xs"
-            title="Open Kindle / Apple Books Mode"
+            onClick={() => {
+              setBookReaderOpen(true)
+              store.setReadingMode('kindle')
+            }}
+            className="rounded-full gap-2 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all px-3.5 py-1.5 text-xs sm:text-sm border border-amber-300/30 ring-2 ring-amber-500/20 animate-pulse-subtle"
+            title="Read in Kindle / Apple Books Mode"
           >
-            <BookOpen className="w-3.5 h-3.5 text-primary" />
-            <span className="hidden xs:inline">Book Mode</span>
+            <BookOpen className="w-4 h-4 shrink-0" />
+            <span className="font-medium">📖 Kindle Mode</span>
+            <span className="hidden sm:inline text-[9px] uppercase tracking-wider bg-white/25 px-1.5 py-0.5 rounded-full font-bold">New</span>
           </Button>
           <KindleAppearanceMenu align="right" />
-          <ReadingModeSwitcher />
+          <ReadingModeSwitcher onOpenBookMode={() => setBookReaderOpen(true)} />
         </div>
       </div>
 
@@ -331,7 +373,13 @@ function ChapterReader({
       {/* Kindle / Apple Books Full-Screen Luxury Reader */}
       <KindleBookReader
         isOpen={bookReaderOpen}
-        onClose={() => setBookReaderOpen(false)}
+        onClose={() => {
+          setBookReaderOpen(false)
+          store.setBookReaderOpen(false)
+          if (store.readingMode === 'kindle') {
+            store.setReadingMode('full')
+          }
+        }}
         scriptureTitle="Bhagavad Gita"
         chapterTitle={`Chapter ${chapter.number}: ${chapter.name}`}
         chapterSubtitle={`${chapter.sanskritName} • ${chapter.transliteration}`}
@@ -388,14 +436,19 @@ function VerseCard({ verse }: { verse: Verse }) {
   const showEnglish = mode === 'english' || mode === 'sanskrit-english' || mode === 'full' || mode === 'focus' || mode === 'night'
   const isNight = mode === 'night'
   const isFocus = mode === 'focus'
+  const currentPaper = PAPER_TONES[store.paperTone] || PAPER_TONES.parchment
 
   return (
     <>
       <Card
         className={cn(
-          'p-0 overflow-hidden transition-all verse-card-animated border',
+          'p-0 overflow-hidden transition-all verse-card-animated border shadow-sm',
+          store.paperTone !== 'default'
+            ? currentPaper.cardClass
+            : isNight
+            ? 'bg-[#1a1410] text-amber-50 border-amber-900/30'
+            : 'bg-card text-card-foreground border-border',
           isHighlighted ? highlightMeta.cardClass : 'hover:border-saffron/30',
-          isNight && 'bg-[#1a1410] text-amber-50 border-amber-900/30',
           isFocus && 'mx-auto max-w-2xl',
         )}
       >
@@ -433,7 +486,12 @@ function VerseCard({ verse }: { verse: Verse }) {
               </p>
               <p
                 className="verse-sanskrit-animated text-xl sm:text-2xl leading-[2.2] text-foreground/95"
-                style={{ fontFamily: 'var(--font-noto-devanagari), var(--font-devanagari), "Noto Serif Devanagari", serif', whiteSpace: 'pre-line', letterSpacing: '0.025em' }}
+                style={{
+                  fontFamily: 'var(--font-noto-devanagari), var(--font-devanagari), "Noto Serif Devanagari", serif',
+                  fontSize: `${store.fontScale * 1.35}rem`,
+                  whiteSpace: 'pre-line',
+                  letterSpacing: '0.025em',
+                }}
               >
                 {verse.sanskrit}
               </p>
@@ -442,7 +500,14 @@ function VerseCard({ verse }: { verse: Verse }) {
           {showTranslit && (
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel-classic), var(--font-cinzel), Cinzel, serif' }}>Transliteration</p>
-              <p className="text-base italic text-muted-foreground leading-relaxed verse-translit-text" style={{ fontFamily: 'var(--font-cormorant-garamond), var(--font-cormorant), "Cormorant Garamond", Georgia, serif', whiteSpace: 'pre-line' }}>
+              <p
+                className={cn('text-base italic leading-relaxed verse-translit-text', `reader-font-${store.readerFont}`)}
+                style={{
+                  fontSize: `${store.fontScale * 1.0}rem`,
+                  lineHeight: store.lineSpacing,
+                  whiteSpace: 'pre-line',
+                }}
+              >
                 {verse.transliteration}
               </p>
             </div>
@@ -450,13 +515,26 @@ function VerseCard({ verse }: { verse: Verse }) {
           {showEnglish && (
             <div>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel-classic), var(--font-cinzel), Cinzel, serif' }}>English Translation</p>
-              <p className="text-base sm:text-lg leading-relaxed text-foreground/90 verse-english-text" style={{ fontFamily: 'var(--font-cormorant-garamond), var(--font-cormorant), "Cormorant Garamond", Georgia, serif', whiteSpace: 'pre-line' }}>
+              <p
+                className={cn('leading-relaxed verse-english-text', `reader-font-${store.readerFont}`)}
+                style={{
+                  fontSize: `${store.fontScale * 1.12}rem`,
+                  lineHeight: store.lineSpacing,
+                  whiteSpace: 'pre-line',
+                }}
+              >
                 {verse.english}
               </p>
             </div>
           )}
           {verse.meaning && (
-            <div className="border-l-2 border-primary/40 pl-3 italic text-base text-muted-foreground/90 leading-relaxed" style={{ fontFamily: 'var(--font-cormorant-garamond), var(--font-cormorant), "Cormorant Garamond", Georgia, serif' }}>
+            <div
+              className={cn('border-l-2 border-primary/40 pl-3 italic text-muted-foreground/90 leading-relaxed', `reader-font-${store.readerFont}`)}
+              style={{
+                fontSize: `${store.fontScale * 1.0}rem`,
+                lineHeight: store.lineSpacing,
+              }}
+            >
               {verse.meaning}
             </div>
           )}
@@ -482,8 +560,11 @@ function VerseCard({ verse }: { verse: Verse }) {
                 
                 {/* Commentary body */}
                 <div
-                  className="text-base text-foreground/85 leading-[1.85] sm:leading-[1.9] whitespace-pre-wrap verse-commentary-text"
-                  style={{ fontFamily: 'var(--font-cormorant-garamond), var(--font-cormorant), "Cormorant Garamond", Georgia, serif' }}
+                  className={cn('leading-relaxed whitespace-pre-wrap verse-commentary-text', `reader-font-${store.readerFont}`)}
+                  style={{
+                    fontSize: `${store.fontScale * 1.0}rem`,
+                    lineHeight: store.lineSpacing,
+                  }}
                   dangerouslySetInnerHTML={{
                       __html: formatCommentary(verse.commentary),
                   }}
