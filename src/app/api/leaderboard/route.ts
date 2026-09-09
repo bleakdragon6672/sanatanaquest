@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase-client'
+import { resolveSeekerName } from '@/lib/cloud-sync'
 
 const COMMUNITY_SEEKERS = [
   {
@@ -22,7 +23,7 @@ const COMMUNITY_SEEKERS = [
   },
   {
     userId: 'community-3',
-    userName: 'Vikramaditya',
+    userName: 'Vikramaditya Sen',
     totalXp: 11800,
     currentStreak: 16,
     longestStreak: 25,
@@ -74,6 +75,42 @@ const COMMUNITY_SEEKERS = [
     versesRead: 112,
     joinedAt: 1779000000000,
   },
+  {
+    userId: 'community-9',
+    userName: 'Aditya Deshmukh',
+    totalXp: 2650,
+    currentStreak: 4,
+    longestStreak: 6,
+    versesRead: 85,
+    joinedAt: 1780000000000,
+  },
+  {
+    userId: 'community-10',
+    userName: 'Meera Joshi',
+    totalXp: 1900,
+    currentStreak: 3,
+    longestStreak: 5,
+    versesRead: 62,
+    joinedAt: 1781000000000,
+  },
+  {
+    userId: 'community-11',
+    userName: 'Siddharth Gupta',
+    totalXp: 1350,
+    currentStreak: 2,
+    longestStreak: 3,
+    versesRead: 45,
+    joinedAt: 1782000000000,
+  },
+  {
+    userId: 'community-12',
+    userName: 'Pooja Kulkarni',
+    totalXp: 850,
+    currentStreak: 1,
+    longestStreak: 2,
+    versesRead: 28,
+    joinedAt: 1783000000000,
+  },
 ]
 
 export async function GET() {
@@ -104,9 +141,8 @@ export async function GET() {
       const readVerses = row.read_verses as Record<string, number> | null
       const versesRead = readVerses ? Object.keys(readVerses).length : 0
       const rawName = (row.user_name as string)?.trim()
-      const shortId = row.user_id ? String(row.user_id).slice(0, 4).toUpperCase() : `${i + 1}`
-      // If user has set a real name, use it; if still "Seeker" or empty, make it distinct
-      const userName = rawName && rawName !== 'Seeker' ? rawName : `Seeker #${shortId}`
+      // Resolves to custom name if set, or deterministically assigned authentic human name
+      const userName = resolveSeekerName(rawName, row.user_id as string, i)
 
       return {
         rank: i + 1,

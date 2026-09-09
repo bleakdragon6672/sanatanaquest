@@ -114,14 +114,20 @@ CREATE POLICY "Users can delete own progress"
 
 CREATE OR REPLACE VIEW public.leaderboard_public AS
 SELECT
-  user_id,
-  user_name,
-  total_xp,
-  current_streak,
-  longest_streak,
-  read_verses,
-  joined_at
-FROM public.user_progress;
+  up.user_id,
+  COALESCE(
+    NULLIF(NULLIF(up.user_name, 'Seeker'), ''),
+    NULLIF(au.raw_user_meta_data->>'name', ''),
+    initcap(regexp_replace(split_part(au.email, '@', 1), '[._-]+', ' ', 'g')),
+    'Seeker'
+  ) AS user_name,
+  up.total_xp,
+  up.current_streak,
+  up.longest_streak,
+  up.read_verses,
+  up.joined_at
+FROM public.user_progress up
+LEFT JOIN auth.users au ON au.id = up.user_id;
 
 REVOKE ALL ON public.leaderboard_public FROM anon;
 GRANT SELECT ON public.leaderboard_public TO anon;

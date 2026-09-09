@@ -269,3 +269,68 @@ export async function updateCloudUserName(
   return { success: true }
 }
 
+export const DIVERSE_SEEKER_NAMES = [
+  'Aarav Sharma',
+  'Ananya Iyer',
+  'Vikramaditya Sen',
+  'Priya Patel',
+  'Rohan Verma',
+  'Devika Nair',
+  'Keshav Rao',
+  'Sunita Krishnan',
+  'Aditya Deshmukh',
+  'Meera Joshi',
+  'Siddharth Gupta',
+  'Pooja Kulkarni',
+  'Kabir Dasgupta',
+  'Sneha Reddy',
+  'Arvind Swamy',
+  'Kavita Nambiar',
+  'Gautam Banerjee',
+  'Tanvi Bhatia',
+  'Harish Choudhury',
+  'Divya Menon',
+  'Naveen Hegde',
+  'Ishita Mukherjee',
+  'Rajesh Sundaram',
+  'Shalini Tiwari',
+  'Pranav Pillai',
+  'Bhavna Saxena',
+  'Manish Chawla',
+  'Anuradha Somayaji',
+  'Kunal Singhania',
+  'Deepa Namboodiri',
+  'Vivek Ramaswamy',
+  'Tarun Bhatt',
+]
+
+/**
+ * Resolves a seeker's public name so that nobody is ever shown as generic "Seeker".
+ * - If the user has a custom name, returns that name.
+ * - If the user never edited their name or has 'Seeker', deterministically assigns
+ *   an authentic, distinct Dharmic name based on their unique userId.
+ */
+export function resolveSeekerName(
+  rawName: string | null | undefined,
+  userId: string | null | undefined,
+  fallbackIndex = 0
+): string {
+  const trimmed = rawName?.trim()
+  if (trimmed && trimmed !== 'Seeker' && !trimmed.startsWith('Seeker #')) {
+    return trimmed
+  }
+
+  if (userId) {
+    let hash = 0
+    for (let i = 0; i < userId.length; i++) {
+      hash = (hash << 5) - hash + userId.charCodeAt(i)
+      hash |= 0
+    }
+    const idx = Math.abs(hash) % DIVERSE_SEEKER_NAMES.length
+    return DIVERSE_SEEKER_NAMES[idx]
+  }
+
+  return DIVERSE_SEEKER_NAMES[fallbackIndex % DIVERSE_SEEKER_NAMES.length]
+}
+
+

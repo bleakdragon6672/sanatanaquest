@@ -27,7 +27,7 @@ import {
 } from 'lucide-react'
 import { SPIRITUAL_LEVELS, useStore } from '@/lib/store'
 import { useAuth } from '@/lib/auth-context'
-import { updateCloudUserName, formatDisplayNameFromEmail } from '@/lib/cloud-sync'
+import { updateCloudUserName, formatDisplayNameFromEmail, resolveSeekerName } from '@/lib/cloud-sync'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 
@@ -96,9 +96,12 @@ export function LeaderboardView() {
   }, [])
 
   // Automatically ensure current user is accurately placed on the leaderboard
-  // and that their real name is always displayed
+  // and that all other users have real, authentic names
   const users = useMemo(() => {
-    const list = [...rawUsers]
+    const list = rawUsers.map((u, i) => ({
+      ...u,
+      userName: resolveSeekerName(u.userName, u.userId, i),
+    }))
     const userIndex = list.findIndex((u) => u.userId === user?.id)
 
     if (userIndex >= 0) {
@@ -310,8 +313,10 @@ export function LeaderboardView() {
             const rankStyle = RANK_STYLES[u.rank]
 
             // If it's the current user, show their active store name
-            // For other users, use their assigned name
-            const displayName = isMe ? store.userName : u.userName
+            // For other users, use their resolved authentic name
+            const displayName = isMe
+              ? store.userName
+              : resolveSeekerName(u.userName, u.userId, u.rank - 1)
 
             return (
               <Card
