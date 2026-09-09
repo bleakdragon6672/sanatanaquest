@@ -233,7 +233,7 @@ export function ShareCardModal({
             <img
               src={imgData}
               alt="Generated share card"
-              className="w-full rounded-xl shadow-lg border border-border"
+              className="w-full max-h-[50vh] object-contain rounded-xl shadow-lg border border-border"
             />
           )}
           <div className="flex gap-2 w-full">

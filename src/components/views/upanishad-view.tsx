@@ -333,46 +333,56 @@ function UpanishadReader({
       )}
 
       {/* Verse navigation */}
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-center justify-between gap-2 sm:gap-3 p-2 sm:p-4">
         <Button
           variant="outline"
+          size="sm"
           disabled={verseIdx === 0}
           onClick={() => {
             if (verseIdx > 0) setCurrentVerseId(upanishad.verses[verseIdx - 1].id)
           }}
+          className="flex-1 sm:flex-initial text-xs sm:text-sm px-2.5 sm:px-3"
         >
-          <ChevronLeft className="mr-1 h-4 w-4" /> Previous Verse
+          <ChevronLeft className="mr-1 h-4 w-4 shrink-0" />
+          <span className="inline sm:hidden">Prev</span>
+          <span className="hidden sm:inline">Previous Verse</span>
         </Button>
-        <span className="text-sm text-muted-foreground">
+        <span className="text-xs sm:text-sm text-muted-foreground font-medium shrink-0 px-1 text-center">
           {verseIdx + 1} / {upanishad.verses.length}
         </span>
         <Button
           variant="outline"
+          size="sm"
           disabled={verseIdx === upanishad.verses.length - 1}
           onClick={() => {
             if (verseIdx < upanishad.verses.length - 1) setCurrentVerseId(upanishad.verses[verseIdx + 1].id)
           }}
+          className="flex-1 sm:flex-initial text-xs sm:text-sm px-2.5 sm:px-3"
         >
-          Next Verse <ChevronRight className="ml-1 h-4 w-4" />
+          <span className="inline sm:hidden">Next</span>
+          <span className="hidden sm:inline">Next Verse</span>
+          <ChevronRight className="ml-1 h-4 w-4 shrink-0" />
         </Button>
       </div>
 
       {/* Previous / Next Upanishad */}
-      <div className="flex justify-between gap-2 pt-3 border-t border-border">
+      <div className="flex justify-between gap-2 pt-3 sm:pt-6 border-t border-border/50">
         {(() => {
           const idx = allUpanishads.findIndex((u) => u.id === upanishad.id)
           return (
             <>
               {idx > 0 ? (
-                <Button variant="ghost" size="sm" onClick={() => navigate('upanishad', { upanishad: allUpanishads[idx - 1].id })}>
-                  <ChevronLeft className="mr-1 h-4 w-4" /> {allUpanishads[idx - 1].name}
+                <Button variant="ghost" size="sm" onClick={() => navigate('upanishad', { upanishad: allUpanishads[idx - 1].id })} className="flex-1 sm:flex-initial text-xs sm:text-sm truncate">
+                  <ChevronLeft className="mr-1 h-4 w-4 shrink-0" />
+                  <span className="truncate">{allUpanishads[idx - 1].name}</span>
                 </Button>
-              ) : <span />}
+              ) : <div className="flex-1 sm:flex-initial" />}
               {idx < allUpanishads.length - 1 ? (
-                <Button variant="ghost" size="sm" onClick={() => navigate('upanishad', { upanishad: allUpanishads[idx + 1].id })}>
-                  {allUpanishads[idx + 1].name} <ChevronRight className="ml-1 h-4 w-4" />
+                <Button variant="ghost" size="sm" onClick={() => navigate('upanishad', { upanishad: allUpanishads[idx + 1].id })} className="flex-1 sm:flex-initial text-xs sm:text-sm truncate">
+                  <span className="truncate">{allUpanishads[idx + 1].name}</span>
+                  <ChevronRight className="ml-1 h-4 w-4 shrink-0" />
                 </Button>
-              ) : <span />}
+              ) : <div className="flex-1 sm:flex-initial" />}
             </>
           )
         })()}

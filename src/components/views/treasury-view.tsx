@@ -269,42 +269,47 @@ export function TreasuryView() {
 
       {/* Main Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
           <Button
             variant={activeTab === 'bookmarks' ? 'default' : 'outline'}
+            size="sm"
             onClick={() => setActiveTab('bookmarks')}
             className={cn(
-              'rounded-full gap-2 transition-all',
+              'rounded-full gap-1.5 transition-all text-xs sm:text-sm px-2.5 sm:px-3.5',
               activeTab === 'bookmarks' && 'bg-saffron-gradient text-white shadow-sm'
             )}
           >
-            <Bookmark className="h-4 w-4" />
-            <span>Bookmarked Verses</span>
-            <Badge variant="secondary" className="ml-1 text-[10px]">{store.bookmarks.length}</Badge>
+            <Bookmark className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+            <span className="sm:hidden">Bookmarks</span>
+            <span className="hidden sm:inline">Bookmarked Verses</span>
+            <Badge variant="secondary" className="ml-0.5 text-[10px] px-1.5 py-0">{store.bookmarks.length}</Badge>
           </Button>
           <Button
             variant={activeTab === 'highlights' ? 'default' : 'outline'}
+            size="sm"
             onClick={() => setActiveTab('highlights')}
             className={cn(
-              'rounded-full gap-2 transition-all',
+              'rounded-full gap-1.5 transition-all text-xs sm:text-sm px-2.5 sm:px-3.5',
               activeTab === 'highlights' && 'bg-saffron-gradient text-white shadow-sm'
             )}
           >
-            <Highlighter className="h-4 w-4" />
+            <Highlighter className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
             <span>Highlights</span>
-            <Badge variant="secondary" className="ml-1 text-[10px]">{store.highlights.length}</Badge>
+            <Badge variant="secondary" className="ml-0.5 text-[10px] px-1.5 py-0">{store.highlights.length}</Badge>
           </Button>
           <Button
             variant={activeTab === 'notes' ? 'default' : 'outline'}
+            size="sm"
             onClick={() => setActiveTab('notes')}
             className={cn(
-              'rounded-full gap-2 transition-all',
+              'rounded-full gap-1.5 transition-all text-xs sm:text-sm px-2.5 sm:px-3.5',
               activeTab === 'notes' && 'bg-saffron-gradient text-white shadow-sm'
             )}
           >
-            <NotebookPen className="h-4 w-4" />
-            <span>Personal Notes</span>
-            <Badge variant="secondary" className="ml-1 text-[10px]">{Object.keys(store.notes).length}</Badge>
+            <NotebookPen className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+            <span className="sm:hidden">Notes</span>
+            <span className="hidden sm:inline">Personal Notes</span>
+            <Badge variant="secondary" className="ml-0.5 text-[10px] px-1.5 py-0">{Object.keys(store.notes).length}</Badge>
           </Button>
         </div>
 

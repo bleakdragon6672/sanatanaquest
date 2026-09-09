@@ -104,14 +104,14 @@ export function TrackerView() {
       </Card>
 
       {/* Weekly grid */}
-      <Card className="p-5">
+      <Card className="p-3.5 sm:p-5">
         <div className="flex items-center justify-between mb-3">
           <div>
             <h2 className="font-semibold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>Last 7 Days</h2>
             <p className="text-xs text-muted-foreground">{weeklyCount} active days · {weeklyTotal} total activities</p>
           </div>
         </div>
-        <div className="grid grid-cols-7 gap-2">
+        <div className="grid grid-cols-7 gap-1 sm:gap-2">
           {last7.map((d) => {
             const count = store.dailyActivity[d]?.length ?? 0
             const isToday = d === today
@@ -121,15 +121,15 @@ export function TrackerView() {
               <div
                 key={d}
                 className={cn(
-                  'flex flex-col items-center gap-1 rounded-xl border p-2 transition-all',
+                  'flex flex-col items-center gap-1 rounded-lg sm:rounded-xl border p-1 sm:p-2 transition-all min-w-0',
                   isToday ? 'border-primary bg-saffron-gradient-soft' : 'border-border bg-card',
                   count > 0 && 'border-primary/40',
                 )}
               >
                 <span className="text-[10px] text-muted-foreground">{dayName}</span>
-                <span className="text-sm font-semibold">{dayNum}</span>
+                <span className="text-xs sm:text-sm font-semibold">{dayNum}</span>
                 <div className={cn(
-                  'h-7 w-7 rounded-full flex items-center justify-center text-[10px] font-bold',
+                  'h-6 w-6 sm:h-7 sm:w-7 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0',
                   count > 0 ? 'bg-saffron-gradient text-white' : 'bg-muted text-muted-foreground',
                 )}>
                   {count > 0 ? count : '·'}

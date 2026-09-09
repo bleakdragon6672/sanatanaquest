@@ -271,17 +271,17 @@ export function MindMapView() {
                 >
                   <div
                     className={cn(
-                      'h-10 w-10 sm:h-12 sm:w-12 rounded-2xl flex items-center justify-center border shadow-lg backdrop-blur-md transition-all duration-300',
+                      'h-9 w-9 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl flex items-center justify-center border shadow-lg backdrop-blur-md transition-all duration-300',
                       isSelected
                         ? 'bg-saffron-gradient text-white border-saffron shadow-saffron-500/50 glow-sacred-pulse ring-4 ring-saffron/20'
                         : 'bg-card/95 hover:bg-card border-saffron/30 text-foreground'
                     )}
                   >
-                    <OmSymbol size={20} className={isSelected ? '!text-white' : 'text-saffron'} />
+                    <OmSymbol size={18} className={cn('sm:size-5', isSelected ? '!text-white' : 'text-saffron')} />
                   </div>
                   <span
                     className={cn(
-                      'text-[10px] sm:text-xs font-semibold px-2 py-0.5 rounded-full backdrop-blur-md transition-all truncate max-w-[110px] shadow-sm',
+                      'text-[9px] sm:text-xs font-semibold px-1.5 sm:px-2 py-0.5 rounded-full backdrop-blur-md transition-all truncate max-w-[80px] sm:max-w-[110px] shadow-sm',
                       isSelected
                         ? 'bg-saffron-gradient text-white font-bold shadow-md'
                         : 'bg-background/90 text-foreground border border-border/60 group-hover:border-saffron/50'

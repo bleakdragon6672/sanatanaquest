@@ -149,6 +149,14 @@ function TopBar() {
             <span className="text-muted-foreground">·</span>
             <span className="text-primary">🔥 {streak}d</span>
           </div>
+          <button
+            onClick={() => navigate('tracker')}
+            className="flex sm:hidden items-center gap-1 px-2.5 py-1 rounded-full bg-saffron-gradient-soft text-xs font-semibold text-primary hover:opacity-80 transition-opacity"
+            title="View Daily Tracker & Sadhana"
+            aria-label="View streak"
+          >
+            🔥 {streak}d
+          </button>
           <UserMenu />
           <ThemeToggle />
         </div>
@@ -299,12 +307,13 @@ function AppShell() {
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0 relative z-10">
         {!isZen && <TopBar />}
-        <main id="main-scroll" className={cn('flex-1 px-4 sm:px-6 lg:px-8 py-6 w-full mx-auto', widthClass)}>              <div key={view} className="animate-slide-up">
-                <ViewRouter />
-              </div>
+        <main id="main-scroll" className={cn('flex-1 px-4 sm:px-6 lg:px-8 py-6 pb-24 lg:pb-6 w-full mx-auto', widthClass)}>
+          <div key={view} className="animate-slide-up">
+            <ViewRouter />
+          </div>
         </main>
         {!isZen && (
-          <footer className="mt-auto px-4 sm:px-6 py-4 text-center text-xs text-muted-foreground">
+          <footer className="mt-auto px-4 sm:px-6 py-4 pb-24 lg:pb-4 text-center text-xs text-muted-foreground">
             <div className="divine-divider mb-3" />
             <p style={{ fontFamily: 'var(--font-serif-display), serif' }} className="mb-1">
               ॐ शान्तिः शान्तिः शान्तिः

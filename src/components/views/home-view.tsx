@@ -233,16 +233,16 @@ export function HomeView() {
               <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{
                 background: `linear-gradient(135deg, color-mix(in oklch, var(--${s.color}) 8%, transparent), transparent)`
               }} />
-              <div className="relative p-5">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex flex-col gap-1.5">
-                    <span className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider font-medium">{s.label}</span>
-                    <span className="text-xl sm:text-2xl font-bold text-foreground">
+              <div className="relative p-3.5 sm:p-5">
+                <div className="flex items-start justify-between gap-2 sm:gap-3">
+                  <div className="flex flex-col gap-1 sm:gap-1.5 min-w-0">
+                    <span className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider font-medium leading-snug truncate">{s.label}</span>
+                    <span className="text-lg sm:text-2xl font-bold text-foreground">
                       <CountUp value={s.value} suffix={s.suffix} decimals={s.decimals ?? 0} />
                     </span>
                   </div>
                   <div className={cn(
-                    'flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110',
+                    'flex h-8 w-8 sm:h-11 sm:w-11 items-center justify-center rounded-lg sm:rounded-xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110',
                     iconColor,
                   )} style={{
                     background: s.color === 'saffron'
@@ -251,7 +251,7 @@ export function HomeView() {
                         ? 'color-mix(in oklch, var(--gold) 18%, transparent)'
                         : 'color-mix(in oklch, var(--vermilion) 15%, transparent)',
                   }}>
-                    <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                    <Icon className="h-4 w-4 sm:h-6 sm:w-6" />
                   </div>
                 </div>
               </div>
@@ -264,17 +264,17 @@ export function HomeView() {
       <VerseOfDay />
 
       {/* Chapter progress strip */}
-      <Card className="gradient-border p-5">
-        <div className="flex items-center justify-between mb-3">
+      <Card className="gradient-border p-4 sm:p-5">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
           <div>
-            <h2 className="display-heading text-lg font-semibold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+            <h2 className="display-heading text-base sm:text-lg font-semibold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
               Your Journey Through the Gita
             </h2>
             <p className="text-xs text-muted-foreground mt-0.5 prose-relaxed">
               Tap any chapter to continue reading. {completionPct}% complete.
             </p>
           </div>
-          <Button variant="ghost" size="sm" onClick={() => navigate('gita')} className="gap-1">
+          <Button variant="ghost" size="sm" onClick={() => navigate('gita')} className="gap-1 text-xs sm:text-sm">
             All chapters <ChevronRight className="h-4 w-4" />
           </Button>
         </div>

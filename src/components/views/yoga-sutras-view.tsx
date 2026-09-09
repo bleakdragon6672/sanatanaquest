@@ -327,7 +327,7 @@ function PadaReader({
       )}
 
       {/* Verse navigation */}
-      <div className="flex items-center justify-between gap-2 sm:gap-3 p-3 sm:p-4">
+      <div className="flex items-center justify-between gap-2 sm:gap-3 p-2 sm:p-4">
         <Button
           variant="outline"
           size="sm"
@@ -335,12 +335,15 @@ function PadaReader({
           onClick={() => {
             if (verseIdx > 0) setCurrentVerseId(pada.verses[verseIdx - 1].id)
           }}
-          className="w-full sm:w-auto"
+          className="flex-1 sm:flex-initial text-xs sm:text-sm px-2.5 sm:px-3"
         >
-          <ChevronLeft className="mr-1.5 h-4 w-4" /> Previous Sutra
+          <ChevronLeft className="mr-1 h-4 w-4 shrink-0" />
+          <span className="inline sm:hidden">Prev</span>
+          <span className="hidden sm:inline">Previous Sutra</span>
         </Button>
-        <span className="text-sm sm:text-base text-muted-foreground font-medium min-w-[80px] text-center">
-          Sutra {verse.number} · {verseIdx + 1}/{pada.verses.length}
+        <span className="text-xs sm:text-sm text-muted-foreground font-medium shrink-0 px-1 text-center">
+          <span className="sm:hidden">{verseIdx + 1} / {pada.verses.length}</span>
+          <span className="hidden sm:inline">Sutra {verse.number} · {verseIdx + 1}/{pada.verses.length}</span>
         </span>
         <Button
           variant="outline"
@@ -349,24 +352,30 @@ function PadaReader({
           onClick={() => {
             if (verseIdx < pada.verses.length - 1) setCurrentVerseId(pada.verses[verseIdx + 1].id)
           }}
-          className="w-full sm:w-auto"
+          className="flex-1 sm:flex-initial text-xs sm:text-sm px-2.5 sm:px-3"
         >
-          Next Sutra <ChevronRight className="ml-1.5 h-4 w-4" />
+          <span className="inline sm:hidden">Next</span>
+          <span className="hidden sm:inline">Next Sutra</span>
+          <ChevronRight className="ml-1 h-4 w-4 shrink-0" />
         </Button>
       </div>
 
       {/* Previous / Next Pada */}
-      <div className="flex justify-between gap-2 pt-4 sm:pt-6 border-t border-border/50">
+      <div className="flex justify-between gap-2 pt-3 sm:pt-6 border-t border-border/50">
         {pada.number > 1 ? (
-          <Button variant="ghost" size="sm" onClick={() => navigate('yogasutras', { pada: yogaPadas[pada.number - 2].id })} className="w-full sm:w-auto">
-            <ChevronLeft className="mr-1.5 h-4 w-4" /> {yogaPadas[pada.number - 2].name}
+          <Button variant="ghost" size="sm" onClick={() => navigate('yogasutras', { pada: yogaPadas[pada.number - 2].id })} className="flex-1 sm:flex-initial text-xs sm:text-sm truncate">
+            <ChevronLeft className="mr-1 h-4 w-4 shrink-0" />
+            <span className="truncate sm:hidden">Pada {pada.number - 1}</span>
+            <span className="truncate hidden sm:inline">{yogaPadas[pada.number - 2].name}</span>
           </Button>
-        ) : <div className="w-full sm:w-auto"></div>}
+        ) : <div className="flex-1 sm:flex-initial"></div>}
         {pada.number < yogaPadas.length ? (
-          <Button variant="ghost" size="sm" onClick={() => navigate('yogasutras', { pada: yogaPadas[pada.number].id })} className="w-full sm:w-auto">
-            {yogaPadas[pada.number].name} <ChevronRight className="ml-1.5 h-4 w-4" />
+          <Button variant="ghost" size="sm" onClick={() => navigate('yogasutras', { pada: yogaPadas[pada.number].id })} className="flex-1 sm:flex-initial text-xs sm:text-sm truncate">
+            <span className="truncate sm:hidden">Pada {pada.number + 1}</span>
+            <span className="truncate hidden sm:inline">{yogaPadas[pada.number].name}</span>
+            <ChevronRight className="ml-1 h-4 w-4 shrink-0" />
           </Button>
-        ) : <div className="w-full sm:w-auto"></div>}
+        ) : <div className="flex-1 sm:flex-initial"></div>}
       </div>
 
       {/* Kindle / Apple Books Full-Screen Luxury Reader */}
