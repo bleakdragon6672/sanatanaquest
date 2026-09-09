@@ -49,55 +49,7 @@ const LINE_SPACINGS = [
 export function KindleAppearanceMenu({ className, align = 'right' }: KindleAppearanceMenuProps) {
   const store = useStore()
   const [isOpen, setIsOpen] = useState(false)
-  const [isFullscreen, setIsFullscreen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      const doc = document as unknown as {
-        fullscreenElement?: Element
-        webkitFullscreenElement?: Element
-      }
-      setIsFullscreen(Boolean(doc.fullscreenElement || doc.webkitFullscreenElement))
-    }
-    document.addEventListener('fullscreenchange', handleFullscreenChange)
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange)
-      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
-    }
-  }, [])
-
-  const toggleFullscreen = async () => {
-    try {
-      const doc = document as unknown as {
-        fullscreenElement?: Element
-        webkitFullscreenElement?: Element
-        exitFullscreen?: () => Promise<void>
-        webkitExitFullscreen?: () => Promise<void>
-      }
-      const el = document.documentElement as unknown as {
-        requestFullscreen?: () => Promise<void>
-        webkitRequestFullscreen?: () => Promise<void>
-      }
-
-      if (!doc.fullscreenElement && !doc.webkitFullscreenElement) {
-        if (el.requestFullscreen) {
-          await el.requestFullscreen()
-        } else if (el.webkitRequestFullscreen) {
-          await el.webkitRequestFullscreen()
-        }
-      } else {
-        if (doc.exitFullscreen) {
-          await doc.exitFullscreen()
-        } else if (doc.webkitExitFullscreen) {
-          await doc.webkitExitFullscreen()
-        }
-      }
-    } catch {
-      // Ignored
-    }
-  }
 
   // Close when clicking outside or pressing Escape
   useEffect(() => {
@@ -456,16 +408,16 @@ export function KindleAppearanceMenu({ className, align = 'right' }: KindleAppea
             {/* Zen Fullscreen Button */}
             <button
               type="button"
-              onClick={toggleFullscreen}
+              onClick={() => store.toggleZenMode()}
               className={cn(
                 'w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-medium border transition-all',
-                isFullscreen
+                store.isZenMode
                   ? 'bg-amber-500/15 border-amber-500/50 text-amber-600 dark:text-amber-400 font-semibold shadow-xs'
                   : 'bg-muted/30 border-border/50 text-foreground hover:bg-muted/60'
               )}
             >
-              {isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
-              <span>{isFullscreen ? 'Exit Zen Fullscreen (Z)' : 'True Zen Fullscreen (Z)'}</span>
+              {store.isZenMode ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+              <span>{store.isZenMode ? 'Exit Zen Fullscreen (Z)' : 'True Zen Fullscreen (Z)'}</span>
             </button>
           </div>
         </div>

@@ -362,6 +362,7 @@ interface StoreState {
   isBookReaderOpen: boolean
   pageTurnSound: boolean
   hapticsEnabled: boolean
+  isZenMode: boolean
 
   // Progress
   readVerses: Record<string, number>
@@ -407,6 +408,8 @@ interface StoreState {
   setBookReaderOpen: (open: boolean) => void
   setPageTurnSound: (enabled: boolean) => void
   setHapticsEnabled: (enabled: boolean) => void
+  setZenMode: (zen: boolean) => void
+  toggleZenMode: () => void
 
   markVerseRead: (verseId: string) => void
   unmarkVerseRead: (verseId: string) => void
@@ -518,6 +521,7 @@ const initialState = {
   isBookReaderOpen: false,
   pageTurnSound: true,
   hapticsEnabled: true,
+  isZenMode: false,
   readVerses: {} as Record<string, number>,
   readingTimeSec: 0,
   currentStreak: 0,
@@ -554,6 +558,8 @@ export const useStore = create<StoreState>()(
       setBookReaderOpen: (open) => set({ isBookReaderOpen: open }),
       setPageTurnSound: (enabled) => set({ pageTurnSound: enabled }),
       setHapticsEnabled: (enabled) => set({ hapticsEnabled: enabled }),
+      setZenMode: (zen) => set({ isZenMode: zen }),
+      toggleZenMode: () => set((s) => ({ isZenMode: !s.isZenMode })),
 
       markVerseRead: (verseId) => {
         const state = get()

@@ -115,7 +115,13 @@ export function KindleBookReader({
         fullscreenElement?: Element
         webkitFullscreenElement?: Element
       }
-      setIsFullscreen(Boolean(doc.fullscreenElement || doc.webkitFullscreenElement))
+      const isFs = Boolean(doc.fullscreenElement || doc.webkitFullscreenElement)
+      setIsFullscreen(isFs)
+      // If hardware fullscreen was dismissed via Esc or OS gesture, sync zen mode off
+      if (!isFs && store.isZenMode) {
+        store.setZenMode(false)
+        setHudVisible(true)
+      }
     }
 
     document.addEventListener('fullscreenchange', handleFullscreenChange)
@@ -124,45 +130,90 @@ export function KindleBookReader({
       document.removeEventListener('fullscreenchange', handleFullscreenChange)
       document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
     }
-  }, [])
+  }, [store])
 
-  const toggleFullscreen = async () => {
-    try {
-      const doc = document as unknown as {
-        fullscreenElement?: Element
-        webkitFullscreenElement?: Element
-        exitFullscreen?: () => Promise<void>
-        webkitExitFullscreen?: () => Promise<void>
-      }
-      const el = document.documentElement as unknown as {
-        requestFullscreen?: () => Promise<void>
-        webkitRequestFullscreen?: () => Promise<void>
-      }
+  // Zen mode toggle: activates on Mobile (iOS Safari & Android) and Desktop
+  const toggleZenMode = async () => {
+    const nextZen = !store.isZenMode
+    store.setZenMode(nextZen)
 
-      if (!doc.fullscreenElement && !doc.webkitFullscreenElement) {
+    if (store.hapticsEnabled) {
+      triggerHaptic([10, 35, 12])
+    }
+
+    if (nextZen) {
+      setHudVisible(false)
+      toast.success('Zen Mode active · Tap center to show controls')
+      try {
+        const el = document.documentElement as unknown as {
+          requestFullscreen?: (opt?: { navigationUI?: string }) => Promise<void>
+          webkitRequestFullscreen?: () => Promise<void>
+        }
         if (el.requestFullscreen) {
-          await el.requestFullscreen()
+          await el.requestFullscreen({ navigationUI: 'hide' }).catch(() => {})
         } else if (el.webkitRequestFullscreen) {
-          await el.webkitRequestFullscreen()
+          await el.webkitRequestFullscreen().catch(() => {})
         }
-      } else {
-        if (doc.exitFullscreen) {
-          await doc.exitFullscreen()
-        } else if (doc.webkitExitFullscreen) {
-          await doc.webkitExitFullscreen()
-        }
+      } catch {
+        // Handled gracefully on iOS Safari
       }
-    } catch {
-      // Ignored if permissions not granted
+    } else {
+      setHudVisible(true)
+      toast('Exited Zen Mode')
+      try {
+        const doc = document as unknown as {
+          fullscreenElement?: Element
+          webkitFullscreenElement?: Element
+          exitFullscreen?: () => Promise<void>
+          webkitExitFullscreen?: () => Promise<void>
+        }
+        if (doc.fullscreenElement || doc.webkitFullscreenElement) {
+          if (doc.exitFullscreen) await doc.exitFullscreen().catch(() => {})
+          else if (doc.webkitExitFullscreen) await doc.webkitExitFullscreen().catch(() => {})
+        }
+      } catch {}
     }
   }
 
-  // Auto-hide inactivity timer (4 seconds of idle reading fades the HUD into pure Zen mode)
+  // React if zen mode is toggled externally (e.g. from aA menu)
+  const prevZenRef = useRef(store.isZenMode)
+  useEffect(() => {
+    if (prevZenRef.current === store.isZenMode) return
+    prevZenRef.current = store.isZenMode
+
+    if (store.isZenMode) {
+      setHudVisible(false)
+      try {
+        const el = document.documentElement as unknown as {
+          requestFullscreen?: (opt?: { navigationUI?: string }) => Promise<void>
+          webkitRequestFullscreen?: () => Promise<void>
+        }
+        if (el.requestFullscreen) el.requestFullscreen({ navigationUI: 'hide' }).catch(() => {})
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen().catch(() => {})
+      } catch {}
+    } else {
+      setHudVisible(true)
+      try {
+        const doc = document as unknown as {
+          fullscreenElement?: Element
+          webkitFullscreenElement?: Element
+          exitFullscreen?: () => Promise<void>
+          webkitExitFullscreen?: () => Promise<void>
+        }
+        if (doc.fullscreenElement || doc.webkitFullscreenElement) {
+          if (doc.exitFullscreen) doc.exitFullscreen().catch(() => {})
+          else if (doc.webkitExitFullscreen) doc.webkitExitFullscreen().catch(() => {})
+        }
+      } catch {}
+    }
+  }, [store.isZenMode])
+
+  // Inactivity timer: in normal mode, auto-hides after 4s idle. In Zen mode, stays hidden.
   const resetInactivityTimer = () => {
     if (autoHideTimerRef.current) {
       clearTimeout(autoHideTimerRef.current)
     }
-    if (!showNoteEditor && !shareOpen) {
+    if (!showNoteEditor && !shareOpen && !store.isZenMode) {
       autoHideTimerRef.current = setTimeout(() => {
         setHudVisible(false)
       }, 4000)
@@ -170,18 +221,35 @@ export function KindleBookReader({
   }
 
   const handleUserActivity = () => {
+    if (store.isZenMode) return
+    setHudVisible(true)
+    resetInactivityTimer()
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (store.isZenMode) {
+      // Hover near top edge (< 45px) reveals HUD temporarily on desktop
+      if (e.clientY < 45) {
+        setHudVisible(true)
+        if (autoHideTimerRef.current) clearTimeout(autoHideTimerRef.current)
+        autoHideTimerRef.current = setTimeout(() => {
+          if (store.isZenMode) setHudVisible(false)
+        }, 3000)
+      }
+      return
+    }
     setHudVisible(true)
     resetInactivityTimer()
   }
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !store.isZenMode) {
       resetInactivityTimer()
     }
     return () => {
       if (autoHideTimerRef.current) clearTimeout(autoHideTimerRef.current)
     }
-  }, [isOpen, showNoteEditor, shareOpen])
+  }, [isOpen, showNoteEditor, shareOpen, store.isZenMode])
 
   // Synchronize when initialVerseId changes
   useEffect(() => {
@@ -191,14 +259,28 @@ export function KindleBookReader({
     }
   }, [isOpen, initialVerseId, verses])
 
-  // Stop audio on unmount or close
+  // Stop audio and reset Zen mode / hardware fullscreen on close
   useEffect(() => {
-    if (!isOpen && audioRef.current) {
-      audioRef.current.pause()
-      audioRef.current.currentTime = 0
-      setPlayingAudio(false)
+    if (!isOpen) {
+      if (store.isZenMode) store.setZenMode(false)
+      try {
+        const doc = document as unknown as {
+          fullscreenElement?: Element
+          webkitFullscreenElement?: Element
+          exitFullscreen?: () => Promise<void>
+          webkitExitFullscreen?: () => Promise<void>
+        }
+        if (doc.fullscreenElement || doc.webkitFullscreenElement) {
+          doc.exitFullscreen?.().catch(() => {})
+        }
+      } catch {}
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current.currentTime = 0
+        setPlayingAudio(false)
+      }
     }
-  }, [isOpen])
+  }, [isOpen, store])
 
   const currentVerse: GenericBookVerse | undefined = verses[currentIndex]
 
@@ -386,8 +468,8 @@ export function KindleBookReader({
           break
         case 'Escape':
           e.preventDefault()
-          if (isFullscreen) {
-            toggleFullscreen()
+          if (store.isZenMode || isFullscreen) {
+            toggleZenMode()
           } else {
             onClose()
           }
@@ -398,7 +480,7 @@ export function KindleBookReader({
           e.preventDefault()
           setHudVisible((prev) => {
             const next = !prev
-            if (next) resetInactivityTimer()
+            if (next && !store.isZenMode) resetInactivityTimer()
             return next
           })
           break
@@ -406,7 +488,7 @@ export function KindleBookReader({
         case 'Z':
           // Toggle Zen Fullscreen Mode
           e.preventDefault()
-          toggleFullscreen()
+          toggleZenMode()
           break
       }
     }
@@ -482,13 +564,24 @@ export function KindleBookReader({
 
   return (
     <div
-      onMouseMove={handleUserActivity}
-      onTouchMove={handleUserActivity}
+      onMouseMove={handleMouseMove}
       className={cn(
-        'fixed inset-0 z-50 flex flex-col transition-colors duration-300 select-none overflow-hidden',
+        'fixed inset-0 h-[100dvh] w-screen z-50 flex flex-col transition-colors duration-300 select-none overflow-hidden overscroll-none',
         paperToneClass
       )}
     >
+      {/* Subtle Floating Zen Exit Pill on Mobile & Desktop when HUD is hidden in Zen Mode */}
+      {store.isZenMode && !hudVisible && (
+        <button
+          type="button"
+          onClick={toggleZenMode}
+          className="fixed top-3 right-3 z-40 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 dark:bg-zinc-800/80 text-white backdrop-blur-md text-[11px] font-medium border border-white/20 shadow-lg active:scale-95 transition-all opacity-80 hover:opacity-100"
+          title="Exit Zen Mode (Z)"
+        >
+          <Minimize2 className="w-3.5 h-3.5 text-amber-400" />
+          <span>Exit Zen</span>
+        </button>
+      )}
       {/* ── TOP HUD (Apple Books / Kindle bar) ────────────────── */}
       <header
         className={cn(
@@ -611,11 +704,11 @@ export function KindleBookReader({
           <Button
             variant="ghost"
             size="icon"
-            onClick={toggleFullscreen}
+            onClick={toggleZenMode}
             className="rounded-full h-8 w-8 hover:bg-black/5 dark:hover:bg-white/10"
-            title={isFullscreen ? 'Exit Zen Fullscreen (Z)' : 'Zen Fullscreen Mode (Z)'}
+            title={store.isZenMode ? 'Exit Zen Fullscreen (Z)' : 'Zen Fullscreen Mode (Z)'}
           >
-            {isFullscreen ? (
+            {store.isZenMode ? (
               <Minimize2 className="w-4 h-4 text-amber-500" />
             ) : (
               <Maximize2 className="w-4 h-4" />
@@ -706,9 +799,9 @@ export function KindleBookReader({
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem onClick={toggleFullscreen} className="gap-2.5 rounded-xl text-xs py-2 cursor-pointer">
-                  {isFullscreen ? <Minimize2 className="w-4 h-4 text-amber-500" /> : <Maximize2 className="w-4 h-4" />}
-                  <span>{isFullscreen ? 'Exit Fullscreen' : 'Zen Fullscreen Mode'}</span>
+                <DropdownMenuItem onClick={toggleZenMode} className="gap-2.5 rounded-xl text-xs py-2 cursor-pointer">
+                  {store.isZenMode ? <Minimize2 className="w-4 h-4 text-amber-500" /> : <Maximize2 className="w-4 h-4" />}
+                  <span>{store.isZenMode ? 'Exit Zen Mode' : 'Zen Fullscreen Mode'}</span>
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator />
