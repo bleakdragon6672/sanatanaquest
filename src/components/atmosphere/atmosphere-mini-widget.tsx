@@ -8,8 +8,11 @@ import { Pause, Play, Volume2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
 import { useAtmosphere } from '@/components/atmosphere/atmosphere-context'
+import { useStore } from '@/lib/store'
 
 export function AtmosphereMiniWidget() {
+  const isBookReaderOpen = useStore((s) => s.isBookReaderOpen)
+  const isZenMode = useStore((s) => s.isZenMode)
   const {
     currentAtmosphere,
     isPlaying,
@@ -20,7 +23,7 @@ export function AtmosphereMiniWidget() {
     showMiniWidget,
   } = useAtmosphere()
 
-  if (!showMiniWidget) return null
+  if (!showMiniWidget || isBookReaderOpen || isZenMode) return null
 
   return (
     <div className="fixed bottom-20 right-4 lg:bottom-4 z-40 animate-in fade-in slide-in-from-bottom-2 duration-300">

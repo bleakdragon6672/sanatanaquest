@@ -278,7 +278,6 @@ function UpanishadReader({
             onClick={() => {
               setBookReaderOpen(true)
               store.setBookReaderOpen(true)
-              store.setReadingMode('kindle')
             }}
             className="rounded-full gap-1.5 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all px-2.5 sm:px-3.5 py-1.5 text-xs sm:text-sm border border-amber-300/30 ring-2 ring-amber-500/20 animate-pulse-subtle"
             title="Read in Kindle / Apple Books Mode"
@@ -438,9 +437,9 @@ function VerseCard({ verse, upanishadId }: { verse: UpanishadVerse; upanishadId:
   }
 
   const mode = store.readingMode
-  const showSanskrit = mode === 'sanskrit' || mode === 'sanskrit-english' || mode === 'full' || mode === 'focus' || mode === 'night'
-  const showTranslit = mode === 'full'
-  const showEnglish = mode === 'english' || mode === 'sanskrit-english' || mode === 'full' || mode === 'focus' || mode === 'night'
+  const showSanskrit = mode === 'sanskrit' || mode === 'sanskrit-english' || mode === 'full' || mode === 'focus' || mode === 'night' || mode === 'kindle'
+  const showTranslit = mode === 'full' || mode === 'kindle'
+  const showEnglish = mode === 'english' || mode === 'sanskrit-english' || mode === 'full' || mode === 'focus' || mode === 'night' || mode === 'kindle'
   const isNight = mode === 'night'
   const isFocus = mode === 'focus'
   const currentPaper = PAPER_TONES[store.paperTone] || PAPER_TONES.parchment

@@ -108,14 +108,15 @@ export function KindleBookReader({
   }, [])
 
   // Synchronize store.isBookReaderOpen whenever KindleBookReader is open
+  const setBookReaderOpen = useStore((s) => s.setBookReaderOpen)
   useEffect(() => {
     if (isOpen) {
-      store.setBookReaderOpen(true)
+      setBookReaderOpen(true)
     }
     return () => {
-      store.setBookReaderOpen(false)
+      setBookReaderOpen(false)
     }
-  }, [isOpen, store])
+  }, [isOpen, setBookReaderOpen])
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const scrollContainerRef = useRef<HTMLDivElement | null>(null)
@@ -134,8 +135,8 @@ export function KindleBookReader({
       const isFs = Boolean(doc.fullscreenElement || doc.webkitFullscreenElement)
       setIsFullscreen(isFs)
       // If hardware fullscreen was dismissed via Esc or OS gesture, sync zen mode off
-      if (!isFs && store.isZenMode) {
-        store.setZenMode(false)
+      if (!isFs && useStore.getState().isZenMode) {
+        useStore.getState().setZenMode(false)
         setHudVisible(true)
       }
     }
@@ -146,7 +147,7 @@ export function KindleBookReader({
       document.removeEventListener('fullscreenchange', handleFullscreenChange)
       document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
     }
-  }, [store])
+  }, [])
 
   // Zen mode toggle: activates on Mobile (iOS Safari & Android) and Desktop
   const toggleZenMode = async () => {
@@ -278,7 +279,9 @@ export function KindleBookReader({
   // Stop audio and reset Zen mode / hardware fullscreen on close
   useEffect(() => {
     if (!isOpen) {
-      if (store.isZenMode) store.setZenMode(false)
+      if (useStore.getState().isZenMode) {
+        useStore.getState().setZenMode(false)
+      }
       try {
         const doc = document as unknown as {
           fullscreenElement?: Element
@@ -296,7 +299,7 @@ export function KindleBookReader({
         setPlayingAudio(false)
       }
     }
-  }, [isOpen, store])
+  }, [isOpen])
 
   const currentVerse: GenericBookVerse | undefined = verses[currentIndex]
 
@@ -466,9 +469,10 @@ export function KindleBookReader({
         case 'B':
           if (currentVerse) {
             e.preventDefault()
-            const exists = store.bookmarks.includes(currentVerse.id)
-            store.toggleBookmark(currentVerse.id)
-            if (store.hapticsEnabled) triggerHaptic([8, 35, 12])
+            const s = useStore.getState()
+            const exists = s.bookmarks.includes(currentVerse.id)
+            s.toggleBookmark(currentVerse.id)
+            if (s.hapticsEnabled) triggerHaptic([8, 35, 12])
             toast.success(exists ? 'Bookmark removed' : 'Bookmarked verse')
           }
           break
@@ -476,15 +480,16 @@ export function KindleBookReader({
         case 'H':
           if (currentVerse) {
             e.preventDefault()
-            const isH = store.highlights.includes(currentVerse.id)
-            store.toggleHighlight(currentVerse.id)
-            if (store.hapticsEnabled) triggerHaptic([8, 35, 12])
+            const s = useStore.getState()
+            const isH = s.highlights.includes(currentVerse.id)
+            s.toggleHighlight(currentVerse.id)
+            if (s.hapticsEnabled) triggerHaptic([8, 35, 12])
             toast.success(isH ? 'Highlight removed' : 'Highlighted verse')
           }
           break
         case 'Escape':
           e.preventDefault()
-          if (store.isZenMode || isFullscreen) {
+          if (useStore.getState().isZenMode || isFullscreen) {
             toggleZenMode()
           } else {
             onClose()
@@ -496,7 +501,7 @@ export function KindleBookReader({
           e.preventDefault()
           setHudVisible((prev) => {
             const next = !prev
-            if (next && !store.isZenMode) resetInactivityTimer()
+            if (next && !useStore.getState().isZenMode) resetInactivityTimer()
             return next
           })
           break
@@ -511,7 +516,7 @@ export function KindleBookReader({
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, currentIndex, currentVerse, verses.length, store, onClose, isFullscreen])
+  }, [isOpen, currentIndex, currentVerse, verses.length, onClose, isFullscreen])
 
   // Audio recitation toggle
   const toggleAudio = () => {
@@ -546,7 +551,7 @@ export function KindleBookReader({
     toast.success('Reflection saved')
   }
 
-  if (!isOpen || !verses.length || !mounted) return null
+  if (!isOpen || !verses.length || !mounted || typeof document === 'undefined' || !document.body) return null
 
   // Paper surface class
   const paperToneClass =

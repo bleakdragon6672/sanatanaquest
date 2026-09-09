@@ -555,10 +555,10 @@ export const useStore = create<StoreState>()(
       setPaperTone: (tone) => set({ paperTone: tone }),
       setReaderFont: (font) => set({ readerFont: font }),
       setReaderPaging: (mode) => set({ readerPaging: mode }),
-      setBookReaderOpen: (open) => set({ isBookReaderOpen: open }),
+      setBookReaderOpen: (open) => set((s) => (s.isBookReaderOpen === open ? s : { isBookReaderOpen: open })),
       setPageTurnSound: (enabled) => set({ pageTurnSound: enabled }),
       setHapticsEnabled: (enabled) => set({ hapticsEnabled: enabled }),
-      setZenMode: (zen) => set({ isZenMode: zen }),
+      setZenMode: (zen) => set((s) => (s.isZenMode === zen ? s : { isZenMode: zen })),
       toggleZenMode: () => set((s) => ({ isZenMode: !s.isZenMode })),
 
       markVerseRead: (verseId) => {

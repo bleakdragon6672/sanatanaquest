@@ -282,14 +282,9 @@ function AppShell() {
         )}
       </div>
       <MobileNavDrawer />
-      {/* Mobile bottom navigation & atmospheric floating widgets — hidden during book reader / zen mode */}
-      {!store.isBookReaderOpen && !store.isZenMode && store.readingMode !== 'kindle' && (
-        <>
-          <MobileBottomNav />
-          <AtmospherePanel chapter={chapterFromParams} />
-          <AtmosphereMiniWidget />
-        </>
-      )}
+      <MobileBottomNav />
+      <AtmospherePanel chapter={chapterFromParams} />
+      <AtmosphereMiniWidget />
     </div>
     </MobileNavProvider>
   )
