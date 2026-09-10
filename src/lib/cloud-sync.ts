@@ -31,8 +31,12 @@
 // to work. A reference SQL migration is provided at:
 //   /home/z/my-project/prisma/supabase_user_progress.sql
 
-import { supabase } from '@/lib/supabase-client'
+import { ConvexHttpClient } from 'convex/browser'
+import { api } from '@/convex/_generated/api'
 import type { User } from '@supabase/supabase-js'
+
+const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL
+const convexClient = convexUrl ? new ConvexHttpClient(convexUrl) : null
 import {
   useStore,
   type ActivityLog,
@@ -107,64 +111,47 @@ export interface StoreSnapshot {
  * null as "start fresh".
  */
 export async function loadCloudProgress(user: User): Promise<StoreSnapshot | null> {
-  if (!supabase) return null
-
-  const { data, error } = await supabase
-    .from('user_progress')
-    .select('*')
-    .eq('user_id', user.id)
-    .single()
-
-  if (error) {
-    // PGRST116 = no row found. Create an empty initial row.
-    if (error.code === 'PGRST116') {
-      const { error: insertError } = await supabase
-        .from('user_progress')
-        .insert({ user_id: user.id })
-      if (insertError) {
-        // Failed to create initial row — non-critical
-      }
-    }
-    return null
-  }
-
-  if (!data) {
-    return null
-  }
-
-  const row = data as CloudProgressRow
-
-  const snapshot: StoreSnapshot = {
-    userName: row.user_name || 'Seeker',
-    totalXp: row.total_xp || 0,
-    readingTimeSec: row.reading_time_sec || 0,
-    currentStreak: row.current_streak || 0,
-    longestStreak: row.longest_streak || 0,
-    lastActiveDate: row.last_active_date || undefined,
-    readVerses: row.read_verses || {},
-    bookmarks: row.bookmarks || [],
-    highlights: row.highlights || [],
-    notes: row.notes || {},
-    dailyActivity: row.daily_activity || {},
-    activities: row.activities || [],
-    journal: row.journal || [],
-    challengeProgress: row.challenge_progress || {},
-    unlockedSkills: row.unlocked_skills || [],
-    readingMode: row.reading_mode || 'full',
-    fontScale: row.font_scale || 1,
-    lineSpacing: row.line_spacing ?? 1.8,
-    readingWidth: (row.reading_width as ReadingWidth) || 'normal',
-    readingViewMode: (row.reading_view_mode as ReadingViewMode) || 'standard',
-    animationsEnabled: row.animations_enabled ?? true,
-    accentColor: (row.accent_color as AccentColor) || 'saffron',
-    joinedAt: row.joined_at || Date.now(),
-  }
+  if (!convexClient) return null
 
   try {
-    lastSavedSignatures.set(user.id, JSON.stringify(snapshot))
-  } catch {}
+    const row = await convexClient.query(api.progress.getProgress, { userId: user.id })
+    if (!row) return null
 
-  return snapshot
+    const snapshot: StoreSnapshot = {
+      userName: row.userName || 'Seeker',
+      totalXp: row.totalXp || 0,
+      readingTimeSec: row.readingTimeSec || 0,
+      currentStreak: row.currentStreak || 0,
+      longestStreak: row.longestStreak || 0,
+      lastActiveDate: row.lastActiveDate ?? undefined,
+      readVerses: row.readVerses || {},
+      bookmarks: row.bookmarks || [],
+      highlights: row.highlights || [],
+      notes: row.notes || {},
+      dailyActivity: row.dailyActivity || {},
+      activities: row.activities || [],
+      journal: row.journal || [],
+      challengeProgress: row.challengeProgress || {},
+      unlockedSkills: row.unlockedSkills || [],
+      readingMode: row.readingMode || 'full',
+      fontScale: row.fontScale || 1,
+      lineSpacing: row.lineSpacing ?? 1.8,
+      readingWidth: (row.readingWidth as ReadingWidth) || 'normal',
+      readingViewMode: (row.readingViewMode as ReadingViewMode) || 'standard',
+      animationsEnabled: row.animationsEnabled ?? true,
+      accentColor: (row.accentColor as AccentColor) || 'saffron',
+      joinedAt: row.joinedAt || Date.now(),
+    }
+
+    try {
+      lastSavedSignatures.set(user.id, JSON.stringify(snapshot))
+    } catch {}
+
+    return snapshot
+  } catch (err) {
+    console.warn('[Convex] Failed to load progress from cloud:', err)
+    return null
+  }
 }
 
 // In-memory cache of the last synced payload signature per user to prevent redundant DB writes & save Disk IO
@@ -177,7 +164,7 @@ export function setCloudSyncBaseline(userId: string, snapshot: StoreSnapshot) {
 }
 
 /**
- * Save the user's progress to Supabase (upsert on user_id).
+ * Save the user's progress to Convex.
  * Skips the database write if the snapshot signature has not changed since the last save.
  * Returns { error: null, skipped?: boolean } on success, { error: string } on failure.
  */
@@ -186,57 +173,52 @@ export async function saveCloudProgress(
   snapshot: StoreSnapshot,
   force = false
 ): Promise<{ error: string | null; skipped?: boolean }> {
-  if (!supabase) return { error: 'Supabase not configured' }
+  if (!convexClient) return { error: null, skipped: true }
 
   let signature = ''
   try {
     signature = JSON.stringify(snapshot)
     if (!force && lastSavedSignatures.get(user.id) === signature) {
-      // Data is identical to the last saved cloud version; skip DB write to protect Disk IO
       return { error: null, skipped: true }
     }
   } catch {}
 
-  const row: CloudProgressRow = {
-    user_id: user.id,
-    user_name: snapshot.userName,
-    total_xp: snapshot.totalXp,
-    reading_time_sec: snapshot.readingTimeSec,
-    current_streak: snapshot.currentStreak,
-    longest_streak: snapshot.longestStreak,
-    last_active_date: snapshot.lastActiveDate ?? null,
-    read_verses: snapshot.readVerses,
-    bookmarks: snapshot.bookmarks,
-    highlights: snapshot.highlights,
-    notes: snapshot.notes,
-    daily_activity: snapshot.dailyActivity,
-    activities: snapshot.activities,
-    journal: snapshot.journal,
-    challenge_progress: snapshot.challengeProgress,
-    unlocked_skills: snapshot.unlockedSkills,
-    reading_mode: snapshot.readingMode,
-    font_scale: snapshot.fontScale,
-    line_spacing: snapshot.lineSpacing,
-    reading_width: snapshot.readingWidth,
-    reading_view_mode: snapshot.readingViewMode,
-    animations_enabled: snapshot.animationsEnabled,
-    accent_color: snapshot.accentColor,
-    joined_at: snapshot.joinedAt,
+  try {
+    await convexClient.mutation(api.progress.saveProgress, {
+      userId: user.id,
+      userName: snapshot.userName,
+      totalXp: snapshot.totalXp,
+      readingTimeSec: snapshot.readingTimeSec,
+      currentStreak: snapshot.currentStreak,
+      longestStreak: snapshot.longestStreak,
+      lastActiveDate: snapshot.lastActiveDate,
+      readVerses: snapshot.readVerses,
+      bookmarks: snapshot.bookmarks,
+      highlights: snapshot.highlights,
+      notes: snapshot.notes,
+      dailyActivity: snapshot.dailyActivity,
+      activities: snapshot.activities,
+      journal: snapshot.journal,
+      challengeProgress: snapshot.challengeProgress,
+      unlockedSkills: snapshot.unlockedSkills,
+      readingMode: snapshot.readingMode,
+      fontScale: snapshot.fontScale,
+      lineSpacing: snapshot.lineSpacing,
+      readingWidth: snapshot.readingWidth,
+      readingViewMode: snapshot.readingViewMode,
+      animationsEnabled: snapshot.animationsEnabled,
+      accentColor: snapshot.accentColor,
+      joinedAt: snapshot.joinedAt,
+    })
+
+    if (signature) {
+      lastSavedSignatures.set(user.id, signature)
+    }
+
+    return { error: null }
+  } catch (err) {
+    return { error: String(err) }
   }
-
-  const { error } = await supabase
-    .from('user_progress')
-    .upsert(row, { onConflict: 'user_id' })
-
-  if (error) {
-    return { error: error.message }
-  }
-
-  if (signature) {
-    lastSavedSignatures.set(user.id, signature)
-  }
-
-  return { error: null }
 }
 
 /**
@@ -280,17 +262,13 @@ export async function updateCloudUserName(
   // 1. Update local store
   useStore.getState().setUserName(trimmed)
 
-  // 2. Update Supabase if available
-  if (supabase) {
+  // 2. Update Convex if available
+  if (convexClient) {
     try {
-      const { error } = await supabase
-        .from('user_progress')
-        .update({ user_name: trimmed })
-        .eq('user_id', user.id)
-
-      if (error) {
-        return { success: false, error: error.message }
-      }
+      await convexClient.mutation(api.progress.updateUserName, {
+        userId: user.id,
+        newName: trimmed,
+      })
       lastSavedSignatures.delete(user.id)
     } catch (err) {
       return { success: false, error: String(err) }

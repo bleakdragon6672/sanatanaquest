@@ -113,3 +113,20 @@ export const updateUserName = mutation({
     return { success: false, error: "User progress record not found" };
   },
 });
+
+export const deleteUserProgress = mutation({
+  args: { userId: v.string() },
+  handler: async (ctx: any, args: { userId: string }) => {
+    const existing = await ctx.db
+      .query("userProgress")
+      .withIndex("by_userId", (q: any) => q.eq("userId", args.userId))
+      .first();
+
+    if (existing) {
+      await ctx.db.delete(existing._id);
+      return { success: true };
+    }
+
+    return { success: false };
+  },
+});

@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase-client'
+import { ConvexHttpClient } from 'convex/browser'
+import { api } from '@/convex/_generated/api'
 import { resolveSeekerName } from '@/lib/cloud-sync'
+
+const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL
+const convexClient = convexUrl ? new ConvexHttpClient(convexUrl) : null
 
 const COMMUNITY_SEEKERS = [
   {
@@ -148,8 +152,7 @@ export async function GET() {
     })
   }
 
-  if (!supabase) {
-    // Return community seekers if Supabase is unconfigured
+  if (!convexClient) {
     return NextResponse.json(
       {
         users: COMMUNITY_SEEKERS.map((s, i) => ({ ...s, rank: i + 1 })),
@@ -162,14 +165,9 @@ export async function GET() {
   }
 
   try {
-    const { data, error } = await supabase
-      .from('leaderboard_public')
-      .select('user_id, user_name, total_xp, current_streak, longest_streak, read_verses, joined_at')
-      .order('total_xp', { ascending: false })
-      .limit(100)
+    const data = await convexClient.query(api.leaderboard.getLeaderboard, {})
 
-    if (error || !data || data.length === 0) {
-      // If we have stale cache, serve it rather than falling back to defaults
+    if (!data || data.length === 0) {
       if (cachedLeaderboard) {
         return NextResponse.json(cachedLeaderboard.payload, {
           headers: { 'Cache-Control': 'public, s-maxage=30', 'X-Cache': 'STALE' },
@@ -181,22 +179,19 @@ export async function GET() {
       })
     }
 
-    const users: LeaderboardUser[] = data.map((row, i) => {
-      const readVerses = row.read_verses as Record<string, number> | null
-      const versesRead = readVerses ? Object.keys(readVerses).length : 0
-      const rawName = (row.user_name as string)?.trim()
-      // Resolves to custom name if set, or deterministically assigned authentic human name
-      const userName = resolveSeekerName(rawName, row.user_id as string, i)
+    const users: LeaderboardUser[] = data.map((row: any, i: number) => {
+      const rawName = (row.userName as string)?.trim()
+      const userName = resolveSeekerName(rawName, row.userId as string, i)
 
       return {
         rank: i + 1,
-        userId: row.user_id as string,
+        userId: row.userId as string,
         userName,
-        totalXp: (row.total_xp as number) ?? 0,
-        currentStreak: (row.current_streak as number) ?? 0,
-        longestStreak: (row.longest_streak as number) ?? 0,
-        versesRead,
-        joinedAt: row.joined_at as number | null,
+        totalXp: (row.totalXp as number) ?? 0,
+        currentStreak: (row.currentStreak as number) ?? 0,
+        longestStreak: (row.longestStreak as number) ?? 0,
+        versesRead: (row.versesRead as number) ?? 0,
+        joinedAt: (row.joinedAt as number) ?? null,
       }
     })
 
