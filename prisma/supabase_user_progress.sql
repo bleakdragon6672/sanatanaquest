@@ -131,3 +131,22 @@ LEFT JOIN auth.users au ON au.id = up.user_id;
 
 REVOKE ALL ON public.leaderboard_public FROM anon;
 GRANT SELECT ON public.leaderboard_public TO anon;
+
+-- ── Performance & Disk I/O Optimizations ───────────────────────────────
+-- 1. B-tree index on total_xp (DESC) turns full-table sequential scans on
+--    the leaderboard into instantaneous O(log N) index lookups, eliminating
+--    disk buffer thrashing and CPU load on Supabase.
+CREATE INDEX IF NOT EXISTS idx_user_progress_total_xp
+  ON public.user_progress (total_xp DESC);
+
+-- 2. Tune autovacuum on user_progress to proactively vacuum dead tuples
+--    and avoid IO burst depletion spikes.
+ALTER TABLE public.user_progress SET (
+  autovacuum_vacuum_scale_factor = 0.1,
+  autovacuum_vacuum_cost_limit = 500
+);
+
+-- 3. Maintenance command to run in Supabase SQL editor to immediately reclaim
+--    disk space and clear accumulated dead tuples from rapid auto-saves:
+--    VACUUM (ANALYZE) public.user_progress;
+

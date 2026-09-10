@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { NavProvider, useNav, type ViewKey } from '@/components/nav-context'
 import { Sidebar, MobileNavProvider, MobileNavTrigger, MobileNavDrawer } from '@/components/sidebar'
@@ -59,7 +59,7 @@ import {
 import { AtmospherePanel } from '@/components/atmosphere/atmosphere-panel'
 import { AtmosphereMiniWidget } from '@/components/atmosphere/atmosphere-mini-widget'
 import { AtmosphereVisualEffects } from '@/components/atmosphere/atmosphere-visual-effects'
-import { saveCloudProgress } from '@/lib/cloud-sync'
+import { saveCloudProgress, type StoreSnapshot } from '@/lib/cloud-sync'
 import type { User } from '@supabase/supabase-js'
 import { AmbientBackground } from '@/components/ambient-background'
 import { cn } from '@/lib/utils'
@@ -196,48 +196,87 @@ function ViewRouter() {
 }
 
 
+function getStoreSnapshot(): StoreSnapshot {
+  const s = useStore.getState()
+  return {
+    userName: s.userName,
+    totalXp: s.totalXp,
+    readingTimeSec: s.readingTimeSec,
+    currentStreak: s.currentStreak,
+    longestStreak: s.longestStreak,
+    lastActiveDate: s.lastActiveDate,
+    readVerses: s.readVerses,
+    bookmarks: s.bookmarks,
+    highlights: s.highlights,
+    notes: s.notes,
+    dailyActivity: s.dailyActivity,
+    activities: s.activities,
+    journal: s.journal,
+    challengeProgress: s.challengeProgress,
+    unlockedSkills: s.unlockedSkills,
+    readingMode: s.readingMode,
+    fontScale: s.fontScale,
+    lineSpacing: s.lineSpacing,
+    readingWidth: s.readingWidth,
+    readingViewMode: s.readingViewMode,
+    animationsEnabled: s.animationsEnabled,
+    accentColor: s.accentColor,
+    joinedAt: s.joinedAt,
+  }
+}
+
 /**
- * useCloudAutoSave — debounced 2-second auto-save of the entire store state to
+ * useCloudAutoSave — debounced 25-second auto-save of the entire store state to
  * Supabase whenever any persisted field changes. Runs only when authenticated.
  *
- * Mirrors the live deployment's IIFE-inside-IZ auto-save effect.
+ * Performance & Disk IOPS safeguards:
+ * 1. 25-second debounce (prevents hammering Supabase with WAL/TOAST disk writes every 2 seconds).
+ * 2. Deep dirty-checking: skips network & database write entirely if data hasn't changed.
+ * 3. Immediate flush on tab blur / window close (via visibilitychange and beforeunload) so progress is never lost.
+ * 4. Local state is ALREADY synchronously saved to localStorage on every change via Zustand persist.
  */
 function useCloudAutoSave(user: User | null) {
   const store = useStore()
+  const lastSavedJsonRef = useRef<string>('')
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
+
+  const flushSave = useCallback(() => {
+    if (!user) return
+    const snapshot = getStoreSnapshot()
+    let serialized = ''
+    try {
+      serialized = JSON.stringify(snapshot)
+    } catch {
+      return
+    }
+
+    if (serialized && serialized === lastSavedJsonRef.current) {
+      return // Unchanged, skip database write to protect Disk IO
+    }
+
+    lastSavedJsonRef.current = serialized
+    saveCloudProgress(user, snapshot)
+  }, [user])
 
   useEffect(() => {
     if (!user) return
-    const timer = setTimeout(() => {
-      const s = useStore.getState()
-      saveCloudProgress(user, {
-        userName: s.userName,
-        totalXp: s.totalXp,
-        readingTimeSec: s.readingTimeSec,
-        currentStreak: s.currentStreak,
-        longestStreak: s.longestStreak,
-        lastActiveDate: s.lastActiveDate,
-        readVerses: s.readVerses,
-        bookmarks: s.bookmarks,
-        highlights: s.highlights,
-        notes: s.notes,
-        dailyActivity: s.dailyActivity,
-        activities: s.activities,
-        journal: s.journal,
-        challengeProgress: s.challengeProgress,
-        unlockedSkills: s.unlockedSkills,
-        readingMode: s.readingMode,
-        fontScale: s.fontScale,
-        lineSpacing: s.lineSpacing,
-        readingWidth: s.readingWidth,
-        readingViewMode: s.readingViewMode,
-        animationsEnabled: s.animationsEnabled,
-        accentColor: s.accentColor,
-        joinedAt: s.joinedAt,
-      })
-    }, 2000)
-    return () => clearTimeout(timer)
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+    }
+
+    timerRef.current = setTimeout(() => {
+      flushSave()
+    }, 25000) // 25s debounce protects Supabase Disk IOPS
+
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+    }
   }, [
     user,
+    flushSave,
     store.totalXp,
     store.readVerses,
     store.bookmarks,
@@ -253,6 +292,29 @@ function useCloudAutoSave(user: User | null) {
     store.readingMode,
     store.fontScale,
   ])
+
+  // Flush immediately on tab blur, minimize, or page unload so progress is never lost
+  useEffect(() => {
+    if (!user) return
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        flushSave()
+      }
+    }
+
+    const handleBeforeUnload = () => {
+      flushSave()
+    }
+
+    window.addEventListener('visibilitychange', handleVisibilityChange)
+    window.addEventListener('beforeunload', handleBeforeUnload)
+
+    return () => {
+      window.removeEventListener('visibilitychange', handleVisibilityChange)
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [user, flushSave])
 }
 
 function AppShell() {

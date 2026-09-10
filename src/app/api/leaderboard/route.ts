@@ -113,13 +113,52 @@ const COMMUNITY_SEEKERS = [
   },
 ]
 
+export const revalidate = 60
+
+interface LeaderboardUser {
+  rank: number
+  userId: string
+  userName: string
+  totalXp: number
+  currentStreak: number
+  longestStreak: number
+  versesRead: number
+  joinedAt: number | null
+}
+
+interface LeaderboardPayload {
+  users: LeaderboardUser[]
+  isFallback: boolean
+}
+
+// In-memory cache to guarantee zero database hits within 60 seconds across all visitors
+let cachedLeaderboard: { payload: LeaderboardPayload; timestamp: number } | null = null
+const CACHE_TTL_MS = 60 * 1000 // 60 seconds
+
 export async function GET() {
+  const now = Date.now()
+
+  // Return cached result if fresh to prevent database load and preserve Disk IO budget
+  if (cachedLeaderboard && now - cachedLeaderboard.timestamp < CACHE_TTL_MS) {
+    return NextResponse.json(cachedLeaderboard.payload, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
+        'X-Cache': 'HIT',
+      },
+    })
+  }
+
   if (!supabase) {
     // Return community seekers if Supabase is unconfigured
-    return NextResponse.json({
-      users: COMMUNITY_SEEKERS.map((s, i) => ({ ...s, rank: i + 1 })),
-      isFallback: true,
-    })
+    return NextResponse.json(
+      {
+        users: COMMUNITY_SEEKERS.map((s, i) => ({ ...s, rank: i + 1 })),
+        isFallback: true,
+      },
+      {
+        headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' },
+      }
+    )
   }
 
   try {
@@ -130,14 +169,19 @@ export async function GET() {
       .limit(100)
 
     if (error || !data || data.length === 0) {
-      // Fallback to community seekers if database is empty or view returns error
+      // If we have stale cache, serve it rather than falling back to defaults
+      if (cachedLeaderboard) {
+        return NextResponse.json(cachedLeaderboard.payload, {
+          headers: { 'Cache-Control': 'public, s-maxage=30', 'X-Cache': 'STALE' },
+        })
+      }
       return NextResponse.json({
         users: COMMUNITY_SEEKERS.map((s, i) => ({ ...s, rank: i + 1 })),
         isFallback: true,
       })
     }
 
-    const users = data.map((row, i) => {
+    const users: LeaderboardUser[] = data.map((row, i) => {
       const readVerses = row.read_verses as Record<string, number> | null
       const versesRead = readVerses ? Object.keys(readVerses).length : 0
       const rawName = (row.user_name as string)?.trim()
@@ -156,8 +200,21 @@ export async function GET() {
       }
     })
 
-    return NextResponse.json({ users, isFallback: false })
+    const payload: LeaderboardPayload = { users, isFallback: false }
+    cachedLeaderboard = { payload, timestamp: now }
+
+    return NextResponse.json(payload, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
+        'X-Cache': 'MISS',
+      },
+    })
   } catch {
+    if (cachedLeaderboard) {
+      return NextResponse.json(cachedLeaderboard.payload, {
+        headers: { 'Cache-Control': 'public, s-maxage=30', 'X-Cache': 'STALE' },
+      })
+    }
     return NextResponse.json({
       users: COMMUNITY_SEEKERS.map((s, i) => ({ ...s, rank: i + 1 })),
       isFallback: true,

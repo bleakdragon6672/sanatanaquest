@@ -134,7 +134,7 @@ export async function loadCloudProgress(user: User): Promise<StoreSnapshot | nul
 
   const row = data as CloudProgressRow
 
-  return {
+  const snapshot: StoreSnapshot = {
     userName: row.user_name || 'Seeker',
     totalXp: row.total_xp || 0,
     readingTimeSec: row.reading_time_sec || 0,
@@ -159,17 +159,43 @@ export async function loadCloudProgress(user: User): Promise<StoreSnapshot | nul
     accentColor: (row.accent_color as AccentColor) || 'saffron',
     joinedAt: row.joined_at || Date.now(),
   }
+
+  try {
+    lastSavedSignatures.set(user.id, JSON.stringify(snapshot))
+  } catch {}
+
+  return snapshot
+}
+
+// In-memory cache of the last synced payload signature per user to prevent redundant DB writes & save Disk IO
+const lastSavedSignatures = new Map<string, string>()
+
+export function setCloudSyncBaseline(userId: string, snapshot: StoreSnapshot) {
+  try {
+    lastSavedSignatures.set(userId, JSON.stringify(snapshot))
+  } catch {}
 }
 
 /**
  * Save the user's progress to Supabase (upsert on user_id).
- * Returns { error: null } on success, { error: string } on failure.
+ * Skips the database write if the snapshot signature has not changed since the last save.
+ * Returns { error: null, skipped?: boolean } on success, { error: string } on failure.
  */
 export async function saveCloudProgress(
   user: User,
   snapshot: StoreSnapshot,
-): Promise<{ error: string | null }> {
+  force = false
+): Promise<{ error: string | null; skipped?: boolean }> {
   if (!supabase) return { error: 'Supabase not configured' }
+
+  let signature = ''
+  try {
+    signature = JSON.stringify(snapshot)
+    if (!force && lastSavedSignatures.get(user.id) === signature) {
+      // Data is identical to the last saved cloud version; skip DB write to protect Disk IO
+      return { error: null, skipped: true }
+    }
+  } catch {}
 
   const row: CloudProgressRow = {
     user_id: user.id,
@@ -204,6 +230,10 @@ export async function saveCloudProgress(
 
   if (error) {
     return { error: error.message }
+  }
+
+  if (signature) {
+    lastSavedSignatures.set(user.id, signature)
   }
 
   return { error: null }
@@ -261,6 +291,7 @@ export async function updateCloudUserName(
       if (error) {
         return { success: false, error: error.message }
       }
+      lastSavedSignatures.delete(user.id)
     } catch (err) {
       return { success: false, error: String(err) }
     }
