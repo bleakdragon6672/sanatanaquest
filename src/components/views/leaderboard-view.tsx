@@ -28,6 +28,8 @@ import {
 import { SPIRITUAL_LEVELS, useStore } from '@/lib/store'
 import { useAuth } from '@/lib/auth-context'
 import { updateCloudUserName, formatDisplayNameFromEmail, resolveSeekerName } from '@/lib/cloud-sync'
+import { isConvexConfigured } from '@/lib/convex-sync'
+import { ConvexLeaderboardBridge } from '@/components/ConvexLeaderboardBridge'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 
@@ -191,6 +193,16 @@ export function LeaderboardView() {
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
+      {/* Live Convex WebSocket sync when configured */}
+      {isConvexConfigured && (
+        <ConvexLeaderboardBridge
+          onData={(liveUsers) => {
+            setRawUsers(liveUsers)
+            setLoading(false)
+          }}
+        />
+      )}
+
       {/* Header */}
       <Card className="p-6 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
         <div className="absolute -right-6 -top-6 opacity-10 pointer-events-none">
@@ -209,6 +221,11 @@ export function LeaderboardView() {
             <span className="inline-flex items-center gap-1.5">
               <Users className="h-4 w-4 text-primary" /> {users.length} seeker{users.length !== 1 ? 's' : ''}
             </span>
+            {isConvexConfigured && (
+              <span className="inline-flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live Real-time
+              </span>
+            )}
             <Button
               variant="ghost"
               size="sm"

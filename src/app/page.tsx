@@ -60,6 +60,8 @@ import { AtmospherePanel } from '@/components/atmosphere/atmosphere-panel'
 import { AtmosphereMiniWidget } from '@/components/atmosphere/atmosphere-mini-widget'
 import { AtmosphereVisualEffects } from '@/components/atmosphere/atmosphere-visual-effects'
 import { saveCloudProgress, type StoreSnapshot } from '@/lib/cloud-sync'
+import { isConvexConfigured } from '@/lib/convex-sync'
+import { ConvexSyncBridge } from '@/components/ConvexSyncBridge'
 import type { User } from '@supabase/supabase-js'
 import { AmbientBackground } from '@/components/ambient-background'
 import { cn } from '@/lib/utils'
@@ -319,7 +321,8 @@ function useCloudAutoSave(user: User | null) {
 
 function AppShell() {
   const { user } = useAuth()
-  useCloudAutoSave(user)
+  // When Convex is active, Convex handles auto-save; otherwise fall back to Supabase
+  useCloudAutoSave(isConvexConfigured ? null : user)
 
   const { currentAtmosphere } = useAtmosphere()
   const { view, params } = useNav()
@@ -358,6 +361,8 @@ function AppShell() {
   return (
     <MobileNavProvider>
     <div className={cn('sacred-bg flex min-h-screen bg-background relative', isZen && 'reading-zen', isFocus && 'reading-focus')}>
+      {/* Real-time Convex cloud auto-save bridge */}
+      {isConvexConfigured && <ConvexSyncBridge user={user} />}
       {/* XP gain animation overlay */}
       <XpGainOverlay />
       {/* Level up celebration overlay */}
