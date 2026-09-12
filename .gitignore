@@ -37,6 +37,8 @@ debug_nvidia.mjs
 # vercel
 .vercel
 
+.agents/
+
 
 # typescript
 *.tsbuildinfo

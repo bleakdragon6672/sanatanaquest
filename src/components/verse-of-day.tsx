@@ -29,60 +29,93 @@ export function VerseOfDay() {
   const chapter = gitaChapters.find((c) => c.number === verse.chapter)
 
   return (
-    <Card className="p-0 overflow-hidden border-0 bg-gradient-to-br from-card via-card to-[color-mix(in_oklch,var(--saffron)_8%,transparent)]">
-      <div className="px-5 sm:px-7 pt-5 sm:pt-6 pb-2 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <Badge className="bg-saffron-gradient text-white border-0">
-            <Sparkles className="mr-1 h-3 w-3" /> Verse of the Day
-          </Badge>
-          <span className="text-xs text-muted-foreground">
+    <div className="card-serene p-6 sm:p-8 rounded-3xl border border-border/60 bg-gradient-to-br from-card via-card/95 to-primary/[0.04] relative overflow-hidden transition-all duration-300">
+      {/* Decorative ambient subtle circle */}
+      <div className="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-primary/5 blur-2xl pointer-events-none" />
+
+      <div className="flex items-center justify-between gap-3 mb-5">
+        <div className="flex items-center gap-2.5">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-semibold text-primary">
+            <Sparkles className="h-3.5 w-3.5" /> Verse of the Day
+          </span>
+          <span className="text-xs text-muted-foreground/80 font-medium">
             Chapter {verse.chapter} · Verse {verse.verse}
           </span>
         </div>
-        <div className="flex gap-1">
+        <div className="flex items-center gap-1">
           <Button
             size="icon"
             variant="ghost"
-            className="h-8 w-8 rounded-full"
+            className="h-8 w-8 rounded-full hover:bg-muted/60"
             onClick={() => {
               store.toggleBookmark(verse.id)
-              toast.success(isBookmarked ? 'Removed bookmark' : 'Verse bookmarked')
+              toast.success(isBookmarked ? 'Removed bookmark' : 'Verse saved to personal treasury')
             }}
+            title={isBookmarked ? 'Remove bookmark' : 'Save verse'}
           >
-            <Bookmark className={`h-4 w-4 ${isBookmarked ? 'fill-primary text-primary' : ''}`} />
+            <Bookmark className={`h-4 w-4 transition-colors ${isBookmarked ? 'fill-primary text-primary' : 'text-muted-foreground'}`} />
           </Button>
-          <Button size="icon" variant="ghost" className="h-8 w-8 rounded-full" onClick={() => setShareOpen(true)}>
-            <Share2 className="h-4 w-4" />
+          <Button
+            size="icon"
+            variant="ghost"
+            className="h-8 w-8 rounded-full hover:bg-muted/60"
+            onClick={() => setShareOpen(true)}
+            title="Share verse"
+          >
+            <Share2 className="h-4 w-4 text-muted-foreground" />
           </Button>
         </div>
       </div>
-      <div className="px-5 sm:px-7 pb-5 sm:pb-7">
-        <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+
+      <div className="space-y-4">
+        <p className="text-xs uppercase tracking-widest text-muted-foreground/70 font-medium" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
           {chapter?.sanskritName} · {chapter?.name}
         </p>
-        <p
-          className="sanskrit-text text-xl sm:text-2xl text-foreground/90 leading-relaxed mb-4"
-          dir="ltr"
-          style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif' }}
-        >
-          {verse.sanskrit}
-        </p>
-        <p className="text-sm italic text-muted-foreground mb-3">
+
+        {/* Sacred Sanskrit Calligraphy */}
+        <div className="py-2">
+          <p
+            className="text-xl sm:text-2xl lg:text-3xl text-foreground font-medium leading-relaxed sm:leading-loose text-center sm:text-left"
+            dir="ltr"
+            style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif' }}
+          >
+            {verse.sanskrit}
+          </p>
+        </div>
+
+        {/* Transliteration */}
+        <p className="text-xs sm:text-sm italic text-muted-foreground/85 leading-relaxed">
           {verse.transliteration}
         </p>
-        <p className="text-base text-foreground/90 leading-relaxed mb-4">
+
+        {/* English Translation */}
+        <p className="text-sm sm:text-base text-foreground/90 font-normal leading-relaxed">
           {verse.english}
         </p>
+
+        {/* Commentary/Meaning Pill */}
         {verse.meaning && (
-          <p className="text-sm text-muted-foreground/90 leading-relaxed border-l-2 border-primary/40 pl-3 italic">
+          <div className="p-4 rounded-2xl bg-muted/40 border border-border/40 text-xs sm:text-sm text-muted-foreground leading-relaxed italic">
             {verse.meaning}
-          </p>
+          </div>
         )}
-        <div className="flex flex-wrap gap-2 mt-4">
-          <Button size="sm" variant="outline" onClick={() => navigate('guide', { explain: verse.id })}>
-            <Sparkles className="mr-1 h-3.5 w-3.5" /> AI Explanation
+
+        {/* Action pills */}
+        <div className="flex flex-wrap gap-2.5 pt-2">
+          <Button
+            size="sm"
+            variant="outline"
+            className="rounded-full px-4 text-xs border-border/70 hover:border-primary/40 hover:bg-primary/5 transition-all"
+            onClick={() => navigate('guide', { explain: verse.id })}
+          >
+            <Sparkles className="mr-1.5 h-3.5 w-3.5 text-primary" /> AI Explanation
           </Button>
-          <Button size="sm" variant="ghost" onClick={() => navigate('gita', { chapter: String(verse.chapter), verse: verse.id })}>
+          <Button
+            size="sm"
+            variant="ghost"
+            className="rounded-full px-4 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-all"
+            onClick={() => navigate('gita', { chapter: String(verse.chapter), verse: verse.id })}
+          >
             Read full chapter →
           </Button>
         </div>
@@ -96,6 +129,6 @@ export function VerseOfDay() {
         body={verse.english}
         footer="Sanatan Quest"
       />
-    </Card>
+    </div>
   )
 }

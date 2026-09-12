@@ -162,21 +162,21 @@ export function MindMapView() {
   return (
     <div className="space-y-6 animate-fade-in pb-12">
       {/* Header Banner */}
-      <div className="card-sacred-glow relative overflow-hidden rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-card via-card/90 to-background border border-saffron/20 shadow-xl">
+      <div className="card-serene relative overflow-hidden rounded-3xl p-6 sm:p-9 bg-gradient-to-br from-card via-card/95 to-primary/[0.04] border border-border/60">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-saffron-100 dark:bg-saffron-950/60 text-saffron-600 dark:text-saffron-400 text-xs font-semibold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium border border-primary/20 font-serif">
               <Network className="h-3.5 w-3.5" />
               <span>Cosmic Knowledge Web</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight font-serif-display">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
               Dharma Mind Map <span className="text-muted-foreground text-lg font-normal font-serif">धर्मचित्रम्</span>
             </h1>
-            <p className="text-sm text-muted-foreground max-w-xl">
+            <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
               Explore how sacred concepts across Bhagavad Gita, Upanishads, Yoga Sutras, and Ashtavakra Gita interconnect in a unified cosmic mandala.
             </p>
           </div>
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-saffron-gradient text-white shadow-lg glow-sacred-pulse">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary via-saffron to-gold text-white shadow-xs animate-breathe">
             <OmSymbol size={32} className="!text-white" />
           </div>
         </div>
@@ -188,7 +188,7 @@ export function MindMapView() {
             className={cn(
               'px-3.5 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap',
               activeCategory === 'all'
-                ? 'bg-saffron-gradient text-white shadow-md'
+                ? 'bg-primary text-primary-foreground shadow-xs'
                 : 'bg-muted/60 hover:bg-muted text-muted-foreground'
             )}
           >
@@ -199,10 +199,10 @@ export function MindMapView() {
               key={catKey}
               onClick={() => setActiveCategory(catKey)}
               className={cn(
-                'px-3 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap border',
+                'px-3.5 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap border',
                 catMeta.border,
                 activeCategory === catKey
-                  ? 'bg-saffron-gradient text-white shadow-md border-transparent'
+                  ? 'bg-primary text-primary-foreground shadow-xs border-transparent'
                   : 'bg-card hover:bg-muted text-muted-foreground'
               )}
             >
@@ -215,9 +215,9 @@ export function MindMapView() {
       {/* Interactive Map & Detail Split View */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Canvas Interactive Mandala */}
-        <div className="lg:col-span-8 card-sacred-glow rounded-2xl p-4 bg-card border border-border relative min-h-[440px] sm:min-h-[520px] overflow-hidden flex flex-col justify-between">
-          <div className="absolute top-4 left-4 z-10 flex items-center gap-2 text-xs text-muted-foreground bg-background/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-border">
-            <Sparkles className="h-3.5 w-3.5 text-saffron" />
+        <div className="lg:col-span-8 card-serene rounded-3xl p-4 bg-card border border-border/60 relative min-h-[440px] sm:min-h-[520px] overflow-hidden flex flex-col justify-between">
+          <div className="absolute top-4 left-4 z-10 flex items-center gap-2 text-xs text-muted-foreground bg-background/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-border/60">
+            <Sparkles className="h-3.5 w-3.5 text-primary" />
             <span>Click any node to explore connections</span>
           </div>
 
@@ -297,7 +297,7 @@ export function MindMapView() {
 
         {/* Selected Node Details Card */}
         <div className="lg:col-span-4 space-y-4">
-          <div className="card-sacred-glow rounded-2xl p-6 bg-card border border-border shadow-lg space-y-5 relative overflow-hidden">
+          <div className="card-serene rounded-3xl p-6 bg-card border border-border/60 shadow-xs space-y-5 relative overflow-hidden">
             <div className="flex items-center justify-between gap-2 border-b border-border/60 pb-3">
               <span className={cn('text-xs font-semibold px-3 py-1 rounded-full border', CATEGORY_MAP[selectedNode.category].border, CATEGORY_MAP[selectedNode.category].color)}>
                 {CATEGORY_MAP[selectedNode.category].label}

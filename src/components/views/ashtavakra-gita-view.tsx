@@ -92,27 +92,27 @@ function ChapterList({ onOpen }: { onOpen: (id: string, bookMode?: boolean) => v
 
   return (
     <div className="space-y-6">
-      <Card className="p-6 sm:p-8 relative overflow-hidden card-sacred-glow">
-        <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
-          <LotusIcon size={200} className="text-primary" />
+      <Card className="card-serene p-6 sm:p-9 rounded-3xl relative overflow-hidden border border-border/60 bg-gradient-to-br from-card via-card/95 to-primary/[0.04]">
+        <div className="absolute -right-8 -top-8 opacity-[0.06] pointer-events-none animate-breathe">
+          <LotusIcon size={240} className="text-primary" />
         </div>
-        <div className="relative">
-          <Badge className="mb-3 bg-saffron-gradient text-white border-0 text-sm px-3 py-1">
+        <div className="relative z-10">
+          <Badge className="mb-3 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs px-3 py-1 font-serif">
             अष्टावक्रगीता
           </Badge>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3 text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
             Ashtavakra Gita
           </h1>
           <p className="text-sm text-primary/80 mb-2" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
             अष्टावक्रगीता · Aṣṭāvakragītā
           </p>
-          <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
+          <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed text-sm sm:text-base">
             A radical non-dual (Advaita Vedanta) scripture in the form of a dialogue between the sage Ashtavakra
             and King Janaka. It takes the most direct approach to Self-realization — declaring that you are already
             the infinite, unbounded Self. {totalVerses} verses across {ashtavakraChapters.length} chapters.
             Attributed to Sage Ashtavakra, ~500-200 BCE. Highly regarded by Ramana Maharshi and Swami Vivekananda.
           </p>
-          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+          <div className="flex flex-wrap gap-4 text-xs sm:text-sm text-muted-foreground">
             <span className="inline-flex items-center gap-2">
               <Bookmark className="h-4 w-4 text-primary" /> {store.bookmarks.length} bookmarked
             </span>
@@ -131,7 +131,7 @@ function ChapterList({ onOpen }: { onOpen: (id: string, bookMode?: boolean) => v
                 const firstUnread = ashtavakraChapters.find((c) => c.verses.some((v) => !store.readVerses[v.id])) || ashtavakraChapters[0]
                 onOpen(firstUnread.id, true)
               }}
-              className="rounded-full gap-2 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all px-5 py-2.5 animate-pulse-subtle border border-amber-300/30"
+              className="rounded-full gap-2 bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 hover:from-amber-600 hover:to-amber-500 text-white font-medium shadow-xs hover:shadow-md transition-all px-5 py-2.5 text-sm"
             >
               <BookOpen className="w-4 h-4" />
               <span>📖 Read in Kindle Book Mode</span>
@@ -144,7 +144,7 @@ function ChapterList({ onOpen }: { onOpen: (id: string, bookMode?: boolean) => v
                 const firstUnread = ashtavakraChapters.find((c) => c.verses.some((v) => !store.readVerses[v.id])) || ashtavakraChapters[0]
                 onOpen(firstUnread.id, false)
               }}
-              className="rounded-full gap-2 hover:bg-saffron-gradient-soft"
+              className="rounded-full gap-2 border-border/60 hover:bg-muted/60"
             >
               <span>Continue Chapter {ashtavakraChapters.find((c) => c.verses.some((v) => !store.readVerses[v.id]))?.number || 1}</span>
               <ChevronRight className="w-4 h-4" />
@@ -165,32 +165,32 @@ function ChapterList({ onOpen }: { onOpen: (id: string, bookMode?: boolean) => v
               key={ch.id}
               onClick={() => onOpen(ch.id)}
               className={cn(
-                "p-5 sm:p-6 cursor-pointer hover:shadow-lg hover:-translate-y-0.5 transition-all group relative overflow-hidden",
-                isAllRead && "border-l-4 border-l-green-500"
+                "card-serene p-5 sm:p-6 cursor-pointer hover:border-primary/40 hover:-translate-y-0.5 transition-all group relative overflow-hidden rounded-2xl border border-border/60",
+                isAllRead && "border-l-4 border-l-emerald-500/70"
               )}
             >
-              <div className="absolute -right-3 -top-3 opacity-[0.06] group-hover:opacity-[0.14] transition-opacity pointer-events-none">
+              <div className="absolute -right-3 -top-3 opacity-[0.04] group-hover:opacity-[0.10] transition-opacity pointer-events-none">
                 <span className="text-7xl font-bold text-amber-900/10" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
                   {ch.number}
                 </span>
               </div>
               <div className="relative">
                 <div className="flex items-start justify-between mb-2">
-                  <Badge className="bg-saffron-gradient text-white border-0 text-xs">
+                  <Badge className="bg-primary/10 text-primary border border-primary/20 text-xs font-serif rounded-full">
                     {ch.sanskritName}
                   </Badge>
                   <span className="text-xs text-muted-foreground">{total} verses</span>
                 </div>
-                <h3 className="font-semibold text-base leading-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+                <h3 className="font-semibold text-base leading-tight text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
                   Chapter {ch.number}: {ch.name}
                 </h3>
-                <p className="text-xs text-muted-foreground mt-2 line-clamp-2">{ch.theme}</p>
+                <p className="text-xs text-muted-foreground mt-2 line-clamp-2 leading-relaxed">{ch.theme}</p>
                 <div className="mt-3">
                   <div className="flex justify-between text-[10px] text-muted-foreground mb-1">
                     <span>{read}/{total} read</span>
                     <span>{pct}%</span>
                   </div>
-                  <Progress value={pct} className="h-1 bg-muted" />
+                  <Progress value={pct} className="h-1.5 bg-muted rounded-full" />
                 </div>
               </div>
             </Card>
@@ -455,13 +455,13 @@ function VerseCard({
     <>
       <Card
         className={cn(
-          'p-0 overflow-hidden transition-all verse-card-animated border shadow-sm',
+          'p-0 overflow-hidden transition-all verse-card-animated border rounded-3xl card-serene',
           store.paperTone !== 'default'
             ? currentPaper.cardClass
             : isNight
             ? 'bg-[#1a1410] text-amber-50 border-amber-900/30'
-            : 'bg-card text-card-foreground border-border',
-          isHighlighted ? highlightMeta.cardClass : 'hover:border-saffron/30',
+            : 'bg-card/95 text-card-foreground border-border/60',
+          isHighlighted ? highlightMeta.cardClass : 'hover:border-primary/30',
           isFocus && 'mx-auto max-w-2xl',
         )}
       >

@@ -75,72 +75,87 @@ const NAV_GROUPS: NavGroup[] = [
 function NavItems({ onNavigate }: { onNavigate?: () => void }) {
   const { view, navigate } = useNav()
   return (
-    <nav className="flex flex-col gap-3 px-2.5 py-2">
+    <nav className="flex flex-col gap-4 px-3 py-2">
       {NAV_GROUPS.map((group) => (
-        <div key={group.title} className="flex flex-col gap-0.5">
-          <div className="flex items-center justify-between px-2.5 py-1 text-[10px] uppercase font-bold tracking-wider text-muted-foreground/60 select-none">
-            <span>{group.title}</span>
+        <div key={group.title} className="flex flex-col gap-1">
+          <div className="flex items-center justify-between px-3 py-1.5 text-[10px] uppercase font-medium tracking-widest text-muted-foreground/70 select-none">
+            <span className="flex items-center gap-1.5">
+              <span className="w-1 h-1 rounded-full bg-primary/40" />
+              {group.title}
+            </span>
             {group.sanskrit && (
               <span
-                className="text-[10px] opacity-60 hidden xl:inline"
+                className="text-[11px] opacity-50 hidden xl:inline text-primary/80 font-normal"
                 style={{ fontFamily: 'var(--font-serif-display), serif' }}
               >
                 {group.sanskrit}
               </span>
             )}
           </div>
-          {group.items.map((item) => {
-            const Icon = item.icon
-            const isActive = view === item.view
-            return (
-              <button
-                key={item.view}
-                onClick={() => {
-                  navigate(item.view)
-                  onNavigate?.()
-                }}
-                className={cn(
-                  'nav-sacred group relative flex items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-left transition-all',
-                  'hover:bg-saffron-gradient-soft active:scale-[0.99]',
-                  isActive && 'bg-saffron-gradient-soft glow-saffron font-medium',
-                )}
-                data-active={isActive}
-              >
-                <span className="nav-sacred-indicator" />
-                <span
+          <div className="space-y-0.5">
+            {group.items.map((item) => {
+              const Icon = item.icon
+              const isActive = view === item.view
+              return (
+                <button
+                  key={item.view}
+                  onClick={() => {
+                    navigate(item.view)
+                    onNavigate?.()
+                  }}
                   className={cn(
-                    'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors',
+                    'group relative flex items-center gap-3 w-full rounded-2xl px-3 py-2 text-left transition-all duration-300',
                     isActive
-                      ? 'bg-saffron-gradient text-white shadow-sm'
-                      : 'bg-muted/70 text-muted-foreground group-hover:text-primary group-hover:bg-muted',
+                      ? 'bg-primary/10 text-primary shadow-xs font-medium'
+                      : 'text-foreground/75 hover:text-foreground hover:bg-muted/50 active:scale-[0.99]',
                   )}
+                  data-active={isActive}
                 >
-                  <Icon className="h-4 w-4" />
-                </span>
-                <span className="flex flex-col min-w-0">
+                  {/* Subtle active pill indicator */}
+                  {isActive && (
+                    <span className="absolute left-1 top-1/2 -translate-y-1/2 w-1 h-5 rounded-full bg-primary transition-all duration-300" />
+                  )}
+
                   <span
                     className={cn(
-                      'text-xs font-medium leading-snug',
-                      isActive ? 'text-foreground' : 'text-foreground/80',
+                      'flex h-8 w-8 shrink-0 items-center justify-center rounded-xl transition-all duration-300',
+                      isActive
+                        ? 'bg-primary text-primary-foreground shadow-sm scale-105'
+                        : 'bg-muted/60 text-muted-foreground group-hover:text-primary group-hover:bg-primary/10 group-hover:scale-105',
                     )}
                   >
-                    {item.label}
+                    <Icon className="h-4 w-4" />
                   </span>
-                  <span className="text-[10px] text-muted-foreground truncate leading-tight">
-                    {item.description}
+
+                  <span className="flex flex-col min-w-0 flex-1">
+                    <span
+                      className={cn(
+                        'text-xs leading-snug tracking-tight transition-colors',
+                        isActive ? 'text-foreground font-semibold' : 'text-foreground/85 font-medium',
+                      )}
+                    >
+                      {item.label}
+                    </span>
+                    <span className="text-[10px] text-muted-foreground/80 truncate leading-tight mt-0.5">
+                      {item.description}
+                    </span>
                   </span>
-                </span>
-                {item.sanskritLabel && (
-                  <span
-                    className="ml-auto pr-1 text-[10px] text-muted-foreground/60 hidden xl:block shrink-0"
-                    style={{ fontFamily: 'var(--font-serif-display), serif' }}
-                  >
-                    {item.sanskritLabel}
-                  </span>
-                )}
-              </button>
-            )
-          })}
+
+                  {item.sanskritLabel && (
+                    <span
+                      className={cn(
+                        'ml-auto pr-1 text-[11px] hidden xl:block shrink-0 transition-opacity',
+                        isActive ? 'text-primary/90 opacity-90 font-medium' : 'text-muted-foreground/50 opacity-60 group-hover:opacity-80'
+                      )}
+                      style={{ fontFamily: 'var(--font-serif-display), serif' }}
+                    >
+                      {item.sanskritLabel}
+                    </span>
+                  )}
+                </button>
+              )
+            })}
+          </div>
         </div>
       ))}
     </nav>
@@ -153,18 +168,22 @@ function Brand() {
   return (
     <button
       onClick={() => navigate('home')}
-      className="flex items-center gap-3 px-4 py-3.5 w-full text-left group"
+      className="flex items-center gap-3.5 px-4 py-4 w-full text-left group transition-all"
     >
-      <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-saffron-gradient shadow-lg overflow-hidden glow-sacred-pulse">
-        <OmSymbol size={24} className="!text-white" />
-        <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary via-saffron to-gold shadow-sm overflow-hidden animate-breathe">
+        <OmSymbol size={22} className="!text-white drop-shadow-xs" />
+        <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </span>
       <span className="flex flex-col">
-        <span className="text-sm font-bold leading-tight text-saffron-gradient">
-          Sanatan Quest
+        <span
+          className="text-sm font-semibold tracking-wider text-foreground leading-tight group-hover:text-primary transition-colors"
+          style={{ fontFamily: 'var(--font-cinzel), serif' }}
+        >
+          SANATAN QUEST
         </span>
-        <span className="text-[11px] text-muted-foreground leading-tight">
-          {level > 0 ? `${level.toLocaleString()} Dharma XP` : 'Begin your quest'}
+        <span className="text-[11px] text-muted-foreground/80 leading-tight mt-0.5 flex items-center gap-1.5 font-sans">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/70 inline-block" />
+          {level > 0 ? `${level.toLocaleString()} Dharma XP` : 'Begin your journey'}
         </span>
       </span>
     </button>
@@ -173,15 +192,19 @@ function Brand() {
 
 export function Sidebar() {
   return (
-    <aside className="sidebar-sacred hidden lg:flex flex-col w-72 shrink-0 border-r border-border bg-sidebar h-screen sticky top-0">
+    <aside className="hidden lg:flex flex-col w-72 shrink-0 border-r border-border/60 bg-sidebar/95 backdrop-blur-md h-screen sticky top-0 transition-colors">
       <Brand />
-      <div className="lotus-divider mx-4 mb-1" />
+      <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mx-4 mb-2 opacity-60" />
       <div className="flex-1 overflow-y-auto overscroll-contain pr-1 scrollbar-thin">
         <NavItems />
       </div>
-      <div className="px-4 py-2.5 text-[10px] text-muted-foreground/70 border-t border-border flex items-center justify-between">
-        <span style={{ fontFamily: 'var(--font-serif-display), serif' }}>ॐ नमो भगवते वासुदेवाय</span>
-        <span className="opacity-60 text-[9px]">Sanatan Quest</span>
+      <div className="px-4 py-3 text-[11px] text-muted-foreground/70 border-t border-border/50 flex items-center justify-between bg-sidebar/50">
+        <span className="italic tracking-wide" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          ॐ शान्तिः शान्तिः शान्तिः
+        </span>
+        <span className="text-[9px] uppercase tracking-widest text-primary/70 font-semibold">
+          Sanctuary
+        </span>
       </div>
     </aside>
   )
@@ -235,14 +258,14 @@ export function MobileNavDrawer() {
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={() => setOpen(false)}
       />
-      <div className="absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-sidebar shadow-2xl flex flex-col">
+      <div className="absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-sidebar/98 backdrop-blur-xl border-r border-border/60 shadow-2xl flex flex-col">
         <div className="flex items-center justify-between pr-3">
           <Brand />
-          <Button variant="ghost" size="icon" onClick={() => setOpen(false)} className="rounded-full">
+          <Button variant="ghost" size="icon" onClick={() => setOpen(false)} className="rounded-full hover:bg-muted/60">
             <X className="h-5 w-5" />
           </Button>
         </div>
-        <div className="lotus-divider mx-4 mb-1" />
+        <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mx-4 mb-2 opacity-60" />
         <div className="flex-1 overflow-y-auto overscroll-contain pr-1 scrollbar-thin">
           <NavItems onNavigate={() => setOpen(false)} />
         </div>

@@ -117,21 +117,21 @@ export function DilemmaView() {
   return (
     <div className="space-y-6 animate-fade-in pb-12">
       {/* Header Banner */}
-      <div className="card-sacred-glow relative overflow-hidden rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-card via-card/90 to-background border border-saffron/20 shadow-xl">
+      <div className="card-serene relative overflow-hidden rounded-3xl p-6 sm:p-9 bg-gradient-to-br from-card via-card/95 to-primary/[0.04] border border-border/60">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-saffron-100 dark:bg-saffron-950/60 text-saffron-600 dark:text-saffron-400 text-xs font-semibold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium border border-primary/20 font-serif">
               <Compass className="h-3.5 w-3.5" />
               <span>Modern Life & Dharma Guidance</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight font-serif-display">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
               Dharma Dilemma Simulator <span className="text-muted-foreground text-lg font-normal font-serif">धर्मसंकटम्</span>
             </h1>
-            <p className="text-sm text-muted-foreground max-w-xl">
+            <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
               Navigate modern struggles — burnout, imposter syndrome, anxiety, and anger — through interactive dialogues with Lord Krishna.
             </p>
           </div>
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-saffron-gradient text-white shadow-lg glow-sacred-pulse">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary via-saffron to-gold text-white shadow-xs animate-breathe">
             <OmSymbol size={32} className="!text-white" />
           </div>
         </div>
@@ -148,14 +148,14 @@ export function DilemmaView() {
                   setStep('question')
                 }}
                 className={cn(
-                  'px-4 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap border flex items-center gap-2',
+                  'px-4 py-2 rounded-full text-xs font-medium transition-all whitespace-nowrap border flex items-center gap-2',
                   isSelected
-                    ? 'bg-saffron-gradient text-white border-transparent shadow-md'
-                    : 'bg-card hover:bg-muted text-muted-foreground border-border'
+                    ? 'bg-primary text-primary-foreground border-transparent shadow-xs'
+                    : 'bg-card hover:bg-muted text-muted-foreground border-border/60'
                 )}
               >
                 <span>{item.title}</span>
-                {completedReflections[item.id] && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />}
+                {completedReflections[item.id] && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />}
               </button>
             )
           })}
@@ -165,7 +165,7 @@ export function DilemmaView() {
       {/* Main Interactive Dilemma Flow */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Scenario Overview Card */}
-        <div className="lg:col-span-4 card-sacred-glow rounded-2xl p-6 bg-card border border-border shadow-lg space-y-4">
+        <div className="lg:col-span-4 card-serene rounded-3xl p-6 bg-card border border-border/60 shadow-xs space-y-4">
           <span className="text-xs font-bold uppercase tracking-wider text-saffron font-mono">Current Struggle</span>
           <h2 className="text-xl font-bold font-serif-display text-foreground">{currentScenario.title}</h2>
           <p className="text-xs text-saffron font-serif">{currentScenario.sanskrit}</p>
@@ -213,7 +213,7 @@ export function DilemmaView() {
         </div>
 
         {/* Interactive Dialogue Display */}
-        <div className="lg:col-span-8 card-sacred-glow rounded-2xl p-6 sm:p-8 bg-card border border-border shadow-lg space-y-6 flex flex-col justify-between">
+        <div className="lg:col-span-8 card-serene rounded-3xl p-6 sm:p-8 bg-card border border-border/60 shadow-xs space-y-6 flex flex-col justify-between">
           {step === 'question' && (
             <div className="space-y-6 animate-fade-in">
               <div className="flex items-center gap-3">

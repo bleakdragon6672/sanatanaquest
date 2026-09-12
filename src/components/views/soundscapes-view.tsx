@@ -240,21 +240,21 @@ export function SoundscapesView() {
       />
 
       {/* Header */}
-      <div className="card-sacred-glow relative overflow-hidden rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-card via-card/90 to-background border border-saffron/20 shadow-xl">
+      <div className="card-serene relative overflow-hidden rounded-3xl p-6 sm:p-9 bg-gradient-to-br from-card via-card/95 to-primary/[0.04] border border-border/60">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-saffron-100 dark:bg-saffron-950/60 text-saffron-600 dark:text-saffron-400 text-xs font-semibold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium border border-primary/20">
               <Headphones className="h-3.5 w-3.5" />
               <span>Native Audio Meditation Player</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight font-serif-display">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
               Sacred Soundscapes & Meditation <span className="text-muted-foreground text-lg font-normal font-serif">नादयोगः</span>
             </h1>
-            <p className="text-sm text-muted-foreground max-w-xl">
+            <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
               Play native studio MP3 recordings of 432Hz Om chanting, Tanpura drones, Tibetan singing bowls, and Bansuri flutes with guaranteed instant audio playback.
             </p>
           </div>
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-saffron-gradient text-white shadow-lg glow-sacred-pulse">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary via-saffron to-gold text-white shadow-xs animate-breathe">
             <OmSymbol size={32} className="!text-white" />
           </div>
         </div>
@@ -263,7 +263,7 @@ export function SoundscapesView() {
       {/* Pure Audio Studio Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Pure Audio Player Card */}
-        <div className="lg:col-span-7 card-sacred-glow rounded-2xl p-6 bg-card border border-border shadow-lg space-y-6">
+        <div className="lg:col-span-7 card-serene rounded-3xl p-6 bg-card border border-border/60 space-y-6">
           {/* Audio Canvas Waveform */}
           <div className="relative w-full h-44 rounded-2xl bg-gradient-to-br from-background via-muted/40 to-background border border-saffron/30 overflow-hidden flex items-center justify-center shadow-inner">
             <canvas ref={canvasRef} width={600} height={180} className="w-full h-full" />
@@ -371,7 +371,7 @@ export function SoundscapesView() {
         </div>
 
         {/* Dhyana Meditation Session Timer Card */}
-        <div className="lg:col-span-5 card-sacred-glow rounded-2xl p-6 bg-card border border-border shadow-lg space-y-6 flex flex-col justify-between">
+        <div className="lg:col-span-5 card-serene rounded-3xl p-6 bg-card border border-border/60 shadow-xs space-y-6 flex flex-col justify-between">
           <div className="space-y-4">
             <div className="flex items-center justify-between border-b border-border/60 pb-3">
               <div className="flex items-center gap-2">

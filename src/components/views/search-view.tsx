@@ -33,27 +33,27 @@ export function SearchView() {
   }, [query])
 
   return (
-    <div className="space-y-5">
-      <Card className="p-6 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
-        <div className="absolute -right-6 -top-6 opacity-10 pointer-events-none">
-          <SearchIcon className="h-40 w-40 text-primary" />
+    <div className="space-y-6">
+      <Card className="card-serene p-6 sm:p-9 rounded-3xl relative overflow-hidden border border-border/60 bg-gradient-to-br from-card via-card/95 to-primary/[0.04]">
+        <div className="absolute -right-6 -top-6 opacity-[0.06] pointer-events-none animate-breathe">
+          <SearchIcon className="h-44 w-44 text-primary" />
         </div>
-        <div className="relative">
-          <Badge className="mb-2 bg-saffron-gradient text-white border-0">
+        <div className="relative z-10">
+          <Badge className="mb-3 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs px-3 py-1 font-serif">
             <SearchIcon className="mr-1 h-3 w-3" /> Search the Gita
           </Badge>
-          <h1 className="text-3xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-2" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
             Find Any Verse, Any Topic
           </h1>
-          <p className="text-muted-foreground mt-1 max-w-2xl">
-            Search by keyword (karma, fear, anger, dharma), chapter name, or topic. The Gita's wisdom is at your fingertips.
+          <p className="text-muted-foreground text-sm sm:text-base max-w-2xl leading-relaxed">
+            Search by keyword (karma, fear, anger, dharma), chapter name, or topic. The Gita's timeless wisdom is at your fingertips.
           </p>
         </div>
       </Card>
 
-      <Card className="p-5">
+      <Card className="card-serene p-5 sm:p-6 rounded-3xl border border-border/60">
         <div className="relative">
-          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+          <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
             value={query}
             onChange={(e) => {
@@ -61,19 +61,19 @@ export function SearchView() {
               setSearched(true)
             }}
             placeholder="Search verses, chapters, topics…"
-            className="pl-10 h-12 text-base"
+            className="pl-11 h-12 text-base rounded-2xl border-border/60 bg-background/80"
             autoFocus
           />
         </div>
         {!searched && (
           <div className="mt-4">
-            <p className="text-xs text-muted-foreground mb-2">Quick topics:</p>
-            <div className="flex flex-wrap gap-1.5">
+            <p className="text-xs text-muted-foreground mb-2 font-medium">Quick contemplative topics:</p>
+            <div className="flex flex-wrap gap-2">
               {topicIndex.slice(0, 10).map((t) => (
                 <button
                   key={t.topic}
                   onClick={() => { setQuery(t.topic); setSearched(true) }}
-                  className="px-2.5 py-1 rounded-full text-xs bg-saffron-gradient-soft text-primary hover:bg-saffron-gradient hover:text-white transition-colors"
+                  className="px-3 py-1 rounded-full text-xs font-medium bg-muted/60 text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all border border-border/40"
                 >
                   {t.topic}
                 </button>

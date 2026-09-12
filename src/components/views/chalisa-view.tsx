@@ -86,24 +86,24 @@ function ChalisaList({ onOpenVerse }: { onOpenVerse?: (id: string, bookMode?: bo
 
   return (
     <div className="space-y-6">
-      <Card className="p-6 sm:p-8 relative overflow-hidden card-sacred-glow">
-        <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
-          <LotusIcon size={200} className="text-primary" />
+      <Card className="card-serene p-6 sm:p-9 rounded-3xl relative overflow-hidden border border-border/60 bg-gradient-to-br from-card via-card/95 to-primary/[0.04]">
+        <div className="absolute -right-8 -top-8 opacity-[0.06] pointer-events-none animate-breathe">
+          <LotusIcon size={240} className="text-primary" />
         </div>
-        <div className="relative">
-          <Badge className="mb-3 bg-saffron-gradient text-white border-0 text-sm px-3 py-1">
+        <div className="relative z-10">
+          <Badge className="mb-3 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs px-3 py-1 font-serif">
             हनुमान चालीसा
           </Badge>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3 text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
             {hanumanChalisaInfo.title}
           </h1>
           <p className="text-sm text-primary/80 mb-2" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
             {hanumanChalisaInfo.sanskritTitle} · {hanumanChalisaInfo.transliteration}
           </p>
-          <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
+          <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed text-sm sm:text-base">
             {hanumanChalisaInfo.summary}
           </p>
-          <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground">
+          <div className="flex flex-wrap items-center justify-between gap-4 text-xs sm:text-sm text-muted-foreground">
             <div className="flex flex-wrap gap-4">
               <span className="inline-flex items-center gap-2">
                 <Check className="h-4 w-4 text-primary" /> {readCount}/{total} verses read
@@ -119,7 +119,7 @@ function ChalisaList({ onOpenVerse }: { onOpenVerse?: (id: string, bookMode?: bo
                   setBookReaderOpen(true)
                   store.setBookReaderOpen(true)
                 }}
-                className="rounded-full gap-2 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all px-4 py-2 text-xs sm:text-sm border border-amber-300/30 ring-2 ring-amber-500/20 animate-pulse-subtle"
+                className="rounded-full gap-2 bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 hover:from-amber-600 hover:to-amber-500 text-white font-medium shadow-xs hover:shadow-md transition-all px-4 py-2 text-xs sm:text-sm"
                 title="Read in Kindle / Apple Books Mode"
               >
                 <BookOpen className="w-4 h-4 shrink-0" />
@@ -132,7 +132,7 @@ function ChalisaList({ onOpenVerse }: { onOpenVerse?: (id: string, bookMode?: bo
         </div>
       </Card>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {hanumanChalisaVerses.map((verse, idx) => {
           const isRead = !!store.readVerses[verse.id]
           const isDoha = verse.type === 'doha'
@@ -142,22 +142,22 @@ function ChalisaList({ onOpenVerse }: { onOpenVerse?: (id: string, bookMode?: bo
               key={verse.id}
               onClick={() => navigate('chalisa', { verse: verse.id })}
               className={cn(
-                'p-4 sm:p-5 cursor-pointer hover:shadow-md transition-all group',
-                isDoha && 'bg-saffron-gradient-soft border-primary/20',
-                isRead && 'border-l-2 border-l-green-500',
+                'card-serene p-4 sm:p-5 cursor-pointer hover:border-primary/40 hover:-translate-y-0.5 transition-all group rounded-2xl border border-border/50',
+                isDoha && 'bg-primary/[0.03] border-primary/30',
+                isRead && 'border-l-4 border-l-emerald-500/70',
               )}
             >
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-muted text-xs font-mono">
-                  {isRead ? <Check className="h-4 w-4 text-green-500" /> : idx + 1}
+                <div className="flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-muted/60 text-xs font-mono">
+                  {isRead ? <Check className="h-4 w-4 text-emerald-500" /> : idx + 1}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-medium text-foreground/90 mb-1 sm:mb-2" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif' }}>
                     {verse.awadhi.split('\n')[0]}
                   </p>
-                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">{verse.english}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 leading-relaxed">{verse.english}</p>
                 </div>
-                <Badge variant="outline" className="text-[10px] shrink-0">
+                <Badge variant="outline" className="text-[10px] shrink-0 rounded-full border-border/60">
                   {verse.type === 'doha' ? 'दोहा' : 'चौपाई'}
                 </Badge>
               </div>
@@ -291,11 +291,11 @@ function VerseReader({
           onNext={() => nextVerse && navigate('chalisa', { verse: nextVerse.id })}
         >
         <Card className={cn(
-          'p-0 overflow-hidden verse-card-animated border shadow-sm',
+          'p-0 overflow-hidden verse-card-animated border rounded-3xl card-serene',
           store.paperTone !== 'default'
             ? currentPaper.cardClass
-            : 'bg-card text-card-foreground border-border',
-          isHighlighted ? highlightMeta.cardClass : 'hover:border-saffron/30',
+            : 'bg-card/95 text-card-foreground border-border/60',
+          isHighlighted ? highlightMeta.cardClass : 'hover:border-primary/30',
         )}>
           <div className="px-4 sm:px-7 pt-3.5 sm:pt-4 pb-2 flex flex-wrap items-center justify-between gap-2 border-b border-border/40">
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">

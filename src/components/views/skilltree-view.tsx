@@ -45,40 +45,40 @@ export function SkillTreeView() {
   }
 
   return (
-    <div className="space-y-5">
-      <Card className="p-6 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
-        <div className="absolute -right-6 -top-6 opacity-10 pointer-events-none">
-          <GitBranch className="h-40 w-40 text-primary" />
+    <div className="space-y-6">
+      <Card className="card-serene p-6 sm:p-9 rounded-3xl relative overflow-hidden border border-border/60 bg-gradient-to-br from-card via-card/95 to-primary/[0.04]">
+        <div className="absolute -right-6 -top-6 opacity-[0.06] pointer-events-none animate-breathe">
+          <GitBranch className="h-44 w-44 text-primary" />
         </div>
-        <div className="relative">
-          <Badge className="mb-2 bg-saffron-gradient text-white border-0">
-            <Sparkles className="mr-1 h-3 w-3" /> Spiritual Skill Tree
+        <div className="relative z-10">
+          <Badge className="mb-3 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs px-3 py-1 font-serif">
+            <Sparkles className="mr-1.5 h-3.5 w-3.5" /> योगमार्ग · Spiritual Skill Tree
           </Badge>
-          <h1 className="text-3xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-1" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
             The Four Paths of Yoga
           </h1>
-          <p className="text-muted-foreground mt-1 max-w-2xl">
+          <p className="text-muted-foreground mt-1 max-w-2xl text-sm sm:text-base leading-relaxed">
             Unlock skills along the four classical paths — Bhakti (devotion), Jnana (knowledge),
             Karma (action), and Yoga (meditation). Each node requires specific practices to unlock.
           </p>
-          <div className="mt-3 flex items-center gap-3 text-sm">
-            <span className="text-muted-foreground">Unlocked:</span>
-            <span className="font-bold text-saffron-gradient">{store.unlockedSkills.length}/{SKILL_TREE.length}</span>
+          <div className="mt-4 flex items-center gap-3 text-sm">
+            <span className="text-muted-foreground">Unlocked Paths:</span>
+            <span className="font-semibold text-primary font-mono">{store.unlockedSkills.length}/{SKILL_TREE.length}</span>
           </div>
         </div>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {PATHS.map((path) => {
           const nodes = SKILL_TREE.filter((n) => n.path === path.id)
           return (
-            <Card key={path.id} className="p-5">
-              <div className="mb-4">
-                <h2 className="text-xl font-bold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+            <Card key={path.id} className="card-serene rounded-3xl p-6 border border-border/60 bg-card">
+              <div className="mb-5 pb-3 border-b border-border/40">
+                <h2 className="text-xl font-bold text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
                   {path.name}
                 </h2>
-                <p className="text-sm text-primary/80" style={{ fontFamily: 'var(--font-serif-display), serif' }}>{path.sanskrit}</p>
-                <p className="text-xs text-muted-foreground mt-1">{path.description}</p>
+                <p className="text-sm text-primary/80 mt-0.5" style={{ fontFamily: 'var(--font-serif-display), serif' }}>{path.sanskrit}</p>
+                <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{path.description}</p>
               </div>
               <div className="space-y-3">
                 {nodes.map((node, i) => {
@@ -87,28 +87,28 @@ export function SkillTreeView() {
                   return (
                     <div key={node.id}>
                       {i > 0 && (
-                        <div className="ml-6 h-4 w-0.5 bg-border mx-auto my-1" />
+                        <div className="ml-6 h-4 w-0.5 bg-border/60 mx-auto my-1" />
                       )}
                       <div
                         className={cn(
-                          'rounded-xl border p-4 transition-all relative overflow-hidden',
-                          unlocked ? 'border-primary bg-saffron-gradient-soft' : unlockable ? 'border-primary/40 bg-card hover:border-primary' : 'border-border bg-muted/30 opacity-80',
+                          'rounded-2xl border p-4 transition-all relative overflow-hidden',
+                          unlocked ? 'border-primary/40 bg-primary/[0.03]' : unlockable ? 'border-primary/30 bg-card hover:border-primary/60' : 'border-border/60 bg-muted/20 opacity-80',
                         )}
                       >
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-start gap-3.5">
                           <div
                             className={cn(
-                              'h-12 w-12 rounded-xl flex items-center justify-center text-2xl shrink-0',
-                              unlocked ? 'bg-saffron-gradient' : 'bg-muted',
+                              'h-12 w-12 rounded-2xl flex items-center justify-center text-2xl shrink-0 shadow-xs',
+                              unlocked ? 'bg-gradient-to-br from-primary via-saffron to-gold text-white' : 'bg-muted/70 grayscale',
                             )}
                           >
                             {unlocked ? node.icon : <Lock className="h-5 w-5 text-muted-foreground" />}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
-                              <h3 className="font-semibold text-sm">{node.name}</h3>
-                              {unlocked && <Badge variant="secondary" className="text-[10px] h-5">Unlocked</Badge>}
-                              <Badge variant="outline" className="text-[10px] h-5 text-primary border-primary/30">+{node.xpReward} XP</Badge>
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                              <h3 className="font-semibold text-sm text-foreground">{node.name}</h3>
+                              {unlocked && <Badge variant="secondary" className="text-[10px] h-5 rounded-full bg-primary/20 text-primary border border-primary/30">Unlocked</Badge>}
+                              <Badge variant="outline" className="text-[10px] h-5 text-primary border-primary/30 rounded-full">+{node.xpReward} XP</Badge>
                             </div>
                             <p className="text-xs text-primary/80 mb-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>{node.sanskritName}</p>
                             <p className="text-xs text-muted-foreground leading-snug mb-2">{node.description}</p>

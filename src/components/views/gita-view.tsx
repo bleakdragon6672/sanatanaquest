@@ -102,32 +102,31 @@ function ChapterList({ onOpen }: { onOpen: (num: number, bookMode?: boolean) => 
   }
 
   return (
-    <div className="space-y-6">
-      <Card className="p-6 sm:p-8 relative overflow-hidden card-sacred-glow">
-        <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
-          <LotusIcon size={200} className="text-primary" />
+    <div className="space-y-6 max-w-7xl mx-auto pb-8">
+      <div className="card-serene p-6 sm:p-9 rounded-3xl relative overflow-hidden border border-border/60 bg-gradient-to-br from-card via-card/95 to-primary/[0.05]">
+        <div className="absolute -right-8 -top-8 opacity-[0.06] pointer-events-none animate-breathe">
+          <LotusIcon size={240} className="text-primary" />
         </div>
-        <div className="relative">
-          <Badge className="mb-3 bg-saffron-gradient text-white border-0 text-sm px-3 py-1">
-            श्रीमद्भगवद्गीता
-          </Badge>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
+        <div className="relative z-10">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-semibold text-primary mb-3">
+            श्रीमद्भगवद्गीता · The Divine Song
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2.5 text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
             The Bhagavad Gita
           </h1>
-          <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
-            The eternal song of the Divine. 18 chapters, 700 verses — the complete dialogue between
-            Lord Krishna and Arjuna on the battlefield of Kurukshetra. Read in multiple modes,
-            bookmark your favorite verses, write notes, and ask the AI to explain any verse.
+          <p className="text-muted-foreground/90 mb-6 max-w-2xl leading-relaxed text-sm sm:text-base">
+            The eternal song of the Divine. 18 chapters, 700 verses — the immortal discourse between
+            Lord Krishna and Arjuna on the sacred field of Kurukshetra.
           </p>
-          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-            <span className="inline-flex items-center gap-2">
-              <Bookmark className="h-4 w-4 text-primary" /> {store.bookmarks.length} bookmarked
+          <div className="flex flex-wrap gap-2.5 text-xs text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/40 border border-border/40 font-medium">
+              <Bookmark className="h-3.5 w-3.5 text-primary" /> {store.bookmarks.length} bookmarked
             </span>
-            <span className="inline-flex items-center gap-2">
-              <Highlighter className="h-4 w-4 text-primary" /> {store.highlights.length} highlighted
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/40 border border-border/40 font-medium">
+              <Highlighter className="h-3.5 w-3.5 text-primary" /> {store.highlights.length} highlighted
             </span>
-            <span className="inline-flex items-center gap-2">
-              <NotebookPen className="h-4 w-4 text-primary" /> {Object.keys(store.notes).length} notes
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/40 border border-border/40 font-medium">
+              <NotebookPen className="h-3.5 w-3.5 text-primary" /> {Object.keys(store.notes).length} reflections
             </span>
           </div>
 
@@ -138,11 +137,11 @@ function ChapterList({ onOpen }: { onOpen: (num: number, bookMode?: boolean) => 
                 const firstUnread = gitaChapters.find((c) => c.verses.some((v) => !store.readVerses[v.id])) || gitaChapters[0]
                 onOpen(firstUnread.number, true)
               }}
-              className="rounded-full gap-2 bg-gradient-to-r from-amber-600 via-saffron to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all px-5 py-2.5 animate-pulse-subtle border border-amber-300/30"
+              className="rounded-full gap-2 bg-primary text-primary-foreground font-medium shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all px-5 py-2.5"
             >
               <BookOpen className="w-4 h-4" />
-              <span>📖 Read in Kindle Book Mode</span>
-              <Badge variant="secondary" className="bg-white/20 text-white border-0 text-[10px] ml-1">LUXURY</Badge>
+              <span>Read in Kindle Book Mode</span>
+              <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground border-0 text-[10px] ml-1">LUXURY</Badge>
             </Button>
             <Button
               variant="outline"
@@ -151,7 +150,7 @@ function ChapterList({ onOpen }: { onOpen: (num: number, bookMode?: boolean) => 
                 const firstUnread = gitaChapters.find((c) => c.verses.some((v) => !store.readVerses[v.id])) || gitaChapters[0]
                 onOpen(firstUnread.number, false)
               }}
-              className="rounded-full gap-2 hover:bg-saffron-gradient-soft"
+              className="rounded-full gap-2 border-border/70 hover:border-primary/40 hover:bg-primary/5 transition-all"
             >
               <span>Continue Chapter {gitaChapters.find((c) => c.verses.some((v) => !store.readVerses[v.id]))?.number || 1}</span>
               <ChevronRight className="w-4 h-4" />
@@ -159,7 +158,7 @@ function ChapterList({ onOpen }: { onOpen: (num: number, bookMode?: boolean) => 
             <KindleAppearanceMenu align="right" />
           </div>
         </div>
-      </Card>
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger-group">
         {gitaChapters.map((c) => {
@@ -168,45 +167,53 @@ function ChapterList({ onOpen }: { onOpen: (num: number, bookMode?: boolean) => 
           const pct = total ? Math.round((read / total) * 100) : 0
           const isAllRead = read === total
           return (
-            <Card
+            <div
               key={c.number}
               onClick={() => onOpen(c.number)}
               className={cn(
-                "p-5 sm:p-6 cursor-pointer hover:shadow-lg hover:-translate-y-0.5 transition-all group relative overflow-hidden",
-                isAllRead && "border-l-4 border-l-green-500"
+                "card-serene p-5 sm:p-6 rounded-2xl border border-border/60 bg-card cursor-pointer hover:border-primary/40 transition-all duration-300 group relative overflow-hidden",
+                isAllRead && "border-emerald-500/30 bg-emerald-500/[0.02]"
               )}
             >
-              <div className="absolute -right-3 -top-3 opacity-[0.08] group-hover:opacity-[0.18] transition-opacity pointer-events-none">
+              <div className="absolute -right-2 -top-2 opacity-[0.06] group-hover:opacity-[0.14] transition-opacity pointer-events-none">
                 <span className="text-8xl font-bold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
                   {c.number}
                 </span>
               </div>
-              <div className="relative">
+              <div className="relative z-10">
                 <div className="flex items-start justify-between mb-2">
                   <span
-                    className="text-2xl font-bold text-saffron-gradient"
+                    className="text-2xl font-bold text-primary"
                     style={{ fontFamily: 'var(--font-serif-display), serif' }}
                   >
                     {c.number}
                   </span>
-                  <span className="text-xs text-muted-foreground">{c.verseCount} verses</span>
+                  <span className="text-xs text-muted-foreground/80 font-medium">{c.verseCount} verses</span>
                 </div>
-                <h3 className="font-semibold text-base leading-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+                <h3 className="font-semibold text-base leading-tight text-foreground" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
                   {c.name}
                 </h3>
-                <p className="text-sm text-primary/80 mt-0.5" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+                <p className="text-xs sm:text-sm text-primary/80 mt-0.5" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
                   {c.sanskritName}
                 </p>
-                <p className="text-xs text-muted-foreground mt-2 line-clamp-2">{c.theme}</p>
-                <div className="mt-3">
-                  <div className="flex justify-between text-[10px] text-muted-foreground mb-1">
+                <p className="text-xs text-muted-foreground/80 mt-2 line-clamp-2 leading-relaxed">{c.theme}</p>
+                <div className="mt-4">
+                  <div className="flex justify-between text-[10px] text-muted-foreground/70 mb-1.5 font-medium">
                     <span>{read}/{total} read</span>
                     <span>{pct}%</span>
                   </div>
-                  <Progress value={pct} className="h-1 bg-muted" />
+                  <div className="h-1.5 w-full bg-muted/60 rounded-full overflow-hidden">
+                    <div
+                      className={cn(
+                        "h-full rounded-full transition-all duration-500",
+                        isAllRead ? "bg-emerald-500" : "bg-primary"
+                      )}
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
                 </div>
               </div>
-            </Card>
+            </div>
           )
         })}
       </div>
@@ -452,15 +459,15 @@ function VerseCard({ verse }: { verse: Verse }) {
 
   return (
     <>
-      <Card
+      <div
         className={cn(
-          'p-0 overflow-hidden transition-all verse-card-animated border shadow-sm',
+          'card-serene p-0 overflow-hidden transition-all verse-card-animated border rounded-3xl shadow-xs',
           store.paperTone !== 'default'
             ? currentPaper.cardClass
             : isNight
             ? 'bg-[#1a1410] text-amber-50 border-amber-900/30'
-            : 'bg-card text-card-foreground border-border',
-          isHighlighted ? highlightMeta.cardClass : 'hover:border-saffron/30',
+            : 'bg-card text-card-foreground border-border/60',
+          isHighlighted ? highlightMeta.cardClass : 'hover:border-primary/30',
           isFocus && 'mx-auto max-w-2xl',
         )}
       >
@@ -619,12 +626,12 @@ function VerseCard({ verse }: { verse: Verse }) {
               className="min-h-[100px] bg-background"
             />
             <div className="flex justify-end gap-2 mt-2">
-              <Button size="sm" variant="ghost" onClick={() => setShowNoteEditor(false)}>Cancel</Button>
-              <Button size="sm" className="bg-saffron-gradient text-white" onClick={handleSaveNote}>Save Note</Button>
+              <Button size="sm" variant="ghost" onClick={() => setShowNoteEditor(false)} className="rounded-full">Cancel</Button>
+              <Button size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90" onClick={handleSaveNote}>Save Note</Button>
             </div>
           </div>
         )}
-      </Card>
+      </div>
 
       <ShareCardModal
         open={shareOpen}

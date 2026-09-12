@@ -102,25 +102,27 @@ function TopBar() {
   const current = viewTitles[view] ?? viewTitles.home
 
   return (
-    <header className="topbar-sacred sticky top-0 z-30">
-      <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3">
+    <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border/50 transition-colors">
+      <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3 max-w-7xl mx-auto">
         <div className="flex items-center gap-3">
           <MobileNavTrigger />
           <div>
-            <h1 className="text-base sm:text-lg font-semibold leading-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+            <h1 className="text-base sm:text-lg font-semibold leading-tight tracking-wide" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
               {current.title}
             </h1>
-            <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+            <p className="text-[10px] sm:text-xs text-muted-foreground/70 leading-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
               {current.sanskrit}
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <button
             onClick={() => navigate('gita')}
             className={cn(
-              'hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full hover:bg-saffron-gradient-soft transition-colors',
-              view === 'gita' && 'bg-saffron-gradient-soft text-primary font-semibold'
+              'hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-200',
+              view === 'gita'
+                ? 'bg-primary/15 text-primary font-semibold shadow-xs'
+                : 'text-muted-foreground hover:text-primary hover:bg-muted/60'
             )}
             title="Read Bhagavad Gita"
           >
@@ -129,8 +131,10 @@ function TopBar() {
           <button
             onClick={() => navigate('soundscapes')}
             className={cn(
-              'hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full hover:bg-saffron-gradient-soft transition-colors',
-              view === 'soundscapes' && 'bg-saffron-gradient-soft text-primary font-semibold'
+              'hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-200',
+              view === 'soundscapes'
+                ? 'bg-primary/15 text-primary font-semibold shadow-xs'
+                : 'text-muted-foreground hover:text-primary hover:bg-muted/60'
             )}
             title="Sacred Soundscapes (432Hz Om, Tanpura, Flute)"
           >
@@ -139,21 +143,23 @@ function TopBar() {
           <button
             onClick={() => navigate('search')}
             className={cn(
-              'hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full hover:bg-saffron-gradient-soft transition-colors',
-              view === 'search' && 'bg-saffron-gradient-soft text-primary font-semibold'
+              'hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-200',
+              view === 'search'
+                ? 'bg-primary/15 text-primary font-semibold shadow-xs'
+                : 'text-muted-foreground hover:text-primary hover:bg-muted/60'
             )}
             title="Search Scripture"
           >
             <Search className="h-4 w-4" />
           </button>
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-saffron-gradient-soft text-xs">
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs">
             <span className="font-semibold text-primary">{totalXp.toLocaleString()} XP</span>
-            <span className="text-muted-foreground">·</span>
-            <span className="text-primary">🔥 {streak}d</span>
+            <span className="text-muted-foreground/50">·</span>
+            <span className="text-primary font-medium">🔥 {streak}d streak</span>
           </div>
           <button
             onClick={() => navigate('tracker')}
-            className="flex sm:hidden items-center gap-1 px-2.5 py-1 rounded-full bg-saffron-gradient-soft text-xs font-semibold text-primary hover:opacity-80 transition-opacity"
+            className="flex sm:hidden items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-semibold text-primary hover:opacity-80 transition-opacity"
             title="View Daily Tracker & Sadhana"
             aria-label="View streak"
           >

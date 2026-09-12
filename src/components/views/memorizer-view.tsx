@@ -116,33 +116,33 @@ export function MemorizerView() {
 
   return (
     <div className="space-y-6 animate-fade-in pb-12">
-      {/* Header Banner */}
-      <div className="card-sacred-glow relative overflow-hidden rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-card via-card/90 to-background border border-saffron/20 shadow-xl">
+      {/* Header */}
+      <div className="card-serene relative overflow-hidden rounded-3xl p-6 sm:p-9 bg-gradient-to-br from-card via-card/95 to-primary/[0.04] border border-border/60">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-saffron-100 dark:bg-saffron-950/60 text-saffron-600 dark:text-saffron-400 text-xs font-semibold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium border border-primary/20 font-serif">
               <GraduationCap className="h-3.5 w-3.5" />
               <span>Svadhyaya Shloka Studio</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight font-serif-display">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
               Shloka Memorizer & Quiz <span className="text-muted-foreground text-lg font-normal font-serif">स्वाध्यायः</span>
             </h1>
-            <p className="text-sm text-muted-foreground max-w-xl">
+            <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
               Master sacred shlokas through flip cards, fill-in-the-blank quizzes, and line-by-line recitation practice. Earn +15 XP for every correct answer.
             </p>
           </div>
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-saffron-gradient text-white shadow-lg glow-sacred-pulse">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary via-saffron to-gold text-white shadow-xs animate-breathe">
             <OmSymbol size={32} className="!text-white" />
           </div>
         </div>
 
         {/* Mode Selector Tabs */}
-        <div className="flex items-center gap-2 mt-6">
+        <div className="flex items-center gap-2 mt-6 flex-wrap">
           <button
             onClick={() => setMode('flip')}
             className={cn(
-              'px-4 py-2 rounded-xl text-xs font-semibold transition-all border',
-              mode === 'flip' ? 'bg-saffron-gradient text-white border-transparent shadow-md' : 'bg-card text-muted-foreground border-border'
+              'px-4 py-1.5 rounded-full text-xs font-medium transition-all border',
+              mode === 'flip' ? 'bg-primary text-primary-foreground border-transparent shadow-xs' : 'bg-card text-muted-foreground border-border/60 hover:bg-muted/60'
             )}
           >
             1. Flip Card Mode
@@ -150,8 +150,8 @@ export function MemorizerView() {
           <button
             onClick={() => setMode('quiz')}
             className={cn(
-              'px-4 py-2 rounded-xl text-xs font-semibold transition-all border',
-              mode === 'quiz' ? 'bg-saffron-gradient text-white border-transparent shadow-md' : 'bg-card text-muted-foreground border-border'
+              'px-4 py-1.5 rounded-full text-xs font-medium transition-all border',
+              mode === 'quiz' ? 'bg-primary text-primary-foreground border-transparent shadow-xs' : 'bg-card text-muted-foreground border-border/60 hover:bg-muted/60'
             )}
           >
             2. Fill-in-Blank Quiz (+15 XP)
@@ -159,8 +159,8 @@ export function MemorizerView() {
           <button
             onClick={() => setMode('recite')}
             className={cn(
-              'px-4 py-2 rounded-xl text-xs font-semibold transition-all border',
-              mode === 'recite' ? 'bg-saffron-gradient text-white border-transparent shadow-md' : 'bg-card text-muted-foreground border-border'
+              'px-4 py-1.5 rounded-full text-xs font-medium transition-all border',
+              mode === 'recite' ? 'bg-primary text-primary-foreground border-transparent shadow-xs' : 'bg-card text-muted-foreground border-border/60 hover:bg-muted/60'
             )}
           >
             3. Recitation Reveal
@@ -172,20 +172,20 @@ export function MemorizerView() {
       <div className="max-w-3xl mx-auto space-y-6">
         <div className="flex items-center justify-between px-2 text-xs font-mono text-muted-foreground">
           <span>Shloka {currentIndex + 1} of {SHLOKAS.length}</span>
-          <span className="text-saffron font-bold">Quiz Score: {score}</span>
+          <span className="text-primary font-bold">Quiz Score: {score}</span>
         </div>
 
         {/* Mode 1: Interactive Flip Card */}
         {mode === 'flip' && (
           <div
             onClick={() => setIsFlipped(!isFlipped)}
-            className="card-sacred-glow rounded-3xl p-8 sm:p-12 bg-card border border-border shadow-xl cursor-pointer min-h-[320px] flex flex-col items-center justify-center text-center transition-all duration-500 hover:border-saffron/40 relative overflow-hidden"
+            className="card-serene rounded-3xl p-8 sm:p-12 bg-card border border-border/60 shadow-xs cursor-pointer min-h-[320px] flex flex-col items-center justify-center text-center transition-all duration-500 hover:border-primary/40 relative overflow-hidden"
           >
-            <span className="absolute top-4 left-4 text-xs font-mono px-3 py-1 rounded-full bg-saffron-gradient-soft text-saffron font-bold">
+            <span className="absolute top-4 left-4 text-xs font-mono px-3 py-1 rounded-full bg-primary/10 text-primary font-medium border border-primary/20">
               {currentShloka.source}
             </span>
             <div className="absolute top-4 right-4 flex items-center gap-1.5 text-xs text-muted-foreground">
-              <RotateCw className="h-3.5 w-3.5 text-saffron" /> Click to flip
+              <RotateCw className="h-3.5 w-3.5 text-primary" /> Click to flip
             </div>
 
             {!isFlipped ? (
@@ -195,7 +195,7 @@ export function MemorizerView() {
                     <div key={idx}>{line}</div>
                   ))}
                 </h3>
-                <p className="text-xs text-saffron font-serif font-semibold">{currentShloka.title}</p>
+                <p className="text-xs text-primary/80 font-serif font-semibold">{currentShloka.title}</p>
               </div>
             ) : (
               <div className="space-y-4 animate-fade-in">
@@ -210,7 +210,7 @@ export function MemorizerView() {
 
         {/* Mode 2: Fill-in-the-Blanks Quiz */}
         {mode === 'quiz' && (
-          <div className="card-sacred-glow rounded-3xl p-8 bg-card border border-border shadow-xl space-y-6">
+          <div className="card-serene rounded-3xl p-8 bg-card border border-border/60 shadow-xs space-y-6">
             <div className="flex items-center justify-between border-b border-border/60 pb-3">
               <span className="text-xs font-bold uppercase tracking-wider text-saffron font-mono">{currentShloka.source}</span>
               <span className="text-xs font-semibold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-full">
@@ -258,7 +258,7 @@ export function MemorizerView() {
 
         {/* Mode 3: Recitation Reveal */}
         {mode === 'recite' && (
-          <div className="card-sacred-glow rounded-3xl p-8 bg-card border border-border shadow-xl space-y-6 text-center">
+          <div className="card-serene rounded-3xl p-8 bg-card border border-border/60 shadow-xs space-y-6 text-center">
             <span className="text-xs font-bold uppercase tracking-wider text-saffron font-mono">{currentShloka.source}</span>
             <div className="space-y-4 py-4 min-h-[160px] flex flex-col justify-center">
               {currentShloka.sanskritLines.slice(0, revealedLines).map((line, idx) => (

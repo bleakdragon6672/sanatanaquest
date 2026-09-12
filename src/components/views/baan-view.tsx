@@ -85,24 +85,24 @@ function FullBaan({ initialBookMode = false }: { initialBookMode?: boolean }) {
 
   return (
     <div className="space-y-6">
-      <Card className="p-6 sm:p-8 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
-        <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
-          <LotusIcon size={200} className="text-primary" />
+      <Card className="card-serene p-6 sm:p-9 rounded-3xl relative overflow-hidden border border-border/60 bg-gradient-to-br from-card via-card/95 to-primary/[0.04]">
+        <div className="absolute -right-8 -top-8 opacity-[0.06] pointer-events-none animate-breathe">
+          <LotusIcon size={240} className="text-primary" />
         </div>
-        <div className="relative">
-          <Badge className="mb-3 bg-saffron-gradient text-white border-0 text-sm px-3 py-1">
+        <div className="relative z-10">
+          <Badge className="mb-3 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs px-3 py-1 font-serif">
             बजरंग बाण
           </Badge>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3 text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
             {bajrangBaanInfo.title}
           </h1>
           <p className="text-sm text-primary/80 mb-2" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
             {bajrangBaanInfo.sanskritTitle} · {bajrangBaanInfo.transliteration}
           </p>
-          <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
+          <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed text-sm sm:text-base">
             {bajrangBaanInfo.summary}
           </p>
-          <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground">
+          <div className="flex flex-wrap items-center justify-between gap-4 text-xs sm:text-sm text-muted-foreground">
             <div className="flex flex-wrap gap-4">
               <span className="inline-flex items-center gap-2">
                 <Check className="h-4 w-4 text-primary" /> {readCount}/{total} verses read
@@ -118,10 +118,10 @@ function FullBaan({ initialBookMode = false }: { initialBookMode?: boolean }) {
                   setBookReaderOpen(true)
                   store.setBookReaderOpen(true)
                 }}
-                className="rounded-full gap-2 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-semibold text-xs shadow-md shadow-amber-500/20 border border-amber-300/40 animate-pulse-subtle"
+                className="rounded-full gap-2 bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 hover:from-amber-600 hover:to-amber-500 text-white font-medium shadow-xs hover:shadow-md transition-all px-4 py-2 text-xs sm:text-sm"
                 title="Open Kindle / Apple Books Mode"
               >
-                <BookOpen className="w-3.5 h-3.5 text-slate-950" />
+                <BookOpen className="w-3.5 h-3.5 text-white" />
                 <span>📖 Kindle Book Mode</span>
               </Button>
               <KindleAppearanceMenu align="right" />
@@ -130,7 +130,7 @@ function FullBaan({ initialBookMode = false }: { initialBookMode?: boolean }) {
         </div>
       </Card>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {bajrangBaanVerses.map((verse) => {
           const isRead = !!store.readVerses[verse.id]
           const isDoha = verse.type === 'doha'
@@ -140,22 +140,22 @@ function FullBaan({ initialBookMode = false }: { initialBookMode?: boolean }) {
               key={verse.id}
               onClick={() => navigate('baan', { verse: verse.id })}
               className={cn(
-                'p-4 sm:p-5 cursor-pointer hover:shadow-md transition-all group',
-                isDoha && 'bg-saffron-gradient-soft border-primary/20',
-                isRead && 'border-l-2 border-l-green-500',
+                'card-serene p-4 sm:p-5 cursor-pointer hover:border-primary/40 hover:-translate-y-0.5 transition-all group rounded-2xl border border-border/50',
+                isDoha && 'bg-primary/[0.03] border-primary/30',
+                isRead && 'border-l-4 border-l-emerald-500/70',
               )}
             >
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-muted text-xs font-mono">
-                  {isRead ? <Check className="h-4 w-4 text-green-500" /> : verse.number}
+                <div className="flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-muted/60 text-xs font-mono">
+                  {isRead ? <Check className="h-4 w-4 text-emerald-500" /> : verse.number}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-medium text-foreground/90 mb-1 sm:mb-2" style={{ fontFamily: 'var(--font-serif-display), "Noto Serif Devanagari", serif' }}>
                     {verse.awadhi.split('\n')[0]}
                   </p>
-                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">{verse.english}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 leading-relaxed">{verse.english}</p>
                 </div>
-                <Badge variant="outline" className="text-[10px] shrink-0">
+                <Badge variant="outline" className="text-[10px] shrink-0 rounded-full border-border/60">
                   {verse.type === 'doha' ? 'दोहा' : 'चौपाई'}
                 </Badge>
               </div>
@@ -284,10 +284,10 @@ function VerseReader({ verse, onBack, initialBookMode = false }: { verse: BaanVe
             onNext={() => { nextVerse && navigate('baan', { verse: nextVerse.id }); handleVerseChange(nextVerse?.id ?? '') }}
           >
             <Card className={cn(
-              'p-0 overflow-hidden verse-card-animated border transition-colors duration-300',
+              'p-0 overflow-hidden verse-card-animated border rounded-3xl card-serene transition-colors duration-300',
               currentPaper.cardClass,
               `reader-font-${store.readerFont}`,
-              isHighlighted ? highlightMeta.cardClass : 'hover:border-saffron/30',
+              isHighlighted ? highlightMeta.cardClass : 'hover:border-primary/30',
             )}>
               <div className="px-4 sm:px-7 pt-3.5 sm:pt-4 pb-2 flex flex-wrap items-center justify-between gap-2 border-b border-border/40">
                 <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">

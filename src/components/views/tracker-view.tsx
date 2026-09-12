@@ -61,57 +61,63 @@ export function TrackerView() {
   )
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6 max-w-5xl mx-auto pb-8">
       {/* Header */}
-      <Card className="p-6 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
-        <div className="absolute -right-6 -top-6 opacity-10 pointer-events-none">
-          <Calendar className="h-40 w-40 text-primary" />
+      <div className="card-serene p-6 sm:p-9 rounded-3xl relative overflow-hidden border border-border/60 bg-gradient-to-br from-card via-card/95 to-primary/[0.05]">
+        <div className="absolute -right-6 -top-6 opacity-[0.06] pointer-events-none animate-breathe">
+          <Calendar className="h-44 w-44 text-primary" />
         </div>
-        <div className="relative">
-          <Badge className="mb-2 bg-saffron-gradient text-white border-0">
-            <Flame className="mr-1 h-3 w-3" /> Daily Sadhana
-          </Badge>
-          <h1 className="text-3xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
-            Today's Spiritual Practice
+        <div className="relative z-10">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-semibold text-primary mb-3">
+            <Flame className="mr-1 h-3.5 w-3.5" /> Daily Sadhana
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-1.5 text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
+            Spiritual Practice Log
           </h1>
-          <p className="text-muted-foreground mt-1">
+          <p className="text-xs sm:text-sm text-muted-foreground/80">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
           </p>
-          <div className="flex flex-wrap gap-4 mt-4">
-            <div className="flex items-center gap-2">
-              <Flame className="h-5 w-5 text-primary" />
+          <div className="flex flex-wrap gap-4 mt-6">
+            <div className="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-card border border-border/60 shadow-xs">
+              <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center">
+                <Flame className="h-5 w-5" />
+              </div>
               <div>
-                <p className="text-2xl font-bold text-saffron-gradient">{store.currentStreak}</p>
-                <p className="text-xs text-muted-foreground">current streak</p>
+                <p className="text-xl font-bold text-foreground">{store.currentStreak}</p>
+                <p className="text-[11px] text-muted-foreground/80 font-medium">current streak</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-primary" />
+            <div className="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-card border border-border/60 shadow-xs">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                <TrendingUp className="h-5 w-5" />
+              </div>
               <div>
-                <p className="text-2xl font-bold text-saffron-gradient">{store.longestStreak}</p>
-                <p className="text-xs text-muted-foreground">longest streak</p>
+                <p className="text-xl font-bold text-foreground">{store.longestStreak}</p>
+                <p className="text-[11px] text-muted-foreground/80 font-medium">longest streak</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-primary" />
+            <div className="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-card border border-border/60 shadow-xs">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                <Check className="h-5 w-5" />
+              </div>
               <div>
-                <p className="text-2xl font-bold text-saffron-gradient">{todaysActivities.length}</p>
-                <p className="text-xs text-muted-foreground">today's activities</p>
+                <p className="text-xl font-bold text-foreground">{todaysActivities.length}</p>
+                <p className="text-[11px] text-muted-foreground/80 font-medium">today&apos;s deeds</p>
               </div>
             </div>
           </div>
         </div>
-      </Card>
+      </div>
 
       {/* Weekly grid */}
-      <Card className="p-3.5 sm:p-5">
-        <div className="flex items-center justify-between mb-3">
+      <div className="card-serene p-5 sm:p-7 rounded-3xl border border-border/60 bg-card">
+        <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="font-semibold" style={{ fontFamily: 'var(--font-serif-display), serif' }}>Last 7 Days</h2>
-            <p className="text-xs text-muted-foreground">{weeklyCount} active days · {weeklyTotal} total activities</p>
+            <h2 className="font-semibold text-base text-foreground" style={{ fontFamily: 'var(--font-serif-display), serif' }}>Last 7 Days Reflection</h2>
+            <p className="text-xs text-muted-foreground/80">{weeklyCount} active days · {weeklyTotal} total practices logged</p>
           </div>
         </div>
-        <div className="grid grid-cols-7 gap-1 sm:gap-2">
+        <div className="grid grid-cols-7 gap-1.5 sm:gap-3">
           {last7.map((d) => {
             const count = store.dailyActivity[d]?.length ?? 0
             const isToday = d === today
@@ -121,16 +127,18 @@ export function TrackerView() {
               <div
                 key={d}
                 className={cn(
-                  'flex flex-col items-center gap-1 rounded-lg sm:rounded-xl border p-1 sm:p-2 transition-all min-w-0',
-                  isToday ? 'border-primary bg-saffron-gradient-soft' : 'border-border bg-card',
-                  count > 0 && 'border-primary/40',
+                  'flex flex-col items-center gap-1.5 rounded-2xl border p-2 sm:p-3 transition-all min-w-0',
+                  isToday
+                    ? 'border-primary/40 bg-primary/5 shadow-xs'
+                    : 'border-border/60 bg-muted/20',
+                  count > 0 && !isToday && 'border-primary/20 bg-primary/[0.02]',
                 )}
               >
-                <span className="text-[10px] text-muted-foreground">{dayName}</span>
-                <span className="text-xs sm:text-sm font-semibold">{dayNum}</span>
+                <span className="text-[11px] text-muted-foreground/70 font-medium">{dayName}</span>
+                <span className="text-xs sm:text-sm font-semibold text-foreground">{dayNum}</span>
                 <div className={cn(
-                  'h-6 w-6 sm:h-7 sm:w-7 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0',
-                  count > 0 ? 'bg-saffron-gradient text-white' : 'bg-muted text-muted-foreground',
+                  'h-6 w-6 sm:h-7 sm:w-7 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 transition-all',
+                  count > 0 ? 'bg-primary text-primary-foreground shadow-xs' : 'bg-muted/60 text-muted-foreground/50',
                 )}>
                   {count > 0 ? count : '·'}
                 </div>
@@ -138,19 +146,19 @@ export function TrackerView() {
             )
           })}
         </div>
-      </Card>
+      </div>
 
       {/* Log activity */}
-      <Card className="p-5">
-        <h2 className="font-semibold mb-1" style={{ fontFamily: 'var(--font-serif-display), serif' }}>Log an Activity</h2>
-        <p className="text-xs text-muted-foreground mb-4">Each activity earns Dharma XP and contributes to your spiritual growth.</p>
+      <div className="card-serene p-6 sm:p-7 rounded-3xl border border-border/60 bg-card">
+        <h2 className="font-semibold text-base mb-1 text-foreground" style={{ fontFamily: 'var(--font-serif-display), serif' }}>Record Sadhana</h2>
+        <p className="text-xs text-muted-foreground/80 mb-4">Each conscious spiritual action earns Dharma XP and brings sacred mindfulness.</p>
         <Input
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          placeholder="Optional note (e.g. chanted 108 rounds, meditated on Krishna)"
-          className="mb-4"
+          placeholder="Optional reflection note (e.g. chanted 108 rounds of Mahamantra, morning meditation)"
+          className="mb-5 rounded-2xl border-border/60 bg-background text-xs sm:text-sm"
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {(Object.keys(ACTIVITY_LABELS) as ActivityType[]).map((type) => {
             const meta = ACTIVITY_LABELS[type]
             const done = todaysTypes.has(type)
@@ -158,37 +166,42 @@ export function TrackerView() {
               <div
                 key={type}
                 className={cn(
-                  'rounded-xl border p-3 flex flex-col gap-2 transition-all',
-                  done ? 'border-primary bg-saffron-gradient-soft' : 'border-border bg-card hover:border-primary/40',
+                  'rounded-2xl border p-3.5 flex flex-col gap-2.5 transition-all duration-300',
+                  done
+                    ? 'border-emerald-500/30 bg-emerald-500/[0.03]'
+                    : 'border-border/60 bg-card hover:border-primary/40 hover:shadow-xs',
                 )}
               >
                 <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2.5">
                     <span className="text-2xl">{meta.icon}</span>
                     <div>
-                      <p className="text-sm font-semibold leading-tight">{meta.label}</p>
-                      <p className="text-[10px] text-muted-foreground" style={{ fontFamily: 'var(--font-serif-display), serif' }}>{meta.sanskrit}</p>
+                      <p className="text-sm font-semibold leading-tight text-foreground">{meta.label}</p>
+                      <p className="text-[11px] text-muted-foreground/70" style={{ fontFamily: 'var(--font-serif-display), serif' }}>{meta.sanskrit}</p>
                     </div>
                   </div>
-                  {done && <Check className="h-4 w-4 text-primary" />}
+                  {done && <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 mt-0.5">
                   {type === 'meditation' || type === 'yoga' || type === 'chanting' || type === 'gita' || type === 'ramayana' ? (
-                    <div className="flex items-center gap-1 flex-1">
+                    <div className="flex items-center gap-1.5 flex-1">
                       <Input
                         type="number"
                         value={duration[type]}
                         onChange={(e) => setDuration((d) => ({ ...d, [type]: e.target.value }))}
                         placeholder="min"
-                        className="h-8 text-xs"
+                        className="h-8 text-xs rounded-xl"
                       />
-                      <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                      <Clock className="h-3.5 w-3.5 text-muted-foreground/60" />
                     </div>
                   ) : <span className="flex-1" />}
                   <Button
                     size="sm"
                     variant={done ? 'outline' : 'default'}
-                    className={cn('h-8 gap-1', !done && 'bg-saffron-gradient text-white')}
+                    className={cn(
+                      'h-8 rounded-full px-3 text-xs gap-1 font-medium transition-all',
+                      !done && 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    )}
                     onClick={() => logActivity(type)}
                   >
                     <Plus className="h-3.5 w-3.5" />
@@ -199,31 +212,33 @@ export function TrackerView() {
             )
           })}
         </div>
-      </Card>
+      </div>
 
       {/* Today's log */}
-      <Card className="p-5">
-        <h2 className="font-semibold mb-3" style={{ fontFamily: 'var(--font-serif-display), serif' }}>Today's Log</h2>
+      <div className="card-serene p-6 sm:p-7 rounded-3xl border border-border/60 bg-card">
+        <h2 className="font-semibold text-base mb-3 text-foreground" style={{ fontFamily: 'var(--font-serif-display), serif' }}>Today&apos;s Sadhana Log</h2>
         {todaysActivities.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground">
-            <Flame className="h-8 w-8 mx-auto mb-2 opacity-50" />
-            <p className="text-sm">No activities logged yet today.</p>
-            <p className="text-xs">Begin your day with even one small practice.</p>
+          <div className="text-center py-10 text-muted-foreground/70">
+            <Flame className="h-8 w-8 mx-auto mb-2 opacity-40" />
+            <p className="text-sm font-medium">No practices logged yet today.</p>
+            <p className="text-xs text-muted-foreground/60 mt-0.5">Begin with even a 5-minute conscious pause.</p>
           </div>
         ) : (
           <div className="space-y-2">
             {todaysActivities.map((a) => {
               const meta = ACTIVITY_LABELS[a.type]
               return (
-                <div key={a.id} className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
+                <div key={a.id} className="flex items-center gap-3 p-3 rounded-2xl bg-muted/30 border border-border/40">
                   <span className="text-xl">{meta.icon}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium">{meta.label}</p>
-                    {a.duration && <p className="text-xs text-muted-foreground">{a.duration} min</p>}
-                    {a.note && <p className="text-xs text-muted-foreground italic truncate">"{a.note}"</p>}
+                    <p className="text-sm font-medium text-foreground">{meta.label}</p>
+                    {a.duration && <p className="text-xs text-muted-foreground">{a.duration} minutes</p>}
+                    {a.note && <p className="text-xs text-muted-foreground/80 italic truncate">&quot;{a.note}&quot;</p>}
                   </div>
-                  <Badge variant="secondary" className="text-[10px]">+{ACTIVITY_XP[a.type]} XP</Badge>
-                  <span className="text-xs text-muted-foreground">
+                  <Badge variant="secondary" className="rounded-full text-[10px] bg-primary/10 text-primary border-0 font-semibold">
+                    +{ACTIVITY_XP[a.type]} XP
+                  </Badge>
+                  <span className="text-xs text-muted-foreground/70 font-mono">
                     {new Date(a.timestamp).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                   </span>
                 </div>
@@ -231,7 +246,7 @@ export function TrackerView() {
             })}
           </div>
         )}
-      </Card>
+      </div>
     </div>
   )
 }

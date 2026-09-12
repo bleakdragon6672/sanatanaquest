@@ -30,29 +30,43 @@ export function MobileBottomNav() {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden glass-strong border-t safe-area-bottom" style={{ borderColor: 'color-mix(in oklch, var(--saffron) 12%, var(--border))' }}>
-      <div className="flex items-center justify-around h-16 px-2">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-card/85 backdrop-blur-xl border-t border-border/60 shadow-[0_-4px_24px_-4px_rgba(0,0,0,0.06)] safe-area-bottom transition-all">
+      <div className="flex items-center justify-around h-16 px-3 max-w-md mx-auto">
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon
           // Highlight "Scriptures" for any scripture view
-          const isActive = view === item.view ||
-            (item.view === 'gita' && ['gita', 'upanishad', 'chalisa', 'baan', 'tandav', 'yogasutras', 'ashtavakragita'].includes(view))
+          const isActive =
+            view === item.view ||
+            (item.view === 'gita' &&
+              ['gita', 'upanishad', 'chalisa', 'baan', 'tandav', 'yogasutras', 'ashtavakragita'].includes(view))
 
           return (
             <button
               key={item.view}
               onClick={() => navigate(item.view)}
               className={cn(
-                'relative flex flex-col items-center justify-center gap-0.5 w-16 h-14 rounded-xl transition-all duration-200',
+                'relative flex flex-col items-center justify-center gap-1 w-16 h-12 rounded-2xl transition-all duration-300',
                 isActive
-                  ? 'text-primary'
-                  : 'text-muted-foreground hover:text-foreground',
+                  ? 'bg-primary/10 text-primary font-semibold shadow-xs'
+                  : 'text-muted-foreground/80 hover:text-foreground active:scale-95',
               )}
             >
-              <Icon className={cn('h-5 w-5 transition-all duration-200', isActive && 'scale-110')} />
-              <span className={cn('text-[10px] font-medium transition-all duration-200', isActive ? 'font-semibold' : '')}>{item.label}</span>
+              <Icon
+                className={cn(
+                  'h-5 w-5 transition-transform duration-300',
+                  isActive ? 'scale-110 text-primary stroke-[2.2]' : 'stroke-[1.8]'
+                )}
+              />
+              <span
+                className={cn(
+                  'text-[10px] tracking-tight leading-none transition-colors',
+                  isActive ? 'font-semibold text-primary' : 'font-medium'
+                )}
+              >
+                {item.label}
+              </span>
               {isActive && (
-                <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-saffron-gradient" />
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-primary animate-pulse-calm" />
               )}
             </button>
           )

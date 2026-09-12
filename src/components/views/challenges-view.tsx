@@ -52,25 +52,26 @@ export function ChallengesView() {
   }
 
   return (
-    <div className="space-y-5">
-      <Card className="p-6 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
-        <div className="absolute -right-6 -top-6 opacity-10 pointer-events-none">
-          <Trophy className="h-40 w-40 text-primary" />
+    <div className="space-y-6 max-w-5xl mx-auto pb-8">
+      {/* Header */}
+      <div className="card-serene p-6 sm:p-9 rounded-3xl relative overflow-hidden border border-border/60 bg-gradient-to-br from-card via-card/95 to-primary/[0.05]">
+        <div className="absolute -right-6 -top-6 opacity-[0.06] pointer-events-none animate-breathe">
+          <Trophy className="h-44 w-44 text-primary" />
         </div>
-        <div className="relative">
-          <Badge className="mb-2 bg-saffron-gradient text-white border-0">
-            <Trophy className="mr-1 h-3 w-3" /> Sadhana Challenges
-          </Badge>
-          <h1 className="text-3xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
-            Test Your Discipline
+        <div className="relative z-10">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-semibold text-primary mb-3">
+            <Trophy className="mr-1 h-3.5 w-3.5" /> Sadhana Quests
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2 text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
+            Sacred Challenges
           </h1>
-          <p className="text-muted-foreground mt-1 max-w-2xl">
-            Commit to a challenge. Check in daily. Earn badges and Dharma XP. Build the unbreakable habit of sadhana.
+          <p className="text-muted-foreground/90 max-w-2xl leading-relaxed text-sm sm:text-base">
+            Forge deep spiritual discipline through mindful daily commitments. Complete quests to deepen focus and earn Dharma milestones.
           </p>
         </div>
-      </Card>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {CHALLENGES.map((c) => {
           const prog = store.challengeProgress[c.id]
           const started = !!prog
@@ -81,32 +82,49 @@ export function ChallengesView() {
           const dayNum = started ? diffDays(todayStr(new Date(prog.startedAt)), todayStr()) + 1 : 0
 
           return (
-            <Card key={c.id} className={cn('p-5 relative overflow-hidden', completed && 'border-primary bg-saffron-gradient-soft')}>
-              <div className="absolute -right-3 -bottom-3 opacity-10 pointer-events-none text-8xl">
+            <div
+              key={c.id}
+              className={cn(
+                'card-serene p-6 rounded-3xl border border-border/60 bg-card relative overflow-hidden transition-all duration-300',
+                completed && 'border-emerald-500/30 bg-emerald-500/[0.02]',
+                started && !completed && 'border-primary/30'
+              )}
+            >
+              <div className="absolute -right-2 -bottom-2 opacity-[0.08] pointer-events-none text-8xl">
                 {c.badge}
               </div>
-              <div className="relative">
+              <div className="relative z-10">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h2 className="text-lg font-bold leading-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+                    <h2 className="text-lg font-bold leading-tight text-foreground" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
                       {c.title}
                     </h2>
-                    <p className="text-xs text-primary/80" style={{ fontFamily: 'var(--font-serif-display), serif' }}>{c.sanskritTitle}</p>
+                    <p className="text-xs text-primary/80 mt-0.5" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+                      {c.sanskritTitle}
+                    </p>
                   </div>
-                  <span className="text-3xl">{c.badge}</span>
+                  <span className="text-3xl drop-shadow-xs">{c.badge}</span>
                 </div>
-                <p className="text-sm text-muted-foreground mb-4">{c.description}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground/85 mb-4 leading-relaxed">{c.description}</p>
 
                 {started && (
-                  <div className="mb-3 space-y-1.5">
-                    <div className="flex justify-between text-xs">
+                  <div className="mb-4 space-y-2">
+                    <div className="flex justify-between text-xs font-medium">
                       <span className="text-muted-foreground">
-                        {completed ? '🏆 Completed!' : `Day ${Math.min(dayNum, c.days)} of ${c.days}`}
+                        {completed ? '🏆 Quest Fulfilled!' : `Day ${Math.min(dayNum, c.days)} of ${c.days}`}
                       </span>
-                      <span className="font-semibold text-primary">{completedDays}/{c.days} days · {pct}%</span>
+                      <span className="text-primary font-semibold">{completedDays}/{c.days} days · {pct}%</span>
                     </div>
-                    <Progress value={pct} className="h-2 bg-muted" />
-                    <div className="flex flex-wrap gap-1 mt-2">
+                    <div className="h-2 w-full bg-muted/60 rounded-full overflow-hidden p-0.5">
+                      <div
+                        className={cn(
+                          "h-full rounded-full transition-all duration-500",
+                          completed ? "bg-emerald-500" : "bg-primary"
+                        )}
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 mt-2.5">
                       {Array.from({ length: c.days }).map((_, i) => {
                         const day = i + 1
                         const isDone = prog?.completedDays.includes(day)
@@ -114,11 +132,13 @@ export function ChallengesView() {
                           <div
                             key={day}
                             className={cn(
-                              'h-6 w-6 rounded-md flex items-center justify-center text-[10px] font-bold',
-                              isDone ? 'bg-saffron-gradient text-white' : 'bg-muted text-muted-foreground',
+                              'h-7 w-7 rounded-xl flex items-center justify-center text-[10px] font-semibold transition-all',
+                              isDone
+                                ? 'bg-primary text-primary-foreground shadow-xs'
+                                : 'bg-muted/60 text-muted-foreground/70',
                             )}
                           >
-                            {isDone ? <Check className="h-3 w-3" /> : day}
+                            {isDone ? <Check className="h-3.5 w-3.5" /> : day}
                           </div>
                         )
                       })}
@@ -126,33 +146,43 @@ export function ChallengesView() {
                   </div>
                 )}
 
-                <div className="flex items-center gap-2 mt-4">
-                  <Badge variant="secondary" className="text-[10px]">+{c.xpReward} XP</Badge>
-                  <Badge variant="outline" className="text-[10px]">{c.days} days</Badge>
+                <div className="flex items-center gap-2 mt-4 pt-3 border-t border-border/50">
+                  <Badge variant="secondary" className="rounded-full text-[10px] bg-primary/10 text-primary border-0 font-semibold">
+                    +{c.xpReward} XP
+                  </Badge>
+                  <Badge variant="outline" className="rounded-full text-[10px] border-border/60 text-muted-foreground">
+                    {c.days} days commitment
+                  </Badge>
                   {!started ? (
-                    <Button size="sm" className="ml-auto bg-saffron-gradient text-white" onClick={() => start(c.id)}>
-                      <Play className="mr-1 h-3.5 w-3.5" /> Start Challenge
+                    <Button
+                      size="sm"
+                      className="ml-auto rounded-full bg-primary text-primary-foreground font-medium shadow-xs hover:bg-primary/90"
+                      onClick={() => start(c.id)}
+                    >
+                      <Play className="mr-1 h-3.5 w-3.5" /> Embark Quest
                     </Button>
                   ) : completed ? (
-                    <Badge className="ml-auto bg-primary text-primary-foreground">🏆 Completed</Badge>
+                    <Badge className="ml-auto rounded-full bg-emerald-600 text-white font-medium px-3 py-1">
+                      🏆 Completed
+                    </Badge>
                   ) : (
                     <Button
                       size="sm"
                       variant={alreadyCheckedToday ? 'outline' : 'default'}
+                      className={cn(
+                        'ml-auto rounded-full text-xs font-medium transition-all',
+                        !alreadyCheckedToday && 'bg-primary text-primary-foreground hover:bg-primary/90',
+                        alreadyCheckedToday && 'border-border/60 text-muted-foreground'
+                      )}
                       disabled={alreadyCheckedToday}
-                      className={cn('ml-auto', !alreadyCheckedToday && 'bg-saffron-gradient text-white')}
                       onClick={() => checkIn(c.id)}
                     >
-                      {alreadyCheckedToday ? (
-                        <><Check className="mr-1 h-3.5 w-3.5" /> Checked in</>
-                      ) : (
-                        <><Flame className="mr-1 h-3.5 w-3.5" /> Check in Today</>
-                      )}
+                      {alreadyCheckedToday ? '✓ Checked in today' : 'Log Day Check-in'}
                     </Button>
                   )}
                 </div>
               </div>
-            </Card>
+            </div>
           )
         })}
       </div>

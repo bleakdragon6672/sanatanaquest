@@ -234,32 +234,32 @@ export function TreasuryView() {
   return (
     <div className="space-y-6">
       {/* Sacred Header */}
-      <Card className="p-6 sm:p-8 relative overflow-hidden card-sacred-glow">
-        <div className="absolute -right-8 -top-8 opacity-10 pointer-events-none">
-          <LotusIcon size={200} className="text-primary" />
+      <Card className="card-serene p-6 sm:p-9 relative overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-card via-card/95 to-primary/[0.04]">
+        <div className="absolute -right-8 -top-8 opacity-[0.06] pointer-events-none animate-breathe">
+          <LotusIcon size={240} className="text-primary" />
         </div>
-        <div className="relative">
-          <Badge className="mb-3 bg-saffron-gradient text-white border-0 text-sm px-3 py-1">
+        <div className="relative z-10">
+          <Badge className="mb-3 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs px-3 py-1 font-serif">
             कोशः · Personal Treasury
           </Badge>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2 text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
             Your Spiritual Sanctuary
           </h1>
-          <p className="text-muted-foreground max-w-2xl leading-relaxed">
+          <p className="text-muted-foreground max-w-2xl leading-relaxed text-sm sm:text-base">
             Your personal collection of bookmarked verses, highlights, and reflective notes across all scriptures —
             the Bhagavad Gita, Upanishads, Yoga Sutras, Ashtavakra Gita, and devotional hymns.
           </p>
 
-          <div className="flex flex-wrap gap-4 mt-6 pt-4 border-t border-border/50 text-sm">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-saffron-gradient-soft border border-primary/20">
+          <div className="flex flex-wrap gap-3 mt-6 pt-4 border-t border-border/40 text-xs sm:text-sm">
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-muted/50 border border-border/50 text-foreground">
               <Bookmark className="h-4 w-4 text-primary" />
               <span className="font-semibold">{store.bookmarks.length}</span> Bookmarks
             </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-saffron-gradient-soft border border-primary/20">
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-muted/50 border border-border/50 text-foreground">
               <Highlighter className="h-4 w-4 text-primary" />
               <span className="font-semibold">{store.highlights.length}</span> Highlights
             </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-saffron-gradient-soft border border-primary/20">
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-muted/50 border border-border/50 text-foreground">
               <NotebookPen className="h-4 w-4 text-primary" />
               <span className="font-semibold">{Object.keys(store.notes).length}</span> Personal Notes
             </div>
@@ -268,7 +268,7 @@ export function TreasuryView() {
       </Card>
 
       {/* Main Tabs */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/40 pb-3">
         <div className="flex flex-wrap gap-1.5 sm:gap-2">
           <Button
             variant={activeTab === 'bookmarks' ? 'default' : 'outline'}
@@ -276,7 +276,7 @@ export function TreasuryView() {
             onClick={() => setActiveTab('bookmarks')}
             className={cn(
               'rounded-full gap-1.5 transition-all text-xs sm:text-sm px-2.5 sm:px-3.5',
-              activeTab === 'bookmarks' && 'bg-saffron-gradient text-white shadow-sm'
+              activeTab === 'bookmarks' ? 'bg-primary text-primary-foreground shadow-xs border-transparent' : 'border-border/60 hover:bg-muted/60'
             )}
           >
             <Bookmark className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
@@ -290,7 +290,7 @@ export function TreasuryView() {
             onClick={() => setActiveTab('highlights')}
             className={cn(
               'rounded-full gap-1.5 transition-all text-xs sm:text-sm px-2.5 sm:px-3.5',
-              activeTab === 'highlights' && 'bg-saffron-gradient text-white shadow-sm'
+              activeTab === 'highlights' ? 'bg-primary text-primary-foreground shadow-xs border-transparent' : 'border-border/60 hover:bg-muted/60'
             )}
           >
             <Highlighter className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
@@ -303,7 +303,7 @@ export function TreasuryView() {
             onClick={() => setActiveTab('notes')}
             className={cn(
               'rounded-full gap-1.5 transition-all text-xs sm:text-sm px-2.5 sm:px-3.5',
-              activeTab === 'notes' && 'bg-saffron-gradient text-white shadow-sm'
+              activeTab === 'notes' ? 'bg-primary text-primary-foreground shadow-xs border-transparent' : 'border-border/60 hover:bg-muted/60'
             )}
           >
             <NotebookPen className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
@@ -428,7 +428,7 @@ export function TreasuryView() {
               <Card
                 key={v.id}
                 className={cn(
-                  'p-5 sm:p-6 relative overflow-hidden transition-all border group',
+                  'card-serene rounded-2xl p-5 sm:p-6 relative overflow-hidden transition-all border border-border/50 group',
                   isHighlighted ? highlightMeta.cardClass : 'hover:border-primary/30'
                 )}
               >

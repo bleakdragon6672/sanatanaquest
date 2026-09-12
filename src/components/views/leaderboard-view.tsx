@@ -192,7 +192,7 @@ export function LeaderboardView() {
   }
 
   return (
-    <div className="space-y-6 max-w-2xl mx-auto">
+    <div className="space-y-6 max-w-3xl mx-auto pb-8">
       {/* Live Convex WebSocket sync when configured */}
       {isConvexConfigured && (
         <ConvexLeaderboardBridge
@@ -204,26 +204,27 @@ export function LeaderboardView() {
       )}
 
       {/* Header */}
-      <Card className="p-6 relative overflow-hidden border-0 bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_16%,transparent)] to-card">
-        <div className="absolute -right-6 -top-6 opacity-10 pointer-events-none">
-          <Trophy className="h-32 w-32 text-primary" />
+      <div className="card-serene p-6 sm:p-9 rounded-3xl relative overflow-hidden border border-border/60 bg-gradient-to-br from-card via-card/95 to-primary/[0.05]">
+        <div className="absolute -right-6 -top-6 opacity-[0.06] pointer-events-none animate-breathe">
+          <Trophy className="h-44 w-44 text-primary" />
         </div>
-        <div className="relative">
-          <Badge className="mb-2 bg-saffron-gradient text-white border-0">लीडरबोर्ड</Badge>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+        <div className="relative z-10">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-semibold text-primary mb-3">
+            लीडरबोर्ड · Fellowship of Seekers
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2 text-foreground" style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}>
             Dharma Leaderboard
           </h1>
-          <p className="text-muted-foreground mt-2 max-w-xl text-sm sm:text-base">
-            Seekers ranked by their spiritual XP. Every verse read and every sadhana practice logged
-            contribute to your ascent on the path of Dharma.
+          <p className="text-muted-foreground/90 max-w-xl text-sm sm:text-base leading-relaxed">
+            Fellow seekers united on the path of wisdom. Every verse contemplated and every sadhana practice logged gently elevates your spiritual ascent.
           </p>
-          <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5">
-              <Users className="h-4 w-4 text-primary" /> {users.length} seeker{users.length !== 1 ? 's' : ''}
+          <div className="flex items-center gap-4 mt-4 text-xs sm:text-sm text-muted-foreground/80 flex-wrap">
+            <span className="inline-flex items-center gap-1.5 font-medium">
+              <Users className="h-4 w-4 text-primary" /> {users.length} active seeker{users.length !== 1 ? 's' : ''}
             </span>
             {isConvexConfigured && (
-              <span className="inline-flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded-full">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live Real-time
+              <span className="inline-flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-medium bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse-calm" /> Live Real-time Sync
               </span>
             )}
             <Button
@@ -231,38 +232,38 @@ export function LeaderboardView() {
               size="sm"
               onClick={fetchLeaderboard}
               disabled={loading}
-              className="h-7 gap-1 text-xs"
+              className="rounded-full h-7 gap-1 text-xs text-muted-foreground hover:text-foreground"
             >
               <RefreshCw className={cn('h-3 w-3', loading && 'animate-spin')} />
               Refresh
             </Button>
           </div>
         </div>
-      </Card>
+      </div>
 
       {/* Your Public Leaderboard Identity Card */}
-      <Card className="p-4 sm:p-5 border-primary/30 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent relative overflow-hidden shadow-sm">
+      <div className="card-serene p-5 rounded-2xl border border-primary/30 bg-gradient-to-r from-primary/10 via-primary/[0.04] to-transparent relative overflow-hidden shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="h-11 w-11 rounded-full bg-saffron-gradient flex items-center justify-center text-sm font-bold text-white shadow-md shrink-0">
+          <div className="flex items-center gap-3.5">
+            <div className="h-11 w-11 rounded-2xl bg-gradient-to-br from-primary via-saffron to-gold flex items-center justify-center text-sm font-bold text-white shadow-xs shrink-0">
               {store.userName.charAt(0).toUpperCase()}
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="font-bold text-base text-foreground truncate">
+                <span className="font-bold text-base text-foreground truncate" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
                   {store.userName}
                 </span>
-                <Badge className="bg-primary/20 text-primary border-primary/30 text-[10px] px-1.5 py-0 h-4">
+                <Badge className="bg-primary/20 text-primary border-primary/30 text-[10px] px-2 py-0.5 rounded-full">
                   {myRank ? `Rank #${myRank.rank}` : 'Unranked'}
                 </Badge>
                 {store.userName === 'Seeker' && (
-                  <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-amber-500/40 text-amber-600 dark:text-amber-400">
+                  <Badge variant="outline" className="text-[10px] px-2 py-0.5 rounded-full border-amber-500/40 text-amber-600 dark:text-amber-400">
                     Default Name
                   </Badge>
                 )}
               </div>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {myLevel.icon} {myLevel.name} · {store.totalXp.toLocaleString()} XP · 🔥 {store.currentStreak}d streak · {Object.keys(store.readVerses).length} verses
+              <p className="text-xs text-muted-foreground/80 mt-0.5">
+                {myLevel.icon} {myLevel.name} · {store.totalXp.toLocaleString()} XP · 🔥 {store.currentStreak}d streak · {Object.keys(store.readVerses).length} verses read
               </p>
             </div>
           </div>
@@ -273,86 +274,87 @@ export function LeaderboardView() {
               setNameDraft(store.userName)
               setEditNameOpen(true)
             }}
-            className="h-8 gap-1.5 text-xs font-medium self-start sm:self-auto border-primary/30 hover:bg-primary/10 shrink-0"
+            className="rounded-full h-8 gap-1.5 text-xs font-medium self-start sm:self-auto border-primary/30 hover:bg-primary/10 shrink-0"
           >
             <Pencil className="h-3.5 w-3.5 text-primary" />
-            Edit Display Name
+            Edit Public Name
           </Button>
         </div>
-      </Card>
+      </div>
 
       {/* Loading state */}
       {loading && (
         <div className="space-y-3">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Card key={i} className="p-4 animate-pulse">
+            <div key={i} className="card-serene p-4 rounded-2xl border border-border/60 bg-card animate-pulse">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-muted" />
+                <div className="h-10 w-10 rounded-2xl bg-muted" />
                 <div className="flex-1 space-y-2">
                   <div className="h-4 w-32 bg-muted rounded" />
                   <div className="h-3 w-48 bg-muted rounded" />
                 </div>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       )}
 
       {/* Error state */}
       {error && !loading && users.length === 0 && (
-        <Card className="p-8 text-center">
+        <div className="card-serene p-8 rounded-3xl border border-border/60 bg-card text-center">
           <Trophy className="h-12 w-12 mx-auto text-muted-foreground/40 mb-3" />
           <p className="text-muted-foreground text-sm">{error}</p>
           <p className="text-xs text-muted-foreground/60 mt-1">
             Make sure cloud sync is configured and the user_progress table is accessible.
           </p>
-        </Card>
+        </div>
       )}
 
       {/* Empty state */}
       {!loading && users.length === 0 && (
-        <Card className="p-8 text-center">
+        <div className="card-serene p-8 rounded-3xl border border-border/60 bg-card text-center">
           <Trophy className="h-12 w-12 mx-auto text-muted-foreground/40 mb-3" />
           <p className="text-muted-foreground">No seekers on the leaderboard yet.</p>
           <p className="text-xs text-muted-foreground/60 mt-1">
             Start reading scriptures and logging practices to appear here.
           </p>
-        </Card>
+        </div>
       )}
 
       {/* Leaderboard list */}
       {!loading && users.length > 0 && (
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {users.map((u) => {
             const level = getLevel(u.totalXp)
             const isMe = u.userId === user?.id
             const RankIcon = RANK_ICONS[u.rank]
-            const rankStyle = RANK_STYLES[u.rank]
 
-            // If it's the current user, show their active store name
-            // For other users, use their resolved authentic name
             const displayName = isMe
               ? store.userName
               : resolveSeekerName(u.userName, u.userId, u.rank - 1)
 
             return (
-              <Card
+              <div
                 key={u.userId}
                 className={cn(
-                  'p-4 transition-all hover:shadow-md',
-                  isMe && 'ring-2 ring-primary/60 bg-primary/[0.04]',
-                  rankStyle && !isMe && `bg-gradient-to-r ${rankStyle} border`,
+                  'card-serene p-4 sm:p-4.5 rounded-2xl border transition-all duration-300',
+                  isMe
+                    ? 'border-primary/50 bg-primary/[0.04] shadow-xs'
+                    : 'border-border/60 bg-card hover:border-primary/40 hover:shadow-xs',
+                  u.rank === 1 && !isMe && 'border-amber-500/30 bg-amber-500/[0.03]',
+                  u.rank === 2 && !isMe && 'border-slate-400/30 bg-slate-400/[0.02]',
+                  u.rank === 3 && !isMe && 'border-orange-500/30 bg-orange-500/[0.02]',
                 )}
               >
-                <div className="flex items-center gap-3">
-                  {/* Rank */}
+                <div className="flex items-center gap-3.5">
+                  {/* Rank Badge */}
                   <div
                     className={cn(
-                      'flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-bold text-sm',
-                      u.rank === 1 && 'bg-amber-500 text-white shadow-lg shadow-amber-500/30',
-                      u.rank === 2 && 'bg-slate-400 text-white shadow-md',
-                      u.rank === 3 && 'bg-orange-600 text-white shadow-md',
-                      u.rank > 3 && 'bg-muted text-muted-foreground',
+                      'flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl font-bold text-sm',
+                      u.rank === 1 && 'bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-500/30',
+                      u.rank === 2 && 'bg-slate-400/20 text-slate-700 dark:text-slate-300 border border-slate-400/30',
+                      u.rank === 3 && 'bg-orange-500/20 text-orange-700 dark:text-orange-400 border border-orange-500/30',
+                      u.rank > 3 && 'bg-muted/50 text-muted-foreground/80 font-medium',
                     )}
                   >
                     {u.rank <= 3 && RankIcon ? (
@@ -362,19 +364,19 @@ export function LeaderboardView() {
                     )}
                   </div>
 
-                  {/* Info */}
+                  {/* Seeker Info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-sm sm:text-base truncate text-foreground">
+                      <span className="font-semibold text-sm sm:text-base truncate text-foreground" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
                         {displayName}
                       </span>
                       {isMe && (
-                        <Badge className="text-[10px] px-1.5 py-0 h-4 bg-primary text-white border-0">
+                        <Badge className="text-[10px] px-1.5 py-0 h-4 rounded-full bg-primary text-primary-foreground border-0">
                           You
                         </Badge>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 sm:gap-3 mt-0.5 text-xs text-muted-foreground flex-wrap">
+                    <div className="flex items-center gap-2 sm:gap-3 mt-0.5 text-xs text-muted-foreground/80 flex-wrap">
                       <span>{level.icon} {level.name}</span>
                       <span>·</span>
                       <span className="inline-flex items-center gap-1">
@@ -383,7 +385,7 @@ export function LeaderboardView() {
                       </span>
                       <span>·</span>
                       <span className="inline-flex items-center gap-1">
-                        <BookOpen className="h-3 w-3 shrink-0" />
+                        <BookOpen className="h-3 w-3 shrink-0 text-primary" />
                         {u.versesRead} verses
                       </span>
                     </div>
@@ -394,10 +396,10 @@ export function LeaderboardView() {
                     <p className="font-bold text-sm sm:text-base text-primary">
                       {u.totalXp.toLocaleString()}
                     </p>
-                    <p className="text-[10px] text-muted-foreground">XP</p>
+                    <p className="text-[10px] text-muted-foreground/70">Dharma XP</p>
                   </div>
                 </div>
-              </Card>
+              </div>
             )
           })}
         </div>
@@ -405,15 +407,15 @@ export function LeaderboardView() {
 
       {/* Edit Public Display Name Dialog */}
       <Dialog open={editNameOpen} onOpenChange={setEditNameOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="rounded-3xl border border-border/60 bg-card sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Pencil className="h-4 w-4 text-primary" /> Change Public Leaderboard Name
+            <DialogTitle className="flex items-center gap-2 text-foreground" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
+              <Pencil className="h-4 w-4 text-primary" /> Change Public Seeker Name
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              This name is publicly visible to all seekers on the Dharma Leaderboard. You can use your real name, first name, or an inspiring spiritual alias.
+            <p className="text-xs text-muted-foreground/80 leading-relaxed">
+              This name is publicly displayed on the Dharma Leaderboard. Choose your real name, first name, or a spiritual alias.
             </p>
             <div>
               <label className="text-xs font-medium text-foreground block mb-1.5">
@@ -424,6 +426,7 @@ export function LeaderboardView() {
                 onChange={(e) => setNameDraft(e.target.value)}
                 placeholder="Enter your name (e.g. Arjun, Priya, Samarth)"
                 maxLength={40}
+                className="rounded-2xl border-border/60 bg-background"
                 autoFocus
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') handleSaveName()
@@ -432,14 +435,14 @@ export function LeaderboardView() {
             </div>
             {nameSuggestions.length > 0 && (
               <div className="space-y-1.5">
-                <span className="text-[11px] text-muted-foreground block font-medium">Quick suggestions:</span>
+                <span className="text-[11px] text-muted-foreground/80 block font-medium">Quick suggestions:</span>
                 <div className="flex flex-wrap gap-1.5">
                   {nameSuggestions.map((s) => (
                     <button
                       key={s}
                       type="button"
                       onClick={() => setNameDraft(s)}
-                      className="text-xs px-2.5 py-1 rounded-full border border-border bg-card hover:border-primary/50 text-muted-foreground hover:text-foreground transition-all cursor-pointer"
+                      className="text-xs px-3 py-1 rounded-full border border-border/60 bg-muted/20 hover:border-primary/50 text-muted-foreground hover:text-foreground transition-all cursor-pointer"
                     >
                       {s}
                     </button>
@@ -449,15 +452,15 @@ export function LeaderboardView() {
             )}
           </div>
           <DialogFooter className="gap-2 sm:gap-0">
-            <Button variant="ghost" onClick={() => setEditNameOpen(false)} disabled={savingName}>
+            <Button variant="ghost" onClick={() => setEditNameOpen(false)} disabled={savingName} className="rounded-full">
               Cancel
             </Button>
             <Button
               onClick={handleSaveName}
               disabled={savingName || !nameDraft.trim()}
-              className="bg-saffron-gradient text-white"
+              className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
             >
-              <Check className="mr-1.5 h-4 w-4" /> Save Public Name
+              <Check className="mr-1.5 h-4 w-4" /> Save Name
             </Button>
           </DialogFooter>
         </DialogContent>
