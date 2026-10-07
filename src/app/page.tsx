@@ -62,7 +62,7 @@ import { AtmosphereVisualEffects } from '@/components/atmosphere/atmosphere-visu
 import { saveCloudProgress, type StoreSnapshot } from '@/lib/cloud-sync'
 import { isConvexConfigured } from '@/lib/convex-sync'
 import { ConvexSyncBridge } from '@/components/ConvexSyncBridge'
-import type { User } from '@supabase/supabase-js'
+import type { User } from '@/lib/auth-context'
 import { AmbientBackground } from '@/components/ambient-background'
 import { cn } from '@/lib/utils'
 import { XpGainOverlay, LevelUpOverlay, useXpTracker } from '@/components/xp-animations'

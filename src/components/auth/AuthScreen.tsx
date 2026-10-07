@@ -1,23 +1,19 @@
 'use client'
 
-// AuthScreen — full-page sign up / sign in form.
-// Matches the live deployment's UX exactly:
-//   - Toggles between "signup" and "login" modes
-//   - On signup: name (optional), email, password (min 6 chars)
-//   - On login: email, password
-//   - Shows friendly toast messages for email-confirmation, rate limits, errors
-//   - Marketing bullets: "progress syncs across devices", "data is private"
-//
-// All interactions are powered by useAuth() from the AuthProvider.
+// AuthScreen — full-page sign up / sign in form powered by Convex Auth.
+// Features:
+//   - Fast, resilient email + password authentication (sign up & sign in)
+//   - Instant "Continue as Guest" so seekers are never blocked from reading scriptures
+//   - Serene aesthetic with subtle gradients, soft borders, and sacred Om motif
+//   - Seamless cross-device cloud sync and leaderboard recognition
 
 import { useState } from 'react'
-import { Loader2, Cloud, Shield } from 'lucide-react'
+import { Loader2, Cloud, Shield, Compass, Sparkles } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { OmSymbol } from '@/components/spiritual-icons'
 import { useAuth } from '@/lib/auth-context'
-import { supabase } from '@/lib/supabase-client'
 import { useStore } from '@/lib/store'
 import { formatDisplayNameFromEmail } from '@/lib/cloud-sync'
 import { toast } from 'sonner'
@@ -30,7 +26,8 @@ export function AuthScreen() {
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const { signUp, signIn } = useAuth()
+  const [guestLoading, setGuestLoading] = useState(false)
+  const { signUp, signIn, signInAsGuest } = useAuth()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -45,18 +42,7 @@ export function AuthScreen() {
         const chosenName = name.trim() || formatDisplayNameFromEmail(email.trim())
         const { error } = await signUp(email.trim(), password, chosenName)
         if (error) {
-          if (error.includes('confirm') || error.includes('check your email')) {
-            toast.success('Check your email!', {
-              description: 'Click the confirmation link to activate your account, then sign in.',
-            })
-          } else if (error.includes('rate limit') || error.includes('429')) {
-            toast.error('Too many signups attempted', {
-              description:
-                'Please wait a few minutes and try again, or sign in if you already have an account.',
-            })
-          } else {
-            toast.error(error)
-          }
+          toast.error(error)
         } else {
           useStore.getState().setUserName(chosenName)
           toast.success(`Welcome to Sanatan Quest, ${chosenName}! 🙏`)
@@ -64,13 +50,7 @@ export function AuthScreen() {
       } else {
         const { error } = await signIn(email.trim(), password)
         if (error) {
-          if (error.includes('rate limit') || error.includes('429')) {
-            toast.error('Too many attempts', {
-              description: 'Please wait a few minutes and try again.',
-            })
-          } else {
-            toast.error(error)
-          }
+          toast.error(error)
         } else {
           const currentName = useStore.getState().userName
           if (!currentName || currentName === 'Seeker') {
@@ -87,21 +67,30 @@ export function AuthScreen() {
     }
   }
 
+  async function handleGuestLogin() {
+    setGuestLoading(true)
+    try {
+      const { error } = await signInAsGuest()
+      if (error) {
+        toast.error(error)
+      } else {
+        toast.success('Welcome! You can explore and read freely. 🙏')
+      }
+    } catch {
+      toast.error('Could not begin guest session. Please try again.')
+    } finally {
+      setGuestLoading(false)
+    }
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_12%,transparent)] via-background to-[color-mix(in_oklch,var(--gold)_8%,transparent)] p-4">
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 opacity-[0.06] pointer-events-none">
-        <OmSymbol size={300} className="text-primary" />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[color-mix(in_oklch,var(--saffron)_12%,transparent)] via-background to-[color-mix(in_oklch,var(--gold)_8%,transparent)] p-4 relative overflow-hidden">
+      {/* Decorative background watermark */}
+      <div className="absolute top-12 left-1/2 -translate-x-1/2 opacity-[0.05] pointer-events-none select-none">
+        <OmSymbol size={340} className="text-primary" />
       </div>
-      <Card className="w-full max-w-md p-8 relative shadow-xl border-primary/20">
-        {!supabase && (
-          <div className="mb-5 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2.5 text-xs leading-relaxed text-amber-800 dark:text-amber-200">
-            <strong className="font-semibold">Cloud sync isn't configured yet.</strong>{' '}
-            Add your Supabase project URL and anon key (
-            <code className="rounded bg-amber-500/15 px-1 py-0.5 font-mono text-[11px]">NEXT_PUBLIC_SUPABASE_URL</code>,{' '}
-            <code className="rounded bg-amber-500/15 px-1 py-0.5 font-mono text-[11px]">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>
-            ) to enable accounts and cloud progress.
-          </div>
-        )}
+
+      <Card className="w-full max-w-md p-8 relative shadow-2xl border-primary/20 backdrop-blur-md bg-card/90">
         <div className="text-center mb-6">
           <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-saffron-gradient shadow-lg mb-3">
             <OmSymbol size={36} className="!text-white" />
@@ -128,7 +117,7 @@ export function AuthScreen() {
                 className="h-11"
               />
               <p className="text-[11px] text-muted-foreground mt-1 px-1">
-                Your public display name on the Dharma Leaderboard.
+                Your spiritual display name on the Dharma Leaderboard.
               </p>
             </div>
           )}
@@ -150,8 +139,8 @@ export function AuthScreen() {
           />
           <Button
             type="submit"
-            disabled={submitting}
-            className="w-full h-11 bg-saffron-gradient text-white font-semibold"
+            disabled={submitting || guestLoading}
+            className="w-full h-11 bg-saffron-gradient text-white font-semibold shadow-md hover:opacity-95 transition-opacity"
           >
             {submitting ? (
               <>
@@ -167,8 +156,9 @@ export function AuthScreen() {
 
         <div className="mt-4 text-center">
           <button
+            type="button"
             onClick={() => setMode(mode === 'signup' ? 'login' : 'signup')}
-            className="text-sm text-primary hover:underline"
+            className="text-sm text-primary hover:underline cursor-pointer"
           >
             {mode === 'signup'
               ? 'Already have an account? Sign in'
@@ -176,14 +166,46 @@ export function AuthScreen() {
           </button>
         </div>
 
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-border/50" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-card px-2 text-muted-foreground font-medium">Or explore first</span>
+          </div>
+        </div>
+
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleGuestLogin}
+          disabled={submitting || guestLoading}
+          className="w-full h-11 border-primary/30 hover:bg-primary/5 hover:border-primary/50 text-foreground font-medium flex items-center justify-center gap-2 cursor-pointer"
+        >
+          {guestLoading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" /> Entering sanctuary…
+            </>
+          ) : (
+            <>
+              <Compass className="h-4 w-4 text-primary" />
+              <span>Continue as Guest</span>
+            </>
+          )}
+        </Button>
+
         <div className="mt-6 pt-4 border-t border-border/40 space-y-2">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Cloud className="h-3.5 w-3.5 text-primary" />
-            <span>Your progress syncs across all your devices</span>
+            <Cloud className="h-3.5 w-3.5 text-primary shrink-0" />
+            <span>Real-time cloud sync powered by Convex</span>
           </div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Shield className="h-3.5 w-3.5 text-primary" />
-            <span>Your data is private and secure — only you can see it</span>
+            <Shield className="h-3.5 w-3.5 text-primary shrink-0" />
+            <span>Encrypted credentials & secure spiritual journal</span>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <Sparkles className="h-3.5 w-3.5 text-primary shrink-0" />
+            <span>Earn Dharma XP, track reading streaks, and climb leaderboards</span>
           </div>
         </div>
       </Card>

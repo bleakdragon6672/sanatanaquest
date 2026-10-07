@@ -1,91 +1,154 @@
 'use client'
 
-// AuthProvider — wraps the entire app with a Supabase auth context.
-// Mirrors the live deployment's behavior exactly:
-//   - On mount, get existing session (if any) and subscribe to auth state changes.
-//   - Exposes user, session, loading, signUp, signIn, signOut to descendants.
-//
-// Sign-up uses Supabase email/password with an optional `name` field stored in
-// user_metadata. Sign-in uses signInWithPassword. Sign-out calls supabase.auth.signOut.
+// AuthProvider — powered by Convex Auth (@convex-dev/auth).
+// Provides reactive authentication state, sign up, sign in, guest access, and sign out.
+// Compatible with the existing app architecture:
+//   - Exposes user, session, loading, signUp, signIn, signInAsGuest, signOut.
+//   - Fully replaces Supabase Auth with zero downtime or paused project issues.
 
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
-import type { Session, User } from '@supabase/supabase-js'
-import { supabase } from '@/lib/supabase-client'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  type ReactNode,
+} from 'react'
+import { useAuthActions } from '@convex-dev/auth/react'
+import { useConvexAuth, useQuery } from 'convex/react'
+import { api } from '../../convex/_generated/api'
 
-const NOT_CONFIGURED_MSG =
-  'Cloud sync is not configured yet. Add your Supabase project URL and anon key (NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY) and reload.'
+export interface AuthUser {
+  id: string
+  email?: string
+  user_metadata?: {
+    name?: string
+    [key: string]: any
+  }
+  isAnonymous?: boolean
+}
+
+export type User = AuthUser
 
 export interface AuthContextValue {
-  user: User | null
-  session: Session | null
+  user: AuthUser | null
+  session: { access_token?: string } | null
   loading: boolean
   signUp: (email: string, password: string, name?: string) => Promise<{ error: string | null }>
   signIn: (email: string, password: string) => Promise<{ error: string | null }>
+  signInAsGuest: () => Promise<{ error: string | null }>
   signOut: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
-  const [session, setSession] = useState<Session | null>(null)
-  const [loading, setLoading] = useState(true)
+  const { isLoading, isAuthenticated } = useConvexAuth()
+  const { signIn: convexSignIn, signOut: convexSignOut } = useAuthActions()
 
-  useEffect(() => {
-    if (!supabase) {
-      setLoading(false)
-      return
+  // Reactively query the current viewer document from Convex
+  const viewer = useQuery(api.users.viewer, isAuthenticated ? {} : 'skip')
+
+  // Loading state remains true until both auth handshake and user record (if authed) are resolved
+  const loading = isLoading || (isAuthenticated && viewer === undefined)
+
+  const user = useMemo<AuthUser | null>(() => {
+    if (!isAuthenticated || !viewer) return null
+    return {
+      id: viewer.id,
+      email: viewer.email,
+      user_metadata: {
+        name: viewer.name,
+      },
+      isAnonymous: viewer.isAnonymous,
     }
+  }, [isAuthenticated, viewer])
 
-    // Get the initial session (if any) and mark loading as done.
-    supabase.auth.getSession().then(({ data: { session: s } }) => {
-      setSession(s)
-      setUser(s?.user ?? null)
-      setLoading(false)
-    })
-
-    // Subscribe to auth state changes (login, logout, token refresh).
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      setSession(newSession)
-      setUser(newSession?.user ?? null)
-      setLoading(false)
-    })
-
-    return () => subscription.unsubscribe()
-  }, [])
+  const session = useMemo(() => {
+    return isAuthenticated ? { access_token: 'convex' } : null
+  }, [isAuthenticated])
 
   const signUp = useCallback(
     async (email: string, password: string, name?: string) => {
-      if (!supabase) return { error: NOT_CONFIGURED_MSG }
-      if (password.length < 6) return { error: 'Password must be at least 6 characters' }
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { name: name ?? '' } },
-      })
-      if (error) return { error: error.message }
-      // User created but email-confirmation is required → no session yet.
-      if (data.user && !data.session) {
-        return { error: 'Please check your email to confirm your account.' }
+      try {
+        const trimmedEmail = email.trim().toLowerCase()
+        if (!trimmedEmail) return { error: 'Please enter a valid email address.' }
+        if (password.length < 6) return { error: 'Password must be at least 6 characters.' }
+
+        await convexSignIn('password', {
+          email: trimmedEmail,
+          password,
+          name: (name?.trim() || trimmedEmail.split('@')[0]),
+          flow: 'signUp',
+        })
+        return { error: null }
+      } catch (err: any) {
+        const msg = err?.message || 'Failed to create account.'
+        if (msg.includes('already exists') || msg.includes('Account already exists')) {
+          return { error: 'An account with this email already exists. Please sign in instead.' }
+        }
+        return { error: msg }
       }
-      return { error: null }
     },
-    [],
+    [convexSignIn],
   )
 
-  const signIn = useCallback(async (email: string, password: string) => {
-    if (!supabase) return { error: NOT_CONFIGURED_MSG }
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    return error ? { error: error.message } : { error: null }
-  }, [])
+  const signIn = useCallback(
+    async (email: string, password: string) => {
+      try {
+        const trimmedEmail = email.trim().toLowerCase()
+        if (!trimmedEmail) return { error: 'Please enter your email address.' }
+
+        await convexSignIn('password', {
+          email: trimmedEmail,
+          password,
+          flow: 'signIn',
+        })
+        return { error: null }
+      } catch (err: any) {
+        const msg = err?.message || 'Invalid email or password.'
+        if (
+          msg.includes('Invalid credentials') ||
+          msg.includes('Password') ||
+          msg.includes('not found') ||
+          msg.includes('Could not find')
+        ) {
+          return { error: 'Invalid email or password. Please verify your details.' }
+        }
+        return { error: msg }
+      }
+    },
+    [convexSignIn],
+  )
+
+  const signInAsGuest = useCallback(async () => {
+    try {
+      await convexSignIn('anonymous')
+      return { error: null }
+    } catch (err: any) {
+      return { error: err?.message || 'Failed to continue as guest.' }
+    }
+  }, [convexSignIn])
 
   const signOut = useCallback(async () => {
-    if (!supabase) return
-    await supabase.auth.signOut()
-  }, [])
+    try {
+      await convexSignOut()
+    } catch (err) {
+      console.error('Error signing out:', err)
+    }
+  }, [convexSignOut])
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, signUp, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        session,
+        loading,
+        signUp,
+        signIn,
+        signInAsGuest,
+        signOut,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

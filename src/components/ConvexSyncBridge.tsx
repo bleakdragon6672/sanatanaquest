@@ -1,9 +1,9 @@
 'use client'
 
 import { useConvexAutoSave } from '@/lib/convex-sync'
-import type { User } from '@supabase/supabase-js'
+import type { AuthUser } from '@/lib/auth-context'
 
-export function ConvexSyncBridge({ user }: { user: User | null }) {
+export function ConvexSyncBridge({ user }: { user: AuthUser | null }) {
   useConvexAutoSave(user)
   return null
 }

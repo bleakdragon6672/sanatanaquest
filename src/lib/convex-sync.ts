@@ -5,7 +5,7 @@ import { useMutation, useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import { useStore } from '@/lib/store'
 import type { StoreSnapshot } from '@/lib/cloud-sync'
-import type { User } from '@supabase/supabase-js'
+import type { AuthUser } from '@/lib/auth-context'
 
 export const isConvexConfigured = Boolean(process.env.NEXT_PUBLIC_CONVEX_URL)
 
@@ -13,7 +13,7 @@ export const isConvexConfigured = Boolean(process.env.NEXT_PUBLIC_CONVEX_URL)
  * Convex auto-save hook.
  * Saves user progress to Convex reactive storage.
  */
-export function useConvexAutoSave(user: User | null) {
+export function useConvexAutoSave(user: AuthUser | null) {
   const store = useStore()
   const saveProgressMutation = useMutation(api.progress.saveProgress)
   const lastSavedJsonRef = useRef<string>('')

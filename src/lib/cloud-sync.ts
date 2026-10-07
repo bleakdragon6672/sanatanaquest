@@ -33,7 +33,7 @@
 
 import { ConvexHttpClient } from 'convex/browser'
 import { api } from '@/convex/_generated/api'
-import type { User } from '@supabase/supabase-js'
+import type { AuthUser as User } from '@/lib/auth-context'
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL
 const convexClient = convexUrl ? new ConvexHttpClient(convexUrl) : null
