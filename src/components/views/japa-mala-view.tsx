@@ -54,6 +54,7 @@ import {
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
+import { JapaMala3D } from '@/components/japa/japa-mala-3d'
 
 export interface SacredMantra {
   id: string
@@ -185,6 +186,7 @@ export function JapaMalaView() {
   const [targetRounds, setTargetRounds] = useState(1) // 1, 4, 16, or 0 (endless)
   const [selectedMantra, setSelectedMantra] = useState<SacredMantra>(SACRED_MANTRAS[0])
   const [material, setMaterial] = useState<BeadMaterial>('tulsi')
+  const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d')
   const [isVoiceMode, setIsVoiceMode] = useState(false)
   const [sensitivity, setSensitivity] = useState<VoiceSensitivity>('medium')
   const [soundEnabled, setSoundEnabled] = useState(true)
@@ -443,28 +445,84 @@ export function JapaMalaView() {
       {/* Main Japa Mala Interactive Sanctuary */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Column: The 108 Sacred Mala Visualizer */}
-        <div className="lg:col-span-7 flex flex-col items-center justify-center card-serene p-6 sm:p-8 rounded-3xl bg-card border border-border/60 relative overflow-hidden select-none">
-          {/* Ambient Vocal Prana Aura (Glows dynamically with microphone volume) */}
-          <div
-            className="absolute rounded-full pointer-events-none transition-all duration-150 ease-out"
-            style={{
-              width: 320,
-              height: 320,
-              background: `radial-gradient(circle, ${selectedMaterialMeta.color}35 0%, transparent 70%)`,
-              transform: `scale(${1 + audioLevel * 1.8})`,
-              opacity: isVoiceMode ? 0.3 + audioLevel * 0.7 : 0.15,
-            }}
-          />
+        <div className="lg:col-span-7 flex flex-col items-center justify-center card-serene p-5 sm:p-7 rounded-3xl bg-card border border-border/60 relative overflow-hidden select-none">
+          {/* Top Bar: Visualizer Mode Toggle */}
+          <div className="w-full flex items-center justify-between mb-3 z-10">
+            <div className="flex items-center gap-2">
+              <span className="text-xs uppercase font-bold tracking-wider text-muted-foreground">
+                Mala Visualizer
+              </span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-semibold border border-amber-500/20 uppercase">
+                {selectedMaterialMeta.name.split(' ')[0]} · 108 BEADS
+              </span>
+            </div>
 
-          {/* SVG 108 Bead Rosary Wheel */}
-          <div className="relative w-[300px] h-[300px] sm:w-[320px] sm:h-[320px] flex items-center justify-center">
-            <svg
-              viewBox="0 0 320 320"
-              className="w-full h-full cursor-pointer touch-none"
-              onClick={() => handleAdvanceBead('touch')}
-              aria-label="Click anywhere on the mala or press Spacebar to advance bead"
-            >
-              <title>Click anywhere on the mala or press Spacebar to advance bead</title>
+            {/* 3D vs 2D Toggle */}
+            <div className="flex bg-muted/60 p-1 rounded-xl gap-1">
+              <button
+                onClick={() => setViewMode('3d')}
+                className={cn(
+                  'px-2.5 py-1 text-xs rounded-lg font-medium transition-all cursor-pointer flex items-center gap-1.5',
+                  viewMode === '3d'
+                    ? 'bg-card text-foreground shadow-xs font-bold text-primary'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                <span>3D Strand</span>
+              </button>
+              <button
+                onClick={() => setViewMode('2d')}
+                className={cn(
+                  'px-2.5 py-1 text-xs rounded-lg font-medium transition-all cursor-pointer flex items-center gap-1.5',
+                  viewMode === '2d'
+                    ? 'bg-card text-foreground shadow-xs font-bold text-primary'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                <Disc className="w-3.5 h-3.5" />
+                <span>2D Orbit</span>
+              </button>
+            </div>
+          </div>
+
+          {/* VIEW 1: 3D SACRED STRAND (GPU-ACCELERATED, ZERO-LAG INSTANCING) */}
+          {viewMode === '3d' && (
+            <div className="w-full flex flex-col items-center animate-fade-in relative my-1">
+              <JapaMala3D
+                currentBead={currentBead}
+                material={material}
+                onAdvanceBead={() => handleAdvanceBead('touch')}
+                tanpuraPlaying={tanpuraPlaying}
+                justCounted={justCounted}
+              />
+            </div>
+          )}
+
+          {/* VIEW 2: 2D MINIMALIST ORBIT */}
+          {viewMode === '2d' && (
+            <>
+              {/* Ambient Vocal Prana Aura (Glows dynamically with microphone volume) */}
+              <div
+                className="absolute rounded-full pointer-events-none transition-all duration-150 ease-out"
+                style={{
+                  width: 320,
+                  height: 320,
+                  background: `radial-gradient(circle, ${selectedMaterialMeta.color}35 0%, transparent 70%)`,
+                  transform: `scale(${1 + audioLevel * 1.8})`,
+                  opacity: isVoiceMode ? 0.3 + audioLevel * 0.7 : 0.15,
+                }}
+              />
+
+              {/* SVG 108 Bead Rosary Wheel */}
+              <div className="relative w-[300px] h-[300px] sm:w-[320px] sm:h-[320px] flex items-center justify-center animate-fade-in my-2">
+                <svg
+                  viewBox="0 0 320 320"
+                  className="w-full h-full cursor-pointer touch-none"
+                  onClick={() => handleAdvanceBead('touch')}
+                  aria-label="Click anywhere on the mala or press Spacebar to advance bead"
+                >
+                  <title>Click anywhere on the mala or press Spacebar to advance bead</title>
               {/* Sacred String Loop */}
               <circle
                 cx="160"
@@ -587,6 +645,8 @@ export function JapaMalaView() {
               )}
             </div>
           </div>
+        </>
+      )}
 
           {/* Quick Tap Helper Text */}
           <div className="mt-4 text-center">
