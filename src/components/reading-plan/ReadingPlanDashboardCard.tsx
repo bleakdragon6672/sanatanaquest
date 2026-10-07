@@ -24,8 +24,9 @@ import {
   PLAN_CONFIGS,
   type ReadingPlan,
 } from '@/lib/reading-plan-data'
+import { getChapter, getVerse, gitaChapters, allVerses } from '@/lib/gita-data'
+import { KindleBookReader } from '@/components/kindle-book-reader'
 import { ReadingPlanPickerModal } from './ReadingPlanPickerModal'
-import { ReadingSessionModal } from './ReadingSessionModal'
 import { OmSymbol } from '@/components/spiritual-icons'
 import { triggerXpGain } from '@/components/xp-animations'
 import { cn } from '@/lib/utils'
@@ -36,7 +37,8 @@ export function ReadingPlanDashboardCard() {
   const plan = store.readingPlan
 
   const [pickerOpen, setPickerOpen] = useState(false)
-  const [sessionOpen, setSessionOpen] = useState(false)
+  const [kindleOpen, setKindleOpen] = useState(false)
+  const [selectedVerseId, setSelectedVerseId] = useState<string>('1.1')
 
   // If no plan, render the invitation banner
   if (!plan) {
@@ -56,7 +58,7 @@ export function ReadingPlanDashboardCard() {
                 Complete the Gita at Your Pace
               </h2>
               <p className="text-xs sm:text-sm text-muted-foreground/90 leading-relaxed mb-3">
-                No rush, no guilt. Read all 700 verses in a structured daily routine — choose from 2 shlokas a day (Beginner), 5 shlokas a day (Steady), or 1 chapter a day (Fast-track).
+                No rush, no guilt. Read all 700 verses in a structured daily routine — choose from 2 shlokas a day (Beginner), 5 shlokas a day (Steady), or 1 chapter a day (Fast-track) in beautiful Kindle book mode.
               </p>
               <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
                 <span className="px-2.5 py-1 rounded-lg bg-muted/60 border border-border/40">🌿 2 Shlokas/day (~1 Year)</span>
@@ -97,6 +99,22 @@ export function ReadingPlanDashboardCard() {
       toast.success(`Verse ${verseId} marked as read (+10 XP)`)
     }
   }
+
+  function handleOpenVerseInKindle(verseId: string) {
+    setSelectedVerseId(verseId)
+    setKindleOpen(true)
+    store.setBookReaderOpen(true)
+  }
+
+  function handleStartDailySession() {
+    const firstUnread = progressInfo.todaysVerses.find((v) => !store.readVerses[v.id])
+    const targetId = firstUnread ? firstUnread.id : progressInfo.todaysVerses[0]?.id || '1.1'
+    handleOpenVerseInKindle(targetId)
+  }
+
+  // Determine active chapter and verse to pass into KindleBookReader
+  const activeVerse = getVerse(selectedVerseId) || progressInfo.todaysVerses[0] || allVerses[0]
+  const activeChapter = getChapter(activeVerse?.chapter || 1) || gitaChapters[0]
 
   return (
     <>
@@ -166,30 +184,36 @@ export function ReadingPlanDashboardCard() {
             </span>
           </div>
 
-          {/* Verses List */}
+          {/* Verses List — clicking ANY verse opens Kindle Mode directly */}
           <div className="space-y-2 mb-4">
             {progressInfo.todaysVerses.map((v) => {
               const isRead = Boolean(store.readVerses[v.id])
               return (
                 <div
                   key={v.id}
-                  onClick={() => handleToggleVerseRead(v.id)}
+                  onClick={() => handleOpenVerseInKindle(v.id)}
+                  title="Click to read in Kindle Reader"
                   className={cn(
-                    'p-3 rounded-xl border transition-all flex items-center justify-between gap-3 cursor-pointer group',
+                    'p-3.5 rounded-xl border transition-all flex items-center justify-between gap-3 cursor-pointer group hover:scale-[1.008] active:scale-[0.995]',
                     isRead
                       ? 'bg-emerald-500/[0.04] border-emerald-500/30'
-                      : 'bg-card border-border/60 hover:border-primary/40'
+                      : 'bg-card border-border/60 hover:border-primary/50 hover:shadow-xs'
                   )}
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <button
                       type="button"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleToggleVerseRead(v.id)
+                      }}
                       className={cn(
-                        'w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors',
+                        'w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors cursor-pointer',
                         isRead
                           ? 'text-emerald-600 dark:text-emerald-400'
                           : 'text-muted-foreground group-hover:text-primary'
                       )}
+                      title={isRead ? 'Mark as unread' : 'Mark as read (+10 XP)'}
                     >
                       {isRead ? (
                         <CheckCircle2 className="w-5 h-5 fill-emerald-500/20" />
@@ -198,11 +222,13 @@ export function ReadingPlanDashboardCard() {
                       )}
                     </button>
                     <div className="min-w-0">
-                      <div className="text-xs font-bold text-foreground">
-                        Bhagavad Gita {v.chapter}.{v.verse}
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
+                          Bhagavad Gita {v.chapter}.{v.verse}
+                        </span>
                       </div>
                       <div
-                        className="text-xs text-muted-foreground truncate"
+                        className="text-xs text-muted-foreground truncate max-w-sm sm:max-w-md"
                         style={{ fontFamily: 'var(--font-noto-devanagari), serif' }}
                       >
                         {v.sanskrit}
@@ -210,7 +236,7 @@ export function ReadingPlanDashboardCard() {
                     </div>
                   </div>
 
-                  <div className="shrink-0 text-right">
+                  <div className="shrink-0 flex items-center gap-2">
                     <span
                       className={cn(
                         'text-[10px] px-2 py-0.5 rounded-md font-medium',
@@ -219,7 +245,12 @@ export function ReadingPlanDashboardCard() {
                           : 'bg-muted text-muted-foreground'
                       )}
                     >
-                      {isRead ? 'Completed' : '+10 XP'}
+                      {isRead ? 'Read' : '+10 XP'}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-[11px] text-primary/80 font-medium group-hover:text-primary group-hover:translate-x-0.5 transition-all">
+                      <BookOpen className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Kindle</span>
+                      <ChevronRight className="w-3 h-3" />
                     </span>
                   </div>
                 </div>
@@ -239,27 +270,39 @@ export function ReadingPlanDashboardCard() {
             </div>
 
             <Button
-              onClick={() => setSessionOpen(true)}
+              onClick={handleStartDailySession}
               className="w-full sm:w-auto rounded-xl px-5 h-10 bg-primary text-primary-foreground font-semibold shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              <Play className="w-4 h-4 fill-primary-foreground" />
+              <BookOpen className="w-4 h-4 fill-primary-foreground" />
               <span>
                 {progressInfo.isTodayTargetMet
-                  ? 'Open Focused Session'
-                  : 'Start Daily Reading Session'}
+                  ? 'Read Ahead in Kindle Mode'
+                  : 'Start Daily Kindle Session'}
               </span>
+              <ArrowRight className="w-4 h-4 ml-0.5" />
             </Button>
           </div>
         </div>
       </div>
 
       <ReadingPlanPickerModal open={pickerOpen} onOpenChange={setPickerOpen} />
-      <ReadingSessionModal
-        open={sessionOpen}
-        onOpenChange={setSessionOpen}
-        verses={progressInfo.todaysVerses}
-        planName={plan.name}
-        dailyTarget={plan.versesPerDay}
+
+      {/* Flagship Kindle / Apple Books Full-Screen Reader */}
+      <KindleBookReader
+        isOpen={kindleOpen}
+        onClose={() => {
+          setKindleOpen(false)
+          store.setBookReaderOpen(false)
+          if (store.readingMode === 'kindle') {
+            store.setReadingMode('full')
+          }
+        }}
+        scriptureTitle="Bhagavad Gita"
+        chapterTitle={`Chapter ${activeChapter.number}: ${activeChapter.name}`}
+        chapterSubtitle={`${activeChapter.sanskritName} • ${activeChapter.transliteration}`}
+        verses={activeChapter.verses}
+        initialVerseId={selectedVerseId}
+        onSelectVerse={(id) => setSelectedVerseId(id)}
       />
     </>
   )
