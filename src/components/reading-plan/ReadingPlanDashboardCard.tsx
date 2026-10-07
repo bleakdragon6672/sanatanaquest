@@ -17,6 +17,9 @@ import {
   Flame,
   ArrowRight,
   Check,
+  Sunrise,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import {
@@ -39,6 +42,7 @@ export function ReadingPlanDashboardCard() {
   const [pickerOpen, setPickerOpen] = useState(false)
   const [kindleOpen, setKindleOpen] = useState(false)
   const [selectedVerseId, setSelectedVerseId] = useState<string>('1.1')
+  const [showTomorrowPreview, setShowTomorrowPreview] = useState(false)
 
   // If no plan, render the invitation banner
   if (!plan) {
@@ -84,8 +88,8 @@ export function ReadingPlanDashboardCard() {
     )
   }
 
-  // Plan is active — calculate progress
-  const progressInfo = calculatePlanProgress(plan, store.readVerses)
+  // Plan is active — calculate progress with local timezone auto-advancement
+  const progressInfo = calculatePlanProgress(plan, store.readVerses, store.dailyActivity)
   const config = PLAN_CONFIGS[plan.tier]
 
   function handleToggleVerseRead(verseId: string) {
@@ -108,8 +112,13 @@ export function ReadingPlanDashboardCard() {
 
   function handleStartDailySession() {
     const firstUnread = progressInfo.todaysVerses.find((v) => !store.readVerses[v.id])
-    const targetId = firstUnread ? firstUnread.id : progressInfo.todaysVerses[0]?.id || '1.1'
-    handleOpenVerseInKindle(targetId)
+    if (firstUnread) {
+      handleOpenVerseInKindle(firstUnread.id)
+    } else if (progressInfo.tomorrowsVerses.length > 0) {
+      handleOpenVerseInKindle(progressInfo.tomorrowsVerses[0].id)
+    } else {
+      handleOpenVerseInKindle(progressInfo.todaysVerses[0]?.id || '1.1')
+    }
   }
 
   // Determine active chapter and verse to pass into KindleBookReader
@@ -174,20 +183,46 @@ export function ReadingPlanDashboardCard() {
                 Today's Sacred Portion
               </span>
               {progressInfo.isTodayTargetMet && (
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-                  <Check className="w-3 h-3" /> Completed Today
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                  <Check className="w-3 h-3" /> Quota Completed Today
                 </span>
               )}
             </div>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground font-medium">
               {progressInfo.readTodayCount} of {progressInfo.dailyTarget} read today
             </span>
           </div>
 
+          {/* Target met congratulatory banner + tomorrow notice */}
+          {progressInfo.isTodayTargetMet && (
+            <div className="mb-4 p-3.5 rounded-xl bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-primary/10 border border-emerald-500/30 flex items-start gap-3">
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <div className="text-xs space-y-1">
+                <div className="font-semibold text-foreground flex items-center gap-1.5">
+                  <span>Sadhana fulfilled for today!</span>
+                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-mono">
+                    Day {progressInfo.currentDay} of {progressInfo.totalDays}
+                  </span>
+                </div>
+                <p className="text-muted-foreground leading-relaxed">
+                  You finished all {progressInfo.dailyTarget} shlokas for today. Tomorrow at midnight, your sacred portion will automatically advance to the next {progressInfo.dailyTarget} verses
+                  {progressInfo.tomorrowsVerses.length > 0 && (
+                    <span className="font-medium text-foreground">
+                      {' '}(Gita {progressInfo.tomorrowsVerses[0]?.chapter}.{progressInfo.tomorrowsVerses[0]?.verse} – {progressInfo.tomorrowsVerses[progressInfo.tomorrowsVerses.length - 1]?.chapter}.{progressInfo.tomorrowsVerses[progressInfo.tomorrowsVerses.length - 1]?.verse})
+                    </span>
+                  )}. You can also preview or continue reading ahead below anytime!
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Verses List — clicking ANY verse opens Kindle Mode directly */}
           <div className="space-y-2 mb-4">
-            {progressInfo.todaysVerses.map((v) => {
+            {progressInfo.todaysVerses.map((v, idx) => {
               const isRead = Boolean(store.readVerses[v.id])
+              const isExtraReadAhead = idx >= progressInfo.dailyTarget
               return (
                 <div
                   key={v.id}
@@ -226,6 +261,11 @@ export function ReadingPlanDashboardCard() {
                         <span className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
                           Bhagavad Gita {v.chapter}.{v.verse}
                         </span>
+                        {isExtraReadAhead && (
+                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-primary/10 text-primary font-medium">
+                            Read Ahead
+                          </span>
+                        )}
                       </div>
                       <div
                         className="text-xs text-muted-foreground truncate max-w-sm sm:max-w-md"
@@ -257,6 +297,57 @@ export function ReadingPlanDashboardCard() {
               )
             })}
           </div>
+
+          {/* Tomorrow's Portion Preview (when today's target is met) */}
+          {progressInfo.isTodayTargetMet && progressInfo.tomorrowsVerses.length > 0 && (
+            <div className="mb-4 pt-3 border-t border-border/40">
+              <button
+                type="button"
+                onClick={() => setShowTomorrowPreview(!showTomorrowPreview)}
+                className="w-full flex items-center justify-between text-xs text-muted-foreground hover:text-foreground p-2 rounded-xl hover:bg-muted/40 transition-colors cursor-pointer"
+              >
+                <span className="flex items-center gap-2 font-medium">
+                  <Sunrise className="w-4 h-4 text-amber-500" />
+                  <span>Tomorrow's Sacred Portion (Day {progressInfo.currentDay + 1})</span>
+                  <span className="text-[10px] text-muted-foreground">
+                    · Gita {progressInfo.tomorrowsVerses[0]?.chapter}.{progressInfo.tomorrowsVerses[0]?.verse} to {progressInfo.tomorrowsVerses[progressInfo.tomorrowsVerses.length - 1]?.chapter}.{progressInfo.tomorrowsVerses[progressInfo.tomorrowsVerses.length - 1]?.verse}
+                  </span>
+                </span>
+                {showTomorrowPreview ? (
+                  <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                )}
+              </button>
+
+              {showTomorrowPreview && (
+                <div className="space-y-2 mt-2.5 pl-2 sm:pl-3 border-l-2 border-amber-500/40">
+                  <p className="text-[11px] text-muted-foreground">
+                    These {progressInfo.tomorrowsVerses.length} verses will automatically appear in your main queue tomorrow. Tap any verse to read ahead now:
+                  </p>
+                  {progressInfo.tomorrowsVerses.map((v) => (
+                    <div
+                      key={v.id}
+                      onClick={() => handleOpenVerseInKindle(v.id)}
+                      className="p-2.5 rounded-xl border border-border/50 bg-card hover:border-primary/40 hover:bg-muted/30 transition-all flex items-center justify-between gap-2 cursor-pointer group"
+                    >
+                      <div className="min-w-0">
+                        <span className="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">
+                          Bhagavad Gita {v.chapter}.{v.verse}
+                        </span>
+                        <p className="text-[11px] text-muted-foreground truncate" style={{ fontFamily: 'var(--font-noto-devanagari), serif' }}>
+                          {v.sanskrit}
+                        </p>
+                      </div>
+                      <span className="shrink-0 text-[10px] text-primary flex items-center gap-1 font-medium group-hover:translate-x-0.5 transition-transform">
+                        Read in Kindle <ChevronRight className="w-3 h-3" />
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Action Button */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">

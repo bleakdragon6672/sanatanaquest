@@ -597,7 +597,15 @@ export const useStore = create<StoreState>()(
         if (!state.readVerses[verseId]) return
         const newReadVerses = { ...state.readVerses }
         delete newReadVerses[verseId]
-        set({ readVerses: newReadVerses })
+        const today = todayStr()
+        const todayVerses = (state.dailyActivity[today] || []).filter((id) => id !== verseId)
+        set({
+          readVerses: newReadVerses,
+          dailyActivity: {
+            ...state.dailyActivity,
+            [today]: todayVerses,
+          },
+        })
       },
 
       addReadingTime: (sec) => {

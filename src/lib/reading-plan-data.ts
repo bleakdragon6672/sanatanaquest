@@ -111,14 +111,27 @@ export interface PlanProgressInfo {
   dailyTarget: number
   isTodayTargetMet: boolean
   todaysVerses: Verse[]
+  tomorrowsVerses: Verse[]
   currentDay: number
   totalDays: number
   firstUnreadIndex: number
+  todayStartIndex: number
+  tomorrowStartIndex: number
+}
+
+// Local date string in YYYY-MM-DD format based on seeker's local calendar
+export function getLocalDateStr(date: Date = new Date()): string {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
 }
 
 export function calculatePlanProgress(
   plan: ReadingPlan,
-  readVerses: Record<string, number>,
+  readVerses: Record<string, number> = {},
+  dailyActivity: Record<string, string[]> = {},
+  targetDateStr?: string,
 ): PlanProgressInfo {
   const gitaVerses = allVerses
   const totalVerses = gitaVerses.length // 700
@@ -129,39 +142,53 @@ export function calculatePlanProgress(
   const percentComplete = Math.min(100, Math.round((completedCount / totalVerses) * 100))
   const isGitaCompleted = completedCount >= totalVerses
 
-  // Find first unread verse sequentially
-  const firstUnreadIndex = gitaVerses.findIndex((v) => !readVerseIds.has(v.id))
-  const startIndex = firstUnreadIndex === -1 ? 0 : firstUnreadIndex
+  // Local calendar date for today (e.g. "2026-10-08")
+  const todayStr = targetDateStr || getLocalDateStr()
 
-  // Check how many Gita verses were read today
-  const todayStr = new Date().toISOString().slice(0, 10)
-  const readTodayIds = Object.entries(readVerses)
-    .filter(([id, ts]) => {
-      if (!/^\d+\.\d+$/.test(id)) return false
-      try {
-        const d = new Date(ts).toISOString().slice(0, 10)
-        return d === todayStr
-      } catch {
-        return false
-      }
-    })
-    .map(([id]) => id)
-
-  const readTodayCount = readTodayIds.length
-  const dailyTarget = plan.versesPerDay
+  // Find verses read on today's calendar date
+  // Look up dailyActivity[todayStr] for verses that are currently marked read
+  const activityToday = (dailyActivity[todayStr] || []).filter(
+    (id) => /^\d+\.\d+$/.test(id) && readVerseIds.has(id)
+  )
+  const readTodayIds = new Set(activityToday)
+  const readTodayCount = readTodayIds.size
+  const dailyTarget = plan.versesPerDay || 5
   const isTodayTargetMet = readTodayCount >= dailyTarget
 
-  // Verses assigned for today:
-  // If target met, show today's read verses (or the current batch).
-  // Otherwise, show the next unread ones up to dailyTarget.
-  let currentSlice: Verse[] = []
-  if (isGitaCompleted) {
-    currentSlice = gitaVerses.slice(Math.max(0, totalVerses - dailyTarget))
-  } else {
-    currentSlice = gitaVerses.slice(startIndex, startIndex + dailyTarget)
-  }
+  // Verses read before today:
+  // Any verse marked read in readVerses that was NOT read on today's date
+  const readBeforeTodayIds = new Set(
+    [...readVerseIds].filter((id) => !readTodayIds.has(id))
+  )
 
-  const currentDay = Math.min(plan.targetDays, Math.floor(completedCount / dailyTarget) + 1)
+  // Find the first verse that was NOT read before today.
+  // This guarantees today's portion remains anchored throughout today while the user reads it!
+  const firstUnreadBeforeToday = gitaVerses.findIndex((v) => !readBeforeTodayIds.has(v.id))
+  const todayStartIndex = firstUnreadBeforeToday === -1 ? 0 : firstUnreadBeforeToday
+
+  // Today's portion:
+  // Show at least `dailyTarget` verses starting from `todayStartIndex`.
+  // If user read ahead today (e.g. 7 read when target is 5), include all read today!
+  const todaySliceLength = Math.max(dailyTarget, readTodayCount)
+  const todaysVerses = isGitaCompleted
+    ? gitaVerses.slice(Math.max(0, totalVerses - dailyTarget))
+    : gitaVerses.slice(todayStartIndex, Math.min(totalVerses, todayStartIndex + todaySliceLength))
+
+  // Tomorrow's portion (for preview or next-day projection):
+  const tomorrowStartIndex = Math.min(totalVerses, todayStartIndex + todaySliceLength)
+  const tomorrowsVerses = isGitaCompleted
+    ? []
+    : gitaVerses.slice(tomorrowStartIndex, Math.min(totalVerses, tomorrowStartIndex + dailyTarget))
+
+  // Calculate currentDay (1 to targetDays) based on how many verses were read before today
+  const readBeforeTodayCount = readBeforeTodayIds.size
+  const currentDay = Math.min(
+    plan.targetDays,
+    Math.floor(readBeforeTodayCount / dailyTarget) + 1
+  )
+
+  // First unread verse index overall
+  const firstUnreadIndex = gitaVerses.findIndex((v) => !readVerseIds.has(v.id))
 
   return {
     totalVerses,
@@ -171,9 +198,12 @@ export function calculatePlanProgress(
     readTodayCount,
     dailyTarget,
     isTodayTargetMet,
-    todaysVerses: currentSlice,
+    todaysVerses,
+    tomorrowsVerses,
     currentDay,
     totalDays: plan.targetDays,
-    firstUnreadIndex,
+    firstUnreadIndex: firstUnreadIndex === -1 ? totalVerses : firstUnreadIndex,
+    todayStartIndex,
+    tomorrowStartIndex,
   }
 }
