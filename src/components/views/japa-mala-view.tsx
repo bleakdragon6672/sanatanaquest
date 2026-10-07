@@ -24,6 +24,9 @@ import {
   Info,
   AlertCircle,
   RefreshCw,
+  Clock,
+  Zap,
+  Laptop,
 } from 'lucide-react'
 import {
   Dialog,
@@ -236,6 +239,7 @@ export function JapaMalaView() {
       if (next >= 108) {
         setCompletedRounds((r) => r + 1)
         triggerXpGain(108)
+        setIsAutoFlowRunning(false)
         toast.success('🪷 1 Full Mala Completed (108 Chants)! +108 Dharma XP', {
           description: `Devotion dedicated to ${selectedMantra.deity}. May inner peace bloom.`,
         })
@@ -251,6 +255,11 @@ export function JapaMalaView() {
   const [justCounted, setJustCounted] = useState(false)
   const countTimerRef = useRef<NodeJS.Timeout | null>(null)
 
+  // Hands-free Mode: 'auto' (cadence flow without mic) or 'voice' (microphone)
+  const [handsFreeTab, setHandsFreeTab] = useState<'voice' | 'auto'>('auto')
+  const [isAutoFlowRunning, setIsAutoFlowRunning] = useState(false)
+  const [autoPaceSecs, setAutoPaceSecs] = useState<number>(3.5)
+
   // Voice Japa Hook
   const {
     isListening,
@@ -259,6 +268,7 @@ export function JapaMalaView() {
     audioLevel,
     rawRms,
     permissionError,
+    rawError,
     lastChantTimestamp,
     startListening,
     stopListening,
@@ -271,6 +281,20 @@ export function JapaMalaView() {
     },
     sensitivity,
   })
+
+  // Auto-Pace Hands-Free Flow Timer
+  useEffect(() => {
+    if (!isAutoFlowRunning) return
+
+    const interval = setInterval(() => {
+      handleAdvanceBead('touch')
+      setJustCounted(true)
+      if (countTimerRef.current) clearTimeout(countTimerRef.current)
+      countTimerRef.current = setTimeout(() => setJustCounted(false), 850)
+    }, autoPaceSecs * 1000)
+
+    return () => clearInterval(interval)
+  }, [isAutoFlowRunning, autoPaceSecs, material, soundEnabled, hapticsEnabled])
 
   // Flash feedback on lastChantTimestamp
   useEffect(() => {
@@ -291,6 +315,7 @@ export function JapaMalaView() {
       setIsVoiceMode(false)
       toast.info('Hands-free voice mode turned off')
     } else {
+      setIsAutoFlowRunning(false)
       const ok = await startListening()
       if (ok) {
         setIsVoiceMode(true)
@@ -535,6 +560,11 @@ export function JapaMalaView() {
                 <div className="flex items-center gap-1 mt-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-[10px] text-emerald-600 dark:text-emerald-400 font-bold animate-pulse">
                   <span>📿 Counted!</span>
                 </div>
+              ) : isAutoFlowRunning ? (
+                <div className="flex items-center gap-1.5 mt-1.5 px-2.5 py-0.5 rounded-full bg-primary/20 border border-primary/40 text-[10px] text-primary font-bold animate-pulse">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+                  <span>Auto-Flow ({autoPaceSecs}s)</span>
+                </div>
               ) : isListening ? (
                 <div className="flex items-center gap-1.5 mt-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] text-emerald-600 dark:text-emerald-400">
                   <span
@@ -597,152 +627,314 @@ export function JapaMalaView() {
         {/* Right Column: Mala Controls, Voice Setup & Sacred Sound */}
         <div className="lg:col-span-5 space-y-5">
           {/* Voice Detection / Manual Mode Card */}
+          {/* Hands-Free Chanting Studio Card */}
           <div className="card-serene p-5 sm:p-6 rounded-3xl bg-card border border-border/60">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2.5">
-                <div className={cn(
-                  'w-9 h-9 rounded-xl flex items-center justify-center transition-colors',
-                  isListening ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' : 'bg-muted text-muted-foreground'
-                )}>
-                  {isListening ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-foreground">
-                    Hands-Free Voice Japa
-                  </div>
-                  <div className="text-[11px] text-muted-foreground">
-                    {isListening ? 'Auto-advances as you chant' : 'Click to enable microphone'}
-                  </div>
-                </div>
+            {/* Header with Mode Tabs */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <span className="text-xs uppercase font-bold tracking-wider text-muted-foreground">
+                  Hands-Free Chanting
+                </span>
+                <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-primary/10 text-primary border border-primary/20">
+                  {handsFreeTab === 'auto'
+                    ? isAutoFlowRunning
+                      ? 'Flowing 🟢'
+                      : 'Auto-Pace'
+                    : isListening
+                    ? 'Voice Active 🟢'
+                    : 'Voice Mic'}
+                </span>
               </div>
 
-              <Button
-                variant={isListening ? 'default' : 'outline'}
-                size="sm"
-                onClick={handleToggleVoiceMode}
-                className={cn(
-                  'rounded-xl text-xs h-8 cursor-pointer transition-all',
-                  isListening
-                    ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs'
-                    : 'border-primary/40 text-primary hover:bg-primary/10'
-                )}
-              >
-                {isListening ? 'Voice Active 🟢' : 'Enable Voice'}
-              </Button>
+              {/* Mode Switcher Tabs */}
+              <div className="flex bg-muted/60 p-1 rounded-xl gap-1">
+                <button
+                  onClick={() => {
+                    setHandsFreeTab('auto')
+                    if (isListening) stopListening()
+                  }}
+                  className={cn(
+                    'px-2.5 py-1 text-xs rounded-lg font-medium transition-all cursor-pointer flex items-center gap-1.5',
+                    handsFreeTab === 'auto'
+                      ? 'bg-card text-foreground shadow-xs font-bold'
+                      : 'text-muted-foreground hover:text-foreground'
+                  )}
+                >
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>Auto-Flow</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setHandsFreeTab('voice')
+                    setIsAutoFlowRunning(false)
+                  }}
+                  className={cn(
+                    'px-2.5 py-1 text-xs rounded-lg font-medium transition-all cursor-pointer flex items-center gap-1.5',
+                    handsFreeTab === 'voice'
+                      ? 'bg-card text-foreground shadow-xs font-bold'
+                      : 'text-muted-foreground hover:text-foreground'
+                  )}
+                >
+                  <Mic className="w-3.5 h-3.5" />
+                  <span>Voice Mic</span>
+                </button>
+              </div>
             </div>
 
-            {/* If Permission Denied: Clear Step-by-Step Fix Guide Card */}
-            {(isPermissionDenied || permissionError) && (
-              <div className="mt-3 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-3.5 animate-fade-in">
-                <div className="flex items-start gap-2.5">
-                  <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                  <div className="text-xs space-y-1">
-                    <div className="font-bold text-foreground">
-                      Microphone Permission Blocked
-                    </div>
-                    <p className="text-muted-foreground leading-relaxed text-[11px]">
-                      Your browser is blocking microphone access. Once you switch permission to &ldquo;Allow&rdquo;, <strong>Chrome & Brave require a quick page reload</strong> to activate the microphone stream.
-                    </p>
+            {/* TAB 1: AUTO-FLOW MODE (100% RELIABLE, ZERO MIC PERMISSIONS NEEDED) */}
+            {handsFreeTab === 'auto' && (
+              <div className="space-y-4 animate-fade-in">
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Auto-advances beads at your chosen chanting rhythm with authentic bead clicks, haptics, and 108 milestone chime. Perfect for deep meditation with eyes closed!
+                </p>
+
+                {/* Pace Selection Chips */}
+                <div>
+                  <div className="text-[11px] font-semibold text-foreground mb-2 flex items-center justify-between">
+                    <span>Chanting Pace:</span>
+                    <span className="text-primary font-bold">{autoPaceSecs}s per mantra</span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { label: 'Quick', desc: 'Fast Kirtan', secs: 2.0, icon: Zap },
+                      { label: 'Natural', desc: 'Standard Japa', secs: 3.5, icon: Clock },
+                      { label: 'Deep', desc: 'Meditative', secs: 5.0, icon: LotusIcon },
+                    ].map((p) => {
+                      const IconComp = p.icon
+                      const isSel = autoPaceSecs === p.secs
+                      return (
+                        <button
+                          key={p.secs}
+                          onClick={() => setAutoPaceSecs(p.secs)}
+                          className={cn(
+                            'p-2.5 rounded-2xl border text-left transition-all cursor-pointer flex flex-col',
+                            isSel
+                              ? 'border-primary bg-primary/10 shadow-xs'
+                              : 'border-border/60 bg-muted/30 hover:border-border text-muted-foreground hover:text-foreground'
+                          )}
+                        >
+                          <div className="flex items-center gap-1 mb-1">
+                            <IconComp className={cn('w-3.5 h-3.5', isSel ? 'text-primary' : 'text-muted-foreground')} />
+                            <span className="text-xs font-bold text-foreground">{p.label}</span>
+                          </div>
+                          <span className="text-[10px] text-muted-foreground">{p.secs}s ({p.desc})</span>
+                        </button>
+                      )
+                    })}
                   </div>
                 </div>
 
-                <div className="text-[11px] space-y-2 bg-background/80 p-3 rounded-xl border border-amber-500/20">
-                  <div className="flex items-start gap-2">
-                    <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
-                    <span>Click the <strong>tune / padlock icon</strong> on the far left of your browser URL bar.</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
-                    <span>Change <strong>Microphone</strong> from &ldquo;Block&rdquo; to <strong>&ldquo;Allow&rdquo;</strong>.</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</span>
-                    <span>Click <strong>Reload Page to Apply</strong> below to start chanting!</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2 pt-1">
-                  <Button
-                    size="sm"
-                    onClick={() => window.location.reload()}
-                    className="h-8 rounded-xl text-xs bg-amber-600 hover:bg-amber-700 text-white font-semibold cursor-pointer shadow-xs"
-                  >
-                    <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
-                    <span>Reload Page to Apply</span>
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={handleToggleVoiceMode}
-                    className="h-8 rounded-xl text-xs border-amber-500/40 text-foreground hover:bg-amber-500/10 cursor-pointer"
-                  >
-                    <span>Try Mic Again</span>
-                  </Button>
-                </div>
+                {/* Big Start / Pause Auto-Flow Button */}
+                <Button
+                  onClick={() => {
+                    if (isAutoFlowRunning) {
+                      setIsAutoFlowRunning(false)
+                      toast.info('Auto-Flow paused')
+                    } else {
+                      setIsAutoFlowRunning(true)
+                      toast.success(`📿 Auto-Flow started! 1 bead every ${autoPaceSecs} seconds`)
+                    }
+                  }}
+                  className={cn(
+                    'w-full h-11 rounded-2xl font-bold text-sm cursor-pointer shadow-sm transition-all',
+                    isAutoFlowRunning
+                      ? 'bg-amber-600 hover:bg-amber-700 text-white'
+                      : 'bg-primary hover:bg-primary/90 text-primary-foreground'
+                  )}
+                >
+                  {isAutoFlowRunning ? (
+                    <>
+                      <Pause className="w-4 h-4 mr-2" />
+                      <span>Pause Auto-Flow</span>
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-4 h-4 mr-2" />
+                      <span>Start Hands-Free Flow ({autoPaceSecs}s / bead)</span>
+                    </>
+                  )}
+                </Button>
               </div>
             )}
 
-            {/* Voice Sensitivity Slider & Live Mic Meter when isListening is true */}
-            {isListening && (
-              <div className="pt-3 border-t border-border/40 space-y-3">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground font-medium">Mic Sensitivity:</span>
-                  <div className="flex gap-1.5">
-                    {(['whisper', 'medium', 'loud'] as VoiceSensitivity[]).map((mode) => (
-                      <button
-                        key={mode}
-                        onClick={() => setSensitivity(mode)}
-                        className={cn(
-                          'px-2 py-0.5 rounded-lg text-[10px] font-medium transition-all capitalize cursor-pointer',
-                          sensitivity === mode
-                            ? 'bg-primary text-primary-foreground shadow-xs'
-                            : 'bg-muted/60 text-muted-foreground hover:text-foreground'
-                        )}
-                      >
-                        {mode}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Live Mic Meter Bar with Threshold Marker */}
-                <div className="space-y-1.5">
-                  <div className="relative h-2 w-full bg-muted/60 rounded-full overflow-hidden">
+            {/* TAB 2: VOICE ACTIVATED CHANTING */}
+            {handsFreeTab === 'voice' && (
+              <div className="space-y-4 animate-fade-in">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
                     <div
                       className={cn(
-                        'h-full transition-all duration-75 rounded-full',
-                        rawRms >= SENSITIVITY_THRESHOLDS[sensitivity]
-                          ? 'bg-emerald-500 shadow-sm shadow-emerald-500/50'
-                          : 'bg-gradient-to-r from-emerald-500/50 via-primary/50 to-amber-500/50'
-                      )}
-                      style={{ width: `${Math.min(100, (rawRms / 0.12) * 100)}%` }}
-                    />
-                    {/* Visual threshold line */}
-                    <div
-                      className="absolute top-0 bottom-0 w-0.5 bg-amber-500 shadow-xs"
-                      style={{ left: `${Math.min(95, (SENSITIVITY_THRESHOLDS[sensitivity] / 0.12) * 100)}%` }}
-                      title={`Trigger threshold: ${sensitivity}`}
-                    />
-                  </div>
-                  <div className="flex justify-between items-center text-[10px]">
-                    <span className="flex items-center gap-1 text-muted-foreground/80">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block" />
-                      <span>Trigger line</span>
-                    </span>
-                    <span
-                      className={cn(
-                        'font-medium transition-colors',
-                        rawRms >= SENSITIVITY_THRESHOLDS[sensitivity]
-                          ? 'text-emerald-600 dark:text-emerald-400 font-bold'
-                          : 'text-muted-foreground/70'
+                        'w-9 h-9 rounded-xl flex items-center justify-center transition-colors',
+                        isListening
+                          ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
+                          : 'bg-muted text-muted-foreground'
                       )}
                     >
-                      {rawRms >= SENSITIVITY_THRESHOLDS[sensitivity]
-                        ? 'Mantra Detected! 📿'
-                        : 'Chant mantra to roll bead...'}
-                    </span>
+                      {isListening ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-foreground">
+                        Voice Cadence Detection
+                      </div>
+                      <div className="text-[11px] text-muted-foreground">
+                        {isListening ? 'Microphone active — chant to advance' : 'Speak mantra aloud to roll bead'}
+                      </div>
+                    </div>
                   </div>
+
+                  <Button
+                    variant={isListening ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={handleToggleVoiceMode}
+                    className={cn(
+                      'rounded-xl text-xs h-8 cursor-pointer transition-all',
+                      isListening
+                        ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs'
+                        : 'border-primary/40 text-primary hover:bg-primary/10'
+                    )}
+                  >
+                    {isListening ? 'Voice Active 🟢' : 'Enable Voice'}
+                  </Button>
                 </div>
+
+                {/* If Permission Denied / Error: Clear Mac & Browser Fix Guide */}
+                {(isPermissionDenied || permissionError) && (
+                  <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-3.5 animate-fade-in">
+                    <div className="flex items-start gap-2.5">
+                      <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                      <div className="text-xs space-y-1">
+                        <div className="font-bold text-foreground">
+                          Microphone Blocked by Mac / Browser
+                        </div>
+                        <p className="text-muted-foreground leading-relaxed text-[11px]">
+                          If you clicked &ldquo;Allow&rdquo; in the address bar and it is still blocked, <strong>macOS itself has blocked your browser</strong> from accessing microphone hardware.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Step-by-Step Fix for Mac & Browser */}
+                    <div className="text-[11px] space-y-2 bg-background/80 p-3 rounded-xl border border-amber-500/20">
+                      <div className="font-bold text-foreground text-[11px] flex items-center gap-1.5 text-amber-600 dark:text-amber-400">
+                        <Laptop className="w-3.5 h-3.5" />
+                        <span>Fix on macOS (10 Seconds):</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
+                        <span>Click Apple menu <strong> &gt; System Settings</strong>.</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
+                        <span>Select <strong>Privacy & Security &gt; Microphone</strong> in the left sidebar.</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</span>
+                        <span>Toggle ON the switch for <strong>Google Chrome</strong>, <strong>Brave</strong>, or <strong>Safari</strong>.</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">4</span>
+                        <span>Click <strong>Reload Page to Apply</strong> below.</span>
+                      </div>
+                    </div>
+
+                    {/* Technical Diagnostic string */}
+                    {rawError && (
+                      <div className="text-[10px] font-mono text-muted-foreground bg-muted/70 px-2.5 py-1 rounded-lg border border-border/40">
+                        Diagnostic: {rawError.name}: {rawError.message}
+                      </div>
+                    )}
+
+                    <div className="flex flex-wrap items-center gap-2 pt-1">
+                      <Button
+                        size="sm"
+                        onClick={() => window.location.reload()}
+                        className="h-8 rounded-xl text-xs bg-amber-600 hover:bg-amber-700 text-white font-semibold cursor-pointer shadow-xs"
+                      >
+                        <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
+                        <span>Reload Page to Apply</span>
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={handleToggleVoiceMode}
+                        className="h-8 rounded-xl text-xs border-amber-500/40 text-foreground hover:bg-amber-500/10 cursor-pointer"
+                      >
+                        <span>Try Mic Again</span>
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => setHandsFreeTab('auto')}
+                        className="h-8 rounded-xl text-xs text-primary hover:bg-primary/10 cursor-pointer"
+                      >
+                        <span>Switch to Auto-Flow (No Mic Needed) →</span>
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Voice Sensitivity Slider & Live Mic Meter when isListening is true */}
+                {isListening && (
+                  <div className="pt-3 border-t border-border/40 space-y-3">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-muted-foreground font-medium">Mic Sensitivity:</span>
+                      <div className="flex gap-1.5">
+                        {(['whisper', 'medium', 'loud'] as VoiceSensitivity[]).map((mode) => (
+                          <button
+                            key={mode}
+                            onClick={() => setSensitivity(mode)}
+                            className={cn(
+                              'px-2 py-0.5 rounded-lg text-[10px] font-medium transition-all capitalize cursor-pointer',
+                              sensitivity === mode
+                                ? 'bg-primary text-primary-foreground shadow-xs'
+                                : 'bg-muted/60 text-muted-foreground hover:text-foreground'
+                            )}
+                          >
+                            {mode}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Live Mic Meter Bar with Threshold Marker */}
+                    <div className="space-y-1.5">
+                      <div className="relative h-2 w-full bg-muted/60 rounded-full overflow-hidden">
+                        <div
+                          className={cn(
+                            'h-full transition-all duration-75 rounded-full',
+                            rawRms >= SENSITIVITY_THRESHOLDS[sensitivity]
+                              ? 'bg-emerald-500 shadow-sm shadow-emerald-500/50'
+                              : 'bg-gradient-to-r from-emerald-500/50 via-primary/50 to-amber-500/50'
+                          )}
+                          style={{ width: `${Math.min(100, (rawRms / 0.12) * 100)}%` }}
+                        />
+                        {/* Visual threshold line */}
+                        <div
+                          className="absolute top-0 bottom-0 w-0.5 bg-amber-500 shadow-xs"
+                          style={{ left: `${Math.min(95, (SENSITIVITY_THRESHOLDS[sensitivity] / 0.12) * 100)}%` }}
+                          title={`Trigger threshold: ${sensitivity}`}
+                        />
+                      </div>
+                      <div className="flex justify-between items-center text-[10px]">
+                        <span className="flex items-center gap-1 text-muted-foreground/80">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block" />
+                          <span>Trigger line</span>
+                        </span>
+                        <span
+                          className={cn(
+                            'font-medium transition-colors',
+                            rawRms >= SENSITIVITY_THRESHOLDS[sensitivity]
+                              ? 'text-emerald-600 dark:text-emerald-400 font-bold'
+                              : 'text-muted-foreground/70'
+                          )}
+                        >
+                          {rawRms >= SENSITIVITY_THRESHOLDS[sensitivity]
+                            ? 'Mantra Detected! 📿'
+                            : 'Chant mantra to roll bead...'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

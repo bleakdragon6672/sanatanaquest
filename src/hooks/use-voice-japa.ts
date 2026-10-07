@@ -18,6 +18,11 @@ export const SENSITIVITY_THRESHOLDS: Record<VoiceSensitivity, number> = {
   loud: 0.085,   // Loud chanting, ignores background room noise
 }
 
+export interface RawAudioError {
+  name: string
+  message: string
+}
+
 export function useVoiceJapa({
   onChantDetected,
   sensitivity = 'medium',
@@ -29,6 +34,7 @@ export function useVoiceJapa({
   const [audioLevel, setAudioLevel] = useState(0) // 0 to 1 normalized
   const [rawRms, setRawRms] = useState(0)
   const [permissionError, setPermissionError] = useState<string | null>(null)
+  const [rawError, setRawError] = useState<RawAudioError | null>(null)
   const [isPermissionDenied, setIsPermissionDenied] = useState(false)
   const [lastChantTimestamp, setLastChantTimestamp] = useState<number>(0)
 
@@ -69,7 +75,7 @@ export function useVoiceJapa({
     hasMetChantDurationRef.current = false
   }, [])
 
-  // Check browser permissions on mount if supported
+  // Check browser permissions on mount without prematurely blocking the UI
   useEffect(() => {
     if (typeof navigator !== 'undefined' && navigator.permissions?.query) {
       navigator.permissions
@@ -78,15 +84,13 @@ export function useVoiceJapa({
           if (status.state === 'granted') {
             setHasPermission(true)
             setIsPermissionDenied(false)
-          } else if (status.state === 'denied') {
-            setIsPermissionDenied(true)
-            setHasPermission(false)
           }
           status.onchange = () => {
             if (status.state === 'granted') {
               setHasPermission(true)
               setIsPermissionDenied(false)
               setPermissionError(null)
+              setRawError(null)
             } else if (status.state === 'denied') {
               setIsPermissionDenied(true)
               setHasPermission(false)
@@ -100,6 +104,7 @@ export function useVoiceJapa({
   const startListening = useCallback(async (): Promise<boolean> => {
     stopListening()
     setPermissionError(null)
+    setRawError(null)
     setIsPermissionDenied(false)
 
     try {
@@ -107,29 +112,14 @@ export function useVoiceJapa({
         throw new Error('Microphone access is not supported by your browser')
       }
 
-      // Request microphone stream with fallback if strict audio options fail
-      let stream: MediaStream
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({
-          audio: {
-            echoCancellation: false,
-            noiseSuppression: false,
-            autoGainControl: true,
-          },
-        })
-      } catch (firstErr) {
-        const errName = (firstErr as { name?: string })?.name
-        // If explicitly blocked by user or policy, throw to handle below
-        if (errName === 'NotAllowedError' || errName === 'PermissionDeniedError') {
-          throw firstErr
-        }
-        // Otherwise fallback to basic audio stream request
-        stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      }
+      // Universal audio stream request without overconstraining audio drivers
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
 
       streamRef.current = stream
       setHasPermission(true)
       setIsPermissionDenied(false)
+      setPermissionError(null)
+      setRawError(null)
 
       const AudioContextClass =
         window.AudioContext ||
@@ -140,9 +130,9 @@ export function useVoiceJapa({
       const ctx = new AudioContextClass()
       audioCtxRef.current = ctx
 
-      // CRITICAL: Ensure audio context is running (browsers suspend by default)
+      // Resume context if suspended by browser autoplay policy
       if (ctx.state === 'suspended') {
-        await ctx.resume()
+        await ctx.resume().catch(() => {})
       }
 
       const source = ctx.createMediaStreamSource(stream)
@@ -221,8 +211,11 @@ export function useVoiceJapa({
       rafIdRef.current = requestAnimationFrame(processAudio)
       return true
     } catch (err: unknown) {
-      const errName = (err as { name?: string })?.name
-      const errStr = String(err).toLowerCase()
+      const errObj = err as { name?: string; message?: string }
+      const errName = errObj?.name || 'Error'
+      const rawMessage = errObj?.message || String(err)
+      const errStr = (errName + ' ' + rawMessage).toLowerCase()
+
       const isDenied =
         errName === 'NotAllowedError' ||
         errName === 'PermissionDeniedError' ||
@@ -240,16 +233,15 @@ export function useVoiceJapa({
         errStr.includes('in use')
 
       const errorMsg = isDenied
-        ? 'Microphone permission was blocked. In Chrome/Brave, allow access in the address bar and reload this page.'
+        ? 'Microphone permission blocked. Please check macOS System Settings & browser settings.'
         : isNotFound
-        ? 'No microphone found. Please connect a microphone or use tap mode.'
+        ? 'No microphone found on your computer.'
         : isBusy
         ? 'Microphone is already in use by another tab or app.'
-        : err instanceof Error
-        ? err.message
-        : 'Could not access microphone.'
+        : rawMessage || 'Could not access microphone.'
 
       setPermissionError(errorMsg)
+      setRawError({ name: errName, message: rawMessage })
       setIsPermissionDenied(isDenied)
       setHasPermission(false)
       stopListening()
@@ -271,6 +263,7 @@ export function useVoiceJapa({
     audioLevel,
     rawRms,
     permissionError,
+    rawError,
     lastChantTimestamp,
     startListening,
     stopListening,
