@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import { Flame, BookOpen, Clock, Trophy, Sparkles, ChevronRight, TrendingUp, Star } from 'lucide-react'
+import { Flame, BookOpen, Clock, Trophy, Sparkles, ChevronRight, TrendingUp, Star, Disc, ArrowRight } from 'lucide-react'
 import { useNav } from '@/components/nav-context'
 import { useStore, useLevel, useChaptersCompleted, getNextLevel } from '@/lib/store'
 import { gitaChapters, totalVerseCount } from '@/lib/gita-data'
@@ -153,8 +153,15 @@ export function HomeView() {
               <Sparkles className="mr-2 h-4 w-4 text-primary" /> Ask AI Guide
             </Button>
             <Button
+              variant="outline"
+              className="rounded-full px-5 py-2.5 border-border/70 hover:border-amber-500/40 hover:bg-amber-500/10 text-foreground transition-all cursor-pointer"
+              onClick={() => navigate('japa')}
+            >
+              <Disc className="mr-2 h-4 w-4 text-amber-500" /> Japa Mala
+            </Button>
+            <Button
               variant="ghost"
-              className="rounded-full px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-all"
+              className="rounded-full px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-all cursor-pointer"
               onClick={() => navigate('tracker')}
             >
               Daily Sadhana
@@ -165,6 +172,45 @@ export function HomeView() {
 
       {/* Paced Gita Reading Plan Card */}
       <ReadingPlanDashboardCard />
+
+      {/* Acoustic Haptic Japa Mala Spotlight Card */}
+      <div
+        onClick={() => navigate('japa')}
+        className="card-serene relative overflow-hidden p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-card via-card/95 to-amber-500/[0.07] border border-border/60 hover:border-amber-500/40 transition-all cursor-pointer group"
+      >
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-2xl shrink-0 group-hover:scale-105 transition-transform">
+              📿
+            </div>
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[11px] font-semibold mb-1.5 border border-amber-500/20">
+                <span>ध्वनि जपमाला</span>
+                <span>·</span>
+                <span>Hands-Free Vocal Chanting</span>
+              </div>
+              <h2
+                className="text-lg sm:text-xl font-bold text-foreground group-hover:text-primary transition-colors"
+                style={{ fontFamily: 'var(--font-cinzel), var(--font-serif-display), serif' }}
+              >
+                Acoustic Haptic Japa Mala (108 Beads)
+              </h2>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-1 max-w-xl">
+                Chant with your eyes closed. The microphone passively detects your voice cadence to advance the 108 beads hands-free with authentic wooden acoustic clicks & tactile micro-haptics.
+              </p>
+            </div>
+          </div>
+
+          <div className="shrink-0 flex items-center gap-2">
+            <Button
+              className="rounded-full px-5 py-2.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-700 dark:text-amber-300 font-semibold border border-amber-500/30 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all cursor-pointer"
+            >
+              <span>Open Japa Mala</span>
+              <ArrowRight className="w-4 h-4 ml-1.5" />
+            </Button>
+          </div>
+        </div>
+      </div>
 
       {/* Level + XP Progression */}
       <div className="card-serene p-6 sm:p-7 rounded-3xl relative overflow-hidden bg-card border border-border/60">

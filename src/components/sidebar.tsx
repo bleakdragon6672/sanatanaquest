@@ -1,6 +1,6 @@
 'use client'
 
-import { Home, BookOpen, Sparkles, CalendarCheck, GitBranch, Trophy, Award, NotebookPen, BarChart3, User, Search, Menu, X, Crown, Bookmark, Network, Headphones, Compass, GraduationCap } from 'lucide-react'
+import { Home, BookOpen, Sparkles, CalendarCheck, GitBranch, Trophy, Award, NotebookPen, BarChart3, User, Search, Menu, X, Crown, Bookmark, Network, Headphones, Compass, GraduationCap, Disc } from 'lucide-react'
 import { useNav, ViewKey } from '@/components/nav-context'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -48,6 +48,7 @@ const NAV_GROUPS: NavGroup[] = [
     title: 'Spiritual Practice',
     sanskrit: 'साधनम्',
     items: [
+      { view: 'japa', label: 'Acoustic Japa Mala', sanskritLabel: 'जपमाला', icon: Disc, description: 'Hands-free voice & haptic 108 counter' },
       { view: 'treasury', label: 'Personal Treasury', sanskritLabel: 'कोशः', icon: Bookmark, description: 'Saved verses, highlights & notes' },
       { view: 'mindmap', label: 'Dharma Mind Map', sanskritLabel: 'धर्मचित्रम्', icon: Network, description: 'Interactive cosmic concept canvas' },
       { view: 'soundscapes', label: 'Sacred Soundscapes', sanskritLabel: 'नादयोगः', icon: Headphones, description: '432Hz Om & meditation visualizer' },

@@ -45,6 +45,7 @@ const MindMapView = dynamic(() => import('@/components/views/mindmap-view').then
 const SoundscapesView = dynamic(() => import('@/components/views/soundscapes-view').then(m => ({ default: m.SoundscapesView })), { ssr: false, loading: () => skeleton })
 const DilemmaView = dynamic(() => import('@/components/views/dilemma-view').then(m => ({ default: m.DilemmaView })), { ssr: false, loading: () => skeleton })
 const MemorizerView = dynamic(() => import('@/components/views/memorizer-view').then(m => ({ default: m.MemorizerView })), { ssr: false, loading: () => skeleton })
+const JapaMalaView = dynamic(() => import('@/components/views/japa-mala-view').then(m => ({ default: m.JapaMalaView })), { ssr: false, loading: () => skeleton })
 import { OmSymbol } from '@/components/spiritual-icons'
 import { useStore } from '@/lib/store'
 import { BookOpen, Search, Menu, Headphones } from 'lucide-react'
@@ -97,6 +98,7 @@ function TopBar() {
     soundscapes: { title: 'Sacred Soundscapes', sanskrit: 'नादयोगः' },
     dilemma: { title: 'Dharma Dilemmas', sanskrit: 'धर्मसंकटम्' },
     memorizer: { title: 'Shloka Memorizer', sanskrit: 'स्वाध्यायः' },
+    japa: { title: 'Acoustic Japa Mala', sanskrit: 'ध्वनि जपमाला' },
   }
 
   const current = viewTitles[view] ?? viewTitles.home
@@ -199,6 +201,7 @@ function ViewRouter() {
     case 'soundscapes': return <SoundscapesView />
     case 'dilemma': return <DilemmaView />
     case 'memorizer': return <MemorizerView />
+    case 'japa': return <JapaMalaView />
     default: return <HomeView />
   }
 }

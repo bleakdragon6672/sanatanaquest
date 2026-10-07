@@ -26,6 +26,7 @@ export type ViewKey =
   | 'soundscapes'
   | 'dilemma'
   | 'memorizer'
+  | 'japa'
 
 interface NavState {
   view: ViewKey
