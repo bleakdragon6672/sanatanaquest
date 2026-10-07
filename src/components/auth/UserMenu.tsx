@@ -7,7 +7,7 @@
 // dropdown menu that shows profile info, XP/streak summary, navigation
 // shortcuts to Profile and Treasury, and a safe Sign Out action.
 
-import { LogOut, User as UserIcon, Bookmark, Sparkles } from 'lucide-react'
+import { LogOut, User as UserIcon, Bookmark, Sparkles, Download } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -76,6 +76,15 @@ export function UserMenu() {
         >
           <Bookmark className="h-4 w-4 text-muted-foreground" />
           <span>Personal Treasury</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className="cursor-pointer gap-2"
+          onClick={() => {
+            window.dispatchEvent(new CustomEvent('pwa-install-prompt'))
+          }}
+        >
+          <Download className="h-4 w-4 text-amber-500" />
+          <span>Install App (PWA)</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

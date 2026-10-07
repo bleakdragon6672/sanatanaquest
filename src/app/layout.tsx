@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
+import { PwaController } from "@/components/pwa/pwa-controller";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,34 +46,53 @@ const notoDevanagari = Noto_Serif_Devanagari({
 });
 
 export const metadata: Metadata = {
-  title: "Sanatan Quest — AI-Powered Bhagavad Gita & Spiritual Growth",
+  title: "Vedic Quest — AI-Powered Bhagavad Gita & Spiritual Growth",
   description:
-    "Read the complete Bhagavad Gita, build spiritual habits, earn Dharma XP, and grow with an AI spiritual guide. The modern companion for Sanatan Dharma.",
+    "Read the complete Bhagavad Gita, Upanishads & Stotrams, practice with 3D Acoustic Japa Mala, build spiritual habits, and converse with an AI spiritual guide.",
+  applicationName: "Vedic Quest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Vedic Quest",
+  },
+  formatDetection: {
+    telephone: false,
+  },
   keywords: [
     "Bhagavad Gita",
     "Sanatan Dharma",
+    "Vedic Quest",
     "Spiritual Growth",
+    "Japa Mala",
     "Krishna",
     "Meditation",
     "Karma Yoga",
     "Bhakti",
     "Hindu Scripture",
   ],
-  authors: [{ name: "Sanatan Quest" }],
+  authors: [{ name: "Vedic Quest" }],
   manifest: "/manifest.json",
   icons: {
-    icon: "/logo.svg",
+    icon: [
+      { url: "/favicon.png", sizes: "48x48", type: "image/png" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/logo.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   openGraph: {
-    title: "Sanatan Quest",
+    title: "Vedic Quest",
     description:
-      "The definitive modern spiritual companion for Sanatan Dharma — scripture, AI guidance, habits, gamification.",
-    siteName: "Sanatan Quest",
+      "The definitive modern spiritual companion for Sanatan Dharma — scripture, 3D Japa Mala, AI guidance, habits, and sacred sound.",
+    siteName: "Vedic Quest",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sanatan Quest",
+    title: "Vedic Quest",
     description:
       "AI-Powered Bhagavad Gita & Spiritual Growth Platform",
   },
@@ -80,11 +100,14 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
+    { color: "#120e0b", media: "(prefers-color-scheme: dark)" },
     { color: "#f59e0b", media: "(prefers-color-scheme: light)" },
-    { color: "#1a1410", media: "(prefers-color-scheme: dark)" },
   ],
   width: "device-width",
   initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -106,6 +129,7 @@ export default function RootLayout({
           <ConvexClientProvider>
             {children}
           </ConvexClientProvider>
+          <PwaController />
           <Toaster />
           <SonnerToaster position="top-center" richColors />
         </ThemeProvider>

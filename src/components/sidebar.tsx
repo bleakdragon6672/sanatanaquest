@@ -1,12 +1,12 @@
 'use client'
 
-import { Home, BookOpen, Sparkles, CalendarCheck, GitBranch, Trophy, Award, NotebookPen, BarChart3, User, Search, Menu, X, Crown, Bookmark, Network, Headphones, Compass, GraduationCap, Disc } from 'lucide-react'
+import { Home, BookOpen, Sparkles, CalendarCheck, GitBranch, Trophy, Award, NotebookPen, BarChart3, User, Search, Menu, X, Crown, Bookmark, Network, Headphones, Compass, GraduationCap, Disc, Download } from 'lucide-react'
 import { useNav, ViewKey } from '@/components/nav-context'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { OmSymbol } from '@/components/spiritual-icons'
 import { useStore } from '@/lib/store'
-import { createContext, useContext, useState, type ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 
 interface NavItem {
   view: ViewKey
@@ -191,6 +191,41 @@ function Brand() {
   )
 }
 
+function InstallAppButton({ className }: { className?: string }) {
+  const [isStandalone, setIsStandalone] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const isStand =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (window.navigator as unknown as { standalone?: boolean }).standalone === true
+    setIsStandalone(isStand)
+  }, [])
+
+  if (isStandalone) return null
+
+  return (
+    <button
+      onClick={() => {
+        window.dispatchEvent(new CustomEvent('pwa-install-prompt'))
+      }}
+      className={cn(
+        "mx-3 mb-2 flex items-center justify-between px-3 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/25 text-amber-600 dark:text-amber-400 text-xs font-medium transition-all group cursor-pointer shadow-xs",
+        className
+      )}
+      title="Install Vedic Quest for offline Gita reading and 3D Japa Mala"
+    >
+      <span className="flex items-center gap-2">
+        <Download className="w-3.5 h-3.5 text-amber-500 group-hover:scale-110 transition-transform" />
+        <span className="font-semibold">Install App</span>
+      </span>
+      <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300">
+        Offline
+      </span>
+    </button>
+  )
+}
+
 export function Sidebar() {
   return (
     <aside className="hidden lg:flex flex-col w-72 shrink-0 border-r border-border/60 bg-sidebar/95 backdrop-blur-md h-screen sticky top-0 transition-colors">
@@ -199,6 +234,7 @@ export function Sidebar() {
       <div className="flex-1 overflow-y-auto overscroll-contain pr-1 scrollbar-thin">
         <NavItems />
       </div>
+      <InstallAppButton />
       <div className="px-4 py-3 text-[11px] text-muted-foreground/70 border-t border-border/50 flex items-center justify-between bg-sidebar/50">
         <span className="italic tracking-wide" style={{ fontFamily: 'var(--font-serif-display), serif' }}>
           ॐ शान्तिः शान्तिः शान्तिः
@@ -269,6 +305,9 @@ export function MobileNavDrawer() {
         <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mx-4 mb-2 opacity-60" />
         <div className="flex-1 overflow-y-auto overscroll-contain pr-1 scrollbar-thin">
           <NavItems onNavigate={() => setOpen(false)} />
+        </div>
+        <div className="p-2 border-t border-border/40">
+          <InstallAppButton className="mx-0 mb-0 w-full" />
         </div>
       </div>
     </div>

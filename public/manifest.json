@@ -1,17 +1,97 @@
 {
-  "name": "Sanatan Quest — AI-Powered Bhagavad Gita & Spiritual Growth",
-  "short_name": "Sanatan Quest",
-  "description": "Read the complete Bhagavad Gita, build spiritual habits, earn Dharma XP, and grow with an AI spiritual guide.",
+  "name": "Vedic Quest — Sanatan Wisdom & Gita",
+  "short_name": "Vedic Quest",
+  "description": "Read the complete Bhagavad Gita, Upanishads & Stotrams, practice with 3D Acoustic Japa Mala, track spiritual habits, and converse with an AI Spiritual Guide.",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#1a1410",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#120e0b",
   "theme_color": "#f59e0b",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["books", "lifestyle", "education", "spirituality"],
+  "prefer_related_applications": false,
   "icons": [
     {
-      "src": "/logo.svg",
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-base.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "3D Acoustic Japa Mala",
+      "short_name": "Japa Mala",
+      "description": "Sacred 108 bead acoustic chanting meditation",
+      "url": "/?view=japa",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Bhagavad Gita",
+      "short_name": "Gita",
+      "description": "Read the 700 verses of the Bhagavad Gita",
+      "url": "/?view=gita",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "AI Spiritual Guide",
+      "short_name": "Spiritual Guide",
+      "description": "Wisdom, clarity, and reflections for life's challenges",
+      "url": "/?view=guide",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Daily Sadhana Tracker",
+      "short_name": "Daily Sadhana",
+      "description": "Streaks, mindfulness metrics, and spiritual habits",
+      "url": "/?view=tracker",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }

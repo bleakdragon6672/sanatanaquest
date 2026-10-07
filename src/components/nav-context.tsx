@@ -63,6 +63,23 @@ export function NavProvider({ children }: { children: ReactNode }) {
   // this is not derived state, it's external state synchronization.
   useEffect(() => {
     try {
+      // 1. Check if URL has ?view=... (e.g. from PWA shortcut or shared link)
+      if (typeof window !== 'undefined' && window.location.search) {
+        const urlParams = new URLSearchParams(window.location.search)
+        const targetView = urlParams.get('view') as ViewKey | null
+        if (targetView && [
+          'home', 'gita', 'upanishad', 'chalisa', 'baan', 'tandav', 'yogasutras',
+          'ashtavakragita', 'guide', 'tracker', 'skilltree', 'challenges',
+          'achievements', 'journal', 'analytics', 'profile', 'search',
+          'leaderboard', 'treasury', 'mindmap', 'soundscapes', 'dilemma',
+          'memorizer', 'japa'
+        ].includes(targetView)) {
+          setView(targetView)
+          return
+        }
+      }
+
+      // 2. Fall back to saved view in localStorage
       const saved = localStorage.getItem(STORAGE_KEY)
       if (!saved) return
       const parsed = JSON.parse(saved) as { view: ViewKey; params: Record<string, string> }
