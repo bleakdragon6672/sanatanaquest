@@ -30,6 +30,7 @@ export default defineSchema({
     accentColor: v.string(),
     joinedAt: v.number(),
     updatedAt: v.number(),
+    readingPlan: v.optional(v.any()),
   })
     .index("by_userId", ["userId"])
     .index("by_totalXp", ["totalXp"]),

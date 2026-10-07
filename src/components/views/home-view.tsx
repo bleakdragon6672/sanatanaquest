@@ -20,6 +20,7 @@ import { VerseOfDay } from '@/components/verse-of-day'
 import { ReadingStreakCalendar } from '@/components/reading-streak-calendar'
 import { ScriptureMap } from '@/components/scripture-map'
 import { CountUp } from '@/components/count-up'
+import { ReadingPlanDashboardCard } from '@/components/reading-plan/ReadingPlanDashboardCard'
 
 function getGreeting(): { greeting: string; sanskrit: string } {
   const hour = new Date().getHours()
@@ -161,6 +162,9 @@ export function HomeView() {
           </div>
         </div>
       </div>
+
+      {/* Paced Gita Reading Plan Card */}
+      <ReadingPlanDashboardCard />
 
       {/* Level + XP Progression */}
       <div className="card-serene p-6 sm:p-7 rounded-3xl relative overflow-hidden bg-card border border-border/60">

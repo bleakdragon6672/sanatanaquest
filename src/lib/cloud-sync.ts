@@ -101,6 +101,7 @@ export interface StoreSnapshot {
   animationsEnabled: boolean
   accentColor: AccentColor
   joinedAt: number
+  readingPlan?: any
 }
 
 /**
@@ -141,6 +142,7 @@ export async function loadCloudProgress(user: User): Promise<StoreSnapshot | nul
       animationsEnabled: row.animationsEnabled ?? true,
       accentColor: (row.accentColor as AccentColor) || 'saffron',
       joinedAt: row.joinedAt || Date.now(),
+      readingPlan: row.readingPlan ?? null,
     }
 
     try {
@@ -209,6 +211,7 @@ export async function saveCloudProgress(
       animationsEnabled: snapshot.animationsEnabled,
       accentColor: snapshot.accentColor,
       joinedAt: snapshot.joinedAt,
+      readingPlan: snapshot.readingPlan,
     })
 
     if (signature) {

@@ -2,6 +2,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { gitaChapters } from './gita-data'
+import { createPlanFromTier, type ReadingPlan, type ReadingPlanTier } from './reading-plan-data'
 
 export type ReadingMode =
   | 'kindle'
@@ -432,6 +433,10 @@ interface StoreState {
   unlockSkill: (id: string) => void
   addXp: (amount: number) => void
 
+  readingPlan: ReadingPlan | null
+  setReadingPlan: (plan: ReadingPlan | null) => void
+  updateReadingPlanTier: (tier: ReadingPlanTier, customVersesPerDay?: number) => void
+
   resetAll: () => void
 
   // Cloud sync — hydrate the entire store from a Supabase row.
@@ -461,6 +466,7 @@ interface StoreState {
     animationsEnabled: boolean
     accentColor: AccentColor
     joinedAt: number
+    readingPlan?: ReadingPlan | null
   }) => void
 
   // Derived (computed in selectors)
@@ -537,12 +543,19 @@ const initialState = {
   journal: [] as JournalEntry[],
   challengeProgress: {} as Record<string, ChallengeProgress>,
   unlockedSkills: [] as string[],
+  readingPlan: null as ReadingPlan | null,
 }
 
 export const useStore = create<StoreState>()(
   persist(
     (set, get) => ({
       ...initialState,
+
+      setReadingPlan: (plan) => set({ readingPlan: plan }),
+      updateReadingPlanTier: (tier, customVersesPerDay) => {
+        const plan = createPlanFromTier(tier, customVersesPerDay)
+        set({ readingPlan: plan })
+      },
 
       setUserName: (name) => set({ userName: name || 'Seeker' }),
       setReadingMode: (m) => set({ readingMode: m }),
@@ -786,6 +799,7 @@ export const useStore = create<StoreState>()(
           animationsEnabled: snapshot.animationsEnabled ?? true,
           accentColor: snapshot.accentColor ?? 'saffron',
           joinedAt: snapshot.joinedAt ?? Date.now(),
+          readingPlan: snapshot.readingPlan !== undefined ? snapshot.readingPlan : get().readingPlan,
         })
       },
 
@@ -810,6 +824,7 @@ export const useStore = create<StoreState>()(
           readingViewMode: state.readingViewMode ?? 'standard',
           animationsEnabled: state.animationsEnabled ?? true,
           accentColor: state.accentColor ?? 'saffron',
+          readingPlan: state.readingPlan ?? null,
           paperTone: state.paperTone ?? 'parchment',
           readerFont: state.readerFont ?? 'cormorant',
           readerPaging: state.readerPaging ?? 'paged',
@@ -848,6 +863,7 @@ export const useStore = create<StoreState>()(
         journal: s.journal,
         challengeProgress: s.challengeProgress,
         unlockedSkills: s.unlockedSkills,
+        readingPlan: s.readingPlan,
       }),
     },
   ),

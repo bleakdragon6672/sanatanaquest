@@ -46,6 +46,7 @@ export function useConvexAutoSave(user: AuthUser | null) {
       animationsEnabled: s.animationsEnabled,
       accentColor: s.accentColor,
       joinedAt: s.joinedAt,
+      readingPlan: s.readingPlan,
     }
 
     let serialized = ''
@@ -87,6 +88,7 @@ export function useConvexAutoSave(user: AuthUser | null) {
         animationsEnabled: snapshot.animationsEnabled,
         accentColor: snapshot.accentColor,
         joinedAt: snapshot.joinedAt,
+        readingPlan: snapshot.readingPlan,
       })
     } catch (err) {
       console.warn('[Convex] Auto-save failed:', err)

@@ -38,6 +38,7 @@ export const saveProgress = mutation({
     animationsEnabled: v.boolean(),
     accentColor: v.string(),
     joinedAt: v.number(),
+    readingPlan: v.optional(v.any()),
   },
   handler: async (ctx: any, args: any) => {
     if (!args.userId) return { success: false, error: "Missing userId" };
@@ -74,6 +75,7 @@ export const saveProgress = mutation({
         animationsEnabled: args.animationsEnabled,
         accentColor: args.accentColor,
         joinedAt: args.joinedAt || existing.joinedAt,
+        readingPlan: args.readingPlan !== undefined ? args.readingPlan : existing.readingPlan,
         updatedAt: now,
       });
       return { success: true, id: existing._id };
