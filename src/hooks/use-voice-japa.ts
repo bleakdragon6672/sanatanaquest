@@ -6,7 +6,6 @@ export type VoiceSensitivity = 'whisper' | 'medium' | 'loud'
 
 interface UseVoiceJapaOptions {
   onChantDetected: () => void
-  enabled?: boolean
   sensitivity?: VoiceSensitivity
   minChantDurationMs?: number
   cooldownMs?: number
@@ -20,15 +19,15 @@ const SENSITIVITY_THRESHOLDS: Record<VoiceSensitivity, number> = {
 
 export function useVoiceJapa({
   onChantDetected,
-  enabled = false,
   sensitivity = 'medium',
-  minChantDurationMs = 450,
-  cooldownMs = 1200,
+  minChantDurationMs = 420,
+  cooldownMs = 1100,
 }: UseVoiceJapaOptions) {
   const [isListening, setIsListening] = useState(false)
   const [hasPermission, setHasPermission] = useState<boolean | null>(null)
   const [audioLevel, setAudioLevel] = useState(0)
   const [permissionError, setPermissionError] = useState<string | null>(null)
+  const [isPermissionDenied, setIsPermissionDenied] = useState(false)
 
   const streamRef = useRef<MediaStream | null>(null)
   const audioCtxRef = useRef<AudioContext | null>(null)
@@ -45,6 +44,34 @@ export function useVoiceJapa({
   useEffect(() => {
     callbackRef.current = onChantDetected
   }, [onChantDetected])
+
+  // Check initial permission status if supported
+  useEffect(() => {
+    if (typeof window !== 'undefined' && navigator.permissions?.query) {
+      navigator.permissions
+        .query({ name: 'microphone' as PermissionName })
+        .then((permissionStatus) => {
+          if (permissionStatus.state === 'denied') {
+            setIsPermissionDenied(true)
+            setHasPermission(false)
+          } else if (permissionStatus.state === 'granted') {
+            setHasPermission(true)
+            setIsPermissionDenied(false)
+          }
+          permissionStatus.onchange = () => {
+            if (permissionStatus.state === 'denied') {
+              setIsPermissionDenied(true)
+              setHasPermission(false)
+            } else if (permissionStatus.state === 'granted') {
+              setIsPermissionDenied(false)
+              setHasPermission(true)
+              setPermissionError(null)
+            }
+          }
+        })
+        .catch(() => {})
+    }
+  }, [])
 
   const stopListening = useCallback(() => {
     if (rafIdRef.current) {
@@ -64,15 +91,17 @@ export function useVoiceJapa({
     isSpeakingRef.current = false
   }, [])
 
-  const startListening = useCallback(async () => {
+  const startListening = useCallback(async (): Promise<boolean> => {
     stopListening()
     setPermissionError(null)
+    setIsPermissionDenied(false)
 
     try {
       if (typeof window === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
         throw new Error('Microphone access is not supported by your browser')
       }
 
+      // Explicit user-triggered permission request
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
@@ -83,6 +112,7 @@ export function useVoiceJapa({
 
       streamRef.current = stream
       setHasPermission(true)
+      setIsPermissionDenied(false)
 
       const AudioContextClass =
         window.AudioContext ||
@@ -134,9 +164,9 @@ export function useVoiceJapa({
               const silenceDuration = now - silenceStartTimeRef.current
               const speechDuration = silenceStartTimeRef.current - speechStartTimeRef.current
 
-              // If user was chanting for at least minChantDuration and paused for at least 380ms
+              // If user chanted for at least minChantDuration and paused for at least 350ms
               if (
-                silenceDuration >= 380 &&
+                silenceDuration >= 350 &&
                 speechDuration >= minChantDurationMs &&
                 now - lastChantTimeRef.current >= cooldownMs
               ) {
@@ -153,31 +183,39 @@ export function useVoiceJapa({
       }
 
       rafIdRef.current = requestAnimationFrame(processAudio)
+      return true
     } catch (err: unknown) {
-      const errorMsg =
-        err instanceof Error
-          ? err.message
-          : 'Could not access microphone. You can continue in manual tap mode.'
+      const isDenied =
+        (err as { name?: string })?.name === 'NotAllowedError' ||
+        (err as { name?: string })?.name === 'PermissionDeniedError' ||
+        String(err).toLowerCase().includes('denied') ||
+        String(err).toLowerCase().includes('permission')
+
+      const errorMsg = isDenied
+        ? 'Microphone permission was blocked by your browser settings.'
+        : err instanceof Error
+        ? err.message
+        : 'Could not access microphone.'
+
       setPermissionError(errorMsg)
+      setIsPermissionDenied(isDenied)
       setHasPermission(false)
       stopListening()
+      return false
     }
   }, [minChantDurationMs, cooldownMs, sensitivity, stopListening])
 
+  // Cleanup on unmount only
   useEffect(() => {
-    if (enabled && !isListening) {
-      startListening()
-    } else if (!enabled && isListening) {
-      stopListening()
-    }
     return () => {
       stopListening()
     }
-  }, [enabled, isListening, startListening, stopListening])
+  }, [stopListening])
 
   return {
     isListening,
     hasPermission,
+    isPermissionDenied,
     audioLevel,
     permissionError,
     startListening,

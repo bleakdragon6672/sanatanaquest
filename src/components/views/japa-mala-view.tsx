@@ -22,6 +22,8 @@ import {
   ChevronRight,
   Disc,
   Info,
+  AlertCircle,
+  RefreshCw,
 } from 'lucide-react'
 import {
   Dialog,
@@ -176,7 +178,7 @@ export function JapaMalaView() {
   const [targetRounds, setTargetRounds] = useState(1) // 1, 4, 16, or 0 (endless)
   const [selectedMantra, setSelectedMantra] = useState<SacredMantra>(SACRED_MANTRAS[0])
   const [material, setMaterial] = useState<BeadMaterial>('tulsi')
-  const [isVoiceMode, setIsVoiceMode] = useState(true)
+  const [isVoiceMode, setIsVoiceMode] = useState(false)
   const [sensitivity, setSensitivity] = useState<VoiceSensitivity>('medium')
   const [soundEnabled, setSoundEnabled] = useState(true)
   const [hapticsEnabled, setHapticsEnabled] = useState(true)
@@ -242,11 +244,35 @@ export function JapaMalaView() {
   }
 
   // Voice Japa Hook
-  const { isListening, hasPermission, audioLevel, permissionError } = useVoiceJapa({
+  const {
+    isListening,
+    hasPermission,
+    isPermissionDenied,
+    audioLevel,
+    permissionError,
+    startListening,
+    stopListening,
+  } = useVoiceJapa({
     onChantDetected: () => handleAdvanceBead('voice'),
-    enabled: isVoiceMode,
     sensitivity,
   })
+
+  // Explicit user action to start/stop voice mode
+  const handleToggleVoiceMode = async () => {
+    if (isListening) {
+      stopListening()
+      setIsVoiceMode(false)
+      toast.info('Hands-free voice mode turned off')
+    } else {
+      const ok = await startListening()
+      if (ok) {
+        setIsVoiceMode(true)
+        toast.success('🎙️ Microphone active! Chant to advance beads')
+      } else {
+        setIsVoiceMode(false)
+      }
+    }
+  }
 
   // Keyboard shortcut: Spacebar advances bead
   useEffect(() => {
@@ -472,16 +498,25 @@ export function JapaMalaView() {
                 of 108 Chants
               </div>
 
-              {/* Voice pulse indicator in center */}
-              {isVoiceMode && (
-                <div className="flex items-center gap-1.5 mt-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-[10px] text-primary">
+              {/* Status indicator in center */}
+              {isListening ? (
+                <div className="flex items-center gap-1.5 mt-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] text-emerald-600 dark:text-emerald-400">
                   <span
                     className={cn(
-                      'w-1.5 h-1.5 rounded-full bg-primary transition-transform',
+                      'w-1.5 h-1.5 rounded-full bg-emerald-500 transition-transform',
                       audioLevel > 0.04 ? 'scale-150 animate-ping' : 'scale-100'
                     )}
                   />
                   <span>Listening</span>
+                </div>
+              ) : isPermissionDenied || permissionError ? (
+                <div className="flex items-center gap-1 mt-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-[10px] text-amber-600 dark:text-amber-400">
+                  <AlertCircle className="w-3 h-3" />
+                  <span>Tap or Spacebar</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1 mt-1.5 px-2.5 py-0.5 rounded-full bg-muted border border-border/60 text-[10px] text-muted-foreground">
+                  <span>👆 Tap or Spacebar</span>
                 </div>
               )}
             </div>
@@ -527,36 +562,80 @@ export function JapaMalaView() {
         <div className="lg:col-span-5 space-y-5">
           {/* Voice Detection / Manual Mode Card */}
           <div className="card-serene p-5 sm:p-6 rounded-3xl bg-card border border-border/60">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2.5">
                 <div className={cn(
                   'w-9 h-9 rounded-xl flex items-center justify-center transition-colors',
-                  isVoiceMode ? 'bg-primary/15 text-primary' : 'bg-muted text-muted-foreground'
+                  isListening ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' : 'bg-muted text-muted-foreground'
                 )}>
-                  {isVoiceMode ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
+                  {isListening ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
                 </div>
                 <div>
                   <div className="text-xs font-bold text-foreground">
                     Hands-Free Voice Japa
                   </div>
                   <div className="text-[11px] text-muted-foreground">
-                    {isVoiceMode ? 'Auto-advances as you chant' : 'Manual tap & spacebar mode'}
+                    {isListening ? 'Auto-advances as you chant' : 'Click to enable microphone'}
                   </div>
                 </div>
               </div>
 
               <Button
-                variant={isVoiceMode ? 'default' : 'outline'}
+                variant={isListening ? 'default' : 'outline'}
                 size="sm"
-                onClick={() => setIsVoiceMode(!isVoiceMode)}
-                className="rounded-xl text-xs h-8 cursor-pointer"
+                onClick={handleToggleVoiceMode}
+                className={cn(
+                  'rounded-xl text-xs h-8 cursor-pointer transition-all',
+                  isListening
+                    ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs'
+                    : 'border-primary/40 text-primary hover:bg-primary/10'
+                )}
               >
-                {isVoiceMode ? 'Voice ON' : 'Turn Voice ON'}
+                {isListening ? 'Voice Active 🟢' : 'Enable Voice'}
               </Button>
             </div>
 
-            {/* Voice Sensitivity Slider when voice mode is ON */}
-            {isVoiceMode && (
+            {/* If Permission Denied: Clear Step-by-Step Fix Guide Card */}
+            {(isPermissionDenied || permissionError) && (
+              <div className="mt-3 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-3 animate-fade-in">
+                <div className="flex items-start gap-2.5">
+                  <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                  <div className="text-xs space-y-1">
+                    <div className="font-semibold text-foreground">
+                      Microphone Access Blocked
+                    </div>
+                    <p className="text-muted-foreground leading-relaxed text-[11px]">
+                      Your browser is currently blocking microphone access for this website. Follow these 2 quick steps to unblock:
+                    </p>
+                  </div>
+                </div>
+
+                <div className="text-[11px] space-y-2 bg-background/70 p-3 rounded-xl border border-amber-500/20">
+                  <div className="flex items-start gap-2">
+                    <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
+                    <span>Click the <strong>tune / site settings icon</strong> (left of <code className="px-1 py-0.5 rounded bg-muted text-[10px]">vedicquest.vercel.app</code> in your browser address bar above).</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
+                    <span>Change <strong>Microphone</strong> from "Block" to <strong>"Allow"</strong>.</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <Button
+                    size="sm"
+                    onClick={handleToggleVoiceMode}
+                    className="h-8 rounded-xl text-xs bg-amber-600 hover:bg-amber-700 text-white font-medium cursor-pointer"
+                  >
+                    <RefreshCw className="w-3 h-3 mr-1.5" />
+                    <span>I Allowed It, Try Again</span>
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* Voice Sensitivity Slider & Live Mic Meter when isListening is true */}
+            {isListening && (
               <div className="pt-3 border-t border-border/40 space-y-3">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-muted-foreground font-medium">Mic Sensitivity:</span>
@@ -588,15 +667,9 @@ export function JapaMalaView() {
                   </div>
                   <div className="flex justify-between text-[10px] text-muted-foreground/70">
                     <span>Vocal energy</span>
-                    <span>{audioLevel > 0.05 ? 'Mantra Detected' : 'Waiting for chant...'}</span>
+                    <span>{audioLevel > 0.05 ? 'Mantra Detected 📿' : 'Chant mantra to roll bead...'}</span>
                   </div>
                 </div>
-
-                {permissionError && (
-                  <p className="text-[11px] text-amber-600 dark:text-amber-400 bg-amber-500/10 p-2 rounded-lg">
-                    {permissionError}
-                  </p>
-                )}
               </div>
             )}
           </div>
