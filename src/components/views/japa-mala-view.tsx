@@ -54,7 +54,22 @@ import {
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
-import { JapaMala3D } from '@/components/japa/japa-mala-3d'
+import dynamic from 'next/dynamic'
+
+const JapaMala3D = dynamic(
+  () => import('@/components/japa/japa-mala-3d').then((mod) => mod.JapaMala3D),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full aspect-square max-w-[450px] mx-auto flex items-center justify-center rounded-3xl bg-muted/20 border border-border/40">
+        <div className="flex flex-col items-center gap-2 text-muted-foreground text-xs">
+          <span className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          <span>Entering 3D Sanctuary...</span>
+        </div>
+      </div>
+    ),
+  }
+)
 
 export interface SacredMantra {
   id: string
