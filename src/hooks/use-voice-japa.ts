@@ -11,67 +11,43 @@ interface UseVoiceJapaOptions {
   cooldownMs?: number
 }
 
-const SENSITIVITY_THRESHOLDS: Record<VoiceSensitivity, number> = {
-  whisper: 0.022,
-  medium: 0.055,
-  loud: 0.11,
+// True RMS thresholds in time domain
+export const SENSITIVITY_THRESHOLDS: Record<VoiceSensitivity, number> = {
+  whisper: 0.018, // Very sensitive, picks up sub-vocal whispers
+  medium: 0.040,  // Normal comfortable chanting
+  loud: 0.085,   // Loud chanting, ignores background room noise
 }
 
 export function useVoiceJapa({
   onChantDetected,
   sensitivity = 'medium',
-  minChantDurationMs = 420,
-  cooldownMs = 1100,
+  minChantDurationMs = 280, // ~0.28s of chanting sound
+  cooldownMs = 850,         // Minimum gap between counted chants
 }: UseVoiceJapaOptions) {
   const [isListening, setIsListening] = useState(false)
   const [hasPermission, setHasPermission] = useState<boolean | null>(null)
-  const [audioLevel, setAudioLevel] = useState(0)
+  const [audioLevel, setAudioLevel] = useState(0) // 0 to 1 normalized
+  const [rawRms, setRawRms] = useState(0)
   const [permissionError, setPermissionError] = useState<string | null>(null)
   const [isPermissionDenied, setIsPermissionDenied] = useState(false)
+  const [lastChantTimestamp, setLastChantTimestamp] = useState<number>(0)
 
   const streamRef = useRef<MediaStream | null>(null)
   const audioCtxRef = useRef<AudioContext | null>(null)
   const analyserRef = useRef<AnalyserNode | null>(null)
   const rafIdRef = useRef<number | null>(null)
 
-  // Voice state machine refs
-  const isSpeakingRef = useRef(false)
-  const speechStartTimeRef = useRef(0)
+  // Cadence state machine refs
+  const isVocalizingRef = useRef(false)
+  const vocalStartTimeRef = useRef(0)
   const silenceStartTimeRef = useRef(0)
   const lastChantTimeRef = useRef(0)
+  const hasMetChantDurationRef = useRef(false)
 
   const callbackRef = useRef(onChantDetected)
   useEffect(() => {
     callbackRef.current = onChantDetected
   }, [onChantDetected])
-
-  // Check initial permission status if supported
-  useEffect(() => {
-    if (typeof window !== 'undefined' && navigator.permissions?.query) {
-      navigator.permissions
-        .query({ name: 'microphone' as PermissionName })
-        .then((permissionStatus) => {
-          if (permissionStatus.state === 'denied') {
-            setIsPermissionDenied(true)
-            setHasPermission(false)
-          } else if (permissionStatus.state === 'granted') {
-            setHasPermission(true)
-            setIsPermissionDenied(false)
-          }
-          permissionStatus.onchange = () => {
-            if (permissionStatus.state === 'denied') {
-              setIsPermissionDenied(true)
-              setHasPermission(false)
-            } else if (permissionStatus.state === 'granted') {
-              setIsPermissionDenied(false)
-              setHasPermission(true)
-              setPermissionError(null)
-            }
-          }
-        })
-        .catch(() => {})
-    }
-  }, [])
 
   const stopListening = useCallback(() => {
     if (rafIdRef.current) {
@@ -88,7 +64,37 @@ export function useVoiceJapa({
     }
     setIsListening(false)
     setAudioLevel(0)
-    isSpeakingRef.current = false
+    setRawRms(0)
+    isVocalizingRef.current = false
+    hasMetChantDurationRef.current = false
+  }, [])
+
+  // Check browser permissions on mount if supported
+  useEffect(() => {
+    if (typeof navigator !== 'undefined' && navigator.permissions?.query) {
+      navigator.permissions
+        .query({ name: 'microphone' as PermissionName })
+        .then((status) => {
+          if (status.state === 'granted') {
+            setHasPermission(true)
+            setIsPermissionDenied(false)
+          } else if (status.state === 'denied') {
+            setIsPermissionDenied(true)
+            setHasPermission(false)
+          }
+          status.onchange = () => {
+            if (status.state === 'granted') {
+              setHasPermission(true)
+              setIsPermissionDenied(false)
+              setPermissionError(null)
+            } else if (status.state === 'denied') {
+              setIsPermissionDenied(true)
+              setHasPermission(false)
+            }
+          }
+        })
+        .catch(() => {})
+    }
   }, [])
 
   const startListening = useCallback(async (): Promise<boolean> => {
@@ -101,14 +107,25 @@ export function useVoiceJapa({
         throw new Error('Microphone access is not supported by your browser')
       }
 
-      // Explicit user-triggered permission request
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true,
-        },
-      })
+      // Request microphone stream with fallback if strict audio options fail
+      let stream: MediaStream
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: false,
+            noiseSuppression: false,
+            autoGainControl: true,
+          },
+        })
+      } catch (firstErr) {
+        const errName = (firstErr as { name?: string })?.name
+        // If explicitly blocked by user or policy, throw to handle below
+        if (errName === 'NotAllowedError' || errName === 'PermissionDeniedError') {
+          throw firstErr
+        }
+        // Otherwise fallback to basic audio stream request
+        stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      }
 
       streamRef.current = stream
       setHasPermission(true)
@@ -117,61 +134,80 @@ export function useVoiceJapa({
       const AudioContextClass =
         window.AudioContext ||
         (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
+      if (!AudioContextClass) {
+        throw new Error('Web Audio API is not supported by your browser')
+      }
       const ctx = new AudioContextClass()
       audioCtxRef.current = ctx
+
+      // CRITICAL: Ensure audio context is running (browsers suspend by default)
+      if (ctx.state === 'suspended') {
+        await ctx.resume()
+      }
 
       const source = ctx.createMediaStreamSource(stream)
       const analyser = ctx.createAnalyser()
       analyser.fftSize = 512
-      analyser.smoothingTimeConstant = 0.4
+      analyser.smoothingTimeConstant = 0.2
       source.connect(analyser)
       analyserRef.current = analyser
 
       setIsListening(true)
 
-      const bufferLength = analyser.frequencyBinCount
-      const dataArray = new Uint8Array(bufferLength)
+      const timeDomainData = new Uint8Array(analyser.fftSize)
 
       const processAudio = () => {
         if (!analyserRef.current) return
 
-        analyserRef.current.getByteFrequencyData(dataArray)
+        analyserRef.current.getByteTimeDomainData(timeDomainData)
 
-        // Calculate Average Volume / RMS
-        let sum = 0
-        for (let i = 0; i < bufferLength; i++) {
-          sum += dataArray[i]
+        // Calculate accurate physical RMS volume in time domain
+        let sumSquares = 0
+        for (let i = 0; i < timeDomainData.length; i++) {
+          const norm = (timeDomainData[i] - 128) / 128
+          sumSquares += norm * norm
         }
-        const avg = sum / bufferLength / 255
-        setAudioLevel(avg)
+        const rms = Math.sqrt(sumSquares / timeDomainData.length)
+        setRawRms(rms)
+
+        // Normalized 0 to 1 for visual UI feedback
+        const normalized = Math.min(1, Math.max(0, rms * 4.5))
+        setAudioLevel(normalized)
 
         const threshold = SENSITIVITY_THRESHOLDS[sensitivity]
         const now = Date.now()
 
-        if (avg >= threshold) {
-          // Voice energy is active
-          if (!isSpeakingRef.current) {
-            isSpeakingRef.current = true
-            speechStartTimeRef.current = now
+        if (rms >= threshold) {
+          // User is actively chanting / vocalizing
+          if (!isVocalizingRef.current) {
+            isVocalizingRef.current = true
+            vocalStartTimeRef.current = now
+            hasMetChantDurationRef.current = false
+          }
+
+          const vocalDuration = now - vocalStartTimeRef.current
+          if (vocalDuration >= minChantDurationMs) {
+            hasMetChantDurationRef.current = true
           }
           silenceStartTimeRef.current = 0
         } else {
-          // In silence / pause
-          if (isSpeakingRef.current) {
+          // Volume dropped below threshold (potential pause between chants)
+          if (isVocalizingRef.current) {
             if (!silenceStartTimeRef.current) {
               silenceStartTimeRef.current = now
             } else {
-              const silenceDuration = now - silenceStartTimeRef.current
-              const speechDuration = silenceStartTimeRef.current - speechStartTimeRef.current
+              const pauseDuration = now - silenceStartTimeRef.current
 
-              // If user chanted for at least minChantDuration and paused for at least 350ms
+              // If they were chanting for at least minChantDuration and paused for at least 200ms
               if (
-                silenceDuration >= 350 &&
-                speechDuration >= minChantDurationMs &&
+                pauseDuration >= 200 &&
+                hasMetChantDurationRef.current &&
                 now - lastChantTimeRef.current >= cooldownMs
               ) {
                 lastChantTimeRef.current = now
-                isSpeakingRef.current = false
+                setLastChantTimestamp(now)
+                isVocalizingRef.current = false
+                hasMetChantDurationRef.current = false
                 silenceStartTimeRef.current = 0
                 callbackRef.current()
               }
@@ -185,14 +221,30 @@ export function useVoiceJapa({
       rafIdRef.current = requestAnimationFrame(processAudio)
       return true
     } catch (err: unknown) {
+      const errName = (err as { name?: string })?.name
+      const errStr = String(err).toLowerCase()
       const isDenied =
-        (err as { name?: string })?.name === 'NotAllowedError' ||
-        (err as { name?: string })?.name === 'PermissionDeniedError' ||
-        String(err).toLowerCase().includes('denied') ||
-        String(err).toLowerCase().includes('permission')
+        errName === 'NotAllowedError' ||
+        errName === 'PermissionDeniedError' ||
+        errStr.includes('denied') ||
+        errStr.includes('permission')
+
+      const isNotFound =
+        errName === 'NotFoundError' ||
+        errName === 'DevicesNotFoundError' ||
+        errStr.includes('not found')
+
+      const isBusy =
+        errName === 'NotReadableError' ||
+        errName === 'TrackStartError' ||
+        errStr.includes('in use')
 
       const errorMsg = isDenied
-        ? 'Microphone permission was blocked by your browser settings.'
+        ? 'Microphone permission was blocked. In Chrome/Brave, allow access in the address bar and reload this page.'
+        : isNotFound
+        ? 'No microphone found. Please connect a microphone or use tap mode.'
+        : isBusy
+        ? 'Microphone is already in use by another tab or app.'
         : err instanceof Error
         ? err.message
         : 'Could not access microphone.'
@@ -205,7 +257,7 @@ export function useVoiceJapa({
     }
   }, [minChantDurationMs, cooldownMs, sensitivity, stopListening])
 
-  // Cleanup on unmount only
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
       stopListening()
@@ -217,7 +269,9 @@ export function useVoiceJapa({
     hasPermission,
     isPermissionDenied,
     audioLevel,
+    rawRms,
     permissionError,
+    lastChantTimestamp,
     startListening,
     stopListening,
   }

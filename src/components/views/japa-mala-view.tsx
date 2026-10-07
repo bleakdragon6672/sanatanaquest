@@ -43,7 +43,11 @@ import {
   stopTanpuraDrone,
   type BeadMaterial,
 } from '@/lib/japa-sound'
-import { useVoiceJapa, type VoiceSensitivity } from '@/hooks/use-voice-japa'
+import {
+  useVoiceJapa,
+  type VoiceSensitivity,
+  SENSITIVITY_THRESHOLDS,
+} from '@/hooks/use-voice-japa'
 import { OmSymbol, LotusIcon } from '@/components/spiritual-icons'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
@@ -243,19 +247,42 @@ export function JapaMalaView() {
     })
   }
 
+  // Visual count feedback flash
+  const [justCounted, setJustCounted] = useState(false)
+  const countTimerRef = useRef<NodeJS.Timeout | null>(null)
+
   // Voice Japa Hook
   const {
     isListening,
     hasPermission,
     isPermissionDenied,
     audioLevel,
+    rawRms,
     permissionError,
+    lastChantTimestamp,
     startListening,
     stopListening,
   } = useVoiceJapa({
-    onChantDetected: () => handleAdvanceBead('voice'),
+    onChantDetected: () => {
+      handleAdvanceBead('voice')
+      setJustCounted(true)
+      if (countTimerRef.current) clearTimeout(countTimerRef.current)
+      countTimerRef.current = setTimeout(() => setJustCounted(false), 850)
+    },
     sensitivity,
   })
+
+  // Flash feedback on lastChantTimestamp
+  useEffect(() => {
+    if (lastChantTimestamp > 0) {
+      setJustCounted(true)
+      if (countTimerRef.current) clearTimeout(countTimerRef.current)
+      countTimerRef.current = setTimeout(() => setJustCounted(false), 850)
+    }
+    return () => {
+      if (countTimerRef.current) clearTimeout(countTimerRef.current)
+    }
+  }, [lastChantTimestamp])
 
   // Explicit user action to start/stop voice mode
   const handleToggleVoiceMode = async () => {
@@ -267,7 +294,7 @@ export function JapaMalaView() {
       const ok = await startListening()
       if (ok) {
         setIsVoiceMode(true)
-        toast.success('🎙️ Microphone active! Chant to advance beads')
+        toast.success('🎙️ Microphone active! Chant mantra to advance beads')
       } else {
         setIsVoiceMode(false)
       }
@@ -483,7 +510,12 @@ export function JapaMalaView() {
             {/* Center Tactile Hub (Interactive Tap surface) */}
             <div
               onClick={() => handleAdvanceBead('touch')}
-              className="absolute inset-0 m-auto w-36 h-36 sm:w-40 sm:h-40 rounded-full flex flex-col items-center justify-center bg-gradient-to-br from-card via-card/95 to-muted/40 border border-primary/30 shadow-lg cursor-pointer hover:scale-[1.03] active:scale-[0.97] transition-all group"
+              className={cn(
+                'absolute inset-0 m-auto w-36 h-36 sm:w-40 sm:h-40 rounded-full flex flex-col items-center justify-center bg-gradient-to-br from-card via-card/95 to-muted/40 border shadow-lg cursor-pointer hover:scale-[1.03] active:scale-[0.97] transition-all group',
+                justCounted
+                  ? 'border-emerald-500 shadow-emerald-500/30 ring-4 ring-emerald-500/20 scale-105'
+                  : 'border-primary/30'
+              )}
             >
               <span className="text-[10px] uppercase font-bold tracking-widest text-primary/80 mb-0.5">
                 Mala {completedRounds + 1}
@@ -499,15 +531,19 @@ export function JapaMalaView() {
               </div>
 
               {/* Status indicator in center */}
-              {isListening ? (
+              {justCounted ? (
+                <div className="flex items-center gap-1 mt-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-[10px] text-emerald-600 dark:text-emerald-400 font-bold animate-pulse">
+                  <span>📿 Counted!</span>
+                </div>
+              ) : isListening ? (
                 <div className="flex items-center gap-1.5 mt-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] text-emerald-600 dark:text-emerald-400">
                   <span
                     className={cn(
                       'w-1.5 h-1.5 rounded-full bg-emerald-500 transition-transform',
-                      audioLevel > 0.04 ? 'scale-150 animate-ping' : 'scale-100'
+                      rawRms >= SENSITIVITY_THRESHOLDS[sensitivity] ? 'scale-150 animate-ping' : 'scale-100'
                     )}
                   />
-                  <span>Listening</span>
+                  <span>{rawRms >= SENSITIVITY_THRESHOLDS[sensitivity] ? 'Chanting...' : 'Listening'}</span>
                 </div>
               ) : isPermissionDenied || permissionError ? (
                 <div className="flex items-center gap-1 mt-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-[10px] text-amber-600 dark:text-amber-400">
@@ -597,38 +633,50 @@ export function JapaMalaView() {
 
             {/* If Permission Denied: Clear Step-by-Step Fix Guide Card */}
             {(isPermissionDenied || permissionError) && (
-              <div className="mt-3 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-3 animate-fade-in">
+              <div className="mt-3 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-3.5 animate-fade-in">
                 <div className="flex items-start gap-2.5">
                   <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                   <div className="text-xs space-y-1">
-                    <div className="font-semibold text-foreground">
-                      Microphone Access Blocked
+                    <div className="font-bold text-foreground">
+                      Microphone Permission Blocked
                     </div>
                     <p className="text-muted-foreground leading-relaxed text-[11px]">
-                      Your browser is currently blocking microphone access for this website. Follow these 2 quick steps to unblock:
+                      Your browser is blocking microphone access. Once you switch permission to &ldquo;Allow&rdquo;, <strong>Chrome & Brave require a quick page reload</strong> to activate the microphone stream.
                     </p>
                   </div>
                 </div>
 
-                <div className="text-[11px] space-y-2 bg-background/70 p-3 rounded-xl border border-amber-500/20">
+                <div className="text-[11px] space-y-2 bg-background/80 p-3 rounded-xl border border-amber-500/20">
                   <div className="flex items-start gap-2">
                     <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
-                    <span>Click the <strong>tune / site settings icon</strong> (left of <code className="px-1 py-0.5 rounded bg-muted text-[10px]">vedicquest.vercel.app</code> in your browser address bar above).</span>
+                    <span>Click the <strong>tune / padlock icon</strong> on the far left of your browser URL bar.</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
-                    <span>Change <strong>Microphone</strong> from "Block" to <strong>"Allow"</strong>.</span>
+                    <span>Change <strong>Microphone</strong> from &ldquo;Block&rdquo; to <strong>&ldquo;Allow&rdquo;</strong>.</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</span>
+                    <span>Click <strong>Reload Page to Apply</strong> below to start chanting!</span>
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-2 pt-1">
+                <div className="flex flex-wrap items-center gap-2 pt-1">
                   <Button
                     size="sm"
-                    onClick={handleToggleVoiceMode}
-                    className="h-8 rounded-xl text-xs bg-amber-600 hover:bg-amber-700 text-white font-medium cursor-pointer"
+                    onClick={() => window.location.reload()}
+                    className="h-8 rounded-xl text-xs bg-amber-600 hover:bg-amber-700 text-white font-semibold cursor-pointer shadow-xs"
                   >
-                    <RefreshCw className="w-3 h-3 mr-1.5" />
-                    <span>I Allowed It, Try Again</span>
+                    <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
+                    <span>Reload Page to Apply</span>
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleToggleVoiceMode}
+                    className="h-8 rounded-xl text-xs border-amber-500/40 text-foreground hover:bg-amber-500/10 cursor-pointer"
+                  >
+                    <span>Try Mic Again</span>
                   </Button>
                 </div>
               </div>
@@ -657,17 +705,42 @@ export function JapaMalaView() {
                   </div>
                 </div>
 
-                {/* Live Mic Meter Bar */}
-                <div className="space-y-1">
-                  <div className="h-1.5 w-full bg-muted/60 rounded-full overflow-hidden">
+                {/* Live Mic Meter Bar with Threshold Marker */}
+                <div className="space-y-1.5">
+                  <div className="relative h-2 w-full bg-muted/60 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-emerald-500 via-primary to-amber-500 transition-all duration-75 rounded-full"
-                      style={{ width: `${Math.min(100, audioLevel * 250)}%` }}
+                      className={cn(
+                        'h-full transition-all duration-75 rounded-full',
+                        rawRms >= SENSITIVITY_THRESHOLDS[sensitivity]
+                          ? 'bg-emerald-500 shadow-sm shadow-emerald-500/50'
+                          : 'bg-gradient-to-r from-emerald-500/50 via-primary/50 to-amber-500/50'
+                      )}
+                      style={{ width: `${Math.min(100, (rawRms / 0.12) * 100)}%` }}
+                    />
+                    {/* Visual threshold line */}
+                    <div
+                      className="absolute top-0 bottom-0 w-0.5 bg-amber-500 shadow-xs"
+                      style={{ left: `${Math.min(95, (SENSITIVITY_THRESHOLDS[sensitivity] / 0.12) * 100)}%` }}
+                      title={`Trigger threshold: ${sensitivity}`}
                     />
                   </div>
-                  <div className="flex justify-between text-[10px] text-muted-foreground/70">
-                    <span>Vocal energy</span>
-                    <span>{audioLevel > 0.05 ? 'Mantra Detected 📿' : 'Chant mantra to roll bead...'}</span>
+                  <div className="flex justify-between items-center text-[10px]">
+                    <span className="flex items-center gap-1 text-muted-foreground/80">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block" />
+                      <span>Trigger line</span>
+                    </span>
+                    <span
+                      className={cn(
+                        'font-medium transition-colors',
+                        rawRms >= SENSITIVITY_THRESHOLDS[sensitivity]
+                          ? 'text-emerald-600 dark:text-emerald-400 font-bold'
+                          : 'text-muted-foreground/70'
+                      )}
+                    >
+                      {rawRms >= SENSITIVITY_THRESHOLDS[sensitivity]
+                        ? 'Mantra Detected! 📿'
+                        : 'Chant mantra to roll bead...'}
+                    </span>
                   </div>
                 </div>
               </div>
