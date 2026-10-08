@@ -127,14 +127,25 @@ export function createProviderConfigs(): AIProviderConfig[] {
     process.env.GEMINI_API_KEY ??
     process.env.GOOGLE_GENERATIVE_AI_API_KEY
   const openaiKey = process.env.OPENAI_API_KEY
+  const kiraKey = process.env.KIRA_API_KEY
 
   const nvidiaBase =
     process.env.NVIDIA_BASE_URL ?? 'https://integrate.api.nvidia.com/v1'
   const openrouterBase =
     process.env.OPENROUTER_BASE_URL ?? 'https://openrouter.ai/api/v1'
   const nvidiaModel = process.env.NVIDIA_MODEL ?? 'meta/llama-3.1-8b-instruct'
+  const kiraBase = process.env.KIRA_BASE_URL ?? 'https://kiraai.vn/api/v1'
+  const kiraModel = process.env.KIRA_MODEL ?? 'kira-mini-1.0'
 
   return [
+    // 0. Kira AI (OpenAI-compatible) — prioritized if KIRA_API_KEY is provided
+    openAICompatible(
+      'kira',
+      kiraKey,
+      kiraBase,
+      kiraModel,
+    ),
+
     // 1. OpenAI (OpenAI-compatible)
     openAICompatible(
       'openai',

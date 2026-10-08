@@ -10,7 +10,7 @@ import {
   type CommonRequest,
 } from './ai-providers'
 
-export type AIProvider = 'openai' | 'nvidia' | 'groq' | 'huggingface' | 'openrouter' | 'google'
+export type AIProvider = 'openai' | 'nvidia' | 'groq' | 'huggingface' | 'openrouter' | 'google' | 'kira'
 
 export interface AIMessage {
   role: 'system' | 'user' | 'assistant'
@@ -55,7 +55,7 @@ export async function createChatCompletion(
 
   if (providers.length === 0) {
     throw new Error(
-      'No AI providers configured on server. Set at least one API key in Vercel environment variables (e.g. OPENROUTER_API_KEY, GEMINI_API_KEY, OPENAI_API_KEY, GROQ_API_KEY, or NVIDIA_API_KEY).',
+      'No AI providers configured on server. Set at least one API key in Vercel environment variables (e.g. KIRA_API_KEY, OPENROUTER_API_KEY, GEMINI_API_KEY, OPENAI_API_KEY, GROQ_API_KEY, or NVIDIA_API_KEY).',
     )
   }
 
