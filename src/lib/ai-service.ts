@@ -10,7 +10,7 @@ import {
   type CommonRequest,
 } from './ai-providers'
 
-export type AIProvider = 'openai' | 'nvidia' | 'groq' | 'huggingface' | 'openrouter' | 'google' | 'kira'
+export type AIProvider = 'openai' | 'nvidia' | 'groq' | 'huggingface' | 'openrouter' | 'google' | 'kira' | 'kira-qwen'
 
 export interface AIMessage {
   role: 'system' | 'user' | 'assistant'

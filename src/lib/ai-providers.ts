@@ -138,12 +138,20 @@ export function createProviderConfigs(): AIProviderConfig[] {
   const kiraModel = process.env.KIRA_MODEL ?? 'kira-mini-1.0'
 
   return [
-    // 0. Kira AI (OpenAI-compatible) — prioritized if KIRA_API_KEY is provided
+    // 0a. Kira AI (kira-mini-1.0) — user-selected primary model
     openAICompatible(
       'kira',
       kiraKey,
       kiraBase,
       kiraModel,
+    ),
+
+    // 0b. Kira AI Qwen Fallback — instant backup on the same Kira key if kira-mini-1.0 is overloaded
+    openAICompatible(
+      'kira-qwen',
+      kiraKey,
+      kiraBase,
+      'qwen3.8-flash-free',
     ),
 
     // 1. OpenAI (OpenAI-compatible)
